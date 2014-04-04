@@ -19,7 +19,13 @@ PIEP::PIEP(double x_min, double x_max, double y_min, double y_max)
 
 void PIEP::alpha(double x, double y, double& ax, double& ay)
 {
+	// Rotate and center
+	double xx =  (x - xc)*cos_theta + (y - yc)*sin_theta;
+	double yy = -(x - xc)*sin_theta + (y - yc)*cos_theta;
 
+	double rsq = q*xx*xx + yy*yy/q + rc*rc;
+	ax = -b*xx/rsq;
+	ay = -b*yy/rsq;
 }
 
 void PIEP::from_prior()
