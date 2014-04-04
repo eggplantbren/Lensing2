@@ -13,6 +13,11 @@ namespace Lensing2
 class PIEP:public Lens
 {
 	private:
+		// A maximum scale that we should use to judge a plausible range
+		// for the parameters b and rc. Base this on the size of the
+		// lensed image in whatever units are being used.
+		const double scale;
+
 		// Strength, axis ratio, core radius
 		double b, q, rc;
 
@@ -23,6 +28,8 @@ class PIEP:public Lens
 		double theta;
 
 	public:
+		PIEP(double scale);		
+
 		// Needed methods
 		void alpha(double x, double y, double& ax, double& ay);
 		void from_prior();
