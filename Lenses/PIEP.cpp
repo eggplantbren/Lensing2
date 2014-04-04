@@ -82,6 +82,6 @@ double PIEP::perturb()
 
 void PIEP::print(ostream& out) const
 {
-
+	out<<b<<' '<<q<<' '<<rc<<' '<<xc<<' '<<yc<<' '<<theta<<' ';
 }
 
