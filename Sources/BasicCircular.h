@@ -17,6 +17,9 @@ class BasicCircular:public Distribution
 		// Mean of exponential distribution for masses
 		double mu;
 
+		// Mean of exponential distribution for blob widths
+		double mu_w;
+
 		double perturb_parameters();
 
 	public:
