@@ -1,14 +1,18 @@
-#ifndef _ClassicMassInf_
-#define _ClassicMassInf_
+#ifndef _BasicCircular_
+#define _BasicCircular_
 
 #include <Distributions/Distribution.h>
 
-class ClassicMassInf:public Distribution
+class BasicCircular:public Distribution
 {
 	private:
 		// Limits
-		double x_min, x_max, y_min, y_max;
+		double x_min, x_max, y_min, y_max, size;
 		double mu_min, mu_max;
+
+		// Center and width of circle
+		double xc, yc;
+		double width;
 
 		// Mean of exponential distribution for masses
 		double mu;
@@ -16,7 +20,7 @@ class ClassicMassInf:public Distribution
 		double perturb_parameters();
 
 	public:
-		ClassicMassInf(double x_min, double x_max,
+		BasicCircular(double x_min, double x_max,
 					double y_min, double y_max,
 					double mu_min, double mu_max);
 
