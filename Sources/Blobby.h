@@ -1,10 +1,12 @@
 #ifndef Lensing2_Blobby_h
 #define Lensing2_Blobby_h
 
+#include "Source.h"
+
 namespace Lensing2
 {
 
-class Blobby
+class Blobby:public Source
 {
 
 
