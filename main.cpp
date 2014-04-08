@@ -6,6 +6,7 @@ using namespace DNest3;
 
 int main()
 {
+	RandomNumberGenerator::initialise_instance();
 	return 0;
 }
 
