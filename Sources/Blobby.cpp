@@ -16,21 +16,29 @@ Blobby::Blobby(double x_min, double x_max,
 
 double Blobby::evaluate(double x, double y) const
 {
-	return 0.;
+	double f = 0.;
+
+	f = x + y;
+
+	return f;
 }
 
 void Blobby::from_prior()
 {
-
+	blobs.fromPrior();
 }
 
 double Blobby::perturb()
 {
-	return 0.;
+	double logH = 0.;
+
+	logH += blobs.perturb();
+
+	return logH;
 }
 
 void Blobby::print(ostream& out) const
 {
-
+	out<<' ';
 }
 
