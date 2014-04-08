@@ -18,7 +18,19 @@ double Blobby::evaluate(double x, double y) const
 {
 	double f = 0.;
 
-	f = x + y;
+	const vector< vector<double> >& components = blobs.get_components();
+
+	double rsq, widthsq;
+	for(size_t i=0; i<components.size(); i++)
+	{
+		rsq = pow(x - components[i][0], 2)
+				+ pow(y - components[i][1], 2);
+		widthsq = pow(components[i][3], 2);
+
+		if(rsq < widthsq)
+			f += components[i][2]*
+				2./M_PI*(1. - rsq/widthsq)/widthsq;
+	}
 
 	return f;
 }
