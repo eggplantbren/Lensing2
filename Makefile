@@ -3,6 +3,6 @@ LIBS = -lrjobject -ldnest3 -lgsl -lgslcblas -lboost_thread -lboost_system
 
 default:
 	g++ -c $(CFLAGS) Lenses/*.cpp Sources/*.cpp
-	g++ -o main main.cpp $(LIBS)
+	g++ -o main *.o $(LIBS)
 	rm -rf *.o
 
