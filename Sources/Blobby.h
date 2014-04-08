@@ -2,6 +2,8 @@
 #define Lensing2_Blobby_h
 
 #include "Source.h"
+#include "BasicCircular.h"
+#include <RJObject.h>
 
 namespace Lensing2
 {
@@ -9,7 +11,7 @@ namespace Lensing2
 class Blobby:public Source
 {
 	private:
-
+		RJObject<BasicCircular> blobs;
 
 	public:
 		// Required methods
