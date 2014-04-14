@@ -14,7 +14,7 @@ class PIEP:public Lens
 {
 	private:
 		// Image dimensions
-		const double x_min, x_max, y_min, y_max, scale;
+		double x_min, x_max, y_min, y_max, scale;
 
 		// Strength, axis ratio, core radius
 		double b, q, rc;
