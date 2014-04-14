@@ -17,6 +17,7 @@ MyModel::MyModel()
 	Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 ,xs(Data::get_instance().get_x_rays())
 ,ys(Data::get_instance().get_y_rays())
+,surface_brightness(Data::get_instance().get_x_rays())
 {
 
 }
@@ -74,6 +75,18 @@ void MyModel::shoot_rays()
 			lens.alpha(x[i][j], y[i][j], ax, ay);
 			xs[i][j] = x[i][j] - ax;
 			ys[i][j] = y[i][j] - ay;
+		}
+	}
+}
+
+void MyModel::calculate_surface_brightness()
+{
+	for(size_t i=0; i<xs.size(); i++)
+	{
+		for(size_t j=0; j<xs[i].size(); j++)
+		{
+			surface_brightness[i][j] = source.evaluate(xs[i][j],
+								ys[i][j]);
 		}
 	}
 }
