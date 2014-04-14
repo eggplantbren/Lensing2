@@ -2,12 +2,14 @@
 #include <fstream>
 #include "RandomNumberGenerator.h"
 #include "Sources/Blobby.h"
+#include "Data.h"
 
 using namespace std;
 using namespace DNest3;
 using namespace Lensing2;
 
 void test1();
+void test2();
 
 int main()
 {
@@ -49,5 +51,10 @@ void test1()
 	}
 
 	fout.close();
+}
+
+void test2()
+{
+	Data::get_instance().load("Data/test_metadata.txt");
 }
 
