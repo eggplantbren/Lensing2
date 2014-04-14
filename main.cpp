@@ -7,7 +7,15 @@ using namespace std;
 using namespace DNest3;
 using namespace Lensing2;
 
+void test1();
+
 int main()
+{
+	test1();
+	return 0;
+}
+
+void test1()
 {
 	RandomNumberGenerator::initialise_instance();
 	RandomNumberGenerator::get_instance().set_seed(2);
@@ -41,7 +49,5 @@ int main()
 	}
 
 	fout.close();
-
-	return 0;
 }
 
