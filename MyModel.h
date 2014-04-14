@@ -15,6 +15,12 @@ class MyModel:public DNest3::Model
 		Blobby source;
 		PIEP lens;
 
+		// Source plane position of rays
+		std::vector< std::vector<double> > xs;
+		std::vector< std::vector<double> > ys;
+
+		void shoot_rays();
+
 	public:
 		MyModel();
 

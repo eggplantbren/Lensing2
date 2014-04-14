@@ -15,6 +15,8 @@ MyModel::MyModel()
 	1E-3, 1E3)
 ,lens(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
 	Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
+,xs(Data::get_instance().get_x_rays())
+,ys(Data::get_instance().get_y_rays())
 {
 
 }
@@ -23,6 +25,8 @@ void MyModel::fromPrior()
 {
 	source.from_prior();
 	lens.from_prior();
+
+	shoot_rays();
 }
 
 double MyModel::perturb()
@@ -34,7 +38,10 @@ double MyModel::perturb()
 	if(which == 0)
 		logH += source.perturb();
 	else
+	{
 		logH += lens.perturb();
+		shoot_rays();
+	}
 
 	return logH;
 }
@@ -53,4 +60,10 @@ string MyModel::description() const
 {
 	return string("");
 }
+
+void MyModel::shoot_rays()
+{
+
+}
+
 
