@@ -17,7 +17,7 @@ PIEP::PIEP(double x_min, double x_max, double y_min, double y_max)
 	assert(x_max > x_min && y_max > y_min);
 }
 
-void PIEP::alpha(double x, double y, double& ax, double& ay)
+void PIEP::alpha(double x, double y, double& ax, double& ay) const
 {
 	// Rotate and center
 	double xx =  (x - xc)*cos_theta + (y - yc)*sin_theta;
