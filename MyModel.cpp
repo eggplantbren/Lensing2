@@ -13,6 +13,8 @@ MyModel::MyModel()
 :source(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
 	Data::get_instance().get_y_min(), Data::get_instance().get_y_max(),
 	1E-3, 1E3)
+,lens(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
+	Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 {
 
 }
@@ -20,13 +22,19 @@ MyModel::MyModel()
 void MyModel::fromPrior()
 {
 	source.from_prior();
+	lens.from_prior();
 }
 
 double MyModel::perturb()
 {
 	double logH = 0.;
 
-	logH += source.perturb();
+	int which = randInt(2);
+
+	if(which == 0)
+		logH += source.perturb();
+	else
+		logH += lens.perturb();
 
 	return logH;
 }

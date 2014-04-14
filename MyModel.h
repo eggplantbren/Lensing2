@@ -3,6 +3,7 @@
 
 #include "Model.h"
 #include "Sources/Blobby.h"
+#include "Lenses/PIEP.h"
 #include <vector>
 
 namespace Lensing2
@@ -12,6 +13,7 @@ class MyModel:public DNest3::Model
 {
 	private:
 		Blobby source;
+		PIEP lens;
 
 	public:
 		MyModel();
