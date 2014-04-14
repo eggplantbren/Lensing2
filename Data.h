@@ -31,6 +31,10 @@ class Data
 		// Getters
 		int get_ni() const { return ni; }
 		int get_nj() const { return nj; }
+		double get_x_min() const { return x_min; }
+		double get_x_max() const { return x_max; }
+		double get_y_min() const { return y_min; }
+		double get_y_max() const { return y_max; }
 		const std::vector< std::vector<double> >& get_x_rays()
 			{ return x_rays; }
 		const std::vector< std::vector<double> >& get_y_rays()
