@@ -7,7 +7,7 @@ namespace Lensing2
 class Constants
 {
 	public:
-		static const int nRays;
+		static const int resolution;
 };
 
 } // namespace Lensing2
