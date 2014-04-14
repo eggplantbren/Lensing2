@@ -1,5 +1,6 @@
 #include "MyModel.h"
 #include "Data.h"
+#include "Constants.h"
 
 #include "RandomNumberGenerator.h"
 #include "Utils.h"
@@ -18,6 +19,8 @@ MyModel::MyModel()
 ,xs(Data::get_instance().get_x_rays())
 ,ys(Data::get_instance().get_y_rays())
 ,surface_brightness(Data::get_instance().get_x_rays())
+,model_image(Data::get_instance().get_ni(),
+		vector<double>(Data::get_instance().get_nj()))
 {
 
 }
@@ -28,6 +31,8 @@ void MyModel::fromPrior()
 	lens.from_prior();
 
 	shoot_rays();
+	calculate_surface_brightness();
+	calculate_model_image();
 }
 
 double MyModel::perturb()
@@ -39,10 +44,11 @@ double MyModel::perturb()
 	if(which == 0)
 		logH += source.perturb();
 	else
-	{
 		logH += lens.perturb();
-		shoot_rays();
-	}
+
+	shoot_rays();
+	calculate_surface_brightness();
+	calculate_model_image();
 
 	return logH;
 }
@@ -87,6 +93,24 @@ void MyModel::calculate_surface_brightness()
 		{
 			surface_brightness[i][j] = source.evaluate(xs[i][j],
 								ys[i][j]);
+		}
+	}
+}
+
+void MyModel::calculate_model_image()
+{
+	model_image.assign(Data::get_instance().get_ni(),
+		vector<double>(Data::get_instance().get_nj(), 0.));
+
+	int ii, jj;
+	double coeff = pow(static_cast<double>(Constants::resolution), -2);
+	for(size_t i=0; i<xs.size(); i++)
+	{
+		ii = i/Constants::resolution;
+		for(size_t j=0; j<xs[i].size(); j++)
+		{
+			jj = j/Constants::resolution;
+			model_image[ii][jj] += coeff*surface_brightness[i][j];
 		}
 	}
 }
