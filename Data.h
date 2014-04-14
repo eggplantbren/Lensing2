@@ -1,6 +1,8 @@
 #ifndef _Data_
 #define _Data_
 
+#include <vector>
+
 namespace Lensing2
 {
 
@@ -16,12 +18,23 @@ class Data
 		// Pixel widths
 		double dx, dy;
 
+		// The ray grid
+		std::vector< std::vector<double> > x_rays;
+		std::vector< std::vector<double> > y_rays;
+
+		void compute_ray_grid();
+
 	public:
 		Data();
 		void load(const char* metadata_file);
 
+		// Getters
 		int get_ni() const { return ni; }
 		int get_nj() const { return nj; }
+		const std::vector< std::vector<double> >& get_x_rays()
+			{ return x_rays; }
+		const std::vector< std::vector<double> >& get_y_rays()
+			{ return y_rays; }
 
 	// Singleton
 	private:
