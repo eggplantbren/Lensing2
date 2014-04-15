@@ -29,6 +29,7 @@ void MyModel::fromPrior()
 {
 	source.from_prior();
 	lens.from_prior();
+	sigma = exp(log(1E-3) + log(1E6)*randomU());
 
 	shoot_rays();
 	calculate_surface_brightness();
@@ -45,6 +46,11 @@ double MyModel::perturb()
 		logH += source.perturb();
 	else
 		logH += lens.perturb();
+
+	sigma = log(sigma);
+	sigma += log(1E6)*randh();
+	sigma = mod(sigma - log(1E-3), log(1E6)) + log(1E-3);
+	sigma = exp(sigma);
 
 	shoot_rays();
 	calculate_surface_brightness();

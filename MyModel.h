@@ -14,6 +14,7 @@ class MyModel:public DNest3::Model
 	private:
 		Blobby source;
 		PIEP lens;
+		double sigma;
 
 		// Source plane position of rays
 		std::vector< std::vector<double> > xs;
