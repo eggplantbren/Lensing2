@@ -11,12 +11,12 @@ using namespace DNest3;
 using namespace Lensing2;
 
 void test1();
-void test2();
 
 int main(int argc, char** argv)
 {
 	// Load some "data"
-	Data::get_instance().load("Data/test_metadata.txt");
+	Data::get_instance().load("Data/test_metadata.txt",
+					"Data/test_image.txt");
 
 	// Run DNest
 	MTSampler<MyModel> sampler = setup_mt<MyModel>(argc, argv);
@@ -58,10 +58,5 @@ void test1()
 	}
 
 	fout.close();
-}
-
-void test2()
-{
-	Data::get_instance().load("Data/test_metadata.txt");
 }
 

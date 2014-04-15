@@ -14,9 +14,11 @@ Data::Data()
 
 }
 
-void Data::load(const char* metadata_file)
+void Data::load(const char* metadata_file, const char* image_file)
 {
-	// Read in the metadata
+	/*
+	* First, read in the metadata
+	*/
 	fstream fin(metadata_file, ios::in);
 	if(!fin)
 		cerr<<"# ERROR: couldn't open file "<<metadata_file<<"."<<endl;
@@ -37,6 +39,18 @@ void Data::load(const char* metadata_file)
 		cerr<<"# ERROR: pixels aren't square."<<endl;
 
 	compute_ray_grid();
+
+	/*
+	* Now, load the image
+	*/
+	fin.open(image_file, ios::in);
+	if(!fin)
+		cerr<<"# ERROR: couldn't open file "<<image_file<<"."<<endl;
+	image.assign(ni, vector<double>(nj));
+	for(size_t i=0; i<image.size(); i++)
+		for(size_t j=0; j<image[i].size(); j++)
+			fin>>image[i][j];
+	fin.close();
 }
 
 

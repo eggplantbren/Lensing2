@@ -1,6 +1,6 @@
 from pylab import *
 
-output = loadtxt('sample.txt')
+output = atleast_2d(loadtxt('posterior_sample.txt'))
 
 ion()
 hold(False)

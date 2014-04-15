@@ -22,11 +22,14 @@ class Data
 		std::vector< std::vector<double> > x_rays;
 		std::vector< std::vector<double> > y_rays;
 
+		// The pixels
+		std::vector< std::vector<double> > image;
+
 		void compute_ray_grid();
 
 	public:
 		Data();
-		void load(const char* metadata_file);
+		void load(const char* metadata_file, const char* image_file);
 
 		// Getters
 		int get_ni() const { return ni; }
@@ -35,10 +38,12 @@ class Data
 		double get_x_max() const { return x_max; }
 		double get_y_min() const { return y_min; }
 		double get_y_max() const { return y_max; }
-		const std::vector< std::vector<double> >& get_x_rays()
+		const std::vector< std::vector<double> >& get_x_rays() const
 			{ return x_rays; }
-		const std::vector< std::vector<double> >& get_y_rays()
+		const std::vector< std::vector<double> >& get_y_rays() const
 			{ return y_rays; }
+		const std::vector< std::vector<double> >& get_image() const
+			{ return image; }
 
 	// Singleton
 	private:

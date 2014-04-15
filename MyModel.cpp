@@ -61,7 +61,20 @@ double MyModel::perturb()
 
 double MyModel::logLikelihood() const
 {
-	return 0.;
+	double logL = 0.;
+	const vector< vector<double> >& image =
+				Data::get_instance().get_image();
+
+	for(size_t i=0; i<image.size(); i++)
+	{
+		for(size_t j=0; j<image[i].size(); j++)
+		{
+			logL += -0.5*log(2.*M_PI*sigma*sigma) -
+			0.5*pow((image[i][j] - model_image[i][j])/sigma, 2);
+		}
+	}
+
+	return logL;
 }
 
 void MyModel::print(std::ostream& out) const
