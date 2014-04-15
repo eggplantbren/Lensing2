@@ -49,10 +49,10 @@ double PIEP::perturb()
 
 	if(which == 0)
 	{
-		b = log(b);
+		b = log(b/scale);
 		b += log(1E3)*randh();
 		b = mod(b - log(1E-3), log(1E3)) + log(1E-3);
-		b = exp(b);
+		b = scale*exp(b);
 	}
 	else if(which == 1)
 	{
