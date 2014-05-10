@@ -40,17 +40,19 @@ double MyModel::perturb()
 {
 	double logH = 0.;
 
-	int which = randInt(2);
+	int which = randInt(3);
 
 	if(which == 0)
 		logH += source.perturb();
-	else
+	else if(which == 1)
 		logH += lens.perturb();
-
-	sigma = log(sigma);
-	sigma += log(1E6)*randh();
-	sigma = mod(sigma - log(1E-3), log(1E6)) + log(1E-3);
-	sigma = exp(sigma);
+	else
+	{
+		sigma = log(sigma);
+		sigma += log(1E6)*randh();
+		sigma = mod(sigma - log(1E-3), log(1E6)) + log(1E-3);
+		sigma = exp(sigma);
+	}
 
 	shoot_rays();
 	calculate_surface_brightness();
