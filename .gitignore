@@ -7,4 +7,6 @@ levels.txt
 weights.txt
 posterior_sample.txt
 *.pyc
+logfile
+Lensing2
 
