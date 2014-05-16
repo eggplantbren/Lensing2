@@ -1,5 +1,5 @@
 CFLAGS = -O2 -DNDEBUG -Wall -Wextra -ansi -pedantic
-LIBS = -lrjobject -ldnest3 -lgsl -lgslcblas -lboost_thread -lboost_system
+LIBS = -lrjobject -ldnest3 -lgsl -lgslcblas -lboost_thread -lboost_system -lfftw3
 
 default:
 	g++ -c $(CFLAGS) *.cpp Lenses/*.cpp Sources/*.cpp
