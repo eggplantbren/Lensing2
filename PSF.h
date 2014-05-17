@@ -12,6 +12,9 @@ class PSF
 	public:
 		PSF(int size);
 
+		// Getter for pixels
+		const std::vector< std::vector<double> >& get_pixels() const
+		{ return pixels; }
 
 };
 
