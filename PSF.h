@@ -11,6 +11,7 @@ class PSF
 
 	public:
 		PSF(int size);
+		void blur_image(std::vector< std::vector<double> >& img) const;
 
 		// Getter for pixels
 		const std::vector< std::vector<double> >& get_pixels() const
