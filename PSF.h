@@ -1,12 +1,16 @@
-#ifndef _Blur_
-#define _Blur_
+#ifndef _PSF_
+#define _PSF_
 
-class Blur
+#include <vector>
+
+class PSF
 {
 	private:
-
+		int size;
+		std::vector< std::vector<double> > pixels;
 
 	public:
+		PSF(int size);
 
 
 };
