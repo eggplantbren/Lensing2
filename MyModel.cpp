@@ -118,6 +118,9 @@ void MyModel::shoot_rays()
 
 void MyModel::calculate_surface_brightness()
 {
+	// Get the psf from the data instance
+	const PSF& psf = Data::get_instance().get_psf();
+
 	for(size_t i=0; i<xs.size(); i++)
 	{
 		for(size_t j=0; j<xs[i].size(); j++)
@@ -126,6 +129,8 @@ void MyModel::calculate_surface_brightness()
 								ys[i][j]);
 		}
 	}
+
+	psf.blur_image(surface_brightness);
 }
 
 void MyModel::calculate_model_image()
