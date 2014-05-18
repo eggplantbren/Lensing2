@@ -11,7 +11,8 @@ PSF::PSF(int size)
 
 void PSF::blur_image(vector< vector<double> >& img) const
 {
-	// Make backup
-	vector< vector<double> > backup = img;
+	// Make result image. Assume img is rectangular...
+	vector< vector<double> > result(img.size(),
+					vector<double>(img[0].size(), 0.));
 }
 
