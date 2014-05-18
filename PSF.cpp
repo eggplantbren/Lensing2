@@ -1,5 +1,7 @@
 #include "PSF.h"
 #include <cassert>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -9,6 +11,20 @@ PSF::PSF(int size)
 {
 	assert(size%2 == 1);
 	pixels[size/2][size/2] = 1.;
+}
+
+void PSF::load(const char* filename)
+{
+	fstream fin(filename, ios::in);
+	if(!fin)
+	{
+		cerr<<"# ERROR: couldn't open file "<<filename<<"."<<endl;
+		return;
+	}
+	for(int i=0; i<size; i++)
+		for(int j=0; j<size; j++)
+			fin>>pixels[i][j];
+	fin.close();
 }
 
 void PSF::normalise()
