@@ -13,9 +13,9 @@ PSF::PSF(int size)
 	pixels[size/2][size/2] = 1.;
 }
 
-void PSF::set_size(int size)
+void PSF::set_size(int new_size)
 {
-	size = size;
+	size = new_size;
 	pixels.assign(size, vector<double>(size, 0.));
 	pixels[size/2][size/2] = 1.;
 }
@@ -31,6 +31,7 @@ void PSF::load(const char* filename)
 	for(int i=0; i<size; i++)
 		for(int j=0; j<size; j++)
 			fin>>pixels[i][j];
+
 	fin.close();
 }
 

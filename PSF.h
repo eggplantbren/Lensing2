@@ -14,7 +14,7 @@ class PSF
 		void blur_image(std::vector< std::vector<double> >& img) const;
 		void normalise();
 		void load(const char* filename);
-		void set_size(int size);
+		void set_size(int new_size);
 
 		// Getter for pixels
 		const std::vector< std::vector<double> >& get_pixels() const
