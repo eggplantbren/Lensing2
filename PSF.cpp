@@ -11,6 +11,18 @@ PSF::PSF(int size)
 	pixels[size/2][size/2] = 1.;
 }
 
+void PSF::normalise()
+{
+	double sum = 0.;
+	for(int i=0; i<size; i++)
+		for(int j=0; j<size; j++)
+			sum += pixels[i][j];
+
+	for(int i=0; i<size; i++)
+		for(int j=0; j<size; j++)
+			pixels[i][j] /= sum;
+}
+
 void PSF::blur_image(vector< vector<double> >& img) const
 {
 	// Make result image. Assume img is rectangular...
