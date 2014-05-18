@@ -2,6 +2,7 @@
 #define _Data_
 
 #include <vector>
+#include "PSF.h"
 
 namespace Lensing2
 {
@@ -25,11 +26,15 @@ class Data
 		// The pixels
 		std::vector< std::vector<double> > image;
 
+		// The PSF
+		PSF psf;
+
 		void compute_ray_grid();
 
 	public:
 		Data();
-		void load(const char* metadata_file, const char* image_file);
+		void load(const char* metadata_file, const char* image_file,
+				const char* psf_file);
 
 		// Getters
 		int get_ni() const { return ni; }

@@ -10,20 +10,23 @@ using namespace Lensing2;
 Data Data::instance;
 
 Data::Data()
+:psf(1)
 {
 
 }
 
-void Data::load(const char* metadata_file, const char* image_file)
+void Data::load(const char* metadata_file, const char* image_file,
+			const char* psf_file)
 {
 	/*
 	* First, read in the metadata
 	*/
+	int psf_size;
 	fstream fin(metadata_file, ios::in);
 	if(!fin)
 		cerr<<"# ERROR: couldn't open file "<<metadata_file<<"."<<endl;
 	fin>>ni>>nj;
-	fin>>x_min>>x_max>>y_min>>y_max;
+	fin>>x_min>>x_max>>y_min>>y_max>>psf_size;
 	fin.close();
 
 	// Make sure maximum > minimum
@@ -51,6 +54,12 @@ void Data::load(const char* metadata_file, const char* image_file)
 		for(size_t j=0; j<image[i].size(); j++)
 			fin>>image[i][j];
 	fin.close();
+
+	/*
+	* Load the psf
+	*/
+	psf.set_size(psf_size);
+	psf.load(psf_file);
 }
 
 

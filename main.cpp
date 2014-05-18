@@ -16,7 +16,8 @@ int main(int argc, char** argv)
 {
 	// Load some "data"
 	Data::get_instance().load("Data/test_metadata.txt",
-					"Data/test_image.txt");
+					"Data/test_image.txt",
+					"Data/test_psf.txt");
 
 	// Run DNest
 	MTSampler<MyModel> sampler = setup_mt<MyModel>(argc, argv);
