@@ -31,8 +31,8 @@ void PSF::load(const char* filename)
 	for(int i=0; i<size; i++)
 		for(int j=0; j<size; j++)
 			fin>>pixels[i][j];
-
 	fin.close();
+	normalise();
 }
 
 void PSF::normalise()
