@@ -49,6 +49,7 @@ class Data
 			{ return y_rays; }
 		const std::vector< std::vector<double> >& get_image() const
 			{ return image; }
+		const PSF& get_psf() const { return psf; }
 
 	// Singleton
 	private:
