@@ -13,6 +13,13 @@ PSF::PSF(int size)
 	pixels[size/2][size/2] = 1.;
 }
 
+void PSF::set_size(int size)
+{
+	size = size;
+	pixels.assign(size, vector<double>(size, 0.));
+	pixels[size/2][size/2] = 1.;
+}
+
 void PSF::load(const char* filename)
 {
 	fstream fin(filename, ios::in);
