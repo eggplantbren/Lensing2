@@ -35,8 +35,13 @@ void PIEP::from_prior()
 	q = exp(log(0.1) + log(1E2)*randomU());
 	rc = exp(log(1E-3) + log(1E3)*randomU())*scale;
 
-	xc = x_min + (x_max - x_min)*randomU();
-	yc = y_min + (y_max - y_min)*randomU();
+	do
+	{
+		xc = 0.5*(x_max + x_min) +
+			0.1*(x_max - x_min)*tan(M_PI*(randomU() - 0.5));
+		yc = 0.5*(y_max + y_min) +
+			0.1*(y_max - y_min)*tan(M_PI*(randomU() - 0.5));
+	}while(xc < x_min || xc > x_max || yc < y_min || yc > y_max);
 
 	theta = 2.*M_PI*randomU();
 	cos_theta = cos(theta); sin_theta = sin(theta);
@@ -71,11 +76,17 @@ double PIEP::perturb()
 	}
 	else if(which == 3)
 	{
+		logH -= -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
+		logH -= -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
+
 		xc += (x_max - x_min)*randh();
 		yc += (y_max - y_min)*randh();
 
 		xc = mod(xc - x_min, x_max - x_min) + x_min;
 		yc = mod(yc - y_min, y_max - y_min) + y_min;
+
+		logH += -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
+		logH += -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
 	}
 	else
 	{
