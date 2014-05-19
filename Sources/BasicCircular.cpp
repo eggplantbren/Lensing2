@@ -21,8 +21,14 @@ BasicCircular::BasicCircular(double x_min, double x_max,
 
 void BasicCircular::fromPrior()
 {
-	xc = x_min + (x_max - x_min)*randomU();
-	yc = y_min + (y_max - y_min)*randomU();
+	do
+	{
+		xc = 0.5*(x_max + x_min) +
+			0.1*(x_max - x_min)*tan(M_PI*(randomU() - 0.5));
+		yc = 0.5*(y_max + y_min) +
+			0.1*(y_max - y_min)*tan(M_PI*(randomU() - 0.5));
+	}while(xc < x_min || xc > x_max || yc < y_min || yc > y_max);
+
 	width = exp(log(1E-2*size) + log(1E3)*randomU());
 
 	mu = exp(log(mu_min) + log(mu_max/mu_min)*randomU());
@@ -36,11 +42,17 @@ double BasicCircular::perturb_parameters()
 
 	if(which == 0)
 	{
-		double scale = size*pow(10., 1.5 - 6.*randomU());
-		xc += scale*randn();
-		yc += scale*randn();
+		logH -= -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
+		logH -= -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
+
+		xc += (x_max - x_min)*randh();
+		yc += (y_max - y_min)*randh();
+
 		xc = mod(xc - x_min, x_max - x_min) + x_min;
 		yc = mod(yc - y_min, y_max - y_min) + y_min;
+
+		logH += -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
+		logH += -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
 	}
 	else if(which == 1)
 	{
