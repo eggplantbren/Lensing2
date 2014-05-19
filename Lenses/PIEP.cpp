@@ -24,8 +24,9 @@ void PIEP::alpha(double x, double y, double& ax, double& ay) const
 	double yy = -(x - xc)*sin_theta + (y - yc)*cos_theta;
 
 	double rsq = q*xx*xx + yy*yy/q + rc*rc;
-	ax = b*xx/rsq;
-	ay = b*yy/rsq;
+	double r = sqrt(rsq);
+	ax = b*q*xx/r;
+	ay = b*yy/q/r;
 }
 
 void PIEP::from_prior()
