@@ -89,6 +89,7 @@ double MyModel::logLikelihood() const
 
 void MyModel::print(std::ostream& out) const
 {
+	lens.print(out); out<<' ';
 	for(size_t i=0; i<model_image.size(); i++)
 		for(size_t j=0; j<model_image[i].size(); j++)
 			out<<model_image[i][j]<<' ';
