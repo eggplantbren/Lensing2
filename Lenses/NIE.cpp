@@ -35,15 +35,15 @@ void NIE::alpha(double x, double y, double& ax, double& ay) const
 	{
 		// Flip axis ratio, x, and y
 		qq = 1./qq;
-		double temp = x;
-		x = y;
-		y = temp;
+		double temp = xx;
+		xx = yy;
+		yy = temp;
 	}
 
-	double psi = sqrt(qq*qq*(x*x + rc*rc) + y*y);
+	double psi = sqrt(qq*qq*(xx*xx + rc*rc) + yy*yy);
 	double q_term = sqrt(1. - qq*qq);
-	ax = b/q_term*atan(q_term*x/(psi + rc));
-	ay = b/q_term*atanh(q_term*y/(psi + qq*qq*rc));
+	ax = b/q_term*atan(q_term*xx/(psi + rc));
+	ay = b/q_term*atanh(q_term*yy/(psi + qq*qq*rc));
 }
 
 void NIE::from_prior()
