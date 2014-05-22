@@ -25,8 +25,12 @@ void PIEP::alpha(double x, double y, double& ax, double& ay) const
 
 	double rsq = q*xx*xx + yy*yy/q + rc*rc;
 	double r = sqrt(rsq);
-	ax = b*q*xx/r;
-	ay = b*yy/q/r;
+	double alphax = b*q*xx/r;
+	double alphay = b*yy/q/r;
+
+	// Rotate back
+	ax = alphax*cos_theta - alphay*sin_theta;
+	ay = alphax*sin_theta + alphay*cos_theta;
 }
 
 void PIEP::from_prior()
