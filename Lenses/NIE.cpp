@@ -1,0 +1,122 @@
+#include "NIE.h"
+
+#include "RandomNumberGenerator.h"
+#include "Utils.h"
+
+#include <cmath>
+#include <cassert>
+
+using namespace std;
+using namespace DNest3;
+using namespace Lensing2;
+
+NIE::NIE(double x_min, double x_max, double y_min, double y_max)
+:x_min(x_min), x_max(x_max), y_min(y_min), y_max(y_max)
+,scale(sqrt((x_max - x_min)*(y_max - y_min)))
+{
+	assert(x_max > x_min && y_max > y_min);
+}
+
+void NIE::alpha(double x, double y, double& ax, double& ay) const
+{
+	// Rotate and center
+	double xx =  (x - xc)*cos_theta + (y - yc)*sin_theta;
+	double yy = -(x - xc)*sin_theta + (y - yc)*cos_theta;
+
+	double qq = q;
+
+	// Based on Keeton and Kochanek (1998) equations 6 and 7.
+	// Might be better to symmetrise but I haven't done it yet.
+	// Equations only valid for q < 1, so do the following stuff
+	// if q >= 1.
+	if(qq == 1.)
+		qq = 0.99999;
+	if(qq > 1.)
+	{
+		// Flip axis ratio, x, and y
+		qq = 1./qq;
+		double temp = x;
+		x = y;
+		y = temp;
+	}
+
+	double psi = sqrt(qq*qq*(x*x + rc*rc) + y*y);
+	double q_term = sqrt(1. - qq*qq);
+	ax = b/q_term*atan(q_term*x/(psi + rc));
+	ay = b/q_term*atanh(q_term*y/(psi + qq*qq*rc));
+}
+
+void NIE::from_prior()
+{
+	b = exp(log(1E-3) + log(1E3)*randomU())*scale;
+	q = exp(log(0.1) + log(1E2)*randomU());
+	rc = exp(log(1E-3) + log(1E3)*randomU())*scale;
+
+	do
+	{
+		xc = 0.5*(x_max + x_min) +
+			0.1*(x_max - x_min)*tan(M_PI*(randomU() - 0.5));
+		yc = 0.5*(y_max + y_min) +
+			0.1*(y_max - y_min)*tan(M_PI*(randomU() - 0.5));
+	}while(xc < x_min || xc > x_max || yc < y_min || yc > y_max);
+
+	theta = 2.*M_PI*randomU();
+	cos_theta = cos(theta); sin_theta = sin(theta);
+}
+
+double NIE::perturb()
+{
+	double logH = 0.;
+
+	int which = randInt(5);
+
+	if(which == 0)
+	{
+		b = log(b/scale);
+		b += log(1E3)*randh();
+		b = mod(b - log(1E-3), log(1E3)) + log(1E-3);
+		b = scale*exp(b);
+	}
+	else if(which == 1)
+	{
+		q = log(q);
+		q += log(1E2)*randh();
+		q = mod(q - log(0.1), log(1E2)) + log(0.1);
+		q = exp(q);
+	}
+	else if(which == 2)
+	{
+		rc = log(rc/scale);
+		rc += log(1E3)*randh();
+		rc = mod(rc - log(1E-3), log(1E3)) + log(1E-3);
+		rc = scale*exp(rc);
+	}
+	else if(which == 3)
+	{
+		logH -= -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
+		logH -= -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
+
+		xc += (x_max - x_min)*randh();
+		yc += (y_max - y_min)*randh();
+
+		xc = mod(xc - x_min, x_max - x_min) + x_min;
+		yc = mod(yc - y_min, y_max - y_min) + y_min;
+
+		logH += -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
+		logH += -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
+	}
+	else
+	{
+		theta += 2.*M_PI*randh();
+		theta = mod(theta, 2.*M_PI);
+		cos_theta = cos(theta); sin_theta = sin(theta);
+	}
+
+	return logH;
+}
+
+void NIE::print(ostream& out) const
+{
+	out<<b<<' '<<q<<' '<<rc<<' '<<xc<<' '<<yc<<' '<<theta<<' ';
+}
+
