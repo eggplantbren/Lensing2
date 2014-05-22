@@ -42,8 +42,12 @@ void NIE::alpha(double x, double y, double& ax, double& ay) const
 
 	double psi = sqrt(qq*qq*(xx*xx + rc*rc) + yy*yy);
 	double q_term = sqrt(1. - qq*qq);
-	ax = b/q_term*atan(q_term*xx/(psi + rc));
-	ay = b/q_term*atanh(q_term*yy/(psi + qq*qq*rc));
+	double alphax = b/q_term*atan(q_term*xx/(psi + rc));
+	double alphay = b/q_term*atanh(q_term*yy/(psi + qq*qq*rc));
+
+	// Rotate back
+	ax = alphax*cos_theta - alphay*sin_theta;
+	ay = alphax*sin_theta + alphay*cos_theta;
 }
 
 void NIE::from_prior()
