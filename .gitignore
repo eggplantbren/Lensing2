@@ -9,4 +9,5 @@ posterior_sample.txt
 *.pyc
 logfile
 Lensing2
+*.pdf
 
