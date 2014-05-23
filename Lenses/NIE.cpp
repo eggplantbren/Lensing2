@@ -118,7 +118,7 @@ double NIE::perturb()
 	else if(which == 4)
 	{
 		theta += M_PI*randh();
-		theta = mod(theta, 2.*M_PI);
+		theta = mod(theta, M_PI);
 		cos_theta = cos(theta); sin_theta = sin(theta);
 	}
 	else if(which == 5)
