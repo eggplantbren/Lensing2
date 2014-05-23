@@ -14,7 +14,10 @@ class MyModel:public DNest3::Model
 	private:
 		Blobby source;
 		PIEP lens;
-		double sigma;
+
+		// Noise model - constant variance plus component
+		// that depends on the flux of the model
+		double sigma0, sigma1;
 
 		// Source plane position of rays
 		std::vector< std::vector<double> > xs;

@@ -11,7 +11,7 @@ figure(figsize=(10, 6))
 ion()
 hold(False)
 for i in xrange(0, output.shape[0]):
-	x = output[i, 8:]
+	x = output[i, 10:]
 	img = x.reshape((100, 100))
 
 	subplot(1,3,1)

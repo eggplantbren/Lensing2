@@ -29,7 +29,9 @@ void MyModel::fromPrior()
 {
 	source.from_prior();
 	lens.from_prior();
-	sigma = exp(log(1E-3) + log(1E6)*randomU());
+
+	sigma0 = exp(log(1E-3) + log(1E6)*randomU());
+	sigma1 = exp(log(1E-3) + log(1E6)*randomU());
 
 	shoot_rays();
 	calculate_surface_brightness();
@@ -59,10 +61,15 @@ double MyModel::perturb()
 	}
 	else
 	{
-		sigma = log(sigma);
-		sigma += log(1E6)*randh();
-		sigma = mod(sigma - log(1E-3), log(1E6)) + log(1E-3);
-		sigma = exp(sigma);
+		sigma0 = log(sigma0);
+		sigma0 += log(1E6)*randh();
+		sigma0 = mod(sigma0 - log(1E-3), log(1E6)) + log(1E-3);
+		sigma0 = exp(sigma0);
+
+		sigma1 = log(sigma1);
+		sigma1 += log(1E6)*randh();
+		sigma1 = mod(sigma1 - log(1E-3), log(1E6)) + log(1E-3);
+		sigma1 = exp(sigma1);
 	}
 
 	return logH;
@@ -74,12 +81,14 @@ double MyModel::logLikelihood() const
 	const vector< vector<double> >& image =
 				Data::get_instance().get_image();
 
+	double var;
 	for(size_t i=0; i<image.size(); i++)
 	{
 		for(size_t j=0; j<image[i].size(); j++)
 		{
-			logL += -0.5*log(2.*M_PI*sigma*sigma) -
-			0.5*pow((image[i][j] - model_image[i][j])/sigma, 2);
+			var = sigma0*sigma0 + sigma1*model_image[i][j];
+			logL += -0.5*log(2.*M_PI*var) -
+			0.5*pow(image[i][j] - model_image[i][j], 2)/var;
 		}
 	}
 
@@ -88,7 +97,7 @@ double MyModel::logLikelihood() const
 
 void MyModel::print(std::ostream& out) const
 {
-	lens.print(out); out<<' ';
+	lens.print(out); out<<' '<<sigma0<<' '<<sigma1<<' ';
 	for(size_t i=0; i<model_image.size(); i++)
 		for(size_t j=0; j<model_image[i].size(); j++)
 			out<<model_image[i][j]<<' ';
