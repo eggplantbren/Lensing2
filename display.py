@@ -7,7 +7,7 @@ from pylab import *
 output = atleast_2d(loadtxt('posterior_sample.txt'))
 data = loadtxt('Data/test_image.txt')
 
-figure(figsize=(10, 6))
+figure(figsize=(12, 8))
 ion()
 hold(False)
 for i in xrange(0, output.shape[0]):
@@ -16,7 +16,7 @@ for i in xrange(0, output.shape[0]):
 
 	subplot(1,3,1)
 	imshow(img)
-	title('Model Image')
+	title('Model Image ' + str(i+1))
 
 	subplot(1,3,2)
 	imshow(data)
