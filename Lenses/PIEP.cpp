@@ -36,7 +36,7 @@ void PIEP::alpha(double x, double y, double& ax, double& ay) const
 void PIEP::from_prior()
 {
 	b = exp(log(1E-3) + log(1E3)*randomU())*scale;
-	q = exp(log(0.1) + log(1E2)*randomU());
+	q = exp(log(0.1) + log(10.)*randomU());
 	rc = exp(log(1E-3) + log(1E3)*randomU())*scale;
 
 	do
@@ -47,7 +47,7 @@ void PIEP::from_prior()
 			0.1*(y_max - y_min)*tan(M_PI*(randomU() - 0.5));
 	}while(xc < x_min || xc > x_max || yc < y_min || yc > y_max);
 
-	theta = 2.*M_PI*randomU();
+	theta = M_PI*randomU();
 	cos_theta = cos(theta); sin_theta = sin(theta);
 }
 
@@ -67,8 +67,8 @@ double PIEP::perturb()
 	else if(which == 1)
 	{
 		q = log(q);
-		q += log(1E2)*randh();
-		q = mod(q - log(0.1), log(1E2)) + log(0.1);
+		q += log(10.)*randh();
+		q = mod(q - log(0.1), log(10.)) + log(0.1);
 		q = exp(q);
 	}
 	else if(which == 2)
@@ -94,7 +94,7 @@ double PIEP::perturb()
 	}
 	else
 	{
-		theta += 2.*M_PI*randh();
+		theta += M_PI*randh();
 		theta = mod(theta, 2.*M_PI);
 		cos_theta = cos(theta); sin_theta = sin(theta);
 	}
