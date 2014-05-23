@@ -25,6 +25,10 @@ class PIEP:public Lens
 		// Orientation angle
 		double theta, cos_theta, sin_theta;
 
+		// External shear
+		double shear;
+		double theta_shear, cos_theta_shear, sin_theta_shear;
+
 	public:
 		// Constructor: pass in dimensions of image
 		PIEP(double x_min, double x_max, double y_min, double y_max);
