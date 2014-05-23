@@ -46,7 +46,6 @@ double MyModel::perturb()
 	{
 		logH += source.perturb();
 
-		shoot_rays();
 		calculate_surface_brightness();
 		calculate_model_image();
 	}
