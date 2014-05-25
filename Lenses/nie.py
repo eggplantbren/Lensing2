@@ -22,6 +22,8 @@ term2[1:-1:, :] = (ay[0:-2, :] - ay[2:, :])/(2*h)
 
 # Integral of divergence/(2pi) (inside radius of psi < b*q) = b^2
 divergence = term1 + term2
+divergence[divergence == 0] = min(divergence[divergence > 0])
 print((divergence*(psi < b*q)).sum()*h**2/(2.*pi))
+imshow(log(divergence + 1E-6))
 show()
 
