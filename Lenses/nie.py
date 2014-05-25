@@ -6,7 +6,7 @@ y = linspace(-2., 2., 1001) + 1E-6
 y = y[::-1, :]
 h = x[0, 1] - x[0, 0]
 
-b = 1.
+b = 2.
 q = 0.6
 rc = 0.
 
@@ -20,6 +20,8 @@ term2 = zeros(x.shape)
 term1[:,1:-1:] = (ax[:,2:] - ax[:,0:-2])/(2*h)
 term2[1:-1:, :] = (ay[0:-2, :] - ay[2:, :])/(2*h)
 
-imshow(term1 + term2)
+# Integral of divergence/(2pi) (inside radius of psi < b*q) = b^2
+divergence = term1 + term2
+print((divergence*(psi < b*q)).sum()*h**2/(2.*pi))
 show()
 
