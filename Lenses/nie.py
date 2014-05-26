@@ -37,3 +37,11 @@ print((divergence*(psi < b*q)).sum()*h**2/(2.*pi))
 imshow(log(divergence + 1E-6))
 show()
 
+# Compute magnification
+Dax = deriv(x - ax, h)
+Day = deriv(y - ay, h)
+J = Dax[0]*Day[1] - Dax[1]*Day[0]
+imshow(-log(abs(J) + 1E-6))
+title('Magnification')
+show()
+
