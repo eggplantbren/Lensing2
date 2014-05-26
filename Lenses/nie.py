@@ -1,7 +1,7 @@
 from pylab import *
 
-b = 1.5
-q = 0.6
+b = 0.8
+q = 0.7
 rc = 0.
 
 def alpha(x, y):
@@ -24,16 +24,18 @@ y = y[::-1, :]
 h = x[0, 1] - x[0, 0]
 
 [ax, ay] = alpha(x, y)
-psi = sqrt(q**2*(x**2 + rc**2) + y**2)
+
+# Inside critical curve (only valid for rc=0)
+inside = (x/(b/q))**2 + (y/b)**2 < 1
 
 # Terms in divergence of alpha
 term1 = deriv(ax, h)[0]
 term2 = deriv(ay, h)[1]
 
-# Integral of divergence/(2pi) (inside radius of psi < b*q) = b^2
+# Integral of divergence/(2pi) (inside critical curve) = b^2/q
 divergence = term1 + term2
 divergence[divergence == 0] = min(divergence[divergence > 0])
-print((divergence*(psi < b*q)).sum()*h**2/(2.*pi))
+print((divergence[inside]).sum()*h**2/(2.*pi), b**2/q)
 imshow(log(divergence + 1E-6))
 show()
 
