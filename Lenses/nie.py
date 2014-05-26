@@ -1,3 +1,8 @@
+"""
+This short script, which has nothing to do with the modelling code,
+is to refresh my memory on the properties of SIE models.
+"""
+
 from pylab import *
 
 b = 0.8
