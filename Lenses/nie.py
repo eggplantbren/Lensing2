@@ -11,8 +11,8 @@ def alpha(x, y):
   return [ax, ay]
 
 def deriv(f, h):
-  dfdx = f.copy()
-  dfdy = f.copy()
+  dfdx = zeros(f.shape)
+  dfdy = zeros(f.shape)
   dfdx[:,1:-1:] =  (f[:,2:] - f[:,0:-2])/(2*h)
   dfdy[1:-1:, :] = (f[0:-2, :] - f[2:, :])/(2*h)
   return [dfdx, dfdy]
