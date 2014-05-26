@@ -31,6 +31,7 @@ class MyModel:public DNest3::Model
 
 		void shoot_rays();
 		void calculate_surface_brightness();
+		void update_surface_brightness();
 		void calculate_model_image();
 
 	public:

@@ -142,6 +142,14 @@ void MyModel::calculate_surface_brightness()
 	psf.blur_image(surface_brightness);
 }
 
+void MyModel::update_surface_brightness()
+{
+	vector< vector<double> >
+		delta_surface_brightness(surface_brightness.size(),
+			vector<double>(surface_brightness[0].size(), 0.));
+}
+
+
 void MyModel::calculate_model_image()
 {
 	model_image.assign(Data::get_instance().get_ni(),
