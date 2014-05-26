@@ -105,7 +105,7 @@ void MyModel::print(std::ostream& out) const
 
 string MyModel::description() const
 {
-	return string("");
+	return string("lens parameters (b, q, rc, xc, yc, theta, shear, theta_shear), sigma0, sigma1, mock image");
 }
 
 void MyModel::shoot_rays()
