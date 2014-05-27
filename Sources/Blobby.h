@@ -22,6 +22,7 @@ class Blobby:public Source
 		// Required methods
 		double evaluate(double x, double y) const;
 		double evaluate_diff(double x, double y) const;
+		int get_size_of_diff() const;
 
 		void from_prior();
 		double perturb();

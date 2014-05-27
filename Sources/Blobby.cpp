@@ -35,6 +35,12 @@ double Blobby::evaluate(double x, double y) const
 	return f;
 }
 
+int Blobby::get_size_of_diff() const
+{
+	return static_cast<int>(blobs.get_added().size()
+					+ blobs.get_removed().size());
+}
+
 double Blobby::evaluate_diff(double x, double y) const
 {
 	double f = 0.;
