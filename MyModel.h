@@ -51,6 +51,8 @@ class MyModel:public DNest3::Model
 
 		// Return string with column information
 		std::string description() const;
+
+		static void test();
 };
 
 } // namespace Lensing2

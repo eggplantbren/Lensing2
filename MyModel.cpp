@@ -188,3 +188,28 @@ void MyModel::calculate_model_image()
 	}
 }
 
+
+#include <fstream>
+void MyModel::test()
+{
+	RandomNumberGenerator::initialise_instance();
+	RandomNumberGenerator::get_instance().set_seed(2);
+
+	MyModel m;
+
+	fstream fout("output.txt", ios::out);
+	for(int i=0; i<1000; i++)
+	{
+		m.fromPrior();
+		m.perturb();
+		m.print(fout); fout<<' ';
+		m.shoot_rays();
+		m.calculate_surface_brightness();
+		m.calculate_model_image();
+		m.print(fout); fout<<endl;
+		cout<<(i+1)<<endl;
+	}
+
+	fout.close();
+}
+
