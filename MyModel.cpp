@@ -193,13 +193,13 @@ void MyModel::calculate_model_image()
 void MyModel::test()
 {
 	RandomNumberGenerator::initialise_instance();
-	RandomNumberGenerator::get_instance().set_seed(2);
 
 	MyModel m;
 
 	fstream fout("output.txt", ios::out);
 	for(int i=0; i<1000; i++)
 	{
+		RandomNumberGenerator::get_instance().set_seed(i);
 		m.fromPrior();
 		m.perturb();
 		m.print(fout); fout<<' ';
