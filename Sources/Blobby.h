@@ -23,6 +23,7 @@ class Blobby:public Source
 		double evaluate(double x, double y) const;
 		double evaluate_diff(double x, double y) const;
 		int get_size_of_diff() const;
+		int get_num_components() const;
 
 		void from_prior();
 		double perturb();

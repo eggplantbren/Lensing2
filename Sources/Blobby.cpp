@@ -41,6 +41,12 @@ int Blobby::get_size_of_diff() const
 					+ blobs.get_removed().size());
 }
 
+int Blobby::get_num_components() const
+{
+	return static_cast<int>(blobs.get_components().size());
+}
+
+
 double Blobby::evaluate_diff(double x, double y) const
 {
 	double f = 0.;
