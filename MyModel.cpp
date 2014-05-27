@@ -48,7 +48,10 @@ double MyModel::perturb()
 	{
 		logH += source.perturb();
 
-		calculate_surface_brightness();
+		if(source.get_size_of_diff() < source.get_num_components())
+			update_surface_brightness();
+		else
+			calculate_surface_brightness();
 		calculate_model_image();
 	}
 	else if(which == 1)
@@ -127,9 +130,6 @@ void MyModel::shoot_rays()
 
 void MyModel::calculate_surface_brightness()
 {
-	// Get the psf from the data instance
-	const PSF& psf = Data::get_instance().get_psf();
-
 	for(size_t i=0; i<xs.size(); i++)
 	{
 		for(size_t j=0; j<xs[i].size(); j++)
@@ -139,6 +139,8 @@ void MyModel::calculate_surface_brightness()
 		}
 	}
 
+	// Blur using the PSF
+	const PSF& psf = Data::get_instance().get_psf();
 	psf.blur_image(surface_brightness);
 }
 
@@ -147,6 +149,24 @@ void MyModel::update_surface_brightness()
 	vector< vector<double> >
 		delta_surface_brightness(surface_brightness.size(),
 			vector<double>(surface_brightness[0].size(), 0.));
+
+	for(size_t i=0; i<xs.size(); i++)
+	{
+		for(size_t j=0; j<xs[i].size(); j++)
+		{
+			delta_surface_brightness[i][j] = source.evaluate_diff
+							(xs[i][j], ys[i][j]);
+		}
+	}
+
+	// Blur using the PSF
+	const PSF& psf = Data::get_instance().get_psf();
+	psf.blur_image(delta_surface_brightness);
+
+	// Add the delta to the surface brightness
+	for(size_t i=0; i<surface_brightness.size(); i++)
+		for(size_t j=0; j<surface_brightness[i].size(); j++)
+			surface_brightness[i][j] += delta_surface_brightness[i][j];
 }
 
 
