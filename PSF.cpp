@@ -62,7 +62,7 @@ void PSF::blur_image(vector< vector<double> >& img) const
 	{
 		for(int j=0; j<N; j++)
 		{
-			if(img[i][j] > 0.)
+			if(img[i][j] != 0.)
 			{
 				for(int m=0; m<size; m++)
 				{
