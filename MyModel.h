@@ -3,7 +3,7 @@
 
 #include "Model.h"
 #include "Sources/Blobby.h"
-#include "Lenses/PIEP.h"
+#include "Lenses/BlobbyNIE.h"
 #include <vector>
 
 namespace Lensing2
@@ -13,7 +13,7 @@ class MyModel:public DNest3::Model
 {
 	private:
 		Blobby source;
-		PIEP lens;
+		BlobbyNIE lens;
 
 		// Noise model - constant variance plus component
 		// that depends on the flux of the model
