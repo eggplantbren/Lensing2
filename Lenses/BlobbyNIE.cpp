@@ -169,6 +169,7 @@ double BlobbyNIE::perturb()
 void BlobbyNIE::print(ostream& out) const
 {
 	out<<b<<' '<<q<<' '<<rc<<' '<<xc<<' '<<yc<<' '<<theta<<' ';
-	out<<shear<<' '<<theta_shear;
+	out<<shear<<' '<<theta_shear<<' ';
+	out<<blobs<<' ';
 }
 
