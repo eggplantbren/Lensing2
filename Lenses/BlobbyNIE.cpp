@@ -69,8 +69,8 @@ void BlobbyNIE::alpha(double x, double y, double& ax, double& ay) const
 		}
 		else
 			Menc = components[i][2];
-		ax += Menc*(x - components[i][0])/rsq;
-		ay += Menc*(y - components[i][1])/rsq;
+		ax += Menc*(x - components[i][0])/(M_PI*rsq);
+		ay += Menc*(y - components[i][1])/(M_PI*rsq);
 	}
 }
 
