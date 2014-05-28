@@ -59,7 +59,7 @@ double MyModel::perturb()
 		logH += lens.perturb();
 
 		if(lens.get_size_of_diff() < lens.get_num_components())
-			shoot_rays();
+			update_rays();
 		else
 			shoot_rays();
 
@@ -173,6 +173,23 @@ void MyModel::update_surface_brightness()
 			surface_brightness[i][j] += delta_surface_brightness[i][j];
 }
 
+
+void MyModel::update_rays()
+{
+	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
+	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
+
+	double ax, ay;
+	for(size_t i=0; i<xs.size(); i++)
+	{
+		for(size_t j=0; j<xs[i].size(); j++)
+		{
+			lens.alpha_diff(x[i][j], y[i][j], ax, ay);
+			xs[i][j] -= ax;
+			ys[i][j] -= ay;
+		}
+	}
+}
 
 void MyModel::calculate_model_image()
 {

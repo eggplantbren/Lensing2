@@ -30,6 +30,7 @@ class MyModel:public DNest3::Model
 		std::vector< std::vector<double> > model_image;
 
 		void shoot_rays();
+		void update_rays();
 		void calculate_surface_brightness();
 		void update_surface_brightness();
 		void calculate_model_image();
