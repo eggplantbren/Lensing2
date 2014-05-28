@@ -32,6 +32,7 @@ class BlobbyNIE:public Lens
 		double theta_shear, cos_theta_shear, sin_theta_shear;
 
 		RJObject<BasicCircular> blobs;
+		bool blobs_flag;
 
 	public:
 		// Constructor: pass in dimensions of image
@@ -47,6 +48,9 @@ class BlobbyNIE:public Lens
 		// Methods for partial update
 		int get_size_of_diff() const;
 		int get_num_components() const;
+
+		// If true, the most recent perturb only involved the blobs
+		bool get_blobs_flag() const { return blobs_flag; }
 };
 
 }

@@ -58,7 +58,8 @@ double MyModel::perturb()
 	{
 		logH += lens.perturb();
 
-		if(lens.get_size_of_diff() < lens.get_num_components())
+		if(lens.get_blobs_flag() &&
+			(lens.get_size_of_diff() < lens.get_num_components()))
 			update_rays();
 		else
 			shoot_rays();

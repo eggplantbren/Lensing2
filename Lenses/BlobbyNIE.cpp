@@ -15,6 +15,7 @@ BlobbyNIE::BlobbyNIE(double x_min, double x_max, double y_min, double y_max)
 ,scale(sqrt((x_max - x_min)*(y_max - y_min)))
 ,blobs(4, 10, false,
 	BasicCircular(x_min, x_max, y_min, y_max, 1E-4*scale, 10*scale))
+,blobs_flag(false)
 {
 	assert(x_max > x_min && y_max > y_min);
 }
@@ -148,7 +149,15 @@ double BlobbyNIE::perturb()
 {
 	double logH = 0.;
 
-	int which = randInt(8);
+	blobs_flag = false;
+	if(randomU() <= 0.5)
+	{
+		logH += blobs.perturb();
+		blobs_flag = true;
+		return logH;
+	}
+
+	int which = randInt(7);
 
 	if(which == 0)
 	{
@@ -198,15 +207,11 @@ double BlobbyNIE::perturb()
 		shear = mod(shear, 1.);
 		shear = 0.05*tan(M_PI*(shear - 0.5));
 	}
-	else if(which == 6)
+	else
 	{
 		theta_shear += 2.*M_PI*randh();
 		theta_shear = mod(theta_shear, 2.*M_PI);
 		cos_theta_shear = cos(theta_shear); sin_theta_shear = sin(theta_shear);
-	}
-	else
-	{
-		logH += blobs.perturb();
 	}
 
 	return logH;
