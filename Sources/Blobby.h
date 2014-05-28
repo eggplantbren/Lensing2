@@ -2,7 +2,7 @@
 #define Lensing2_Blobby_h
 
 #include "Source.h"
-#include "BasicCircular.h"
+#include "../BasicCircular.h"
 #include <RJObject.h>
 
 namespace Lensing2
