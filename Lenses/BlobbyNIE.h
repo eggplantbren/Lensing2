@@ -1,5 +1,5 @@
-#ifndef Lensing2_SpottyNIE_h
-#define Lensing2_SpottyNIE_h
+#ifndef Lensing2_BlobbyNIE_h
+#define Lensing2_BlobbyNIE_h
 
 #include <ostream>
 #include "Lens.h"
@@ -8,9 +8,9 @@ namespace Lensing2
 {
 
 /*
-* A class for a single SpottyNIE.
+* A class for a single BlobbyNIE.
 */
-class SpottyNIE:public Lens
+class BlobbyNIE:public Lens
 {
 	private:
 		// Image dimensions
@@ -31,7 +31,7 @@ class SpottyNIE:public Lens
 
 	public:
 		// Constructor: pass in dimensions of image
-		SpottyNIE(double x_min, double x_max, double y_min, double y_max);
+		BlobbyNIE(double x_min, double x_max, double y_min, double y_max);
 
 		// Needed methods
 		void alpha(double x, double y, double& ax, double& ay) const;

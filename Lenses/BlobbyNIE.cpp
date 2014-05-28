@@ -1,4 +1,4 @@
-#include "SpottyNIE.h"
+#include "BlobbyNIE.h"
 
 #include "RandomNumberGenerator.h"
 #include "Utils.h"
@@ -10,14 +10,14 @@ using namespace std;
 using namespace DNest3;
 using namespace Lensing2;
 
-SpottyNIE::SpottyNIE(double x_min, double x_max, double y_min, double y_max)
+BlobbyNIE::BlobbyNIE(double x_min, double x_max, double y_min, double y_max)
 :x_min(x_min), x_max(x_max), y_min(y_min), y_max(y_max)
 ,scale(sqrt((x_max - x_min)*(y_max - y_min)))
 {
 	assert(x_max > x_min && y_max > y_min);
 }
 
-void SpottyNIE::alpha(double x, double y, double& ax, double& ay) const
+void BlobbyNIE::alpha(double x, double y, double& ax, double& ay) const
 {
 	// Rotate and center
 	double xx =  (x - xc)*cos_theta + (y - yc)*sin_theta;
@@ -52,7 +52,7 @@ void SpottyNIE::alpha(double x, double y, double& ax, double& ay) const
 	ay += alphax*sin_theta_shear + alphay*cos_theta_shear;
 }
 
-void SpottyNIE::from_prior()
+void BlobbyNIE::from_prior()
 {
 	b = exp(log(1E-3) + log(1E3)*randomU())*scale;
 	q = exp(log(0.1) + log(10.)*randomU());
@@ -74,7 +74,7 @@ void SpottyNIE::from_prior()
 	cos_theta_shear = cos(theta_shear); sin_theta_shear = sin(theta_shear);
 }
 
-double SpottyNIE::perturb()
+double BlobbyNIE::perturb()
 {
 	double logH = 0.;
 
@@ -138,7 +138,7 @@ double SpottyNIE::perturb()
 	return logH;
 }
 
-void SpottyNIE::print(ostream& out) const
+void BlobbyNIE::print(ostream& out) const
 {
 	out<<b<<' '<<q<<' '<<rc<<' '<<xc<<' '<<yc<<' '<<theta<<' ';
 	out<<shear<<' '<<theta_shear;
