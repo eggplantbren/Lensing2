@@ -58,7 +58,11 @@ double MyModel::perturb()
 	{
 		logH += lens.perturb();
 
-		shoot_rays();
+		if(lens.get_size_of_diff() < lens.get_num_components())
+			shoot_rays();
+		else
+			shoot_rays();
+
 		calculate_surface_brightness();
 		calculate_model_image();
 	}
