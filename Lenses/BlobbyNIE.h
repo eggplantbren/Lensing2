@@ -2,6 +2,8 @@
 #define Lensing2_BlobbyNIE_h
 
 #include <ostream>
+#include "../BasicCircular.h"
+#include <RJObject.h>
 #include "Lens.h"
 
 namespace Lensing2
@@ -28,6 +30,8 @@ class BlobbyNIE:public Lens
 		// External shear
 		double shear;
 		double theta_shear, cos_theta_shear, sin_theta_shear;
+
+		RJObject<BasicCircular> blobs;
 
 	public:
 		// Constructor: pass in dimensions of image
