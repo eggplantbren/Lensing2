@@ -39,6 +39,7 @@ class BlobbyNIE:public Lens
 
 		// Needed methods
 		void alpha(double x, double y, double& ax, double& ay) const;
+		void alpha_diff(double x, double y, double& ax, double& ay) const;
 		void from_prior();
 		double perturb();
 		void print(std::ostream& out) const;
