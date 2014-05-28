@@ -173,3 +173,14 @@ void BlobbyNIE::print(ostream& out) const
 	blobs.print(out); out<<' ';
 }
 
+int BlobbyNIE::get_size_of_diff() const
+{
+	return static_cast<int>(blobs.get_added().size()
+					+ blobs.get_removed().size());
+}
+
+int BlobbyNIE::get_num_components() const
+{
+	return static_cast<int>(blobs.get_components().size());
+}
+

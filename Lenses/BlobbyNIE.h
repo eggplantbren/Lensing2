@@ -42,6 +42,10 @@ class BlobbyNIE:public Lens
 		void from_prior();
 		double perturb();
 		void print(std::ostream& out) const;
+
+		// Methods for partial update
+		int get_size_of_diff() const;
+		int get_num_components() const;
 };
 
 }
