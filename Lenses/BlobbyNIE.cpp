@@ -52,6 +52,26 @@ void BlobbyNIE::alpha(double x, double y, double& ax, double& ay) const
 	// Add external shear
 	ax += alphax*cos_theta_shear - alphay*sin_theta_shear;
 	ay += alphax*sin_theta_shear + alphay*cos_theta_shear;
+
+	// Add blobs
+	const vector< vector<double> >& components = blobs.get_components();
+	double rsq, widthsq, Menc;
+	for(size_t i=0; i<components.size(); i++)
+	{
+		rsq = pow(x - components[i][0], 2)
+				+ pow(y - components[i][1], 2);
+		widthsq = pow(components[i][3], 2);
+
+		if(rsq < widthsq)
+		{
+			Menc = 4.*components[i][2]/widthsq*(0.5*rsq -
+				rsq*rsq/(4*widthsq));
+		}
+		else
+			Menc = components[i][2];
+		ax += Menc*(x - components[i][0])/rsq;
+		ay += Menc*(y - components[i][1])/rsq;
+	}
 }
 
 void BlobbyNIE::from_prior()
@@ -74,13 +94,15 @@ void BlobbyNIE::from_prior()
 	shear = 0.05*tan(M_PI*(randomU() - 0.5));
 	theta_shear = 2.*M_PI*randomU();
 	cos_theta_shear = cos(theta_shear); sin_theta_shear = sin(theta_shear);
+
+	blobs.fromPrior();
 }
 
 double BlobbyNIE::perturb()
 {
 	double logH = 0.;
 
-	int which = randInt(7);
+	int which = randInt(8);
 
 	if(which == 0)
 	{
@@ -130,11 +152,15 @@ double BlobbyNIE::perturb()
 		shear = mod(shear, 1.);
 		shear = 0.05*tan(M_PI*(shear - 0.5));
 	}
-	else
+	else if(which == 6)
 	{
 		theta_shear += 2.*M_PI*randh();
 		theta_shear = mod(theta_shear, 2.*M_PI);
 		cos_theta_shear = cos(theta_shear); sin_theta_shear = sin(theta_shear);
+	}
+	else
+	{
+		logH += blobs.perturb();
 	}
 
 	return logH;
