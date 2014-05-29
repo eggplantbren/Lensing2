@@ -11,18 +11,25 @@ figure(figsize=(12, 8))
 ion()
 hold(False)
 for i in xrange(0, output.shape[0]):
-	x = output[i, 58:]
-	img = x.reshape((100, 100))
+	x = output[i, :]
+	src = x[58:58 + 200**2]
+	src = src.reshape((200, 200))
+	img = x[58 + 200**2:]
+	img = img.reshape((100, 100))
 
-	subplot(1,3,1)
+	subplot(2,2,1)
+	imshow(src)
+	title('Model Source ' + str(i+1))
+
+	subplot(2,2,2)
 	imshow(img)
 	title('Model Image ' + str(i+1))
 
-	subplot(1,3,2)
+	subplot(2,2,3)
 	imshow(data)
 	title('Data')
 
-	subplot(1,3,3)
+	subplot(2,2,4)
 	imshow(img - data)
 	title('Residuals')
 	draw()

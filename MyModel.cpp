@@ -106,6 +106,14 @@ double MyModel::logLikelihood() const
 void MyModel::print(std::ostream& out) const
 {
 	lens.print(out); out<<' '<<sigma0<<' '<<sigma1<<' ';
+
+	// Make an image of the source (uses the ray resolution)
+	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
+	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
+	for(size_t i=0; i<xs.size(); i++)
+		for(size_t j=0; j<xs[i].size(); j++)
+			out<<source.evaluate(x[i][j], y[i][j])<<' ';
+
 	for(size_t i=0; i<model_image.size(); i++)
 		for(size_t j=0; j<model_image[i].size(); j++)
 			out<<model_image[i][j]<<' ';
