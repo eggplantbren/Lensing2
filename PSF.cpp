@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iostream>
 #include <fstream>
+#include <fftw3.h>
 
 using namespace std;
 
@@ -82,4 +83,73 @@ void PSF::blur_image(vector< vector<double> >& img) const
 
 	img = result;
 }
+/*
+void PixelMap::blur(const PixelMap& psf)
+{
+	if(ni != psf.ni || nj != psf.nj)
+	{
+		cerr<<"Cannot convolve one PixelMap by another of different size."<<endl;
+		return;
+	}
 
+	// Do the FFT of this one and the other
+	fftw_complex* out1; fftw_complex* out2;
+	fftw_plan forwardPlan1, forwardPlan2;
+
+	double* in1 = new double[ni*nj];
+	double* in2 = new double[ni*nj];
+
+	int k = 0;
+	for(unsigned int i=0; i<ni; i++)
+		for(unsigned int j=0; j<nj; j++)
+		{
+			in1[k] = getPixel(i, j);
+			in2[k++] = psf.getPixel(i, j);
+		}
+
+	out1 = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*(ni/2 + 1)*ni);
+	out2 = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*(ni/2 + 1)*ni);
+
+	forwardPlan1 = fftw_plan_dft_r2c_2d(ni, ni,
+                                    in1, out1,
+                                    FFTW_ESTIMATE);
+	forwardPlan2 = fftw_plan_dft_r2c_2d(ni, ni,
+				    in2, out2,
+				    FFTW_ESTIMATE);
+
+	fftw_execute(forwardPlan1);
+	fftw_execute(forwardPlan2);
+
+	// (a + bi)(c + di) = ac + adi + bic + bdi^2
+	// = (ac - bd) + (ad + bc)i
+	// Multiply the ffts and put the result in out1
+	double re, im;
+	for(unsigned int i=0; i<(ni/2 + 1)*ni; i++)
+	{
+		re = out1[i][0]*out2[i][0] - out1[i][1]*out2[i][1];
+		im = out1[i][0]*out2[i][1] + out2[i][0]*out1[i][1];
+		out1[i][0] = re;
+		out1[i][1] = im;
+	}
+	
+	delete[] in2;
+        fftw_destroy_plan(forwardPlan1);
+	fftw_destroy_plan(forwardPlan2);
+	fftw_free(out2);
+
+	fftw_plan backPlan = fftw_plan_dft_c2r_2d(ni, ni,
+                                    out1, in1,
+                                    FFTW_ESTIMATE);
+
+	fftw_execute(backPlan);	
+
+	double coeff = 1.0/(ni*nj);
+	k = 0;
+	for(unsigned int i=0; i<ni; i++)
+		for(unsigned int j=0; j<nj; j++)
+			values[nj*i + j] = in1[k++]*coeff;
+	fftw_destroy_plan(backPlan);
+	delete[] in1;
+	fftw_free(out1);
+}
+*/
