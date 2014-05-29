@@ -88,18 +88,20 @@ void PSF::blur_image(vector< vector<double> >& img) const
 
 void PSF::blur_image_using_fftw(vector< vector<double> >& img) const
 {
-	int ni = img.size();
-	int nj = img[0].size();
+	int Ni = img.size();
+	int Nj = img[0].size();
+	int ni = pixels.size();
+	int nj = pixels[0].size();
 
 	// Make the psf the same size as the image
-	vector< vector<double> > psf(ni, vector<double>(nj, 0.));
+	vector< vector<double> > psf(Ni, vector<double>(Nj, 0.));
 	int m, n;
-	for(int i=0; i<static_cast<int>(pixels.size()); i++)
+	for(int i=0; i<ni; i++)
 	{
-		m = mod(i - ni/2, ni);
-		for(int j=0; j<static_cast<int>(pixels[i].size()); j++)
+		m = mod(i - ni/2, Ni);
+		for(int j=0; j<nj; j++)
 		{
-			n = mod(j - nj/2, nj);
+			n = mod(j - nj/2, Nj);
 			psf[m][n] = pixels[i][j];
 		}
 	}
