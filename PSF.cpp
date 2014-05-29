@@ -174,10 +174,25 @@ void PSF::test()
 	psf.load("Data/test_psf.txt");
 
 	// Point image
-	vector< vector<double> > pixels(21, vector<double>(21, 0.));
+	vector< vector<double> > pixels(20, vector<double>(20, 0.));
 	pixels[10][10] = 1.;
 
 	psf.blur_image(pixels);
+	// Print image and reset it to zero
+	for(size_t i=0; i<pixels.size(); i++)
+	{
+		for(size_t j=0; j<pixels.size(); j++)
+		{
+			cout<<pixels[i][j]<<' ';
+			pixels[i][j] = 0.;
+		}
+	}
+	cout<<endl;
+
+	// Do it again with ffts
+	pixels[10][10] = 1.;
+
+	psf.blur_image_using_fftw(pixels);
 	for(size_t i=0; i<pixels.size(); i++)
 		for(size_t j=0; j<pixels.size(); j++)
 			cout<<pixels[i][j]<<' ';
