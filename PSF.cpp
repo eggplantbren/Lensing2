@@ -167,3 +167,9 @@ void PSF::blur_image_using_fftw(vector< vector<double> >& img) const
 	fftw_free(out1);
 }
 
+
+void PSF::test()
+{
+
+}
+

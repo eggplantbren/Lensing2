@@ -22,6 +22,9 @@ class PSF
 		const std::vector< std::vector<double> >& get_pixels() const
 		{ return pixels; }
 
+		// Unit test
+		static void test();
+
 };
 
 #endif
