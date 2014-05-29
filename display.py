@@ -6,16 +6,17 @@ from pylab import *
 
 output = atleast_2d(loadtxt('posterior_sample.txt'))
 data = loadtxt('Data/test_image.txt')
+metadata = loadtxt('Data/test_metadata.txt')
 
 figure(figsize=(12, 8))
 ion()
 hold(False)
 for i in xrange(0, output.shape[0]):
 	x = output[i, :]
-	src = x[58:58 + 200**2]
-	src = src.reshape((200, 200))
-	img = x[58 + 200**2:]
-	img = img.reshape((100, 100))
+	src = x[58:58 + metadata[0]*metadata[1]*metadata[7]**2]
+	src = src.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
+	img = x[58 + (metadata[0]*metadata[1]*metadata[7]**2):]
+	img = img.reshape((metadata[0], metadata[1]))
 
 	subplot(2,2,1)
 	imshow(src)
