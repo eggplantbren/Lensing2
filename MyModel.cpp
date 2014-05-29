@@ -1,6 +1,5 @@
 #include "MyModel.h"
 #include "Data.h"
-#include "Constants.h"
 
 #include "RandomNumberGenerator.h"
 #include "Utils.h"
@@ -202,17 +201,19 @@ void MyModel::update_rays()
 
 void MyModel::calculate_model_image()
 {
+	int resolution = Data::get_instance().get_resolution();
+
 	model_image.assign(Data::get_instance().get_ni(),
 		vector<double>(Data::get_instance().get_nj(), 0.));
 
 	int ii, jj;
-	double coeff = pow(static_cast<double>(Constants::resolution), -2);
+	double coeff = pow(static_cast<double>(resolution), -2);
 	for(size_t i=0; i<xs.size(); i++)
 	{
-		ii = i/Constants::resolution;
+		ii = i/resolution;
 		for(size_t j=0; j<xs[i].size(); j++)
 		{
-			jj = j/Constants::resolution;
+			jj = j/resolution;
 			model_image[ii][jj] += coeff*surface_brightness[i][j];
 		}
 	}

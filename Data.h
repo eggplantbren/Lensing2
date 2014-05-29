@@ -19,6 +19,9 @@ class Data
 		// Pixel widths
 		double dx, dy;
 
+		// Number of rays per pixel per dimension
+		int resolution;
+
 		// The ray grid
 		std::vector< std::vector<double> > x_rays;
 		std::vector< std::vector<double> > y_rays;
@@ -43,6 +46,7 @@ class Data
 		double get_x_max() const { return x_max; }
 		double get_y_min() const { return y_min; }
 		double get_y_max() const { return y_max; }
+		int get_resolution() const { return resolution; }
 		const std::vector< std::vector<double> >& get_x_rays() const
 			{ return x_rays; }
 		const std::vector< std::vector<double> >& get_y_rays() const

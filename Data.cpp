@@ -1,5 +1,4 @@
 #include "Data.h"
-#include "Constants.h"
 #include <iostream>
 #include <fstream>
 #include <cmath>
@@ -26,7 +25,7 @@ void Data::load(const char* metadata_file, const char* image_file,
 	if(!fin)
 		cerr<<"# ERROR: couldn't open file "<<metadata_file<<"."<<endl;
 	fin>>ni>>nj;
-	fin>>x_min>>x_max>>y_min>>y_max>>psf_size;
+	fin>>x_min>>x_max>>y_min>>y_max>>psf_size>>resolution;
 	fin.close();
 
 	// Make sure maximum > minimum
@@ -66,13 +65,13 @@ void Data::load(const char* metadata_file, const char* image_file,
 void Data::compute_ray_grid()
 {
 	// Make vectors of the correct size
-	x_rays.assign(ni*Constants::resolution,
-			vector<double>(nj*Constants::resolution));
-	y_rays.assign(ni*Constants::resolution,
-			vector<double>(nj*Constants::resolution));
+	x_rays.assign(ni*resolution,
+			vector<double>(nj*resolution));
+	y_rays.assign(ni*resolution,
+			vector<double>(nj*resolution));
 
 	// Distance between adjacent rays
-	double L = dx/Constants::resolution;
+	double L = dx/resolution;
 
 	for(size_t i=0; i<x_rays.size(); i++)
 	{
