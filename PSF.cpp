@@ -105,30 +105,29 @@ void PSF::blur_image_using_fftw(vector< vector<double> >& img) const
 			psf[m][n] = pixels[i][j];
 		}
 	}
-}
-/*
+
 	// Do the FFT of this one and the other
 	fftw_complex* out1; fftw_complex* out2;
 	fftw_plan forwardPlan1, forwardPlan2;
 
-	double* in1 = new double[ni*nj];
-	double* in2 = new double[ni*nj];
+	double* in1 = new double[Ni*Nj];
+	double* in2 = new double[Ni*Nj];
 
 	int k = 0;
-	for(unsigned int i=0; i<ni; i++)
-		for(unsigned int j=0; j<nj; j++)
+	for(int i=0; i<Ni; i++)
+		for(int j=0; j<Nj; j++)
 		{
 			in1[k] = img[i][j];
 			in2[k++] = psf[i][j];
 		}
 
-	out1 = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*(ni/2 + 1)*ni);
-	out2 = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*(ni/2 + 1)*ni);
+	out1 = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*(Ni/2 + 1)*Ni);
+	out2 = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*(Ni/2 + 1)*Ni);
 
-	forwardPlan1 = fftw_plan_dft_r2c_2d(ni, ni,
+	forwardPlan1 = fftw_plan_dft_r2c_2d(Ni, Ni,
                                     in1, out1,
                                     FFTW_ESTIMATE);
-	forwardPlan2 = fftw_plan_dft_r2c_2d(ni, ni,
+	forwardPlan2 = fftw_plan_dft_r2c_2d(Ni, Ni,
 				    in2, out2,
 				    FFTW_ESTIMATE);
 
@@ -139,7 +138,7 @@ void PSF::blur_image_using_fftw(vector< vector<double> >& img) const
 	// = (ac - bd) + (ad + bc)i
 	// Multiply the ffts and put the result in out1
 	double re, im;
-	for(unsigned int i=0; i<(ni/2 + 1)*ni; i++)
+	for(int i=0; i<(Ni/2 + 1)*Ni; i++)
 	{
 		re = out1[i][0]*out2[i][0] - out1[i][1]*out2[i][1];
 		im = out1[i][0]*out2[i][1] + out2[i][0]*out1[i][1];
@@ -152,19 +151,19 @@ void PSF::blur_image_using_fftw(vector< vector<double> >& img) const
 	fftw_destroy_plan(forwardPlan2);
 	fftw_free(out2);
 
-	fftw_plan backPlan = fftw_plan_dft_c2r_2d(ni, ni,
+	fftw_plan backPlan = fftw_plan_dft_c2r_2d(Ni, Ni,
                                     out1, in1,
                                     FFTW_ESTIMATE);
 
 	fftw_execute(backPlan);	
 
-	double coeff = 1.0/(ni*nj);
+	double coeff = 1.0/(Ni*Nj);
 	k = 0;
-	for(unsigned int i=0; i<ni; i++)
-		for(unsigned int j=0; j<nj; j++)
-			values[nj*i + j] = in1[k++]*coeff;
+	for(int i=0; i<Ni; i++)
+		for(int j=0; j<Nj; j++)
+			img[i][j] = in1[k++]*coeff;
 	fftw_destroy_plan(backPlan);
 	delete[] in1;
 	fftw_free(out1);
 }
-*/
+
