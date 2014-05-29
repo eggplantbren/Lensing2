@@ -15,7 +15,7 @@ for i in xrange(0, output.shape[0]):
 	x = output[i, :]
 	src = x[466:466 + metadata[0]*metadata[1]*metadata[7]**2]
 	src = src.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
-	img = x[466:466 + (metadata[0]*metadata[1]*metadata[7]**2):]
+	img = x[466 + (metadata[0]*metadata[1]*metadata[7]**2):]
 	img = img.reshape((metadata[0], metadata[1]))
 
 	subplot(2,2,1)
