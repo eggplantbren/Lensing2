@@ -12,6 +12,8 @@ class PSF
 	public:
 		PSF(int size);
 		void blur_image(std::vector< std::vector<double> >& img) const;
+		void blur_image_using_fftw
+			(std::vector< std::vector<double> >& img) const;
 		void normalise();
 		void load(const char* filename);
 		void set_size(int new_size);

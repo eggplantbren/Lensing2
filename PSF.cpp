@@ -83,15 +83,14 @@ void PSF::blur_image(vector< vector<double> >& img) const
 
 	img = result;
 }
-/*
-void PixelMap::blur(const PixelMap& psf)
-{
-	if(ni != psf.ni || nj != psf.nj)
-	{
-		cerr<<"Cannot convolve one PixelMap by another of different size."<<endl;
-		return;
-	}
 
+void PSF::blur_image_using_fftw(vector< vector<double> >& img) const
+{
+	// Make the psf the same size as the image
+	vector< vector<double> > psf(img.size(),
+					vector<double>(img.size(), 0.));
+}
+/*
 	// Do the FFT of this one and the other
 	fftw_complex* out1; fftw_complex* out2;
 	fftw_plan forwardPlan1, forwardPlan2;
