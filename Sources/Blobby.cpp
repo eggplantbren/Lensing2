@@ -98,6 +98,6 @@ double Blobby::perturb()
 
 void Blobby::print(ostream& out) const
 {
-	out<<' ';
+	blobs.print(out);
 }
 
