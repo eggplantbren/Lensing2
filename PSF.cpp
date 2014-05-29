@@ -1,10 +1,12 @@
 #include "PSF.h"
+#include "Utils.h"
 #include <cassert>
 #include <iostream>
 #include <fstream>
 #include <fftw3.h>
 
 using namespace std;
+using namespace DNest3;
 
 PSF::PSF(int size)
 :size(size)
@@ -86,9 +88,21 @@ void PSF::blur_image(vector< vector<double> >& img) const
 
 void PSF::blur_image_using_fftw(vector< vector<double> >& img) const
 {
+	int ni = img.size();
+	int nj = img[0].size();
+
 	// Make the psf the same size as the image
-	vector< vector<double> > psf(img.size(),
-					vector<double>(img.size(), 0.));
+	vector< vector<double> > psf(ni, vector<double>(nj, 0.));
+	int m, n;
+	for(int i=0; i<static_cast<int>(pixels.size()); i++)
+	{
+		m = mod(i - ni/2, ni);
+		for(int j=0; j<static_cast<int>(pixels[i].size()); j++)
+		{
+			n = mod(j - nj/2, nj);
+			psf[m][n] = pixels[i][j];
+		}
+	}
 }
 /*
 	// Do the FFT of this one and the other
@@ -102,8 +116,8 @@ void PSF::blur_image_using_fftw(vector< vector<double> >& img) const
 	for(unsigned int i=0; i<ni; i++)
 		for(unsigned int j=0; j<nj; j++)
 		{
-			in1[k] = getPixel(i, j);
-			in2[k++] = psf.getPixel(i, j);
+			in1[k] = img[i][j];
+			in2[k++] = psf[i][j];
 		}
 
 	out1 = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*(ni/2 + 1)*ni);
