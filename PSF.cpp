@@ -170,6 +170,17 @@ void PSF::blur_image_using_fftw(vector< vector<double> >& img) const
 
 void PSF::test()
 {
+	PSF psf(5);
+	psf.load("Data/test_psf.txt");
 
+	// Point image
+	vector< vector<double> > pixels(21, vector<double>(21, 0.));
+	pixels[10][10] = 1.;
+
+	psf.blur_image(pixels);
+	for(size_t i=0; i<pixels.size(); i++)
+		for(size_t j=0; j<pixels.size(); j++)
+			cout<<pixels[i][j]<<' ';
+	cout<<endl;
 }
 
