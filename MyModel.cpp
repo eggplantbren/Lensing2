@@ -154,7 +154,7 @@ void MyModel::calculate_surface_brightness()
 
 	// Blur using the PSF
 	const PSF& psf = Data::get_instance().get_psf();
-	psf.blur_image(surface_brightness);
+	psf.blur_image_using_fftw(surface_brightness);
 }
 
 void MyModel::update_surface_brightness()
