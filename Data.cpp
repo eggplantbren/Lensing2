@@ -10,6 +10,7 @@ Data Data::instance;
 
 Data::Data()
 :psf(1)
+,plans_ready(false)
 {
 
 }
@@ -59,6 +60,36 @@ void Data::load(const char* metadata_file, const char* image_file,
 	*/
 	psf.set_size(psf_size);
 	psf.load(psf_file);
+
+	/*
+	* Initialise the fftw3 plans
+	*/
+	double* in1 = new double[ni*nj];
+	double* in2 = new double[ni*nj];
+	fftw_complex* out1 = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*(ni/2 + 1)*ni);
+	fftw_complex* out2 = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*(ni/2 + 1)*ni);
+	forwardPlan1 = fftw_plan_dft_r2c_2d(ni, ni,
+                                    in1, out1,
+                                    FFTW_ESTIMATE);
+	forwardPlan2 = fftw_plan_dft_r2c_2d(ni, ni,
+				    in2, out2,
+				    FFTW_ESTIMATE);
+	backPlan = fftw_plan_dft_c2r_2d(ni, ni,
+                                    out1, in1,
+                                    FFTW_ESTIMATE);
+	delete[] in1; delete[] in2;
+	fftw_free(out1); fftw_free(out2);
+	plans_ready = true;
+}
+
+Data::~Data()
+{
+	if(plans_ready)
+	{
+		fftw_destroy_plan(forwardPlan1);
+		fftw_destroy_plan(forwardPlan2);
+		fftw_destroy_plan(backPlan);
+	}
 }
 
 
