@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "PSF.h"
-#include <fftw3.h>
 
 namespace Lensing2
 {
@@ -33,15 +32,10 @@ class Data
 		// The PSF
 		PSF psf;
 
-		// FFTW3 Plans
-		fftw_plan forwardPlan1, forwardPlan2, backPlan;
-		bool plans_ready;
-
 		void compute_ray_grid();
 
 	public:
 		Data();
-		~Data();
 		void load(const char* metadata_file, const char* image_file,
 				const char* psf_file);
 

@@ -4,7 +4,6 @@
 #include "RandomNumberGenerator.h"
 #include "Utils.h"
 #include <cmath>
-#include <boost/thread.hpp>
 
 using namespace std;
 using namespace Lensing2;
@@ -27,14 +26,6 @@ MyModel::MyModel()
 
 void MyModel::fromPrior()
 {
-	// Check that PSFEngine for the current thread has been initialised.
-	// If not, do it.
-	static boost::mutex mutex;
-	mutex.lock();
-	if(!PSFEngine::is_initialised())
-		PSFEngine::initialise_instance();
-	mutex.unlock();
-
 	source.from_prior();
 	lens.from_prior();
 
