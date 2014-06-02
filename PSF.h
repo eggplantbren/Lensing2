@@ -45,6 +45,7 @@ class PSFEngine
 	public:
 		PSFEngine();
 		void initialise();
+		bool get_initialised() const { return initialised; }
 
 	// Static stuff
 	public:

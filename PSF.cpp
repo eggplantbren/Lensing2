@@ -8,6 +8,8 @@
 using namespace std;
 using namespace DNest3;
 
+boost::thread_specific_ptr<PSFEngine> PSFEngine::instance;
+
 PSF::PSF(int size)
 :size(size)
 ,pixels(size, vector<double>(size, 0.))
