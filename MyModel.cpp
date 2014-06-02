@@ -22,6 +22,11 @@ MyModel::MyModel()
 ,model_image(Data::get_instance().get_ni(),
 		vector<double>(Data::get_instance().get_nj()))
 {
+
+}
+
+void MyModel::fromPrior()
+{
 	// Check that PSFEngine for the current thread has been initialised.
 	// If not, do it.
 	static boost::mutex mutex;
@@ -29,10 +34,7 @@ MyModel::MyModel()
 	if(!PSFEngine::is_initialised())
 		PSFEngine::initialise_instance();
 	mutex.unlock();
-}
 
-void MyModel::fromPrior()
-{
 	source.from_prior();
 	lens.from_prior();
 

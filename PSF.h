@@ -47,12 +47,12 @@ class PSFEngine
 	// Static stuff
 	private:
 		static boost::thread_specific_ptr<PSFEngine> instance;
-		static bool initialised;
+
 	public:
 		static void initialise_instance();
 		static PSFEngine& get_instance()
 		{ return *(instance.get()); }
-		static bool is_initialised() { return initialised; }
+		static bool is_initialised() { return instance.get() != NULL; }
 
 };
 
