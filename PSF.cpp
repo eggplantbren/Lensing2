@@ -199,3 +199,16 @@ void PSF::test()
 	cout<<endl;
 }
 
+
+/* PSFEngine stuff starts here */
+PSFEngine::PSFEngine()
+:initialised(false)
+{
+
+}
+
+void PSFEngine::initialise()
+{
+	initialised = true;
+}
+
