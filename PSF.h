@@ -2,6 +2,7 @@
 #define _PSF_
 
 #include <vector>
+#include <boost/thread/tss.hpp>
 
 class PSF
 {
@@ -24,6 +25,23 @@ class PSF
 
 		// Unit test
 		static void test();
+
+};
+
+// Thread specific FFTW3 stuff
+class PSFEngine
+{
+	private:
+
+		bool initialised;
+	public:
+		PSFEngine();
+
+	// Static stuff
+	public:
+		static boost::thread_specific_ptr<PSFEngine> instance;
+		static PSFEngine& get_instance()
+		{ return *(instance.get()); }
 
 };
 
