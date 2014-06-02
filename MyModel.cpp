@@ -24,11 +24,11 @@ MyModel::MyModel()
 {
 	// Check that PSFEngine for the current thread has been initialised.
 	// If not, do it.
-//	static boost::mutex mutex;
-//	mutex.lock();
-//	if(!PSFEngine::get_instance().get_initialised())
-//		PSFEngine::get_instance().initialise();
-//	mutex.unlock();
+	static boost::mutex mutex;
+	mutex.lock();
+	if(!PSFEngine::is_initialised())
+		PSFEngine::initialise_instance();
+	mutex.unlock();
 }
 
 void MyModel::fromPrior()

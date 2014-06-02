@@ -8,7 +8,6 @@
 using namespace std;
 using namespace DNest3;
 
-boost::thread_specific_ptr<PSFEngine> PSFEngine::instance;
 
 PSF::PSF(int size)
 :size(size)
@@ -204,13 +203,17 @@ void PSF::test()
 
 /* PSFEngine stuff starts here */
 PSFEngine::PSFEngine()
-:initialised(false)
 {
 
 }
 
-void PSFEngine::initialise()
+// Static stuff
+boost::thread_specific_ptr<PSFEngine> PSFEngine::instance;
+bool PSFEngine::initialised = false;
+
+void PSFEngine::initialise_instance()
 {
+	instance.reset(new PSFEngine);
 	initialised = true;
 }
 
