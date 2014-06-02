@@ -4,6 +4,14 @@
 #include <vector>
 #include <boost/thread/tss.hpp>
 
+/*
+* This file defines two classes.
+* The first, PSF, which just represents a (pixellated)
+* psf, as you would expect.
+* The second, PSFEngine, is only needed if you want convolutions to be
+* carried out using fftw3. It is needed because fftw3 is not thread-safe.
+*/
+
 class PSF
 {
 	private:
@@ -36,6 +44,7 @@ class PSFEngine
 		bool initialised;
 	public:
 		PSFEngine();
+		void initialise();
 
 	// Static stuff
 	public:
