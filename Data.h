@@ -31,6 +31,7 @@ class Data
 
 		// The PSF
 		PSF psf;
+		bool fft_flag;
 
 		void compute_ray_grid();
 
@@ -54,6 +55,7 @@ class Data
 		const std::vector< std::vector<double> >& get_image() const
 			{ return image; }
 		const PSF& get_psf() const { return psf; }
+		bool use_fft() const { return fft_flag; }
 
 	// Singleton
 	private:

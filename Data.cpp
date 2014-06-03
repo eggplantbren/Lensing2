@@ -10,6 +10,7 @@ Data Data::instance;
 
 Data::Data()
 :psf(1)
+,fft_flag(false)
 {
 
 }
@@ -59,7 +60,12 @@ void Data::load(const char* metadata_file, const char* image_file,
 	*/
 	psf.set_size(psf_size);
 	psf.load(psf_file);
-	psf.calculate_fft(ni*resolution, nj*resolution);
+
+	if(psf_size >= 15)
+	{
+		fft_flag = true;
+		psf.calculate_fft(ni*resolution, nj*resolution);
+	}
 }
 
 void Data::compute_ray_grid()
