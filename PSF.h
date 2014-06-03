@@ -20,7 +20,7 @@ class PSF
 //		void blur_image_using_fftw
 //			(std::vector< std::vector<double> >& img) const;
 		void normalise();
-		void calculate_fft(int ni, int nj);
+		void calculate_fft(int Ni, int Nj);
 		void load(const char* filename);
 		void set_size(int new_size);
 
