@@ -11,7 +11,6 @@ using namespace arma;
 PSF::PSF(int size)
 :size(size)
 ,pixels(size, vector<double>(size, 0.))
-,fft_of_psf(size, size)
 ,fft_ready(false)
 {
 	assert(size%2 == 1);
@@ -56,6 +55,8 @@ void PSF::calculate_fft(int Ni, int Nj)
 {
 	// Make the psf the same size as the image
 	mat psf(Ni, Nj);
+	psf.zeros();
+
 	int ni = pixels.size();
 	int nj = pixels[0].size();
 
@@ -112,6 +113,9 @@ void PSF::blur_image(vector< vector<double> >& img) const
 
 void PSF::blur_image2(vector< vector<double> >& img) const
 {
+	if(!fft_ready)
+		cerr<<"# Blurring failed."<<endl;
+
 	// Copy the image into an Armadillo matrix
 	mat A(img.size(), img[0].size());
 	for(size_t i=0; i<img.size(); i++)	
@@ -141,6 +145,7 @@ void PSF::test()
 {
 	PSF psf(5);
 	psf.load("Data/test_psf.txt");
+	psf.calculate_fft(20, 20);
 
 	// Point image
 	vector< vector<double> > pixels(20, vector<double>(20, 0.));
