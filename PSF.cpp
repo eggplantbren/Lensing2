@@ -6,11 +6,13 @@
 
 using namespace std;
 using namespace DNest3;
-
+using namespace arma;
 
 PSF::PSF(int size)
 :size(size)
 ,pixels(size, vector<double>(size, 0.))
+,fft_of_psf(size, size)
+,fft_ready(false)
 {
 	assert(size%2 == 1);
 	pixels[size/2][size/2] = 1.;
@@ -48,6 +50,28 @@ void PSF::normalise()
 	for(int i=0; i<size; i++)
 		for(int j=0; j<size; j++)
 			pixels[i][j] /= sum;
+}
+
+void PSF::calculate_fft(int Ni, int Nj)
+{
+	// Make the psf the same size as the image
+	mat psf(Ni, Nj);
+	int ni = pixels.size();
+	int nj = pixels[0].size();
+
+	int m, n;
+	for(int i=0; i<ni; i++)
+	{
+		m = mod(i - ni/2, Ni);
+		for(int j=0; j<nj; j++)
+		{
+			n = mod(j - nj/2, Nj);
+			psf(m, n) = pixels[i][j];
+		}
+	}
+
+	fft_of_psf = fft2(psf);
+	fft_ready = true;
 }
 
 void PSF::blur_image(vector< vector<double> >& img) const
