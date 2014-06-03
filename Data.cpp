@@ -59,6 +59,7 @@ void Data::load(const char* metadata_file, const char* image_file,
 	*/
 	psf.set_size(psf_size);
 	psf.load(psf_file);
+	psf.calculate_fft(ni, nj);
 }
 
 void Data::compute_ray_grid()
