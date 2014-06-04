@@ -31,8 +31,9 @@ for i in xrange(0, output.shape[0]):
 	title('Data')
 
 	subplot(2,2,4)
-	imshow(img - data)
-	title('Residuals')
+	sigma = sqrt(x[0]**2 + x[1]*img)
+	imshow((img - data)/sigma)
+	title('Standardised Residuals')
 	draw()
 
 ioff()
