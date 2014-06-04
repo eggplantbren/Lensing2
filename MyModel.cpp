@@ -104,7 +104,8 @@ double MyModel::logLikelihood() const
 
 void MyModel::print(std::ostream& out) const
 {
-	lens.print(out); out<<' '<<sigma0<<' '<<sigma1<<' ';
+	out<<' '<<sigma0<<' '<<sigma1<<' ';
+	lens.print(out);
 	source.print(out);
 
 	// Make an image of the source (uses the ray resolution)
