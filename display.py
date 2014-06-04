@@ -5,7 +5,7 @@ and the residuals.
 from pylab import *
 
 output = atleast_2d(loadtxt('posterior_sample.txt'))
-data = loadtxt('Data/test_image.txt')
+data = loadtxt('Data/harder_image.txt')
 metadata = loadtxt('Data/test_metadata.txt')
 
 figure(figsize=(12, 8))
