@@ -16,3 +16,12 @@ ACKNOWLEDGEMENTS
 
 This work is supported by a Marsden Fast-Start grant
 from the Royal Society of New Zealand.
+
+
+DEPENDENCIES
+============
+
+* DNest3 (https://www.github.com/eggplantbren/DNest3) and its dependencies
+* RJObject (https://www.github.com/eggplantbren/RJObject)
+* Armadillo (http://arma.sourceforge.net/)
+
