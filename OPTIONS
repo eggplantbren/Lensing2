@@ -1,6 +1,6 @@
 # This is intended for use with -c 10
 1	# Number of particles
-50000	# new level interval
+100000	# new level interval
 50000	# save interval
 500	# threadSteps - how many steps each thread should do independently before communication
 100	# maximum number of levels
