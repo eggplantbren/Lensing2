@@ -41,9 +41,7 @@ double MyModel::perturb()
 {
 	double logH = 0.;
 
-	int which = randInt(3);
-
-	if(which == 0)
+	if(randomU() <= 0.6)
 	{
 		logH += source.perturb();
 
@@ -53,7 +51,19 @@ double MyModel::perturb()
 			calculate_surface_brightness();
 		calculate_model_image();
 	}
-	else if(which == 1)
+	else if(randomU() <= 0.7)
+	{
+		sigma0 = log(sigma0);
+		sigma0 += log(1E6)*randh();
+		sigma0 = mod(sigma0 - log(1E-3), log(1E6)) + log(1E-3);
+		sigma0 = exp(sigma0);
+
+		sigma1 = log(sigma1);
+		sigma1 += log(1E6)*randh();
+		sigma1 = mod(sigma1 - log(1E-3), log(1E6)) + log(1E-3);
+		sigma1 = exp(sigma1);
+	}
+	else
 	{
 		logH += lens.perturb();
 
@@ -65,18 +75,6 @@ double MyModel::perturb()
 
 		calculate_surface_brightness();
 		calculate_model_image();
-	}
-	else
-	{
-		sigma0 = log(sigma0);
-		sigma0 += log(1E6)*randh();
-		sigma0 = mod(sigma0 - log(1E-3), log(1E6)) + log(1E-3);
-		sigma0 = exp(sigma0);
-
-		sigma1 = log(sigma1);
-		sigma1 += log(1E6)*randh();
-		sigma1 = mod(sigma1 - log(1E-3), log(1E6)) + log(1E-3);
-		sigma1 = exp(sigma1);
 	}
 
 	return logH;
