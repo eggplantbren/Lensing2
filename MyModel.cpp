@@ -41,7 +41,7 @@ double MyModel::perturb()
 {
 	double logH = 0.;
 
-	if(randomU() <= 0.6)
+	if(randomU() <= 0.5)
 	{
 		logH += source.perturb();
 
@@ -51,7 +51,7 @@ double MyModel::perturb()
 			calculate_surface_brightness();
 		calculate_model_image();
 	}
-	else if(randomU() <= 0.7)
+	else if(randomU() <= 0.5)
 	{
 		sigma0 = log(sigma0);
 		sigma0 += log(1E6)*randh();
