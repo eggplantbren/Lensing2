@@ -35,6 +35,8 @@ for i in xrange(0, output.shape[0]):
 	dy = (metadata[5] - metadata[4])/metadata[0]
 	x_substructures = (x_substructures - metadata[2])/dx - 0.5
 	y_substructures = (metadata[5] - y_substructures)/dy - 0.5
+	x_nie = (x[5] - metadata[2])/dx - 0.5
+	y_nie = (metadata[5] - x[6])/dy - 0.5
 
 	# Extract images
 	src = x[466:466 + metadata[0]*metadata[1]*metadata[7]**2]
@@ -49,6 +51,9 @@ for i in xrange(0, output.shape[0]):
 	subplot(2,2,2)
 	imshow(img)
 	hold(True)
+	# Plot center of NIE
+	plot(x_nie, y_nie, 'yo', markersize=10)
+	# Substructures
 	plot(x_substructures, y_substructures, 'wo', alpha=0.5)
 	xlim([-0.5, metadata[1] - 0.5])
 	ylim([metadata[0] - 0.5, -0.5])
