@@ -25,6 +25,7 @@ for i in xrange(0, output.shape[0]):
 			x_substructures < metadata[3])
 	good = logical_and(good, y_substructures > metadata[4])
 	good = logical_and(good, y_substructures < metadata[5])
+	good = logical_and(good, m_substructures > 0.)
 	x_substructures = x_substructures[good]
 	y_substructures = y_substructures[good]
 	m_substructures = m_substructures[good]
