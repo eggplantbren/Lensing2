@@ -1,7 +1,7 @@
 # This is intended for use with -c 10
 1	# Number of particles
 100000	# new level interval
-100000	# save interval
+200000	# save interval
 500	# threadSteps - how many steps each thread should do independently before communication
 150	# maximum number of levels
 3	# Backtracking scale length (lambda in the paper)
