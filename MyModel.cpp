@@ -86,12 +86,16 @@ double MyModel::logLikelihood() const
 	const vector< vector<double> >& image =
 				Data::get_instance().get_image();
 
+	const vector< vector<double> >& sigma =
+				Data::get_instance().get_image();
+
 	double var;
 	for(size_t i=0; i<image.size(); i++)
 	{
 		for(size_t j=0; j<image[i].size(); j++)
 		{
-			var = sigma0*sigma0 + sigma1*model_image[i][j];
+			var = sigma[i][j] + sigma0*sigma0
+					+ sigma1*model_image[i][j];
 			logL += -0.5*log(2.*M_PI*var) -
 			0.5*pow(image[i][j] - model_image[i][j], 2)/var;
 		}

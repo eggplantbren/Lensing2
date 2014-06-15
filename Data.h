@@ -57,6 +57,8 @@ class Data
 			{ return y_rays; }
 		const std::vector< std::vector<double> >& get_image() const
 			{ return image; }
+		const std::vector< std::vector<double> >& get_sigma() const
+			{ return sigma; }
 		const PSF& get_psf() const { return psf; }
 		bool use_fft() const { return fft_flag; }
 
