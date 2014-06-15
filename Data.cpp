@@ -16,7 +16,7 @@ Data::Data()
 }
 
 void Data::load(const char* metadata_file, const char* image_file,
-			const char* psf_file)
+			const char* sigma_file, const char* psf_file)
 {
 	/*
 	* First, read in the metadata
@@ -53,6 +53,18 @@ void Data::load(const char* metadata_file, const char* image_file,
 	for(size_t i=0; i<image.size(); i++)
 		for(size_t j=0; j<image[i].size(); j++)
 			fin>>image[i][j];
+	fin.close();
+
+	/*
+	* Load the sigma map
+	*/
+	fin.open(sigma_file, ios::in);
+	if(!fin)
+		cerr<<"# ERROR: couldn't open file "<<sigma_file<<"."<<endl;
+	sigma.assign(ni, vector<double>(nj));
+	for(size_t i=0; i<sigma.size(); i++)
+		for(size_t j=0; j<sigma[i].size(); j++)
+			fin>>sigma[i][j];
 	fin.close();
 
 	/*
