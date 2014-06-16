@@ -6,6 +6,7 @@ from pylab import *
 
 output = atleast_2d(loadtxt('posterior_sample.txt'))
 data = loadtxt('Data/harder_image.txt')
+sig = loadtxt('Data/test_sigma.txt')
 metadata = loadtxt('Data/test_metadata.txt')
 
 figure(figsize=(12, 8))
@@ -65,7 +66,7 @@ for i in xrange(0, output.shape[0]):
 	title('Data')
 
 	subplot(2,2,4)
-	sigma = sqrt(x[0]**2 + x[1]*img)
+	sigma = sqrt(sig**2 + x[0]**2 + x[1]*img)
 	imshow((img - data)/sigma)
 	title('Standardised Residuals')
 	draw()
