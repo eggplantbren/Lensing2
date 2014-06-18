@@ -87,7 +87,7 @@ double MyModel::logLikelihood() const
 				Data::get_instance().get_image();
 
 	const vector< vector<double> >& sigma =
-				Data::get_instance().get_image();
+				Data::get_instance().get_sigma();
 
 	double var;
 	for(size_t i=0; i<image.size(); i++)
