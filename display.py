@@ -3,6 +3,11 @@ A little script to load the output and plot the model images
 and the residuals.
 """
 from pylab import *
+import os
+
+saveFrames = False # For making movies
+if saveFrames:
+	os.system('rm Frames/*.png')
 
 output = atleast_2d(loadtxt('posterior_sample.txt'))
 data = loadtxt('Data/harder_image.txt')
@@ -70,6 +75,10 @@ for i in xrange(0, output.shape[0]):
 	imshow((img - data)/sigma)
 	title('Standardised Residuals')
 	draw()
+
+	if saveFrames:
+		savefig('Frames/' + '%0.4d'%(i+1) + '.png', bbox_inches='tight')
+		print('Frames/' + '%0.4d'%(i+1) + '.png')
 
 ioff()
 show()
