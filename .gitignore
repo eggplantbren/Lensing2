@@ -1,3 +1,5 @@
+*.png
+*.avi
 *.o
 main
 output.txt
