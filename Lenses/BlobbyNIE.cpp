@@ -138,7 +138,8 @@ void BlobbyNIE::from_prior()
 	theta = M_PI*randomU();
 	cos_theta = cos(theta); sin_theta = sin(theta);
 
-	shear = 0.05*tan(M_PI*(randomU() - 0.5));
+	// Half-cauchy prior
+	shear = 0.05*tan(M_PI*(0.5*randomU()));
 	theta_shear = 2.*M_PI*randomU();
 	cos_theta_shear = cos(theta_shear); sin_theta_shear = sin(theta_shear);
 
@@ -202,10 +203,10 @@ double BlobbyNIE::perturb()
 	}
 	else if(which == 5)
 	{
-		shear = 0.5 + atan(shear/0.05)/M_PI;
+		shear = atan(shear/0.05)/M_PI/0.5;
 		shear += randh();
 		shear = mod(shear, 1.);
-		shear = 0.05*tan(M_PI*(shear - 0.5));
+		shear = 0.05*tan(M_PI*(0.5*shear));
 	}
 	else
 	{
