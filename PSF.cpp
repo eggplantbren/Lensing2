@@ -75,11 +75,11 @@ void PSF::calculate_fft(int Ni, int Nj)
 	fft_ready = true;
 }
 
-void PSF::blur_image(vector< vector<double> >& img) const
+void PSF::blur_image(vector< vector<long double> >& img) const
 {
 	// Make result image. Assume img is rectangular...
-	vector< vector<double> > result(img.size(),
-					vector<double>(img[0].size(), 0.));
+	vector< vector<long double> > result(img.size(),
+					vector<long double>(img[0].size(), 0.));
 
 	int h = size/2;
 	int ii, jj;
@@ -111,7 +111,7 @@ void PSF::blur_image(vector< vector<double> >& img) const
 	img = result;
 }
 
-void PSF::blur_image2(vector< vector<double> >& img) const
+void PSF::blur_image2(vector< vector<long double> >& img) const
 {
 	if(!fft_ready)
 		cerr<<"# Blurring failed."<<endl;
@@ -148,7 +148,7 @@ void PSF::test()
 	psf.calculate_fft(20, 20);
 
 	// Point image
-	vector< vector<double> > pixels(20, vector<double>(20, 0.));
+	vector< vector<long double> > pixels(20, vector<long double>(20, 0.));
 	pixels[10][10] = 1.;
 
 	psf.blur_image(pixels);

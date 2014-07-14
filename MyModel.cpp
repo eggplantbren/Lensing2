@@ -111,8 +111,8 @@ void MyModel::print(std::ostream& out) const
 	source.print(out);
 
 	// Make an image of the source (uses the ray resolution)
-	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
-	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
+	const vector< vector<long double> >& x = Data::get_instance().get_x_rays();
+	const vector< vector<long double> >& y = Data::get_instance().get_y_rays();
 	for(size_t i=0; i<xs.size(); i++)
 		for(size_t j=0; j<xs[i].size(); j++)
 			out<<source.evaluate(x[i][j], y[i][j])<<' ';
@@ -129,8 +129,8 @@ string MyModel::description() const
 
 void MyModel::shoot_rays()
 {
-	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
-	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
+	const vector< vector<long double> >& x = Data::get_instance().get_x_rays();
+	const vector< vector<long double> >& y = Data::get_instance().get_y_rays();
 
 	double ax, ay;
 	for(size_t i=0; i<xs.size(); i++)
@@ -166,9 +166,9 @@ void MyModel::calculate_surface_brightness()
 
 void MyModel::update_surface_brightness()
 {
-	vector< vector<double> >
+	vector< vector<long double> >
 		delta_surface_brightness(surface_brightness.size(),
-			vector<double>(surface_brightness[0].size(), 0.));
+			vector<long double>(surface_brightness[0].size(), 0.));
 
 	for(size_t i=0; i<xs.size(); i++)
 	{
@@ -196,8 +196,8 @@ void MyModel::update_surface_brightness()
 
 void MyModel::update_rays()
 {
-	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
-	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
+	const vector< vector<long double> >& x = Data::get_instance().get_x_rays();
+	const vector< vector<long double> >& y = Data::get_instance().get_y_rays();
 
 	double ax, ay;
 	for(size_t i=0; i<xs.size(); i++)
