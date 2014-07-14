@@ -19,7 +19,7 @@ MyModel::MyModel()
 ,ys(Data::get_instance().get_y_rays())
 ,surface_brightness(Data::get_instance().get_x_rays())
 ,model_image(Data::get_instance().get_ni(),
-		vector<double>(Data::get_instance().get_nj()))
+		vector<long double>(Data::get_instance().get_nj()))
 {
 
 }
@@ -216,7 +216,7 @@ void MyModel::calculate_model_image()
 	int resolution = Data::get_instance().get_resolution();
 
 	model_image.assign(Data::get_instance().get_ni(),
-		vector<double>(Data::get_instance().get_nj(), 0.));
+		vector<long double>(Data::get_instance().get_nj(), 0.));
 
 	int ii, jj;
 	double coeff = pow(static_cast<double>(resolution), -2);

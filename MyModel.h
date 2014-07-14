@@ -27,7 +27,7 @@ class MyModel:public DNest3::Model
 		std::vector< std::vector<double> > surface_brightness;
 
 		// Model image
-		std::vector< std::vector<double> > model_image;
+		std::vector< std::vector<long double> > model_image;
 
 		void shoot_rays();
 		void update_rays();
