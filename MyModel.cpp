@@ -155,13 +155,16 @@ void MyModel::calculate_surface_brightness()
 		}
 	}
 
-	// Blur using the PSF
-	const PSF& psf = Data::get_instance().get_psf();
+	if(PSF::apply_highres)
+	{
+		// Blur using the PSF
+		const PSF& psf = Data::get_instance().get_psf();
 
-	if(Data::get_instance().use_fft())
-		psf.blur_image2(surface_brightness);
-	else
-		psf.blur_image(surface_brightness);
+		if(Data::get_instance().use_fft())
+			psf.blur_image2(surface_brightness);
+		else
+			psf.blur_image(surface_brightness);
+	}
 }
 
 void MyModel::update_surface_brightness()
@@ -179,13 +182,16 @@ void MyModel::update_surface_brightness()
 		}
 	}
 
-	// Blur using the PSF
-	const PSF& psf = Data::get_instance().get_psf();
+	if(PSF::apply_highres)
+	{
+		// Blur using the PSF
+		const PSF& psf = Data::get_instance().get_psf();
 
-	if(Data::get_instance().use_fft())
-		psf.blur_image2(delta_surface_brightness);
-	else
-		psf.blur_image(delta_surface_brightness);
+		if(Data::get_instance().use_fft())
+			psf.blur_image2(delta_surface_brightness);
+		else
+			psf.blur_image(delta_surface_brightness);
+	}
 
 	// Add the delta to the surface brightness
 	for(size_t i=0; i<surface_brightness.size(); i++)
@@ -228,6 +234,17 @@ void MyModel::calculate_model_image()
 			jj = j/resolution;
 			model_image[ii][jj] += coeff*surface_brightness[i][j];
 		}
+	}
+
+	if(!PSF::apply_highres)
+	{
+		// Blur using the PSF
+		const PSF& psf = Data::get_instance().get_psf();
+
+		if(Data::get_instance().use_fft())
+			psf.blur_image2(model_image);
+		else
+			psf.blur_image(model_image);
 	}
 }
 

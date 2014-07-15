@@ -76,7 +76,10 @@ void Data::load(const char* metadata_file, const char* image_file,
 	if(psf_size >= 15)
 	{
 		fft_flag = true;
-		psf.calculate_fft(ni*resolution, nj*resolution);
+		if(PSF::apply_highres)
+			psf.calculate_fft(ni*resolution, nj*resolution);
+		else
+			psf.calculate_fft(ni, nj);
 	}
 }
 

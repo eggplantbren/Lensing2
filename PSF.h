@@ -33,8 +33,9 @@ class PSF
 		// Unit test
 		static void test();
 
+		// Is the PSF applied BEFORE the downsampling?
+		static const bool apply_highres = true;
 };
-
 
 #endif
 
