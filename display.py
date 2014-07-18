@@ -10,7 +10,7 @@ if saveFrames:
 	os.system('rm Frames/*.png')
 
 output = atleast_2d(loadtxt('posterior_sample.txt'))
-data = loadtxt('Data/harder_image.txt')
+data = loadtxt('Data/test_image.txt')
 sig = loadtxt('Data/test_sigma.txt')
 metadata = loadtxt('Data/test_metadata.txt')
 
