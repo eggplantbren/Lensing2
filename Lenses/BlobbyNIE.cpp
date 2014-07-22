@@ -33,8 +33,8 @@ void BlobbyNIE::alpha(double x, double y, double& ax, double& ay) const
 	if(qq == 1.)
 		qq = 0.99999;
 
-	// Circularised Einstein radius rather than minor axis
-	double bb = b/sqrt(qq);
+	// Formulae use the minor axis length
+	double bb = b*sqrt(qq);
 
 	double psi = sqrt(qq*qq*(xx*xx + rc*rc) + yy*yy);
 	double q_term = sqrt(1. - qq*qq);
