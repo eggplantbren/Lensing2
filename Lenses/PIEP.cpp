@@ -37,8 +37,8 @@ void PIEP::alpha(double x, double y, double& ax, double& ay) const
 	yy = -x*sin_theta_shear + y*cos_theta_shear;
 
 	// Calculate external shear
-	alphax =  shear*xx;
-	alphay = -shear*yy;
+	alphax = -shear*xx;
+	alphay = shear*yy;
 
 	// Add external shear
 	ax += alphax*cos_theta_shear - alphay*sin_theta_shear;
