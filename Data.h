@@ -34,7 +34,10 @@ class Data
 
 		// The PSF
 		PSF psf;
-		bool fft_flag;
+
+		// Flag1: use FFTs to do blurring?
+		// Flag2: Apply blurring at the higher resolution?
+		bool fft_flag1, fft_flag2;
 
 		void compute_ray_grid();
 
@@ -60,7 +63,8 @@ class Data
 		const std::vector< std::vector<double> >& get_sigma() const
 			{ return sigma; }
 		const PSF& get_psf() const { return psf; }
-		bool use_fft() const { return fft_flag; }
+		bool use_fft() const { return fft_flag1; }
+		bool psf_is_highres() const { return fft_flag2; }
 
 	// Singleton
 	private:

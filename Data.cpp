@@ -10,7 +10,8 @@ Data Data::instance;
 
 Data::Data()
 :psf(1)
-,fft_flag(false)
+,fft_flag1(false)
+,fft_flag2(false)
 {
 
 }
@@ -26,7 +27,7 @@ void Data::load(const char* metadata_file, const char* image_file,
 	if(!fin)
 		cerr<<"# ERROR: couldn't open file "<<metadata_file<<"."<<endl;
 	fin>>ni>>nj;
-	fin>>x_min>>x_max>>y_min>>y_max>>psf_size>>resolution;
+	fin>>x_min>>x_max>>y_min>>y_max>>psf_size>>resolution>>fft_flag1>>fft_flag2;
 	fin.close();
 
 	// Make sure maximum > minimum
@@ -75,8 +76,8 @@ void Data::load(const char* metadata_file, const char* image_file,
 
 	if(psf_size >= 15)
 	{
-		fft_flag = true;
-		if(PSF::apply_highres)
+		fft_flag1 = true;
+		if(fft_flag2)
 			psf.calculate_fft(ni*resolution, nj*resolution);
 		else
 			psf.calculate_fft(ni, nj);

@@ -155,7 +155,7 @@ void MyModel::calculate_surface_brightness()
 		}
 	}
 
-	if(PSF::apply_highres)
+	if(Data::get_instance().psf_is_highres())
 	{
 		// Blur using the PSF
 		const PSF& psf = Data::get_instance().get_psf();
@@ -182,7 +182,7 @@ void MyModel::update_surface_brightness()
 		}
 	}
 
-	if(PSF::apply_highres)
+	if(Data::get_instance().psf_is_highres())
 	{
 		// Blur using the PSF
 		const PSF& psf = Data::get_instance().get_psf();
@@ -236,7 +236,7 @@ void MyModel::calculate_model_image()
 		}
 	}
 
-	if(!PSF::apply_highres)
+	if(!Data::get_instance().psf_is_highres())
 	{
 		// Blur using the PSF
 		const PSF& psf = Data::get_instance().get_psf();
