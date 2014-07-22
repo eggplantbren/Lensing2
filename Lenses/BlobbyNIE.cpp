@@ -33,10 +33,13 @@ void BlobbyNIE::alpha(double x, double y, double& ax, double& ay) const
 	if(qq == 1.)
 		qq = 0.99999;
 
+	// Circularised Einstein radius rather than minor axis
+	double bb = b/sqrt(qq);
+
 	double psi = sqrt(qq*qq*(xx*xx + rc*rc) + yy*yy);
 	double q_term = sqrt(1. - qq*qq);
-	double alphax = b/q_term*atan(q_term*xx/(psi + rc));
-	double alphay = b/q_term*atanh(q_term*yy/(psi + qq*qq*rc));
+	double alphax = bb/q_term*atan(q_term*xx/(psi + rc));
+	double alphay = bb/q_term*atanh(q_term*yy/(psi + qq*qq*rc));
 
 	// Rotate back
 	ax = alphax*cos_theta - alphay*sin_theta;
