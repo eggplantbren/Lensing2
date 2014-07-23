@@ -27,7 +27,7 @@ void Data::load(const char* metadata_file, const char* image_file,
 	if(!fin)
 		cerr<<"# ERROR: couldn't open file "<<metadata_file<<"."<<endl;
 	fin>>ni>>nj;
-	fin>>x_min>>x_max>>y_min>>y_max>>psf_size>>resolution>>fft_flag1>>fft_flag2;
+	fin>>x_min>>x_max>>y_min>>y_max>>psf_size>>resolution>>fft_flag2;
 	fin.close();
 
 	// Make sure maximum > minimum
