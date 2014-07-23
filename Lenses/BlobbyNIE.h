@@ -21,6 +21,9 @@ class BlobbyNIE:public Lens
 		// Strength, axis ratio, core radius
 		double b, q, rc;
 
+		// Derived parameters based on b and q
+		double bb, qq, q_term;
+
 		// Position
 		double xc, yc;
 

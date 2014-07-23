@@ -26,18 +26,7 @@ void BlobbyNIE::alpha(double x, double y, double& ax, double& ay) const
 	double xx =  (x - xc)*cos_theta + (y - yc)*sin_theta;
 	double yy = -(x - xc)*sin_theta + (y - yc)*cos_theta;
 
-	double qq = q;
-
-	// Based on Keeton and Kochanek (1998) equations 6 and 7.
-	// Might be better to symmetrise but I haven't done it yet.
-	if(qq == 1.)
-		qq = 0.99999;
-
-	// Formulae use the minor axis length
-	double bb = b*sqrt(qq);
-
 	double psi = sqrt(qq*qq*(xx*xx + rc*rc) + yy*yy);
-	double q_term = sqrt(1. - qq*qq);
 	double alphax = bb/q_term*atan(q_term*xx/(psi + rc));
 	double alphay = bb/q_term*atanh(q_term*yy/(psi + qq*qq*rc));
 
@@ -128,6 +117,14 @@ void BlobbyNIE::from_prior()
 {
 	b = exp(log(1E-3) + log(1E3)*randomU())*scale;
 	q = exp(log(0.1) + log(10.)*randomU());
+
+	// Stuff derived from b and q
+	qq = q;
+	if(qq == 1.)
+		qq = 0.99999;
+	q_term = sqrt(1. - qq*qq);
+	bb = b*sqrt(qq); // Minor axis
+
 	rc = exp(log(1E-3) + log(1E3)*randomU())*scale;
 
 	do
@@ -169,6 +166,13 @@ double BlobbyNIE::perturb()
 		b += log(1E3)*randh();
 		b = mod(b - log(1E-3), log(1E3)) + log(1E-3);
 		b = scale*exp(b);
+
+		// Stuff derived from b and q
+		qq = q;
+		if(qq == 1.)
+			qq = 0.99999;
+		q_term = sqrt(1. - qq*qq);
+		bb = b*sqrt(qq); // Minor axis
 	}
 	else if(which == 1)
 	{
@@ -176,6 +180,13 @@ double BlobbyNIE::perturb()
 		q += log(10.)*randh();
 		q = mod(q - log(0.1), log(10.)) + log(0.1);
 		q = exp(q);
+
+		// Stuff derived from b and q
+		qq = q;
+		if(qq == 1.)
+			qq = 0.99999;
+		q_term = sqrt(1. - qq*qq);
+		bb = b*sqrt(qq); // Minor axis
 	}
 	else if(which == 2)
 	{
