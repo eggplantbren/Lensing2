@@ -20,6 +20,9 @@ class MultiBandData
 		void load(const char* metadata_file, const char* image_file,
 				const char* sigma_file, const char* psf_file);
 
+		// Getter
+		std::vector<Data>& get_images()
+		{ return images; }
 
 		static MultiBandData instance;
 };
