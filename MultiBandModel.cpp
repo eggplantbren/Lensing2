@@ -31,6 +31,21 @@ double MultiBandModel::perturb()
 {
 	double logH = 0.;
 
+	if(randomU() <= 0.5)
+	{
+		int which = randInt(source.size());
+		logH += source[which].perturb();
+	}
+	else if(randomU() <= 0.5)
+	{
+		// Sigmas
+	}
+	else
+	{
+		logH += lens.perturb();
+	}
+
+
 	return logH;
 }
 
