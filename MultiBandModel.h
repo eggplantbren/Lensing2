@@ -2,8 +2,9 @@
 #define _MultiBandModel_
 
 #include "Model.h"
-#include "MyModel.h"
 #include <vector>
+#include "Sources/Blobby.h"
+#include "Lenses/BlobbyNIE.h"
 
 namespace Lensing2
 {
@@ -11,7 +12,8 @@ namespace Lensing2
 class MultiBandModel:public DNest3::Model
 {
 	private:
-		std::vector<MyModel> bands;
+		std::vector<Blobby> source;
+		BlobbyNIE lens;
 
 	public:
 		MultiBandModel();

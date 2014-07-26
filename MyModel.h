@@ -11,8 +11,6 @@ namespace Lensing2
 
 class MyModel:public DNest3::Model
 {
-	friend class MultiBandModel;
-
 	private:
 		Blobby source;
 		BlobbyNIE lens;

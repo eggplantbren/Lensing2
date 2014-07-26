@@ -10,7 +10,7 @@ using namespace Lensing2;
 using namespace DNest3;
 
 MultiBandModel::MultiBandModel()
-:bands(MultiBandData::get_instance().get_images().size())
+:source(MultiBandData::get_instance().get_images().size())
 {
 
 }
