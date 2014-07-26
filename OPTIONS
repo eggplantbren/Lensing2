@@ -1,9 +1,9 @@
 # This is intended for use with -c 10
 1	# Number of particles
-20000	# new level interval
-50000	# save interval
+10000	# new level interval
+30000	# save interval
 500	# threadSteps - how many steps each thread should do independently before communication
-50	# maximum number of levels
+60	# maximum number of levels
 3	# Backtracking scale length (lambda in the paper)
 100	# Strength of effect to force histogram to equal push. 0-10 is best. (beta in the paper)
 0	# Maximum number of saves (0 = infinite)
