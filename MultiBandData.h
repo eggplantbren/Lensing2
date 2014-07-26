@@ -25,6 +25,8 @@ class MultiBandData
 		{ return images; }
 
 		static MultiBandData instance;
+		static MultiBandData& get_instance()
+		{ return instance; }
 };
 
 } // namespace Lensing2
