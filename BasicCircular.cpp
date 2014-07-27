@@ -31,7 +31,7 @@ void BasicCircular::fromPrior()
 
 	width = exp(log(1E-2*size) + log(1E3)*randomU());
 
-	mu = exp(log(mu_min) + log(mu_max/mu_min)*randomU());
+	mu = exp(tan(M_PI*(randomU() - 0.5)));
 	mu_w = exp(log(1E-3*size) + log(1E3)*randomU());
 }
 
@@ -64,8 +64,10 @@ double BasicCircular::perturb_parameters()
 	else if(which == 2)
 	{
 		mu = log(mu);
-		mu += log(mu_max/mu_min)*pow(10., 1.5 - 6.*randomU())*randn();
-		mu = mod(mu - log(mu_min), log(mu_max/mu_min)) + log(mu_min);
+		mu = atan(mu)/M_PI + 0.5;
+		mu += log(1E6)*randh();
+		mu = mod(mu, 1.);
+		mu = tan(M_PI*(mu - 0.5));
 		mu = exp(mu);
 	}
 	else
