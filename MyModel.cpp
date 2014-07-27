@@ -29,8 +29,8 @@ void MyModel::fromPrior()
 	source.from_prior();
 	lens.from_prior();
 
-	sigma0 = exp(log(1E-3) + log(1E6)*randomU());
-	sigma1 = exp(log(1E-3) + log(1E6)*randomU());
+	sigma0 = exp(tan(M_PI*(randomU() - 0.5)));
+	sigma1 = exp(tan(M_PI*(randomU() - 0.5)));
 
 	shoot_rays();
 	calculate_surface_brightness();
@@ -54,13 +54,17 @@ double MyModel::perturb()
 	else if(randomU() <= 0.5)
 	{
 		sigma0 = log(sigma0);
+		sigma0 = atan(sigma0)/M_PI + 0.5;
 		sigma0 += log(1E6)*randh();
-		sigma0 = mod(sigma0 - log(1E-3), log(1E6)) + log(1E-3);
+		sigma0 = mod(sigma0, 1.);
+		sigma0 = tan(M_PI*(sigma0 - 0.5));
 		sigma0 = exp(sigma0);
 
 		sigma1 = log(sigma1);
+		sigma1 = atan(sigma1)/M_PI + 0.5;
 		sigma1 += log(1E6)*randh();
-		sigma1 = mod(sigma1 - log(1E-3), log(1E6)) + log(1E-3);
+		sigma1 = mod(sigma1, 1.);
+		sigma1 = tan(M_PI*(sigma1 - 0.5));
 		sigma1 = exp(sigma1);
 	}
 	else
