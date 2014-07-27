@@ -16,8 +16,7 @@ class Blobby:public Source
 	public:
 		// Pass in image scale and flux scale
 		Blobby(double x_min, double x_max,
-					double y_min, double y_max,
-					double mu_min, double mu_max);
+					double y_min, double y_max);
 
 		// Required methods
 		double evaluate(double x, double y) const;

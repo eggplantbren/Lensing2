@@ -6,15 +6,12 @@
 using namespace DNest3;
 
 BasicCircular::BasicCircular(double x_min, double x_max,
-					double y_min, double y_max,
-					double mu_min, double mu_max)
+					double y_min, double y_max)
 :x_min(x_min)
 ,x_max(x_max)
 ,y_min(y_min)
 ,y_max(y_max)
 ,size(sqrt((x_max - x_min)*(y_max - y_min)))
-,mu_min(mu_min)
-,mu_max(mu_max)
 {
 
 }

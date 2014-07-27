@@ -8,7 +8,6 @@ class BasicCircular:public Distribution
 	private:
 		// Limits
 		double x_min, x_max, y_min, y_max, size;
-		double mu_min, mu_max;
 
 		// Center and width of circle
 		double xc, yc;
@@ -24,8 +23,7 @@ class BasicCircular:public Distribution
 
 	public:
 		BasicCircular(double x_min, double x_max,
-					double y_min, double y_max,
-					double mu_min, double mu_max);
+					double y_min, double y_max);
 
 		void fromPrior();
 

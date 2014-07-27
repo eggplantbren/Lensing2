@@ -6,10 +6,9 @@ using namespace Lensing2;
 using namespace DNest3;
 
 Blobby::Blobby(double x_min, double x_max,
-					double y_min, double y_max,
-					double mu_min, double mu_max)
+					double y_min, double y_max)
 :blobs(4, 100, false,
-	BasicCircular(x_min, x_max, y_min, y_max, mu_min, mu_max))
+	BasicCircular(x_min, x_max, y_min, y_max))
 {
 
 }

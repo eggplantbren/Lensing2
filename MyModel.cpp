@@ -11,8 +11,7 @@ using namespace DNest3;
 
 MyModel::MyModel()
 :source(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
-	Data::get_instance().get_y_min(), Data::get_instance().get_y_max(),
-	1E-3, 1E3)
+	Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 ,lens(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
 	Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 ,xs(Data::get_instance().get_x_rays())
