@@ -62,7 +62,7 @@ double BasicCircular::perturb_parameters()
 	{
 		mu = log(mu);
 		mu = atan(mu)/M_PI + 0.5;
-		mu += log(1E6)*randh();
+		mu += randh();
 		mu = mod(mu, 1.);
 		mu = tan(M_PI*(mu - 0.5));
 		mu = exp(mu);
