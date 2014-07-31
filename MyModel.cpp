@@ -28,8 +28,12 @@ void MyModel::fromPrior()
 	source.from_prior();
 	lens.from_prior();
 
-	sigma0 = exp(tan(M_PI*(randomU() - 0.5)));
-	sigma1 = exp(tan(M_PI*(randomU() - 0.5)));
+	do
+	{
+		sigma0 = tan(M_PI*(randomU() - 0.5));
+		sigma1 = tan(M_PI*(randomU() - 0.5));
+	}while(abs(sigma0) > 20. || abs(sigma1) > 20.);
+	sigma0 = exp(sigma0); sigma1 = exp(sigma1);
 
 	shoot_rays();
 	calculate_surface_brightness();
@@ -57,6 +61,8 @@ double MyModel::perturb()
 		sigma0 += log(1E6)*randh();
 		sigma0 = mod(sigma0, 1.);
 		sigma0 = tan(M_PI*(sigma0 - 0.5));
+		if(abs(sigma0) > 20.)
+			logH = -1E300;
 		sigma0 = exp(sigma0);
 
 		sigma1 = log(sigma1);
@@ -64,6 +70,8 @@ double MyModel::perturb()
 		sigma1 += log(1E6)*randh();
 		sigma1 = mod(sigma1, 1.);
 		sigma1 = tan(M_PI*(sigma1 - 0.5));
+		if(abs(sigma1) > 20.)
+			logH = -1E300;
 		sigma1 = exp(sigma1);
 	}
 	else
@@ -109,6 +117,7 @@ double MyModel::logLikelihood() const
 
 void MyModel::print(std::ostream& out) const
 {
+	out<<setprecision(5);
 	out<<' '<<sigma0<<' '<<sigma1<<' ';
 	lens.print(out);
 	source.print(out);
