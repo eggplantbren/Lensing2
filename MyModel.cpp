@@ -44,6 +44,8 @@ double MyModel::perturb()
 {
 	double logH = 0.;
 
+	staleness1++; staleness2++;
+
 	if(randomU() <= 0.5)
 	{
 		logH += source.perturb();
@@ -132,6 +134,8 @@ void MyModel::print(std::ostream& out) const
 	for(size_t i=0; i<model_image.size(); i++)
 		for(size_t j=0; j<model_image[i].size(); j++)
 			out<<model_image[i][j]<<' ';
+
+	out<<staleness1<<' '<<staleness2<<' ';
 }
 
 string MyModel::description() const
@@ -154,6 +158,8 @@ void MyModel::shoot_rays()
 			ys[i][j] = y[i][j] - ay;
 		}
 	}
+
+	staleness2 = 0;
 }
 
 void MyModel::calculate_surface_brightness()
@@ -177,6 +183,8 @@ void MyModel::calculate_surface_brightness()
 		else
 			psf.blur_image(surface_brightness);
 	}
+
+	staleness1 = 0;
 }
 
 void MyModel::update_surface_brightness()

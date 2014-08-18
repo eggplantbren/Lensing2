@@ -29,6 +29,9 @@ class MyModel:public DNest3::Model
 		// Model image
 		std::vector< std::vector<long double> > model_image;
 
+		// Staleness numbers for source and lens respectively
+		unsigned int staleness1, staleness2;
+
 		void shoot_rays();
 		void update_rays();
 		void calculate_surface_brightness();
