@@ -44,8 +44,6 @@ double MyModel::perturb()
 {
 	double logH = 0.;
 
-	staleness1++; staleness2++;
-
 	if(randomU() <= 0.5)
 	{
 		logH += source.perturb();
@@ -189,6 +187,8 @@ void MyModel::calculate_surface_brightness()
 
 void MyModel::update_surface_brightness()
 {
+	staleness1++;
+
 	vector< vector<long double> >
 		delta_surface_brightness(surface_brightness.size(),
 			vector<long double>(surface_brightness[0].size(), 0.));
@@ -222,6 +222,8 @@ void MyModel::update_surface_brightness()
 
 void MyModel::update_rays()
 {
+	staleness2++;
+
 	const vector< vector<long double> >& x = Data::get_instance().get_x_rays();
 	const vector< vector<long double> >& y = Data::get_instance().get_y_rays();
 
