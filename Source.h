@@ -12,6 +12,8 @@ class Source
 
 
 	public:
+		virtual ~Source() { }
+
 		// Evaluate at a single position
 		virtual double evaluate(double x, double y) const = 0;
 

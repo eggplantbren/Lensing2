@@ -12,6 +12,8 @@ class Lens
 
 
 	public:
+		virtual ~Lens() { }
+
 		// Deflection angle formula
 		virtual void alpha(double x, double y,
 					double& ax, double& ay) const = 0;
