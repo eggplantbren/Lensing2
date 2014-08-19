@@ -28,11 +28,8 @@ void MyModel::fromPrior()
 	source.from_prior();
 	lens.from_prior();
 
-	do
-	{
-		sigma0 = tan(M_PI*(randomU() - 0.5));
-		sigma1 = tan(M_PI*(randomU() - 0.5));
-	}while(abs(sigma0) > 20. || abs(sigma1) > 20.);
+	sigma0 = tan(M_PI*(0.97*randomU() - 0.485));
+	sigma1 = tan(M_PI*(0.97*randomU() - 0.485));
 	sigma0 = exp(sigma0); sigma1 = exp(sigma1);
 
 	shoot_rays();
@@ -58,21 +55,17 @@ double MyModel::perturb()
 	else if(randomU() <= 0.5)
 	{
 		sigma0 = log(sigma0);
-		sigma0 = atan(sigma0)/M_PI + 0.5;
-		sigma0 += log(1E6)*randh();
-		sigma0 = mod(sigma0, 1.);
-		sigma0 = tan(M_PI*(sigma0 - 0.5));
-		if(abs(sigma0) > 20.)
-			logH = -1E300;
+		sigma0 = (atan(sigma0)/M_PI + 0.485)/0.97;
+		sigma0 += randh();
+		wrap(sigma0, 0., 1.);
+		sigma0 = tan(M_PI*(0.97*sigma0 - 0.485));
 		sigma0 = exp(sigma0);
 
 		sigma1 = log(sigma1);
-		sigma1 = atan(sigma1)/M_PI + 0.5;
-		sigma1 += log(1E6)*randh();
-		sigma1 = mod(sigma1, 1.);
-		sigma1 = tan(M_PI*(sigma1 - 0.5));
-		if(abs(sigma1) > 20.)
-			logH = -1E300;
+		sigma1 = (atan(sigma1)/M_PI + 0.485)/0.97;
+		sigma1 += randh();
+		wrap(sigma1, 0., 1.);
+		sigma1 = tan(M_PI*(0.97*sigma1 - 0.485));
 		sigma1 = exp(sigma1);
 	}
 	else
