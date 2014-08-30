@@ -21,10 +21,10 @@ for i in xrange(0, output.shape[0]):
 	x = output[i, :]
 
 	# Extract substructure information
-	n_sumstructures = x[17]
-	x_substructures = x[17:27]
-	y_substructures = x[27:37]
-	m_substructures = x[37:47]
+	n_substructures = x[17]
+	x_substructures = x[18:28]
+	y_substructures = x[28:38]
+	m_substructures = x[38:48]
 
 	# Remove substructures out of image boundaries (don't plot these)
 	good = logical_and(x_substructures > metadata[2],
