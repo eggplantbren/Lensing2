@@ -51,11 +51,11 @@ for i in xrange(0, output.shape[0]):
 	img = img.reshape((metadata[0], metadata[1]))
 
 	subplot(2,2,1)
-	imshow(src)
+	imshow(src, interpolation='nearest')
 	title('Model Source ' + str(i+1))
 
 	subplot(2,2,2)
-	imshow(img)
+	imshow(img, interpolation='nearest')
 	hold(True)
 	# Plot center of NIE
 	plot(x_nie, y_nie, 'yo', markersize=10)
@@ -67,12 +67,12 @@ for i in xrange(0, output.shape[0]):
 	hold(False)
 
 	subplot(2,2,3)
-	imshow(data)
+	imshow(data, interpolation='nearest')
 	title('Data')
 
 	subplot(2,2,4)
 	sigma = sqrt(sig**2 + x[0]**2 + x[1]*img)
-	imshow((img - data)/sigma)
+	imshow((img - data)/sigma, interpolation='nearest')
 	title('Standardised Residuals')
 	draw()
 
