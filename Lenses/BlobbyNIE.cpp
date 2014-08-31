@@ -10,6 +10,8 @@ using namespace std;
 using namespace DNest3;
 using namespace Lensing2;
 
+const bool BlobbyNIE::disable_blobs = false;
+
 BlobbyNIE::BlobbyNIE(double x_min, double x_max, double y_min, double y_max)
 :x_min(x_min), x_max(x_max), y_min(y_min), y_max(y_max)
 ,scale(sqrt((x_max - x_min)*(y_max - y_min)))
@@ -47,6 +49,9 @@ void BlobbyNIE::alpha(double x, double y, double& ax, double& ay) const
 	ay += alphax*sin_theta_shear + alphay*cos_theta_shear;
 
 	// Add blobs
+	if(BlobbyNIE::disable_blobs)
+		return;
+
 	const vector< vector<double> >& components = blobs.get_components();
 	double rsq, widthsq, Menc;
 	for(size_t i=0; i<components.size(); i++)
@@ -73,6 +78,9 @@ void BlobbyNIE::alpha_diff(double x, double y, double& ax, double& ay) const
 	ay = 0.;
 
 	// Add blobs
+	if(BlobbyNIE::disable_blobs)
+		return;
+
 	const vector< vector<double> >& added = blobs.get_added();
 	double rsq, widthsq, Menc;
 	for(size_t i=0; i<added.size(); i++)
@@ -151,7 +159,7 @@ double BlobbyNIE::perturb()
 	double logH = 0.;
 
 	blobs_flag = false;
-	if(randomU() <= 0.5)
+	if(randomU() <= 0.5 && !BlobbyNIE::disable_blobs)
 	{
 		logH += blobs.perturb();
 		blobs_flag = true;

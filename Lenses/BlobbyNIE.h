@@ -37,6 +37,9 @@ class BlobbyNIE:public Lens
 		RJObject<BasicCircular> blobs;
 		bool blobs_flag;
 
+		// A flag to disable the blobs
+		static const bool disable_blobs;
+
 	public:
 		// Constructor: pass in dimensions of image
 		BlobbyNIE(double x_min, double x_max, double y_min, double y_max);
