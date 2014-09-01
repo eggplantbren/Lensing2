@@ -24,5 +24,22 @@ Columns 28-37: y positions of the lens blobs (padded with zeros)
 
 Columns 38:47: masses of the lens blobs (padded with zeros)
 
+Columns 48:57: widths of the lens blobs (padded with zeros)
 
+Column 58: Dimensionality of source blobs (constant, 4)
+
+Column 59: Maximum number of source blobs (100)
+
+Columns 60-64: xc, yc, width, mu (brightness), mu (width)
+	hyperparameters for distribution of source blobs
+
+Column 65: Number of source blobs
+
+Columns 66-165: x positions of the source blobs (padded with zeros)
+
+Columns 166-265: y positions of the source blobs (padded with zeros)
+
+Columns 266-365: fluxes of the source blobs (padded with zeros)
+
+Columns 366:465: widths of the source blobs (padded with zeros)
 
