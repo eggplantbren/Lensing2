@@ -9,3 +9,20 @@ sqrt(sigma_from_file^2 + sigma0^2 + sigma1*(mock image)).
 Columns 2-9: The NIE parameters b (circularized), q, core radius,
 xc, yc, theta, shear, theta_shear
 
+Column 10: Dimensionality of lens blobs (constant, 4)
+
+Column 11: Maximum number of lens blobs (10)
+
+Columns 12-16: xc, yc, width, mu (brightness), mu (width)
+	hyperparameters for distribution of lens blobs
+
+Column 17: Number of lens blobs
+
+Columns 18-27: x positions of the lens blobs (padded with zeros)
+
+Columns 28-37: y positions of the lens blobs (padded with zeros)
+
+Columns 38:47: masses of the lens blobs (padded with zeros)
+
+
+
