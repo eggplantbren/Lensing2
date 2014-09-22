@@ -45,6 +45,8 @@ for i in xrange(0, output.shape[0]):
 	y_nie = (metadata[5] - x[6])/dy - 0.5
 
 	# Extract images
+	# For MyModel2 (sersic source only), replace 466 with 65
+	# Sersic source model parameters are columns 58-64
 	src = x[466:466 + metadata[0]*metadata[1]*metadata[7]**2]
 	src = src.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 	img = x[466 + (metadata[0]*metadata[1]*metadata[7]**2):-2]
