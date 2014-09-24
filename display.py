@@ -21,10 +21,10 @@ for i in xrange(0, output.shape[0]):
 	x = output[i, :]
 
 	# Extract substructure information
-	n_substructures = x[17]
-	x_substructures = x[18:28]
-	y_substructures = x[28:38]
-	m_substructures = x[38:48]
+	n_substructures = x[18]
+	x_substructures = x[19:29]
+	y_substructures = x[29:39]
+	m_substructures = x[39:49]
 
 	# Remove substructures out of image boundaries (don't plot these)
 	good = logical_and(x_substructures > metadata[2],
@@ -45,11 +45,11 @@ for i in xrange(0, output.shape[0]):
 	y_nie = (metadata[5] - x[6])/dy - 0.5
 
 	# Extract images
-	# For MyModel2 (sersic source only), replace 466 with 65
-	# Sersic source model parameters are columns 58-64
-	src = x[466:466 + metadata[0]*metadata[1]*metadata[7]**2]
+	# For MyModel2 (sersic source only), replace 468 with 66
+	# Sersic source model parameters are columns 59-65
+	src = x[468:468 + metadata[0]*metadata[1]*metadata[7]**2]
 	src = src.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
-	img = x[466 + (metadata[0]*metadata[1]*metadata[7]**2):-2]
+	img = x[468 + (metadata[0]*metadata[1]*metadata[7]**2):-2]
 	img = img.reshape((metadata[0], metadata[1]))
 
 	subplot(2,2,1)

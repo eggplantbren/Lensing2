@@ -31,13 +31,15 @@ void BasicCircular::fromPrior()
 	mu = tan(M_PI*(0.97*randomU() - 0.485));
 	mu = exp(mu);
 
-	mu_w = exp(log(1E-3*size) + log(1E3)*randomU());
+	b = exp(log(1E-3*size) + log(1E3)*randomU());
+	k = randomU();
+	a = k*b;
 }
 
 double BasicCircular::perturb_parameters()
 {
 	double logH = 0.;
-	int which = randInt(4);
+	int which = randInt(5);
 
 	if(which == 0)
 	{
@@ -69,12 +71,19 @@ double BasicCircular::perturb_parameters()
 		mu = tan(M_PI*(0.97*mu - 0.485));
 		mu = exp(mu);
 	}
+	else if(which == 3)
+	{
+		b = log(b);
+		b += log(1E3)*pow(10., 1.5 - 6.*randomU())*randn();
+		b = mod(b - log(1E-3*size), log(1E3)) + log(1E-3*size);
+		b = exp(b);
+		a = k*b;
+	}
 	else
 	{
-		mu_w = log(mu_w);
-		mu_w += log(1E3)*pow(10., 1.5 - 6.*randomU())*randn();
-		mu_w = mod(mu_w - log(1E-3*size), log(1E3)) + log(1E-3*size);
-		mu_w = exp(mu_w);
+		k += randh();
+		wrap(k, 0., 1.);
+		a = k*b;
 	}
 
 	return logH;
@@ -82,7 +91,7 @@ double BasicCircular::perturb_parameters()
 
 double BasicCircular::log_pdf(const std::vector<double>& vec) const
 {
-	if(vec[2] < 0. || vec[3] < 0.)
+	if(vec[2] < 0. || vec[3] < a || vec[3] > b)
 		return -1E300;
 
 	double logp = 0.;
@@ -90,7 +99,7 @@ double BasicCircular::log_pdf(const std::vector<double>& vec) const
 
 	logp += -log(r) - log(width) - r/width;
 	logp += -log(mu) - vec[2]/mu;
-	logp += -log(mu_w) - vec[3]/mu_w;
+	logp += -log(b - a);
 
 	return logp;
 }
@@ -103,7 +112,7 @@ void BasicCircular::from_uniform(std::vector<double>& vec) const
 	vec[0] = xc + r*cos(phi);
 	vec[1] = yc + r*sin(phi);
 	vec[2] = -mu*log(1. - vec[2]);
-	vec[3] = -mu_w*log(1. - vec[3]);
+	vec[3] = a + (b - a)*vec[3];
 }
 
 void BasicCircular::to_uniform(std::vector<double>& vec) const
@@ -116,11 +125,11 @@ void BasicCircular::to_uniform(std::vector<double>& vec) const
 	vec[0] = 1. - exp(-r/width);
 	vec[1] = phi/(2.*M_PI);
 	vec[2] = 1. - exp(-vec[2]/mu);
-	vec[3] = 1. - exp(-vec[3]/mu_w);
+	vec[3] = (vec[3] - a)/(b - a);
 }
 
 void BasicCircular::print(std::ostream& out) const
 {
-	out<<xc<<' '<<yc<<' '<<width<<' '<<mu<<' '<<mu_w<<' ';
+	out<<xc<<' '<<yc<<' '<<width<<' '<<mu<<' '<<a<<' '<<b<<' ';
 }
 

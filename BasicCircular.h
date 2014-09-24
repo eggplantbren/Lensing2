@@ -16,8 +16,8 @@ class BasicCircular:public Distribution
 		// Mean of exponential distribution for masses
 		double mu;
 
-		// Mean of exponential distribution for blob widths
-		double mu_w;
+		// Uniform distribution for widths
+		double b, k, a;
 
 		double perturb_parameters();
 
