@@ -15,6 +15,8 @@ namespace Lensing2
 class BlobbyNIE:public Lens
 {
 	private:
+		static const bool singular;
+
 		// Image dimensions
 		double x_min, x_max, y_min, y_max, scale;
 

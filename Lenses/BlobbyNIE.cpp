@@ -11,6 +11,7 @@ using namespace DNest3;
 using namespace Lensing2;
 
 const bool BlobbyNIE::disable_blobs = false;
+const bool BlobbyNIE::singular = true;
 
 BlobbyNIE::BlobbyNIE(double x_min, double x_max, double y_min, double y_max)
 :x_min(x_min), x_max(x_max), y_min(y_min), y_max(y_max)
@@ -133,7 +134,10 @@ void BlobbyNIE::from_prior()
 	q_term = sqrt(1. - qq*qq);
 	bb = b*sqrt(qq); // Minor axis
 
-	rc = exp(log(1E-3) + log(1E3)*randomU())*scale;
+	if(singular)
+		rc = 1E-7*scale;
+	else
+		rc = exp(log(1E-3) + log(1E3)*randomU())*scale;
 
 	do
 	{
@@ -166,7 +170,11 @@ double BlobbyNIE::perturb()
 		return logH;
 	}
 
-	int which = randInt(7);
+	int which;
+	do
+	{
+		which = randInt(7);
+	}while(singular && which == 2);
 
 	if(which == 0)
 	{
