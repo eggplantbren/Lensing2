@@ -14,6 +14,9 @@ data = loadtxt('Data/test_image.txt')
 sig = loadtxt('Data/test_sigma.txt')
 metadata = loadtxt('Data/test_metadata.txt')
 
+total = zeros((metadata[0]*metadata[7], metadata[1]*metadata[7]))
+magnification = zeros(output.shape[0])
+
 figure(figsize=(12, 8))
 ion()
 hold(False)
@@ -82,6 +85,20 @@ for i in xrange(0, output.shape[0]):
 		savefig('Frames/' + '%0.4d'%(i+1) + '.png', bbox_inches='tight')
 		print('Frames/' + '%0.4d'%(i+1) + '.png')
 
+	total += src
+	magnification[i] = 2.5*log10(metadata[7]**2*img.sum()/src.sum())
+
 ioff()
+show()
+
+figure(1)
+mean_source = total/output.shape[0]
+imshow(mean_source, interpolation='nearest')
+title('Posterior Mean Source')
+
+figure(2)
+hist(magnification, 50, alpha=0.5)
+xlabel('Magnification (magnitudes)')
+title('Magnification = {a} +- {b}'.format(a=magnification.mean(), b=magnification.std()))
 show()
 
