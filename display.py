@@ -99,6 +99,6 @@ title('Posterior Mean Source')
 figure(2)
 hist(magnification, 50, alpha=0.5)
 xlabel('Magnification (magnitudes)')
-title('Magnification = {a} +- {b}'.format(a=magnification.mean(), b=magnification.std()))
+title('Magnification = {a:.3f} +- {b:.3f}'.format(a=magnification.mean(), b=magnification.std()))
 show()
 
