@@ -125,7 +125,7 @@ void BlobbyNIE::alpha_diff(double x, double y, double& ax, double& ay) const
 void BlobbyNIE::from_prior()
 {
 	b = exp(log(1E-3) + log(1E3)*randomU())*scale;
-	q = exp(log(0.1) + log(10.)*randomU());
+	q = 0.05 + 0.95*randomU();
 
 	// Stuff derived from b and q
 	qq = q;
@@ -192,10 +192,8 @@ double BlobbyNIE::perturb()
 	}
 	else if(which == 1)
 	{
-		q = log(q);
-		q += log(10.)*randh();
-		q = mod(q - log(0.1), log(10.)) + log(0.1);
-		q = exp(q);
+		q += 0.95*randh();
+		wrap(q, 0.05, 1.);
 
 		// Stuff derived from b and q
 		qq = q;
