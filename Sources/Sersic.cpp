@@ -43,7 +43,7 @@ void Sersic::from_prior()
 	Re = exp(log(1E-3*image_size) + log(1E3)*randomU());
 	one_over_Re_squared = 1./(Re*Re);
 
-	m = 1. + 9.*randomU();
+	m = 0.2 + 9.8*randomU();
 	bm = 2.*m - 0.324;
 
 	// xc and yc ~ Cauchy(center of image, 0.1*image_size)T(inside image)
@@ -84,8 +84,8 @@ double Sersic::perturb()
 	}
 	if(which == 1)
 	{
-		m += 9.*randh();
-		wrap(m, 1., 10.);
+		m += 9.8*randh();
+		wrap(m, 0.2, 10.);
 		bm = 2.*m - 0.324;
 	}
 	if(which == 2)
