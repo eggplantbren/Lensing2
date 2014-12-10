@@ -71,16 +71,39 @@ double MyModel3::logLikelihood() const
 
 	for(int i=0; i<4; i++)
 	{
-		double flux = flux_near(x[i], y[i], 0.02);
-		
+		double flux = flux_near(x[i], y[i]);
+		logL += -0.5*pow((f[i] - flux)/0.05, 2);
 	}
-
 
 	return logL;
 }
 
-double MyModel3::flux_near(double x, double y, double tol) const
+double MyModel3::flux_near(double x, double y) const
 {
+	// u = log(r), du = 1/r dr, dr = r du = e^u du
+	// dx dy = r dr dphi = e^{2u} du dphi
+
+	vector<double> log_r(101);
+	vector<double> phi(100);
+
+	for(size_t i=0; i<log_r.size(); i++)
+		log_r[i] = -10. + i*10./(log_r.size() - 1);
+
+	for(size_t i=0; i<phi.size(); i++)
+		phi[i] = (2.*M_PI*i)/100;
+
+	double xx, yy;
+	for(size_t i=0; i<log_r.size(); i++)
+	{
+		for(size_t j=0; j<phi.size(); j++)
+		{
+			xx = x + exp(log_r[i])*cos(phi[j]);
+			yy = y + exp(log_r[i])*sin(phi[j]);
+
+		}
+	}
+
+
 	return 0.;
 }
 

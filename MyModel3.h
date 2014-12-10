@@ -21,7 +21,7 @@ class MyModel3:public DNest3::Model
 
 		// Numerically calculate the magnification at a given point
 		double magnification(double x, double y) const;
-		double flux_near(double x, double y, double tol) const;
+		double flux_near(double x, double y) const;
 
 	public:
 		MyModel3();
