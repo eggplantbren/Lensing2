@@ -16,6 +16,9 @@ class MyModel3:public DNest3::Model
 	private:
 		BlobbyNIE lens;
 
+		// Numerically calculate the magnification at a given point
+		double magnification(double x, double y) const;
+
 	public:
 		MyModel3();
 
