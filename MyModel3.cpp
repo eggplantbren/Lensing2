@@ -69,11 +69,17 @@ double MyModel3::logLikelihood() const
 	double y[4] = {-0.2, 0., 0.2, 0.};
 	double f[4] = {1., 1.5, 1.2, 0.3};
 
+	vector<double> flux(4);
 	for(int i=0; i<4; i++)
 	{
-		double flux = flux_near(x[i], y[i]);
-		logL += -0.5*pow((f[i] - flux)/0.05, 2);
+		flux[i] = flux_near(x[i], y[i]);
+		if(i > 0)
+			flux[i] /= flux[0];
+		logL += -0.5*pow((f[i] - flux[i])/0.05, 2);
 	}
+
+	if(flux[0] == 0.)
+		return -1E300;
 
 	return logL;
 }
@@ -92,19 +98,26 @@ double MyModel3::flux_near(double x, double y) const
 	for(size_t i=0; i<phi.size(); i++)
 		phi[i] = (2.*M_PI*i)/100;
 
-	double xx, yy;
+	double flux = 0.;
+	double wsq = pow(width_source, 2);
+
+	double xx, yy, ax, ay, xs, ys;
 	for(size_t i=0; i<log_r.size(); i++)
 	{
 		for(size_t j=0; j<phi.size(); j++)
 		{
 			xx = x + exp(log_r[i])*cos(phi[j]);
 			yy = y + exp(log_r[i])*sin(phi[j]);
+			lens.alpha(xx, yy, ax, ay);
+			xs = xx - ax;
+			ys = yy - ay;
 
+			if(pow(xs - x_source, 2) + pow(ys - y_source, 2) < wsq)
+				flux += exp(2.*log_r[i]);
 		}
 	}
 
-
-	return 0.;
+	return flux;
 }
 
 void MyModel3::print(std::ostream& out) const
