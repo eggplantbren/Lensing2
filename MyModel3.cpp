@@ -9,9 +9,15 @@ using namespace std;
 using namespace Lensing2;
 using namespace DNest3;
 
+const double MyModel3::x_min = -1.;
+const double MyModel3::x_max =  1.;
+const double MyModel3::y_min = -1.;
+const double MyModel3::y_max =  1.;
+const double MyModel3::L = sqrt((x_max - x_min)*(y_max - y_min));
+const double MyModel3::dist = 0.02; // Distance to integrate fluxes
+
 MyModel3::MyModel3()
-:lens(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
-	Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
+:lens(x_min, x_max, y_min, y_max)
 {
 
 }
@@ -19,13 +25,37 @@ MyModel3::MyModel3()
 void MyModel3::fromPrior()
 {
 	lens.from_prior();
+
+	x_source = x_min + (x_max - x_min)*randomU();
+	y_source = y_min + (y_max - y_min)*randomU();
+
+	width_source = exp(log(1E-3*L) + log(1E3)*randomU());
 }
 
 double MyModel3::perturb()
 {
 	double logH = 0.;
 
-	logH += lens.perturb();
+	int which = randInt(3);
+
+	if(which == 0)
+	{
+	 	logH += lens.perturb();
+	}
+	else if(which == 1)
+	{
+		x_source += (x_max - x_min)*randh();
+		y_source += (y_max - y_min)*randh();
+		wrap(x_source, x_min, x_max);
+		wrap(y_source, y_min, y_max);
+	}
+	else
+	{
+		width_source = log(width_source);
+		width_source += 1E-3*randh();
+		wrap(width_source, log(1E-3*L), log(L));
+		width_source = exp(width_source);
+	}
 
 	return logH;
 }
@@ -37,43 +67,21 @@ double MyModel3::logLikelihood() const
 	// Data: positions of images
 	double x[4] = {-0.56, -0.65, -0.56, 0.2};
 	double y[4] = {-0.2, 0., 0.2, 0.};
+	double f[4] = {1., 1.5, 1.2, 0.3};
 
-	// Trace into source plane
-	double xs[4], ys[4];
-	double ax, ay;
 	for(int i=0; i<4; i++)
 	{
-		lens.alpha(x[i], y[i], ax, ay);
-		xs[i] = x[i] - ax;
-		ys[i] = y[i] - ay;
+		double flux = flux_near(x[i], y[i], 0.02);
+		
 	}
 
-	// Measure spread
-	double meanx = 0.;
-	double meany = 0.;
-	for(int i=0; i<4; i++)
-	{
-		meanx += xs[i];
-		meany += ys[i];
-	}
-	meanx /= 4.;
-	meany /= 4.;
-
-	double mean_sq_dev_x = 0.;
-	double mean_sq_dev_y = 0.;
-	for(int i=0; i<4; i++)
-	{
-		mean_sq_dev_x += pow(xs[i] - meanx, 2);
-		mean_sq_dev_y += pow(ys[i] - meany, 2);
-	}
-	mean_sq_dev_x /= 4.;
-	mean_sq_dev_y /= 4.;
-
-	double sd_x = sqrt(mean_sq_dev_x);
-	double sd_y = sqrt(mean_sq_dev_y);
-	logL = -sqrt(sd_x*sd_y);
 
 	return logL;
+}
+
+double MyModel3::flux_near(double x, double y, double tol) const
+{
+	return 0.;
 }
 
 void MyModel3::print(std::ostream& out) const

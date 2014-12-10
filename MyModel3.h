@@ -14,10 +14,14 @@ namespace Lensing2
 class MyModel3:public DNest3::Model
 {
 	private:
+		static const double x_min, x_max, y_min, y_max, L, dist;
+
 		BlobbyNIE lens;
+		double x_source, y_source, width_source;
 
 		// Numerically calculate the magnification at a given point
 		double magnification(double x, double y) const;
+		double flux_near(double x, double y, double tol) const;
 
 	public:
 		MyModel3();
