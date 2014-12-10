@@ -35,13 +35,13 @@ double MyModel3::logLikelihood() const
 	double logL = 0.;
 
 	// Data: positions of images
-	double x[2] = {-0.56, 1.12};
-	double y[2] = {0., 0.};
+	double x[4] = {-0.56, -0.65, -0.56, 0.2};
+	double y[4] = {-0.2, 0., 0.2, 0.};
 
 	// Trace into source plane
-	double xs[2], ys[2];
+	double xs[4], ys[4];
 	double ax, ay;
-	for(int i=0; i<2; i++)
+	for(int i=0; i<4; i++)
 	{
 		lens.alpha(x[i], y[i], ax, ay);
 		xs[i] = x[i] - ax;
@@ -51,23 +51,23 @@ double MyModel3::logLikelihood() const
 	// Measure spread
 	double meanx = 0.;
 	double meany = 0.;
-	for(int i=0; i<2; i++)
+	for(int i=0; i<4; i++)
 	{
 		meanx += xs[i];
 		meany += ys[i];
 	}
-	meanx /= 2.;
-	meany /= 2.;
+	meanx /= 4.;
+	meany /= 4.;
 
 	double mean_sq_dev_x = 0.;
 	double mean_sq_dev_y = 0.;
-	for(int i=0; i<2; i++)
+	for(int i=0; i<4; i++)
 	{
 		mean_sq_dev_x += pow(xs[i] - meanx, 2);
 		mean_sq_dev_y += pow(ys[i] - meany, 2);
 	}
-	mean_sq_dev_x /= 2.;
-	mean_sq_dev_y /= 2.;
+	mean_sq_dev_x /= 4.;
+	mean_sq_dev_y /= 4.;
 
 	double sd_x = sqrt(mean_sq_dev_x);
 	double sd_y = sqrt(mean_sq_dev_y);
