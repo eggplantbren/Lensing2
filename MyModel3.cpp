@@ -14,7 +14,6 @@ const double MyModel3::x_max =  1.;
 const double MyModel3::y_min = -1.;
 const double MyModel3::y_max =  1.;
 const double MyModel3::L = sqrt((x_max - x_min)*(y_max - y_min));
-const double MyModel3::dist = 0.02; // Distance to integrate fluxes
 
 MyModel3::MyModel3()
 :lens(x_min, x_max, y_min, y_max)
@@ -25,37 +24,13 @@ MyModel3::MyModel3()
 void MyModel3::fromPrior()
 {
 	lens.from_prior();
-
-	x_source = x_min + (x_max - x_min)*randomU();
-	y_source = y_min + (y_max - y_min)*randomU();
-
-	width_source = exp(log(1E-3*L) + log(1E3)*randomU());
 }
 
 double MyModel3::perturb()
 {
 	double logH = 0.;
 
-	int which = randInt(3);
-
-	if(which == 0)
-	{
-	 	logH += lens.perturb();
-	}
-	else if(which == 1)
-	{
-		x_source += (x_max - x_min)*randh();
-		y_source += (y_max - y_min)*randh();
-		wrap(x_source, x_min, x_max);
-		wrap(y_source, y_min, y_max);
-	}
-	else
-	{
-		width_source = log(width_source);
-		width_source += 1E-3*randh();
-		wrap(width_source, log(1E-3*L), log(L));
-		width_source = exp(width_source);
-	}
+	logH += lens.perturb();
 
 	return logH;
 }
@@ -65,65 +40,67 @@ double MyModel3::logLikelihood() const
 	double logL = 0.;
 
 	// Data: positions of images
-	double x[4] = {-0.56, -0.65, -0.56, 0.2};
-	double y[4] = {-0.2, 0., 0.2, 0.};
-	double f[4] = {1., 1.5, 1.2, 0.3};
+	double x[3] = {0., -0.220, -0.060};
+	double y[3] = {0., -0.307, -0.139};
+	double f[3] = {2.577, 1.977, 0.441};
 
-	vector<double> flux(4);
-	for(int i=0; i<4; i++)
+	double xs[3], ys[3];
+	double ax, ay;
+	for(int i=0; i<3; i++)
 	{
-		flux[i] = flux_near(x[i], y[i]);
-		if(i > 0)
-			flux[i] /= flux[0];
-		logL += -0.5*pow((f[i] - flux[i])/0.05, 2);
+		lens.alpha(x[i], y[i], ax, ay);
+		xs[i] = x[i] - ax;
+		ys[i] = y[i] - ay;
 	}
 
-	if(flux[0] == 0.)
-		return -1E300;
+	double xs_mean = 0.;
+	double ys_mean = 0.;
+	for(int i=0; i<3; i++)
+	{
+		xs_mean += xs[i];
+		ys_mean += ys[i];
+	}
+	xs_mean /= 3;
+	ys_mean /= 3;
+
+	double xsq = 0.;
+	double ysq = 0.;
+	for(int i=0; i<3; i++)
+	{
+		xsq += pow(xs[i] - xs_mean, 2);
+		ysq += pow(ys[i] - ys_mean, 2);
+	}
+	xsq /= 3;
+	ysq /= 3;
+
+	double scatter = sqrt(sqrt(xsq)*sqrt(ysq));
+	logL = -scatter/1E-3;
+
+	// Add term for fluxes
+	double flux1 = magnification(x[0], y[0]);
+	double flux;
+	for(int i=1; i<3; i++)
+	{
+		flux = magnification(x[i], y[i]);
+		flux /= flux1;
+		logL += -0.5*pow((flux - f[i]/f[0])/0.1, 2);
+	}
 
 	return logL;
-}
-
-double MyModel3::flux_near(double x, double y) const
-{
-	// u = log(r), du = 1/r dr, dr = r du = e^u du
-	// dx dy = r dr dphi = e^{2u} du dphi
-
-	vector<double> log_r(101);
-	vector<double> phi(100);
-
-	for(size_t i=0; i<log_r.size(); i++)
-		log_r[i] = -10. + i*10./(log_r.size() - 1);
-
-	for(size_t i=0; i<phi.size(); i++)
-		phi[i] = (2.*M_PI*i)/100;
-
-	double flux = 0.;
-	double wsq = pow(width_source, 2);
-
-	double xx, yy, ax, ay, xs, ys;
-	for(size_t i=0; i<log_r.size(); i++)
-	{
-		for(size_t j=0; j<phi.size(); j++)
-		{
-			xx = x + exp(log_r[i])*cos(phi[j]);
-			yy = y + exp(log_r[i])*sin(phi[j]);
-			lens.alpha(xx, yy, ax, ay);
-			xs = xx - ax;
-			ys = yy - ay;
-
-			if(pow(xs - x_source, 2) + pow(ys - y_source, 2) < wsq)
-				flux += exp(2.*log_r[i]);
-		}
-	}
-
-	return flux;
 }
 
 void MyModel3::print(std::ostream& out) const
 {
 	out<<setprecision(5);
 	lens.print(out);
+
+	// Data: positions of images
+	double x[3] = {0., -0.220, -0.060};
+	double y[3] = {0., -0.307, -0.139};
+	double mag = 0.;
+	for(int i=0; i<3; i++)
+		mag += magnification(x[i], y[i]);
+	out<<mag<<' ';
 }
 
 string MyModel3::description() const
