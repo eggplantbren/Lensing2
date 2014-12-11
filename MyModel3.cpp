@@ -86,6 +86,31 @@ double MyModel3::logLikelihood() const
 		logL += -0.5*pow((flux - f[i]/f[0])/0.1, 2);
 	}
 
+	// Make sure no images are formed elsewhere
+	double dist;
+	bool check;
+	for(double yy=1.; yy >= -1; yy -= 0.01)
+	{
+		for(double xx = -1; xx <= 1.; xx += 0.01)
+		{
+			check = true;
+			for(int k=0; k<3; k++)
+			{
+				dist = sqrt(pow(xx - x[k], 2) + pow(yy - y[k], 2));
+				if(dist < 0.01)
+					check = false;
+			}
+
+			if(check)
+			{
+				lens.alpha(xx, yy, ax, ay);
+				dist = sqrt(pow(xx - ax - xs_mean, 2) + pow(yy - ay - ys_mean, 2));
+				if(dist < 0.01 && magnification(xx, yy) > 0.1)
+					return -1E300;
+			}
+		}
+	}
+
 	return logL;
 }
 
