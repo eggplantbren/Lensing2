@@ -52,15 +52,23 @@ for i in xrange(0, output.shape[0]):
 	# Sersic source model parameters are columns 59-65
 	src = x[468:468 + metadata[0]*metadata[1]*metadata[7]**2]
 	src = src.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
-	img = x[468 + (metadata[0]*metadata[1]*metadata[7]**2):-2]
-	img = img.reshape((metadata[0], metadata[1]))
 
-	subplot(2,2,1)
+	img1 = x[468 + metadata[0]*metadata[1]*metadata[7]**2:468 + 2*metadata[0]*metadata[1]*metadata[7]**2]
+	img1 = img1.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
+
+	img2 = x[468 + 2*metadata[0]*metadata[1]*metadata[7]**2:-2]
+	img2 = img2.reshape((metadata[0], metadata[1]))
+
+	subplot(2,3,1)
 	imshow(src, interpolation='nearest')
 	title('Model Source ' + str(i+1))
 
-	subplot(2,2,2)
-	imshow(img, interpolation='nearest')
+	subplot(2,3,2)
+	imshow(img1, interpolation='nearest')
+	title('Unblurred Image ' + str(i+1))
+
+	subplot(2,3,3)
+	imshow(img2, interpolation='nearest')
 	hold(True)
 	# Plot center of NIE
 	plot(x_nie, y_nie, 'yo', markersize=10)
@@ -76,8 +84,8 @@ for i in xrange(0, output.shape[0]):
 	title('Data')
 
 	subplot(2,2,4)
-	sigma = sqrt(sig**2 + x[0]**2 + x[1]*img)
-	imshow((img - data)/sigma, interpolation='nearest')
+	sigma = sqrt(sig**2 + x[0]**2 + x[1]*img2)
+	imshow((img2 - data)/sigma, interpolation='nearest')
 	title('Standardised Residuals')
 	draw()
 
@@ -86,7 +94,7 @@ for i in xrange(0, output.shape[0]):
 		print('Frames/' + '%0.4d'%(i+1) + '.png')
 
 	total += src
-	magnification[i] = 2.5*log10(metadata[7]**2*img.sum()/src.sum())
+	magnification[i] = 2.5*log10(metadata[7]**2*img2.sum()/src.sum())
 
 ioff()
 show()
