@@ -1,39 +1,47 @@
-% Every Latex document starts with a documentclass command
-\documentclass[a4paper, 11pt]{article}
+\documentclass[useAMS,usenatbib]{mn2e}
 
-% Load some packages
-\usepackage{graphicx} % This allows you to put figures in
-\usepackage{epstopdf}
-\usepackage{natbib}   % This allows for relatively pain-free reference lists
-\usepackage[left=3cm,top=3cm,right=3cm]{geometry} % The way I like the margins
+\voffset=-0.8in
+
+% Packages:
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{dsfont}
 
 \usepackage{caption}
 \usepackage{subcaption} % subfigures
 \usepackage{float}
 
-% This helps with figure placement
-\renewcommand{\topfraction}{0.85}
-\renewcommand{\textfraction}{0.1}
-\parindent=0cm
+\title[]
+{Lensing}
+    
+\author[Brewer, Huijser and Lewis]{%
+  Brendon~J.~Brewer$^{1}$\thanks{bj.brewer@auckland.ac.nz},
+  David Huijser$^{1}$,
+  Geraint F. Lewis$^2$
+  \medskip\\
+  $^1$Department of Statistics, The University of Auckland, Private Bag 92019, Auckland 1142, New Zealand\\
+  $^2$Sydney Institute for Astronomy}
 
-% Set values so you can have a title
-\title{}
-\title{Flexible trans-dimensional modelling of gravitational lenses}
-\author{Brendon J. Brewer$^1$, David Huijser$^1$, and
-Geraint F. Lewis$^2$}
-\date{\small $^1$ Department of Statistics, The University of Auckland\\
-Private Bag 92019, Auckland 1142, New Zealand\\
-$^2$ Sydney Institute for Astrophysics\\
-\vspace{1cm}
-{\tt bj.brewer@auckland.ac.nz}}
-% Document starts here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{document}
-
-% Actually put the title in
+             
+\date{To be submitted to MNRAS}
+             
 \maketitle
 
-\abstract{Gravitational lensing is a powerful astrophysical tool for studying
-the distribution of matter in galaxies.}
+\label{firstpage}
+
+\begin{abstract}
+Gravitational lensing is a powerful astrophysical tool for studying
+the distribution of matter in galaxies.
+\end{abstract}
+
+
+\begin{keywords}
+methods: data analysis --- methods: statistical
+\end{keywords}
 
 \section{Introduction}
 
