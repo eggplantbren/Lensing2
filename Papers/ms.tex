@@ -7,7 +7,7 @@
 \usepackage{amsmath}
 \usepackage{xspace}
 \usepackage{dsfont}
-
+\usepackage[utf8]{inputenc}
 \usepackage{caption}
 \usepackage{subcaption} % subfigures
 \usepackage{float}
@@ -21,7 +21,8 @@
   Geraint F. Lewis$^2$
   \medskip\\
   $^1$Department of Statistics, The University of Auckland, Private Bag 92019, Auckland 1142, New Zealand\\
-  $^2$Sydney Institute for Astronomy}
+  $^2$Sydney Institute for Astronomy, School of Physics, A28,
+  The University of Sydney, NSW 2006, Australia}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -34,8 +35,6 @@
 \label{firstpage}
 
 \begin{abstract}
-Gravitational lensing is a powerful astrophysical tool for studying
-the distribution of matter in galaxies.
 \end{abstract}
 
 
@@ -44,6 +43,10 @@ methods: data analysis --- methods: statistical
 \end{keywords}
 
 \section{Introduction}
+Strong gravitational lensing is a powerful astrophysical tool for studying
+the distribution of matter, including dark matter, in galaxies
+\citep{treu}.
+
 
 
 \subsection{The hunt for dark substructures}
@@ -51,19 +54,31 @@ methods: data analysis --- methods: statistical
 people believe?}
 
 \section{Source and Lens Models}
-Many different approaches have been applied to gravitational lens modelling.
-Any such method will involve many choices, such as:
+Many different approaches have been proposed and applied to gravitational lens
+modelling. These approaches 
 \begin{itemize}
-\item Whether to use a simply parameterized (e.g. Sersic)
-or flexible (e.g. pixellated)
-model for the surface brightness profile of the source
-\item Whether to use a simply parameterized or flexible
-model for the mass profile of the lens
+\item Whether to use a simply parameterized (e.g. Sérsic)
+or flexible (e.g. pixellated) model for the surface brightness profile of the source
+\item Whether to use a simply parameterized (e.g. Singular Isothermal Ellipsoid)
+or flexible model (e.g. pixellated) for the mass profile of the lens
 \item How to compute the results (e.g. optimization methods, Markov Chain
 Monte Carlo)
 \end{itemize}
 
 All such choices involve tradeoffs between convenience and realism.
+In a previous paper \citep{2011MNRAS.412.2521B} we argued that an ideal
+modelling approach lies somewhere between simply-parameterised and
+pixellated models. Simply parameterized models, such as Sérsic surface
+brightness profiles for the source, and SIE models for the lens, are convenient,
+they are clearly simplifications, and can produce misleading results if the
+simple profiles are not a good approximation to the actual situation. On the
+other hand, pixellated models for the source \citep[e.g.][]{suyu} or the lens
+\citep[e.g.][]{2014MNRAS.445.2181C} can in principle represent ``any''
+source surface brightness profile or lens density profile. However, the prior
+distribution over pixel values is often chosen for mathematical convenience
+\citep{2003ApJ...590..673W} and can assign virtually zero prior probability
+to the hypothesis that the source actually looks like a galaxy.
+
 
 
 \section{The Cosmic Horseshoe}
@@ -177,6 +192,44 @@ log of the SIE mass within the Einstein radius for model B.  \label{fig:sub6} }}
 \section{ER 0047-2808}
 We demonstrate the method on the HST images of ER 0047-2808.
 
+
+
+
+\begin{thebibliography}{99}
+\bibitem[\protect\citeauthoryear{Brewer, P{\'a}rtay,
+\& Cs{\'a}nyi}{2011}]{dnest} Brewer B.~J., P{\'a}rtay L.~B., Cs{\'a}nyi G., 2011,
+Statistics and Computing, 21, 4, 649-656. arXiv:0912.2380
+
+\bibitem[\protect\citeauthoryear{Brewer et al.}{2011}]{2011MNRAS.412.2521B} 
+Brewer B.~J., Lewis G.~F., Belokurov V., Irwin M.~J., Bridges T.~J., Evans 
+N.~W., 2011, MNRAS, 412, 2521
+
+\bibitem[\protect\citeauthoryear{Brewer}{2014}]{rjobject} Brewer, B. J., 2014,
+Bayesian Analysis, submitted. ArXiv: 1411.3921
+
+\bibitem[\protect\citeauthoryear{Coles, Read, 
+\& Saha}{2014}]{2014MNRAS.445.2181C} Coles J.~P., Read J.~I., Saha P., 2014, MNRAS, 445, 2181
+
+\bibitem[\protect\citeauthoryear{O'Hagan and Forster}{2004}]{ohagan}
+O'Hagan, A., Forster,~J., 2004, Bayesian inference. London: Arnold.
+
+\bibitem[\protect\citeauthoryear{Sivia \& Skilling}{2006}]{sivia} Sivia, 
+D.~ S., Skilling, J., 2006, Data Analysis: A Bayesian Tutorial, 2nd 
+Edition, Oxford University Press
+
+\bibitem[\protect\citeauthoryear{Skilling}{2006}]{skilling} Skilling, 
+J., 2006, ``Nested Sampling for General Bayesian Computation'', Bayesian 
+Analysis 4, pp. 833-860
+
+\bibitem[\protect\citeauthoryear{Suyu et al.}{2006}]{suyu} 
+Suyu S.~H., Marshall P.~J., Hobson M.~P., Blandford R.~D., 2006, MNRAS, 
+371, 983
+
+\bibitem[\protect\citeauthoryear{Treu}{2010}]{treu} Treu T., 2010, ARA\&A, 48, 87 
+
+\bibitem[\protect\citeauthoryear{Warren 
+\& Dye}{2003}]{2003ApJ...590..673W} Warren S.~J., Dye S., 2003, ApJ, 590, 673
+\end{thebibliography}
 
 
 \end{document}
