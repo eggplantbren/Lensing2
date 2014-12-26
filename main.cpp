@@ -13,10 +13,10 @@ using namespace Lensing2;
 int main(int argc, char** argv)
 {
 	// Load some "data"
-	Data::get_instance().load("Data/test_metadata.txt",
-					"Data/test_image.txt",
-					"Data/test_sigma.txt",
-					"Data/test_psf.txt");
+	Data::get_instance().load("Data/mock_metadata.txt",
+					"Data/mock_image.txt",
+					"Data/mock_sigma.txt",
+					"Data/mock_psf.txt");
 
 	// Run DNest
 	MTSampler<MyModel> sampler = setup_mt<MyModel>(argc, argv);

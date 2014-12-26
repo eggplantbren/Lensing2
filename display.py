@@ -10,9 +10,9 @@ if saveFrames:
 	os.system('rm Frames/*.png')
 
 output = atleast_2d(loadtxt('posterior_sample.txt'))
-data = loadtxt('Data/test_image.txt')
-sig = loadtxt('Data/test_sigma.txt')
-metadata = loadtxt('Data/test_metadata.txt')
+data = loadtxt('Data/mock_image.txt')
+sig = loadtxt('Data/mock_sigma.txt')
+metadata = loadtxt('Data/mock_metadata.txt')
 
 total = zeros((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 magnification = zeros(output.shape[0])
