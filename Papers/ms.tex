@@ -85,6 +85,25 @@ distribution over pixel values is often chosen for mathematical convenience
 to the hypothesis that the source actually looks like a galaxy.
 
 \section{The Model}
+The surface brightness profile of the source is assumed to be composed of
+a sum of a finite number of ``blobs'', or circular basis functions.
+The surface brightness of a single blob centered at the origin
+is:
+\begin{eqnarray}
+f(x, y) &=& \left\{
+\begin{array}{lr}
+\frac{A}{2\pi w^2}\left[1 - \left(\frac{r}{w}\right)^2\right], & r \leq w\\
+0, & \textnormal{otherwise}
+\end{array}
+\right.
+\end{eqnarray}
+where $r = \sqrt{x^2 + y^2}$, $w$ is the width of the blob, and $A$ is the
+total flux of the blob (i.e. the integral of the surface brightness).
+These basis functions are faster to evaluate than gaussians, since they do not
+contain an exponential function. In addition, the finite support means that
+each blob will evaluate to zero over a large fraction of the domain which
+confers an additional speed advantage.
+
 
 \begin{figure*}
 \includegraphics{pgm.pdf}
