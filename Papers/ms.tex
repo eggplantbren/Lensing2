@@ -104,6 +104,19 @@ contain an exponential function. In addition, the finite support means that
 each blob will evaluate to zero over a large fraction of the domain which
 confers an additional speed advantage.
 
+If our model contains $N_{\rm src}$ such blobs, positioned at
+$\left\{(x_i, y_i)\right\}$ with widths $\{w_i\}$ and total fluxes
+$\{A_i\}$, the overall surface brightness profile is:
+\begin{eqnarray}
+f(x, y) &=& \sum_{i=1}^{N_{\rm src}}\left\{
+\begin{array}{lr}
+\frac{A_i}{2\pi w_i^2}\left[1 - \left(\frac{r_i}{w_i}\right)^2\right], & r_i \leq w_i\\
+0, & \textnormal{otherwise}
+\end{array}
+\right.
+\end{eqnarray}
+where $r_i = \sqrt{(x - x_i)^2 + (y - y_i)^2}$.
+
 
 \begin{figure*}
 \includegraphics{pgm.pdf}
