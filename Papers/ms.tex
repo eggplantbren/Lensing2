@@ -85,6 +85,8 @@ distribution over pixel values is often chosen for mathematical convenience
 to the hypothesis that the source actually looks like a galaxy.
 
 \section{The Model}
+
+\subsection{The Source}
 The surface brightness profile of the source is assumed to be composed of
 a sum of a finite number of ``blobs'', or circular basis functions.
 The surface brightness of a single blob centered at the origin
@@ -123,6 +125,23 @@ where $r_i = \sqrt{(x - x_i)^2 + (y - y_i)^2}$.
 \caption{A probabilistic graphical model (PGM) of the dependence structure
 of the prior information.\label{fig:pgm}}
 \end{figure*}
+
+
+\subsection{The Lens}
+
+The NIE parameters...
+
+A lensing blob with mass $M$ and width $v$
+centered at the origin has the following surface mass density profile:
+\begin{eqnarray}
+\rho(x, y) &=& \left\{
+\begin{array}{lr}
+\frac{M}{2\pi v^2}\left[1 - \left(\frac{r}{v}\right)^2\right], & r \leq v\\
+0, & \textnormal{otherwise}
+\end{array}
+\right.
+\end{eqnarray}
+The deflection angles are:
 
 
 \section{The Cosmic Horseshoe}
