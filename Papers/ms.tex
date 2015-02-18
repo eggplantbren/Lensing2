@@ -48,27 +48,20 @@ Galaxy-galaxy lensing is a powerful astrophysical tool for studying
 the distribution of matter, including dark matter, in galaxies
 \citep{treu}. In recent years, several lens systems have been discovered which
 are thought to contain at least one dark substructure
-\citep{vegetti1, vegetti2, vegetti3}.
-
-In this paper we address the topic of inferring the matter distribution in the
-lens galaxy from the lensed, blurred image.
-
-{\bf Review of what's been done in this area. How was it done, and what do
-people believe?}
-
-\section{Source and Lens Models}
-Many different approaches have been proposed and applied to gravitational lens
-modelling. These approaches 
-\begin{itemize}
-\item Whether to use a simply parameterized (e.g. Sérsic)
+\citep{vegetti1, vegetti2, vegetti3}. In this paper we address the topic of
+inferring the matter distribution in the lens galaxy from the lensed,
+blurred image. These approaches may be categorized according to
+Whether to use a simply parameterized (e.g. Sérsic)
 or flexible (e.g. pixellated) model for the surface brightness profile of the source
 \item Whether to use a simply parameterized (e.g. Singular Isothermal Ellipsoid)
 or flexible model (e.g. pixellated) for the mass profile of the lens
 \item How to compute the results (e.g. optimization methods, Markov Chain
-Monte Carlo)
-\end{itemize}
 
-All such choices involve tradeoffs between convenience and realism.
+Many different approaches have been proposed and applied to
+this problem. The differences between the approaches can be broken down into
+i) different assumptions about the prior information being used, and ii)
+different computational methods used to compute the results.
+Each approach involves tradeoffs between convenience and realism.
 Simply parameterized models, such as Sérsic surface
 brightness profiles for the source, and SIE models for the lens, are very
 convenient. They only have a few adjustable parameters, and they capture
