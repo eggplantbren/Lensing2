@@ -90,10 +90,17 @@ pixellated models. The source and the lens can be built up from a moderate
 number of simply parameterised components. For the source, this allows
 us to incorporate prior knowledge about the local correlations (the surface
 brightness at any particular point is likely to be similar to that at a
-nearby point) and the fact that most of the sky is dark. For the lens, if
-we are interested in detecting and measuring the properties of dark
-substructures, a superposition of an unknown number of ``blobs'' is the
-relevant model.
+nearby point) and the fact that most of the sky is dark.
+
+For the lens, if we are interested in detecting and measuring the properties of
+dark substructures, a superposition of an unknown number of ``blobs'' is the
+relevant model. In addition, if we want to constrain the ``mass function'' of
+these blobs, we will need a hierarchical model which specifies the probability
+distribution for the masses, given some hyperparameters.
+
+Computing the posterior distribution over the parameters of such a model
+requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
+of possible sources and lenses. In a recent paper, 
 
 
 \section{The Model}
@@ -280,7 +287,7 @@ Brewer B.~J., Lewis G.~F., Belokurov V., Irwin M.~J., Bridges T.~J., Evans
 N.~W., 2011, MNRAS, 412, 2521
 
 \bibitem[\protect\citeauthoryear{Brewer}{2014}]{rjobject} Brewer, B. J., 2014,
-Bayesian Analysis, submitted. ArXiv: 1411.3921
+preprint. ArXiv: 1411.3921
 
 \bibitem[\protect\citeauthoryear{Coles, Read, 
 \& Saha}{2014}]{2014MNRAS.445.2181C} Coles J.~P., Read J.~I., Saha P., 2014, MNRAS, 445, 2181
