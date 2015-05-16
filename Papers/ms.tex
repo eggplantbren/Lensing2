@@ -67,7 +67,15 @@ Monte Carlo with or without source parameters marginalized out).
 \end{enumerate}
 
 Many different approaches have been proposed and applied to
-this problem. The differences between the approaches can be broken down into
+this problem. Recent sophisicated approaches to
+this problem include \citet{2014MNRAS.445.2181C},
+\citet{2015arXiv150500198T}, and
+\citet{2015arXiv150407629B}. {\bf todo: actually comment
+on what's in these papers}.
+
+
+
+The differences between the approaches can be broken down into
 i) different assumptions about the prior information being used, and ii)
 different computational methods used to compute the results.
 Each approach involves tradeoffs between convenience and realism.
@@ -93,6 +101,7 @@ to the hypothesis that the source actually looks like a galaxy, and very high
 prior probability to the hypothesis that the source looks like noise (or
 blurred noise).
 
+
 In a previous paper \citep{2011MNRAS.412.2521B} we argued that an ideal
 modelling approach lies somewhere between simply-parameterised and
 pixellated models. The source and the lens can be built up from a moderate
@@ -109,8 +118,7 @@ distribution for the masses, given some hyperparameters.
 
 Computing the posterior distribution over the parameters of such a model
 requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
-of possible sources and lenses. In a recent paper, 
-
+of possible sources and lenses.
 
 \section{The Model}
 
@@ -170,6 +178,15 @@ centered at the origin has the following surface mass density profile:
 \right.
 \end{eqnarray}
 The deflection angles are:
+
+
+Since the model is not of fixed dimension (the number of source and lens
+``blobs'' is unknown), we implemented the MCMC using the {\tt RJObject}
+\citep{rjobject} software, a C++ library for implementing trans-dimensional
+MCMC with hierarchically-specified priors, and doing the sampling with the
+Diffusive Nested Sampling algorithm \citep{dnest}. Previous astronomical
+applications of {\tt RJObject} include \citet{magnetron}
+and~\ref{exoplanet}.
 
 
 \section{The Cosmic Horseshoe}
@@ -287,6 +304,9 @@ We demonstrate the method on the HST images of ER 0047-2808.
 
 
 \begin{thebibliography}{99}
+\bibitem[\protect\citeauthoryear{Birrer, Amara, 
+\& Refregier}{2015}]{2015arXiv150407629B} Birrer S., Amara A., Refregier A., 2015, arXiv, arXiv:1504.07629
+
 \bibitem[\protect\citeauthoryear{Brewer, P{\'a}rtay,
 \& Cs{\'a}nyi}{2011}]{dnest} Brewer B.~J., P{\'a}rtay L.~B., Cs{\'a}nyi G., 2011,
 Statistics and Computing, 21, 4, 649-656. arXiv:0912.2380
@@ -298,8 +318,15 @@ N.~W., 2011, MNRAS, 412, 2521
 \bibitem[\protect\citeauthoryear{Brewer}{2014}]{rjobject} Brewer, B. J., 2014,
 preprint. ArXiv: 1411.3921
 
+\bibitem[\protect\citeauthoryear{Brewer 
+\& Donovan}{2015}]{exoplanet} Brewer B.~J., Donovan C.~P., 2015, MNRAS, 448, 3206 
+
 \bibitem[\protect\citeauthoryear{Coles, Read, 
 \& Saha}{2014}]{2014MNRAS.445.2181C} Coles J.~P., Read J.~I., Saha P., 2014, MNRAS, 445, 2181
+
+\bibitem[\protect\citeauthoryear{Huppenkothen et 
+al.}{2015}]{magnetron} Huppenkothen D., et al., 2015, arXiv, 
+arXiv:1501.05251 
 
 \bibitem[\protect\citeauthoryear{Koopmans}{2005}]{koopmans} 
 Koopmans L.~V.~E., 2005, MNRAS, 363, 1136
@@ -318,6 +345,9 @@ Analysis 4, pp. 833-860
 \bibitem[\protect\citeauthoryear{Suyu et al.}{2006}]{suyu} 
 Suyu S.~H., Marshall P.~J., Hobson M.~P., Blandford R.~D., 2006, MNRAS, 
 371, 983
+
+\bibitem[\protect\citeauthoryear{Tagore 
+\& Jackson}{2015}]{2015arXiv150500198T} Tagore A.~S., Jackson N., 2015, arXiv, arXiv:1505.00198
 
 \bibitem[\protect\citeauthoryear{Treu}{2010}]{treu} Treu T., 2010, ARA\&A, 48, 87 
 
