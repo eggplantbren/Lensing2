@@ -42,7 +42,7 @@ pgm.add_edge('sigma', 'data')
 pgm.add_edge('nie', 'data')
 
 # Add the plates
-pgm.add_plate(daft.Plate([-1., -1., 2., 2.], label=r'Source Blobs \newline $i=1, ..., N_{\rm source}$'))
+pgm.add_plate(daft.Plate([-1., -1., 2., 2.], label=r'Source Blobs \newline $i=1, ..., N_{\rm src}$'))
 
 # Add the plates
 pgm.add_plate(daft.Plate([3., -1., 2., 2.], label=r'Lens Blobs \newline $i=1, ..., N_{\rm lens}$'))
