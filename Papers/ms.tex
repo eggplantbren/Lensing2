@@ -80,7 +80,8 @@ i) different assumptions about the prior information being used, and ii)
 different computational methods used to compute the results.
 Each approach involves tradeoffs between convenience and realism.
 Simply parameterized models, such as Sérsic surface
-brightness profiles for the source, and SIE models for the lens, are very
+brightness profiles for the source, and singular isothermal ellipsoid plus
+external shear (SIE+$\gamma$) models for the lens, are very
 convenient. They only have a few adjustable parameters, and they capture
 (to ``first order'') relevant prior information that we have about the
 source and lens profiles. Of course, they are clearly simplifications,
@@ -90,7 +91,7 @@ from any member of the assumed family.
 On the
 other hand, pixellated models for the source \citep[e.g.][]{suyu} or the lens
 \citep[e.g.][]{2014MNRAS.445.2181C} can in principle represent ``any''
-source surface brightness profile or lens density profile. However, the prior
+source surface brightness profile or lens projected density profile. However, the prior
 distribution over pixel values is often chosen to be a multivariate gaussian
 for mathematical reasons, so
 that the source can be analytically marginalized over
@@ -99,10 +100,10 @@ over pixel intensities can correspond to a very poor model of our prior
 beliefs about the source. It assigns virtually zero prior probability
 to the hypothesis that the source actually looks like a galaxy, and very high
 prior probability to the hypothesis that the source looks like noise (or
-blurred noise).
+blurred noise). These priors also assign nonzero probability to negative
+surface brightness or density values.
 
-
-In a previous paper \citep{2011MNRAS.412.2521B} we argued that an ideal
+\citet{2011MNRAS.412.2521B} argued that an ideal
 modelling approach lies somewhere between simply-parameterised and
 pixellated models. The source and the lens can be built up from a moderate
 number of simply parameterised components. For the source, this allows
@@ -112,9 +113,11 @@ nearby point) and the fact that most of the sky is dark.
 
 For the lens, if we are interested in detecting and measuring the properties of
 dark substructures, a superposition of an unknown number of ``blobs'' is the
-relevant model. In addition, if we want to constrain the ``mass function'' of
+most natural model. In addition, if we want to constrain the ``mass function'' of
 these blobs, we will need a hierarchical model which specifies the probability
-distribution for the masses, given some hyperparameters.
+distribution for the masses, conditional on some hyperparameters. Inferring the
+mass function of the blobs then reduces to calculating the posterior
+distribution for the hyperparameters.
 
 Computing the posterior distribution over the parameters of such a model
 requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
@@ -124,7 +127,8 @@ of possible sources and lenses.
 
 \subsection{The Source}
 The surface brightness profile of the source is assumed to be composed of
-a sum of a finite number of ``blobs'', or circular basis functions.
+a sum of a finite number of ``blobs'', or basis functions. The specific choice
+of basis functions we use is motivated primarily by computational speed.
 The surface brightness of a single blob centered at the origin
 is:
 \begin{eqnarray}
@@ -136,7 +140,8 @@ f(x, y) &=& \left\{
 \right.
 \end{eqnarray}
 where $r = \sqrt{x^2 + y^2}$, $w$ is the width of the blob, and $A$ is the
-total flux of the blob (i.e. the integral of the surface brightness).
+total flux of the blob (i.e. the integral of the surface brightness over the
+entire domain).
 These basis functions are faster to evaluate than gaussians, since they do not
 contain an exponential function. In addition, the finite support means that
 each blob will evaluate to zero over a large fraction of the domain which
@@ -154,6 +159,21 @@ f(x, y) &=& \sum_{i=1}^{N_{\rm src}}\left\{
 \right.
 \end{eqnarray}
 where $r_i = \sqrt{(x - x_i)^2 + (y - y_i)^2}$.
+
+Under these assumptions, the source can be described by the following
+parameters:
+
+\begin{eqnarray}
+\left\{
+N_{\rm src}, \left\{\mathbf{x}^{\rm src}_i\right\}_{i=1}^N
+\right\}
+\end{eqnarray}
+where $\mathbf{x}^{\rm src}_i$ denotes the parameters for source blob $i$:
+\begin{eqnarray}
+\mathbf{x}^{\rm src}_i &=& \left\{x_i, y_i, A_i, w_i
+\right\}.
+\end{eqnarray}
+
 
 
 \begin{figure*}
