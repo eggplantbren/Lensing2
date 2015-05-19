@@ -148,7 +148,7 @@ each blob will evaluate to zero over a large fraction of the domain which
 confers an additional speed advantage.
 
 If our model contains $N_{\rm src}$ such blobs, positioned at
-$\left\{(x_i, y_i)\right\}$ with widths $\{w_i\}$ and total fluxes
+$\left\{(x_i^{\rm src}, y_i^{\rm src})\right\}$ with widths $\{w_i\}$ and total fluxes
 $\{A_i\}$, the overall surface brightness profile is:
 \begin{eqnarray}
 f(x, y) &=& \sum_{i=1}^{N_{\rm src}}\left\{
@@ -158,7 +158,7 @@ f(x, y) &=& \sum_{i=1}^{N_{\rm src}}\left\{
 \end{array}
 \right.
 \end{eqnarray}
-where $r_i = \sqrt{(x - x_i)^2 + (y - y_i)^2}$.
+where $r_i = \sqrt{(x - x_i^{\rm src})^2 + (y - y_i^{\rm src})^2}$.
 
 Under these assumptions, the source can be described by the following
 parameters:
@@ -198,6 +198,26 @@ centered at the origin has the following surface mass density profile:
 \right.
 \end{eqnarray}
 The deflection angles are:
+
+%Menc = 4.*components[i][2]/widthsq*(0.5*rsq -
+%				rsq*rsq/(4*widthsq));
+
+\begin{eqnarray}
+\alpha_x(x, y) &=&
+\left\{
+\begin{array}{lr}
+-\frac{\left[2(r/v)^2 - (r/v)^4\right]Mx}{r^3}, & r \leq v\\
+-\frac{Mx}{\pi r^3}, & \textnormal{otherwise}
+\end{array}
+\right.\\
+\alpha_y(x, y) &=&
+\left\{
+\begin{array}{lr}
+-\frac{\left[2(r/v)^2 - (r/v)^4\right]My}{r^3}, & r \leq v\\
+-\frac{My}{\pi r^3}, & \textnormal{otherwise}
+\end{array}
+\right.
+\end{eqnarray}
 
 
 Since the model is not of fixed dimension (the number of source and lens
