@@ -6,11 +6,13 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{xspace}
-\usepackage{dsfont}
+%\usepackage{dsfont}
 \usepackage[utf8]{inputenc}
 \usepackage{caption}
 \usepackage{subcaption} % subfigures
 \usepackage{float}
+
+\usepackage{epstopdf} 
 
 \title[]
 {Trans-Dimensional Inference for Gravitational Lens Substructures}
@@ -175,7 +177,6 @@ where $\mathbf{x}^{\rm src}_i$ denotes the parameters for source blob $i$:
 \end{eqnarray}
 
 
-
 \begin{figure*}
 \includegraphics{pgm.pdf}
 \caption{A probabilistic graphical model (PGM) of the dependence structure
@@ -232,7 +233,7 @@ and~\citep{exoplanet}.
 \section{The Cosmic Horseshoe}
 As a demonstration the method is the applied to the Cosmic Horseshoe INT data. 
 The field of view of the image is $15.3180" \times 15.3180"$, and the size is $46 \times 46$ pixels, therefore one pixel is equivalent to $0.33"$. \\
-The method discussed  in the previous section is applied to two models, the first model consist of a flexible source and a Singular Isothermal Elliptical(SIE) model for the lens.  This model is similar to models used in previous work \cite{Belokurov2007} \cite{Dye2008}. 
+The method discussed  in the previous section is applied to two models, the first model consist of a flexible source and a Singular Isothermal Elliptical(SIE) model for the lens. This model is has been used often  \cite{Dye2008}, \cite{schneider_falcoa_Ehlers_1994},      . 
 The second model has in addition to the flexible source and SIE, also possible satellites. \\
 The amount of added satellites is automatically determined by the program. If models the addition of an satellite galaxies gives a higher probability it will be preferred over then model without satellite galaxies.  \\
 In both models the SIE is specified by the usual parameters: the location of the NIE ($x_c$,$y_c$), b, axis ratio $f$\footnote{in the code denoted with $q$},  the core radius$\zeta$, $\theta$, shear $\gamma$, and $\theta_{\gamma}$ \cite{kormann_schneider_1994}.\\
@@ -265,8 +266,8 @@ $theta_{shear}$  & $ \pi\cdot Unif(0,1)$ \\
 \end{table}
 
 
- \begin{figure}[!h]
- \hspace{20pt}
+ \begin{figure*}
+% \hspace{20pt}
 \begin{subfigure}{.45\textwidth}
   \centering
   \includegraphics[width=0.75\linewidth,angle=90]{log_mass_SIE_no_blobs.eps}
@@ -277,7 +278,7 @@ $theta_{shear}$  & $ \pi\cdot Unif(0,1)$ \\
   \includegraphics[width=0.75\linewidth,angle=90]{log_mass_SIE.eps}
    \parbox{0.8\linewidth}{\caption{The log of the SIE mass within the critical curve for model B.   \label{fig:sub2}}}
 \end{subfigure}
-   \end{figure}
+   \end{figure*}
 
 After choosing the prior probabilities one has to initialized the Dnest-code, which mean incorporating the problem specific information for
  example dimensions of the images in pixels, image size in arc-seconds, information on the PSF etc in the metadata file. 
