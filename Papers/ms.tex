@@ -222,12 +222,15 @@ The deflection angles are:
 
 
 Since the model is not of fixed dimension (the number of source and lens
-``blobs'' is unknown), we implemented the MCMC using the {\tt RJObject}
-\citep{rjobject} software, a C++ library for implementing trans-dimensional
+``blobs'' is unknown), we used a trans-dimensional MCMC sampler based on
+reversible jump MCMC \citep{green}. We implemented the MCMC using the
+{\tt RJObject} software \citep{rjobject}, a C++ library for implementing trans-dimensional
 MCMC with hierarchically-specified priors, and doing the sampling with the
 Diffusive Nested Sampling algorithm \citep{dnest}. Previous astronomical
 applications of {\tt RJObject} include \citet{magnetron}
-and~\citep{exoplanet}.
+and~\citep{exoplanet}. Proposal moves for the parameters (positions and masses
+of the source and lens blobs), and birth/death moves to add or remove blobs
+to the source or lens, are handled internally by {\tt RJObject}.
 
 
 \section{The Cosmic Horseshoe}
@@ -364,6 +367,9 @@ preprint. ArXiv: 1411.3921
 
 \bibitem[\protect\citeauthoryear{Coles, Read, 
 \& Saha}{2014}]{2014MNRAS.445.2181C} Coles J.~P., Read J.~I., Saha P., 2014, MNRAS, 445, 2181
+
+\bibitem[\protect\citeauthoryear{Green}{1995}]{rjmcmc}
+Green, P.~J., 1995, Reversible Jump Markov Chain Monte Carlo Computation and Bayesian Model Determination, Biometrika 82 (4): 711–732.
 
 \bibitem[\protect\citeauthoryear{Huppenkothen et 
 al.}{2015}]{magnetron} Huppenkothen D., et al., 2015, arXiv, 
