@@ -185,8 +185,16 @@ of the prior information.\label{fig:pgm}}
 
 
 \subsection{The Lens}
-
-The NIE parameters...
+The surface mass density profile of the lens is modelled as a superposition
+of a singular isothermal ellipsoid plus external shear (SIE+$\gamma$) and
+$N$ circular lens ``blobs''. The SIE+$\gamma$ has nine parameters:
+the (circularized) einstein radius $b$, axis ratio $q$, central position
+$(x_c, y_c)$, orientation angle $\theta$, the external shear $\gamma$, and the
+orientation angle of the external shear, $\theta_{\gamma}$. The SIE+$\gamma$
+is supposed to account for the bulk of the lensing effect. Of course, more
+general and flexible smooth models are possible. Ultimately, concentric
+mixtures of smooth components may be the most useful for realistic inference
+of the density profile of the halo.
 
 A lensing blob with mass $M$ and width $v$
 centered at the origin has the following surface mass density profile:
@@ -239,7 +247,7 @@ The field of view of the image is $15.3180" \times 15.3180"$, and the size is $4
 The method discussed  in the previous section is applied to two models, the first model consist of a flexible source and a Singular Isothermal Elliptical(SIE) model for the lens. This model is has been used often  \cite{Dye2008}, \cite{schneider_falcoa_Ehlers_1994},      . 
 The second model has in addition to the flexible source and SIE, also possible satellites. \\
 The amount of added satellites is automatically determined by the program. If models the addition of an satellite galaxies gives a higher probability it will be preferred over then model without satellite galaxies.  \\
-In both models the SIE is specified by the usual parameters: the location of the NIE ($x_c$,$y_c$), b, axis ratio $f$\footnote{in the code denoted with $q$},  the core radius$\zeta$, $\theta$, shear $\gamma$, and $\theta_{\gamma}$ \cite{kormann_schneider_1994}.\\
+In both models the SIE is specified by the usual parameters: the location of the SIE ($x_c$,$y_c$), b, axis ratio $f$\footnote{in the code denoted with $q$},  the core radius$\zeta$, $\theta$, shear $\gamma$, and $\theta_{\gamma}$ \cite{kormann_schneider_1994}.\\
 One of the firsts step in applying Bayesian analysis is providing good prior distribution for the parameters. 
 The chosen prior probability distributions are displayed in table \ref{table:1}. The parameters which are not listed in table 
 \ref{table:1} depend on parameters which are listed. 
@@ -264,7 +272,7 @@ $\theta$   & $\pi \cdot Unif(0,1)$\\
 shear      & $0.05 \cdot tan(\pi \cdot 0.5 \cdot Unif(0,1)) $\\
 $theta_{shear}$  & $ \pi\cdot Unif(0,1)$ \\
 \end{tabular}
-\parbox{0.75\linewidth}{\caption{Prior probabilities distribution for NIE parameters, where the scale parameter depends on <something> \label{table:1} }}
+\parbox{0.75\linewidth}{\caption{Prior probabilities distribution for SIE parameters, where the scale parameter depends on <something> \label{table:1} }}
 
 \end{table}
 
