@@ -246,6 +246,8 @@ Quantity	&	Meaning		& Prior\\
 {\bf Hyperparameters}\\
 $N_{\rm src}$	&	Number of source blobs	& Uniform($0, 1, ..., 100$)\\
 $N_{\rm lens}$	&	Number of lens blobs	& Uniform($0, 1, ..., 10$)\\
+$\mu_{\rm src}$ &	Expected mean flux of source blobs	& \\
+$\mu_{\rm lens}$ &	Expected mean mass of lens blobs	& \\
 
 {\bf Lens Blob Parameters}\\
 {\bf Source Blob Parameters}\\
@@ -256,6 +258,15 @@ $N_{\rm lens}$	&	Number of lens blobs	& Uniform($0, 1, ..., 10$)\\
 \caption{All of the prior distributions.
 \label{tab:priors}}
 \end{table*}
+
+One might object to the Cauchy priors for the central positions on the
+basis that they do not have rotational symmetry. However, the priors we
+are assigning are prior to the values of the data pixel intensities only, and
+not other facts about the data, such as its dimensions in arc seconds, or its
+rectangular shape. Given these, there is no reason to insist on rotational
+symmetry. The Cauchy priors are intended to enhance the plausibility that the
+lens and source are somewhere near the centre of the image, but in a cautious
+way.
 
 
 \begin{figure*}
