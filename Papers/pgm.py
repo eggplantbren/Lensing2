@@ -27,7 +27,7 @@ pgm.add_node(daft.Node('hidden2', r'', 5., 0., scale=0, plot_params={'alpha':0})
 
 # Top and bottom
 pgm.add_node(daft.Node('sigma', r'$\boldsymbol{\sigma}$', 2., 2.))
-pgm.add_node(daft.Node('nie', r'$\boldsymbol{\theta}_{\rm NIE}$', 2., -2.))
+pgm.add_node(daft.Node('sie', r'$\boldsymbol{\theta}_{\rm SIE}$', 2., -2.))
 
 # Add the edges
 pgm.add_edge('alpha', 'x')
@@ -39,7 +39,7 @@ pgm.add_edge('x2', 'data')
 pgm.add_edge('N2', 'hidden2')
 
 pgm.add_edge('sigma', 'data')
-pgm.add_edge('nie', 'data')
+pgm.add_edge('sie', 'data')
 
 # Add the plates
 pgm.add_plate(daft.Plate([-1., -1., 2., 2.], label=r'Source Blobs \newline $i=1, ..., N_{\rm src}$'))
