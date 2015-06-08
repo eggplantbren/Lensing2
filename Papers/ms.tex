@@ -167,21 +167,14 @@ parameters:
 
 \begin{eqnarray}
 \left\{
-N_{\rm src}, \left\{\mathbf{x}^{\rm src}_i\right\}_{i=1}^N
+N_{\rm src}, \left\{\boldsymbol{x}^{\rm src}_i\right\}_{i=1}^N
 \right\}
 \end{eqnarray}
-where $\mathbf{x}^{\rm src}_i$ denotes the parameters for source blob $i$:
+where $\boldsymbol{x}^{\rm src}_i$ denotes the parameters for source blob $i$:
 \begin{eqnarray}
-\mathbf{x}^{\rm src}_i &=& \left\{x_i, y_i, A_i, w_i
+\boldsymbol{x}^{\rm src}_i &=& \left\{x_i, y_i, A_i, w_i
 \right\}.
 \end{eqnarray}
-
-
-\begin{figure*}
-\includegraphics{pgm.pdf}
-\caption{A probabilistic graphical model (PGM) of the dependence structure
-of the prior information.\label{fig:pgm}}
-\end{figure*}
 
 
 \subsection{The Lens}
@@ -239,6 +232,18 @@ applications of {\tt RJObject} include \citet{magnetron}
 and~\citep{exoplanet}. Proposal moves for the parameters (positions and masses
 of the source and lens blobs), and birth/death moves to add or remove blobs
 to the source or lens, are handled internally by {\tt RJObject}.
+
+
+\section{Prior Probability Distributions}
+We use 
+
+
+\begin{figure*}
+\includegraphics{pgm.pdf}
+\caption{A probabilistic graphical model (PGM) of the dependence structure
+of the prior information.\label{fig:pgm}}
+\end{figure*}
+
 
 
 \section{The Cosmic Horseshoe}
