@@ -235,7 +235,27 @@ to the source or lens, are handled internally by {\tt RJObject}.
 
 
 \section{Prior Probability Distributions}
-We use 
+We use the following prior probability distributions:
+
+
+\begin{table*}
+\begin{tabular}{|l|l|l|}
+\hline
+Quantity	&	Meaning		& Prior\\
+\hline
+{\bf Hyperparameters}\\
+$N_{\rm src}$	&	Number of source blobs	& Uniform($0, 1, ..., 100$)\\
+$N_{\rm lens}$	&	Number of lens blobs	& Uniform($0, 1, ..., 10$)\\
+
+{\bf Lens Blob Parameters}\\
+{\bf Source Blob Parameters}\\
+{\bf Smooth Lens Parameters}\\
+{\bf Noise Parameters}\\
+{\bf Data}\\
+\end{tabular}
+\caption{All of the prior distributions.
+\label{tab:priors}}
+\end{table*}
 
 
 \begin{figure*}
