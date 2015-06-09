@@ -246,9 +246,14 @@ Quantity	&	Meaning		& Prior\\
 {\bf Hyperparameters}\\
 $N_{\rm src}$	&	Number of source blobs	& Uniform($0, 1, ..., 100$)\\
 $N_{\rm lens}$	&	Number of lens blobs	& Uniform($0, 1, ..., 10$)\\
-$\mu_{\rm src}$ &	Expected mean flux of source blobs	& \\
-$\mu_{\rm lens}$ &	Expected mean mass of lens blobs	& \\
-
+$(x_c^{\rm src}, y_c^{\rm src})$ & Typical position of source blobs & \\
+$(x_c^{\rm lens}, y_c^{\rm lens})$ & Typical position of lens blobs &\\
+$R_{\rm src}$   &	Typical distance of source blobs from $(x_c^{\rm src}, y_c^{\rm src})$ & \\
+$R_{\rm lens}$  &	Typical distance of lens blobs from $(x_c^{\rm lens}, y_c^{\rm lens})$ 	& \\
+$\mu_{\rm src}$ &	Typical flux of source blobs	& \\
+$\mu_{\rm lens}$&	Typical mass of lens blobs	& \\
+$W_{\rm src}$ &		Typical width of source blobs	& \\
+$W_{\rm lens}$&		Typical width of lens blobs	& \\
 {\bf Lens Blob Parameters}\\
 {\bf Source Blob Parameters}\\
 {\bf Smooth Lens Parameters}\\
@@ -259,12 +264,16 @@ $\mu_{\rm lens}$ &	Expected mean mass of lens blobs	& \\
 \label{tab:priors}}
 \end{table*}
 
-One might object to the Cauchy priors for the central positions on the
+We assign somewhat informative Cauchy priors to the central positions of the
+source and the lens.
+One might object to the Cauchy priors
+for the central positions (and argue instead for gaussians) on the
 basis that they do not have rotational symmetry. However, the priors we
-are assigning are prior to the values of the data pixel intensities only, and
-not other facts about the data, such as its dimensions in arc seconds, or its
+are assigning are prior only to the values of the data pixel intensities only,
+and not other facts about the data, such as its dimensions in arc seconds, or its
 rectangular shape. Given these, there is no reason to insist on rotational
-symmetry. The Cauchy priors are intended to enhance the plausibility that the
+symmetry. The Cauchy priors are intended to enhance the plausibility
+(relative to what a uniform prior would imply) that the
 lens and source are somewhere near the centre of the image, but in a cautious
 way.
 
