@@ -37,7 +37,17 @@
 \label{firstpage}
 
 \begin{abstract}
-
+We introduce a Bayesian solution to the problem of inferring the density
+profile of strong gravitational lenses when the lens galaxy may contain
+multiple dark or faint substructures. The source and lens models are based on
+a superposition of an unknown number of non-negative basis functions
+(or ``blobs'') which were chosen with speed as a primary criterion.
+The prior distribution for the blobs' properties is specified hierarchically,
+so the ``mass function'' of substructures is a natural output. We use reversible
+jump Markov Chain Monte Carlo (MCMC) within Diffusive Nested Sampling (DNS) to
+sample the posterior distribution and evaluate the marginal likelihood of the
+model. We demonstrate the method on a simulated data set, and also apply it to
+the Cosmic Horseshoe, finding ...
 \end{abstract}
 
 
@@ -255,6 +265,9 @@ $\mu_{\rm lens}$&	Typical mass of lens blobs	& \\
 $W_{\rm src}$ &		Typical width of source blobs	& \\
 $W_{\rm lens}$&		Typical width of lens blobs	& \\
 {\bf Lens Blob Parameters}\\
+$(x_i^{\rm src}, y_i^{\rm src})$
+$M_i$  &
+$v_i$  &
 {\bf Source Blob Parameters}\\
 {\bf Smooth Lens Parameters}\\
 {\bf Noise Parameters}\\
@@ -398,6 +411,12 @@ log of the SIE mass within the Einstein radius for model B.  \label{fig:sub6} }}
 We demonstrate the method on the HST images of ER 0047-2808.
 
 
+
+\section*{Acknowledgements}
+It is a pleasure to thank ...
+
+This work was funded by a Marsden Fast Start grant from the Royal Society of
+New Zealand.
 
 
 \begin{thebibliography}{99}
