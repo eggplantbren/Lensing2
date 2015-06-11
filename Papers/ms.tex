@@ -197,15 +197,22 @@ where $\boldsymbol{x}^{\rm src}_i$ denotes the parameters for source blob $i$:
 \subsection{The Lens}
 The surface mass density profile of the lens is modelled as a superposition
 of a singular isothermal ellipsoid plus external shear (SIE+$\gamma$) and
-$N$ circular lens ``blobs''. The SIE+$\gamma$ has nine parameters:
-the (circularized) einstein radius $b$, axis ratio $q$, central position
-$(x_c, y_c)$, orientation angle $\theta$, the external shear $\gamma$, and the
-orientation angle of the external shear, $\theta_{\gamma}$. The SIE+$\gamma$
-is supposed to account for the bulk of the lensing effect. Of course, more
-general and flexible smooth models are possible. Ultimately, concentric
+$N$ circular lens ``blobs''. The SIE+$\gamma$ is a simple and widely used lens
+model with analytically available deflection angles, and is intended to account
+for the bulk of the lensing effect due to the smooth spatial distribution
+of (visible and dark) matter in the lens galaxy. Unfortunately, along with
+simplicity comes a lack of realism, and generalising the smooth lens model
+is an important future step. Ultimately, concentric
 mixtures of smooth components may be the most useful for realistic inference
 of the density profile of the halo.
 
+The SIE+$\gamma$ has nine parameters:
+the (circularized) einstein radius $b$, axis ratio $q$, central position
+$(x_c, y_c)$, orientation angle $\theta$, the external shear $\gamma$, and the
+orientation angle of the external shear, $\theta_{\gamma}$.
+
+The $N$ lens blobs are intended to model possible dark or faint substructures
+in the projected mass profile of the lens.
 A lensing blob with mass $M$ and width $v$
 centered at the origin has the following surface mass density profile:
 \begin{eqnarray}
