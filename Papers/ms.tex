@@ -261,27 +261,47 @@ We use the following prior probability distributions:
 Quantity	&	Meaning		& Prior\\
 \hline
 {\bf Hyperparameters}\\
+\hline
 $N_{\rm src}$	&	Number of source blobs	& Uniform($0, 1, ..., 100$)\\
 $N_{\rm lens}$	&	Number of lens blobs	& Uniform($0, 1, ..., 10$)\\
-$(x_c^{\rm src}, y_c^{\rm src})$ & Typical position of source blobs & \\
-$(x_c^{\rm lens}, y_c^{\rm lens})$ & Typical position of lens blobs &\\
+$(x_c^{\rm src}, y_c^{\rm src})$ & Typical position of source blobs & iid Cauchy(location=0, scale=0.1$\times$(image width))\\
+$(x_c^{\rm lens}, y_c^{\rm lens})$ & Typical position of lens blobs & iid Cauchy(location=0, scale=0.1$\times$(image width))\\
 $R_{\rm src}$   &	Typical distance of source blobs from $(x_c^{\rm src}, y_c^{\rm src})$ & \\
 $R_{\rm lens}$  &	Typical distance of lens blobs from $(x_c^{\rm lens}, y_c^{\rm lens})$ 	& \\
 $\mu_{\rm src}$ &	Typical flux of source blobs	& \\
 $\mu_{\rm lens}$&	Typical mass of lens blobs	& \\
 $W_{\rm src}$ &		Typical width of source blobs	& \\
 $W_{\rm lens}$&		Typical width of lens blobs	& \\
+\hline
 {\bf Source Blob Parameters}\\
-$(x_i^{\rm src}, y_i^{\rm src})$ & Blob position & \\
+\hline
+$(x_i^{\rm src}, y_i^{\rm src})$ & Blob position & Circular(location=$(x_c^{\rm src}, y_c^{\rm src})$, scale=$R_{\rm src}$)\\
 $A_i$  & Blob flux & Exponential(mean=$\mu_{\rm src}$)\\
 $w_i$  & Blob width & Exponential(mean=$W_{\rm src}$)\\
+\hline
 {\bf Lens Blob Parameters}\\
+\hline
 $(x_i^{\rm lens}, y_i^{\rm lens})$ & Blob position & \\
 $M_i$  & Blob mass & Exponential(mean=$\mu_{\rm lens}$)\\
 $v_i$  & Blob width & Exponential(mean=$W_{\rm lens}$)\\
+\hline
 {\bf Smooth Lens Parameters}\\
+\hline
+$b$\\
+$q$\\
+$(x_c^{\rm SIE}, y_c^{\rm SIE})$\\
+$\theta$\\
+$\gamma$\\
+$\theta_\gamma$\\
+\hline
 {\bf Noise Parameters}\\
+\hline
+$\sigma_0$\\
+$\sigma_1$\\
+\hline
 {\bf Data}\\
+\hline
+$D_{ij}$
 \end{tabular}
 \caption{All of the prior distributions.
 \label{tab:priors}}
