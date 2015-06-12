@@ -143,6 +143,8 @@ requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
 of possible sources and lenses.
 
 \section{The Model}
+We now describe the details of our model and its parameterization.
+
 
 \subsection{The Source}
 The surface brightness profile of the source is assumed to be composed of
@@ -259,7 +261,9 @@ to the source or lens, are handled internally by {\tt RJObject}.
 
 
 \section{Prior Probability Distributions}
-We use the following prior probability distributions:
+The prior probability distributions for all hyperparameters, parameters, and
+the data, are given in Table~\ref{tab:priors}, and a factorization of the
+joint distribution is displayed in Figure~\ref{fig:pgm}.
 
 
 \begin{table*}
@@ -300,7 +304,7 @@ $b$ & SIE Einstein Radius & LogUniform(0.001$\times$(image width), image width)\
 $q$ & Axis ratio & Uniform(0, 0.95)\\
 $(x_c^{\rm SIE}, y_c^{\rm SIE})$ & Central position & iid Cauchy(location=$(0,0)$, scale=0.1$\times$(image width))\\
 $\theta$ & Orientation angle & Uniform$(0, \pi)$\\
-$\gamma$ & External shear & Cauchy$(0, 0.05)T(0, )$\\
+$\gamma$ & External shear & Cauchy$(0, 0.05)T(0, \infty)$\\
 $\theta_\gamma$ & External shear angle & Uniform$(0, \pi)$\\
 \hline
 {\bf Noise Parameters}\\
@@ -313,7 +317,12 @@ $\ln(\sigma_1) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
 \hline
 $D_{ij}$ & Pixel intensities & Normal$(m_{ij}, s_{ij}^2 + \sigma_0^2 + \sigma_1m_{ij})$
 \end{tabular}
-\caption{All of the prior distributions.
+\caption{The prior distribution for all hyperparameters, parameters, and the
+data, in our model. Uniform$(a, b)$ is a uniform
+distribution between $a$ and $b$. LogUniform$(a, b)$ is a log-uniform
+distribution (with density $f(x) \propto 1/x$, sometimes erroneously called
+a Jeffreys prior) between $a$ and $b$. The notation $T(\alpha, \beta)$ after
+a distribution denotes truncation to the interval $[\alpha, \beta]$.
 \label{tab:priors}}
 \end{table*}
 
@@ -336,7 +345,6 @@ way.
 \caption{A probabilistic graphical model (PGM) of the dependence structure
 of the prior information.\label{fig:pgm}}
 \end{figure*}
-
 
 
 \section{The Cosmic Horseshoe}
