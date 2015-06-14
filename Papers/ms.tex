@@ -374,34 +374,6 @@ The method discussed  in the previous section is applied to two models, the firs
 The second model has in addition to the flexible source and SIE, also possible satellites. \\
 The amount of added satellites is automatically determined by the program. If models the addition of an satellite galaxies gives a higher probability it will be preferred over then model without satellite galaxies.  \\
 In both models the SIE is specified by the usual parameters: the location of the SIE ($x_c$,$y_c$), b, axis ratio $f$\footnote{in the code denoted with $q$},  the core radius$\zeta$, $\theta$, shear $\gamma$, and $\theta_{\gamma}$ \cite{kormann_schneider_1994}.\\
-One of the firsts step in applying Bayesian analysis is providing good prior distribution for the parameters. 
-The chosen prior probability distributions are displayed in table \ref{table:1}. The parameters which are not listed in table 
-\ref{table:1} depend on parameters which are listed. 
-
-\begin{table}
-\centering
-\begin{tabular}{ l l}
-parameter    &  expression        \\  
-\hline 
-b            &  $exp\left(  log_{10}(10^{-3})+  log_{10}(10^{3})\cdot Unif(0,1) \right)\cdot scale  $ \\
-q            &  $0.05 + 0.95\cdot Unif(0,1) $ \\
-$x_c$       &  $0.5\cdot (x_{max} + x_{min}) +   0.1 \cdot(x_{max} - x_{min}) \cdot tan(\pi\cdot ( Unif(0,1) - 0.5)  )$ \\
-$		y_c$  &  $0.5\cdot (y_{max} + y_{min}) + 0.1\cdot (y_{max} - y_{min}) \cdot tan(\pi\cdot (Unif(0,1)  - 0.5)  ) $\\
-%rc           &  if $\left\{
-%  \begin{array}{l l}
-%    \textrm{singular} & \quad bb\\
- %   \textrm{non-singular} & \quad  bb
-  %\end{array} \right.$
-rc(singular)   & $10^{-7}\cdot scale$ \\
-rc(non-singular)   & $  exp\left(log_{10}(10^{-3})+  log_{10}(10^{3})\cdot Unif(0,1)\right) \cdot scale   $\\
-$\theta$   & $\pi \cdot Unif(0,1)$\\
-shear      & $0.05 \cdot tan(\pi \cdot 0.5 \cdot Unif(0,1)) $\\
-$theta_{shear}$  & $ \pi\cdot Unif(0,1)$ \\
-\end{tabular}
-\parbox{0.75\linewidth}{\caption{Prior probabilities distribution for SIE parameters, where the scale parameter depends on <something> \label{table:1} }}
-
-\end{table}
-
 
  \begin{figure*}
 % \hspace{20pt}
