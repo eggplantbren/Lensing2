@@ -14,13 +14,13 @@ pgm = daft.PGM([9., 5.], origin=[-2.5, -2.5])
 
 # Create the nodes
 pgm.add_node(daft.Node('alpha', r'$\boldsymbol{\alpha}_{\rm src}$', 0., 2.))
-pgm.add_node(daft.Node('x', r'$\boldsymbol{x}_i^{\rm src}$', 0., 0.))
+pgm.add_node(daft.Node('x', r'$\boldsymbol{\theta}_i^{\rm src}$', 0., 0.))
 pgm.add_node(daft.Node('data', r'$\boldsymbol{D}$', 2., 0., observed=True))
 pgm.add_node(daft.Node('N', r'$N_{\rm src}$', -2., 0.))
 pgm.add_node(daft.Node('hidden', r'', -1., 0., scale=0, plot_params={'alpha':0}))
 
 # Right hand side
-pgm.add_node(daft.Node('x2', r'$\boldsymbol{x}_i^{\rm lens}$', 4., 0.))
+pgm.add_node(daft.Node('x2', r'$\boldsymbol{\theta}_i^{\rm lens}$', 4., 0.))
 pgm.add_node(daft.Node('alpha2', r'$\boldsymbol{\alpha}_{\rm lens}$', 4., 2.))
 pgm.add_node(daft.Node('N2', r'$N_{\rm lens}$', 6., 0.))
 pgm.add_node(daft.Node('hidden2', r'', 5., 0., scale=0, plot_params={'alpha':0}))
