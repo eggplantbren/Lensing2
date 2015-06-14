@@ -350,9 +350,15 @@ way.
 The ``circular'' conditional prior for the blob positions has the following
 density:
 \begin{eqnarray}
-\rho(x, y) &=& \frac{1}{2\pi W} \frac{1}{r}\exp\left(-\frac{r}{W}\right)
+\rho(x, y)\, dx \, dy &=&
+\frac{1}{2\pi W} \frac{1}{r}\exp\left(-\frac{r}{W}\right) \, dx \, dy
 \end{eqnarray}
-where $r = \sqrt{(x-x_c)^2 + (y-y_c)^2}$.
+where $r = \sqrt{(x-x_c)^2 + (y-y_c)^2}$. This results from an exponential
+distribution (with expectation $W$) for the radial coordinate and a uniform distribution for the angular coordinate in plane polar coordinates. This was
+chosen (as opposed to a more ``obvious'' choice such as a normal distribution)
+for computational reasons: the {\tt RJObject} code requires a function to
+transform from Uniform(0, 1) distributions to this distribution and back, and
+the normal would have required the use of special functions.
 
 \begin{figure*}
 \includegraphics{pgm.pdf}
