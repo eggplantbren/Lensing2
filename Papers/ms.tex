@@ -263,8 +263,16 @@ to the source or lens, are handled internally by {\tt RJObject}.
 \section{Prior Probability Distributions}
 The prior probability distributions for all hyperparameters, parameters, and
 the data, are given in Table~\ref{tab:priors}, and a factorization of the
-joint distribution is displayed in Figure~\ref{fig:pgm}.
-
+joint distribution is displayed in Figure~\ref{fig:pgm}. With these priors,
+we aim to express a large degree of prior uncertainty (hence the liberal use
+of uniform, loguniform, and Cauchy distributions). However, we also specify
+some priors hierarchically to allow (for example)
+blobs to cluster around a typical central
+position, rather than implying a high probability for substructure positions
+being spread uniformly (in a frequency sense) over the sky. We also applied
+hierarchical priors to the substructure masses (and fluxes) so that, while
+the typical order of magnitude of the masses is unknown, the masses
+themselves are likely to be roughly the same order of magnitude.
 
 \begin{table*}
 \begin{tabular}{|l|l|l|}
