@@ -301,7 +301,7 @@ reversible jump MCMC \citep{green}. We implemented the MCMC using the
 MCMC with hierarchically-specified priors, and doing the sampling with the
 Diffusive Nested Sampling algorithm \citep{dnest}. Previous astronomical
 applications of {\tt RJObject} include \citet{magnetron}
-and~\citep{exoplanet}. Proposal moves for the parameters (positions and masses
+and~\citet{exoplanet}. Proposal moves for the parameters (positions and masses
 of the source and lens blobs), and birth/death moves to add or remove blobs
 to the source or lens, are handled internally by {\tt RJObject}.
 
@@ -434,6 +434,10 @@ facilitates proposals that change the hyperparameters (either for the lens
 or the source) while keeping the actual blobs in place, as well as proposals
 that change the hyperparameters and shift all of the relevant blobs in
 so they are appropriate for the new values of the hyperparameters.
+
+\section{Simulated Data}
+To demonstrate the method, we generated a simulated dataset with a single
+substructure. The image is shown in Figure X.
 
 \section{The Cosmic Horseshoe}
 As a demonstration the method is the applied to the Cosmic Horseshoe INT data. 
