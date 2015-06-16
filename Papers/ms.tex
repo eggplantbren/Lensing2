@@ -231,7 +231,7 @@ centered at the origin has the following surface mass density profile:
 \end{array}
 \right.
 \end{eqnarray}
-The deflection angles are:
+The deflection angles for a single blob are:
 
 %Menc = 4.*components[i][2]/widthsq*(0.5*rsq -
 %				rsq*rsq/(4*widthsq));
@@ -252,7 +252,28 @@ The deflection angles are:
 \end{array}
 \right.
 \end{eqnarray}
+where $r=\sqrt{x^2 + y^2}$. For $N$ such blobs the deflection angles are
+summed over all blobs. Therefore the lens can be entirely described by
+the following parameters:
 
+\begin{eqnarray}
+\left\{
+\boldsymbol{\theta}_{\rm SIE},
+N_{\rm lens}, \left\{\boldsymbol{\theta}^{\rm lens}_i\right\}_{i=1}^N
+\right\}
+\end{eqnarray}
+where $\boldsymbol{\theta}^{\rm lens}_i$ denotes the parameters for lens blob $i$:
+\begin{eqnarray}
+\boldsymbol{\theta}^{\rm lens}_i &=& \left\{x_i^{\rm lens}, y_i\rm lens}, M_i, v_i
+\right\},
+\end{eqnarray}
+and $\boldsymbol{\theta}_{\rm SIE}$ describes the parameters for the SIE
+component:
+\begin{eqnarray}
+\boldsymbol{\theta}_{\rm SIE} = \left\{
+b, q, (x_c^{\rm SIE}, y_c^{\rm SIE}), \theta, \gamma, \theta_\gamma
+\right\}.
+\end{eqnarray}
 
 Since the model is not of fixed dimension (the number of source and lens
 ``blobs'' is unknown), we used a trans-dimensional MCMC sampler based on
