@@ -149,15 +149,25 @@ requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
 of possible sources and lenses.
 
 \section{The Model}
-We now describe the details of our model and its parameterization.
-
+We now describe the details of our model and its parameterization. The
+motivation for most of our modelling choices is a compromise between
+computational efficiency, realism, and ease of implementation. None of the
+choices we have made are final in any sense, and we encourage exploration of
+other choices. Since we can compute marginal likelihoods, Bayesian model
+comparison between our choices here and any proposed alternatives should be
+straightforward, provided a mixture of our model and another is considered
+reasonable.
 
 \subsection{The Source}
 The surface brightness profile of the source is assumed to be composed of
-a sum of a finite number of ``blobs'', or basis functions. The specific choice
-of basis functions we use is motivated primarily by computational speed.
-The surface brightness of a single blob centered at the origin
-is:
+a sum of a finite number of ``blobs'', or basis functions, in order to
+allow some flexibility while incorporating prior information about the
+non-negativity of surface brightness, and the spatial correlation expected
+in real surface brightness profiles.
+
+For computational speed, we choose the following
+functional form for the surface brightness profile
+of a single blob centered at the origin:
 \begin{eqnarray}
 f(x, y) &=& \left\{
 \begin{array}{lr}
@@ -169,7 +179,8 @@ f(x, y) &=& \left\{
 where $r = \sqrt{x^2 + y^2}$, $w$ is the width of the blob, and $A$ is the
 total flux of the blob (i.e. the integral of the surface brightness over the
 entire domain).
-These basis functions are faster to evaluate than gaussians, since they do not
+These basis functions are inverted paraboloids, which are faster to evaluate
+than gaussians, since they do not
 contain an exponential function. In addition, the finite support means that
 each blob will evaluate to zero over a large fraction of the domain which
 confers an additional speed advantage.
@@ -187,9 +198,8 @@ f(x, y) &=& \sum_{i=1}^{N_{\rm src}}\left\{
 \end{eqnarray}
 where $r_i = \sqrt{(x - x_i^{\rm src})^2 + (y - y_i^{\rm src})^2}$.
 
-Under these assumptions, the source can be described by the following
-parameters:
-
+Under these assumptions, the source can be described in its entirety
+by the following parameters:
 \begin{eqnarray}
 \left\{
 N_{\rm src}, \left\{\boldsymbol{\theta}^{\rm src}_i\right\}_{i=1}^N
