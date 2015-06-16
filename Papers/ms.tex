@@ -285,34 +285,40 @@ themselves are likely to be roughly the same order of magnitude.
 \hline
 Quantity	&	Meaning		& Prior\\
 \hline
-{\bf Hyperparameters}\\
+{\bf Numbers of Blobs}\\
 \hline
 $N_{\rm src}$	&	Number of source blobs	& Uniform($0, 1, ..., 100$)\\
 $N_{\rm lens}$	&	Number of lens blobs	& Uniform($0, 1, ..., 10$)\\
+\hline
+{\bf Source hyperparameters} ($\boldsymbol{\alpha}_{\rm src}$)\\
+\hline
 $(x_c^{\rm src}, y_c^{\rm src})$ & Typical position of source blobs & iid Cauchy(location=$(0,0)$, scale=0.1$\times$(image width))\\
-$(x_c^{\rm lens}, y_c^{\rm lens})$ & Typical position of lens blobs & iid Cauchy(location=$(0,0)$, scale=0.1$\times$(image width))\\
-$R_{\rm src}$   &	Typical distance of source blobs from $(x_c^{\rm src}, y_c^{\rm src})$ & LogUniform(0.01$\times$(image width), 10$\times$(image width))\\
-$R_{\rm lens}$  &	Typical distance of lens blobs from $(x_c^{\rm lens}, y_c^{\rm lens})$ 	& LogUniform(0.01$\times$(image width), 10$\times$(image width))\\
+$R_{\rm src}$   &	Typical distance of blobs from $(x_c^{\rm src}, y_c^{\rm src})$ & LogUniform(0.01$\times$(image width), 10$\times$(image width))\\
 $\mu_{\rm src}$ &	Typical flux of source blobs	& $\ln(\mu_{\rm src}) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
-$\mu_{\rm lens}$&	Typical mass of lens blobs	& $\ln(\mu_{\rm lens}) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
 $W_{\rm max}^{\rm src}$ &		Maximum width of source blobs	& LogUniform(0.001$\times$(image width), image width)\\
 $W_{\rm min}^{\rm src}$ &		Minimum width of source blobs	& Uniform(0, $W_{\rm max}^{\rm src}$)\\
+\hline
+{\bf Lens hyperparameters} ($\boldsymbol{\alpha}_{\rm lens}$)\\
+\hline
+$(x_c^{\rm lens}, y_c^{\rm lens})$ & Typical position of lens blobs & iid Cauchy(location=$(0,0)$, scale=0.1$\times$(image width))\\
+$R_{\rm lens}$  &	Typical distance of blobs from $(x_c^{\rm lens}, y_c^{\rm lens})$ 	& LogUniform(0.01$\times$(image width), 10$\times$(image width))\\
+$\mu_{\rm lens}$&	Typical mass of lens blobs	& $\ln(\mu_{\rm lens}) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
 $W_{\rm max}^{\rm lens}$ &		Maximum width of lens blobs	& LogUniform(0.001$\times$(image width), image width)\\
 $W_{\rm min}^{\rm lens}$ &		Minimum width of lens blobs	& Uniform(0, $W_{\rm max}^{\rm lens}$)\\
 \hline
-{\bf Source Blob Parameters}\\
+{\bf Source Blob Parameters} ($\boldsymbol{\theta}_i^{\rm src}$)\\
 \hline
 $(x_i^{\rm src}, y_i^{\rm src})$ & Blob position & Circular(location=$(x_c^{\rm src}, y_c^{\rm src})$, scale=$R_{\rm src}$)\\
 $A_i$  & Blob flux & Exponential(mean=$\mu_{\rm src}$)\\
 $w_i$  & Blob width & Uniform($W_{\rm min}^{\rm src}$, $W_{\rm max}^{\rm src}$)\\
 \hline
-{\bf Lens Blob Parameters}\\
+{\bf Lens Blob Parameters} ($\boldsymbol{\theta}_i^{\rm lens}$)\\
 \hline
 $(x_i^{\rm lens}, y_i^{\rm lens})$ & Blob position & Circular(location=$(x_c^{\rm lens}, y_c^{\rm lens})$, scale=$R_{\rm lens}$) \\
 $M_i$  & Blob mass & Exponential(mean=$\mu_{\rm lens}$)\\
 $v_i$  & Blob width & Uniform($W_{\rm min}^{\rm src}$, $W_{\rm max}^{\rm src}$)\\
 \hline
-{\bf Smooth Lens Parameters}\\
+{\bf Smooth Lens Parameters} ($\boldsymbol{\theta}_{\rm SIE}$)\\
 \hline
 $b$ & SIE Einstein Radius & LogUniform(0.001$\times$(image width), image width)\\
 $q$ & Axis ratio & Uniform(0, 0.95)\\
@@ -321,13 +327,13 @@ $\theta$ & Orientation angle & Uniform$(0, \pi)$\\
 $\gamma$ & External shear & Cauchy$(0, 0.05)T(0, \infty)$\\
 $\theta_\gamma$ & External shear angle & Uniform$(0, \pi)$\\
 \hline
-{\bf Noise Parameters}\\
+{\bf Noise Parameters} ($\boldsymbol{\sigma}$)\\
 \hline
 $\sigma_0$ & Constant component of noise variance & $\ln(\sigma_0) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
-$\sigma_1$ & Proportionality coeff. for variance incr. with flux &
+$\sigma_1$ & Coefficient for variance increasing with flux &
 $\ln(\sigma_1) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
 \hline
-{\bf Data}\\
+{\bf Data} ($\boldsymbol{D}$)\\
 \hline
 $D_{ij}$ & Pixel intensities & Normal$(m_{ij}, s_{ij}^2 + \sigma_0^2 + \sigma_1m_{ij})$
 \end{tabular}
