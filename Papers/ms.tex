@@ -418,6 +418,22 @@ the normal would have required the use of special functions.
 of the prior information.\label{fig:pgm}}
 \end{figure*}
 
+\section{Computation}
+To compute the posterior distribution for the parameters
+(of which there are 24--464, depending on the values of $N_{\rm src}$ and
+$N_{\rm lens}$), we use Diffusive Nested Sampling \citep{dnest}, a form
+of Nested Sampling \citep{skilling} that uses the Metropolis algorithm
+to move around the parameter space.
+
+The proposal distributions for the blob parameters (both source and lens) are
+handled by the {\tt RJObject} library \citep{rjobject}. This includes
+birth and death proposals that increase or decrease either $N_{\rm src}$,
+or $N_{\rm lens}$, as well as proposals that move the blobs (in their parameter
+space) while keeping the number of blobs fixed. {\tt RJObject} also
+facilitates proposals that change the hyperparameters (either for the lens
+or the source) while keeping the actual blobs in place, as well as proposals
+that change the hyperparameters and shift all of the relevant blobs in
+so they are appropriate for the new values of the hyperparameters.
 
 \section{The Cosmic Horseshoe}
 As a demonstration the method is the applied to the Cosmic Horseshoe INT data. 
