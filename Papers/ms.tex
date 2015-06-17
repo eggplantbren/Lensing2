@@ -435,9 +435,21 @@ or the source) while keeping the actual blobs in place, as well as proposals
 that change the hyperparameters and shift all of the relevant blobs in
 so they are appropriate for the new values of the hyperparameters.
 
+Evaluating likelihood function requires that we compute a ``mock'' image from
+the current setting of the parameters. This mock image is calculated using
+standard ray-tracing methods with a uniform grid of $n \times n$ rays
+fired per image pixel. However, certain kinds of proposals do not affect the
+image in any way, such as those that change the noise parameters.
+
 \section{Simulated Data}
 To demonstrate the method, we generated a simulated dataset with a single
-substructure. The image is shown in Figure~\ref{fig:simulated_image}.
+substructure. The image is shown in Figure~\ref{fig:simulated_image}, and
+consists of 100 $\times$ 100 pixels. The PSF was compact and was
+defined on a 5 $\times$ 5 grid. The data was created by firing only one ray
+per pixel, and the inference was also carried out under the same level of
+approximation. Since the model assumptions are all correct for this image, the
+demonstration here is purely to illustrate the computational tractability of
+the problem, and the kind of outputs we are capable of producing.
 
 \begin{figure}
 \begin{center}
