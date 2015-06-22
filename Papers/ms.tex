@@ -461,9 +461,15 @@ some noise added.\label{fig:simulated_image}}
 \end{figure}
 
 \section{The Cosmic Horseshoe}
-As a further demonstration the method, we apply it to the X-band INT
-image of the Cosmic Horseshoe \citep{}, which is shown in
-Figure~\ref{fig:horseshoe_image}.
+As a further demonstration the method, we apply it to the X-band data
+from the Isaac Newton Telescope (INT). This image of the Cosmic Horseshoe
+\citep{}, which is shown in Figure~\ref{fig:horseshoe_image}. For this system,
+more data is available (Y and Z band data, as well as more recent
+Hubble Space Telescope (HST) imaging). Unfortunately our current implementation
+doesn't allow for multi-band data (unlike \citet{2011MNRAS.412.2521B}), and
+is quite slow when running on the larger HST image. Therefore this section
+should be considered a further demonstration of the technique, and not a
+thorough study of this system.
 
 
 %The field of view of the image is $15.3180" \times 15.3180"$, and the size is $46 \times 46$ pixels, therefore one pixel is equivalent to $0.33"$. \\
@@ -596,8 +602,8 @@ Green, P.~J., 1995, Reversible Jump Markov Chain Monte Carlo Computation and Bay
 Grillo C., et al., 2015, ApJ, 800, 38 
 
 \bibitem[\protect\citeauthoryear{Huppenkothen et 
-al.}{2015}]{magnetron} Huppenkothen D., et al., 2015, arXiv, 
-arXiv:1501.05251 
+al.}{2015}]{magnetron} Huppenkothen D., et al., 2015,
+accepted for publication in ApJ. arXiv:1501.05251 
 
 \bibitem[\protect\citeauthoryear{Koopmans}{2005}]{koopmans} 
 Koopmans L.~V.~E., 2005, MNRAS, 363, 1136
