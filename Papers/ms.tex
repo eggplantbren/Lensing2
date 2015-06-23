@@ -460,6 +460,13 @@ some noise added.\label{fig:simulated_image}}
 \end{center}
 \end{figure}
 
+We executed the code to generate 3,000 samples from the ``mixture of
+constrained priors'' distribution of DNest. Our thinning factor was $10^5$,
+so $3 \times 10^8$ MCMC iterations were actually performed, taking approximately
+30 hours on a PC purchased new in 2012. After resampling these samples to
+reflect the posterior distribution, we were left with 318
+(equally weighted) posterior samples.
+
 \section{The Cosmic Horseshoe}
 As a further demonstration the method, we apply it to the X-band data
 from the Isaac Newton Telescope (INT). This image of the Cosmic Horseshoe
