@@ -480,7 +480,7 @@ frame is a sample from the posterior distribution. The degree to which the
 frames differ from each other conveys the uncertainty remaining after taking
 the data into account.
 
-The {\it empirical measure} of the substructure positions is a functional that
+The {\it empirical measure} of the substructure positions is a function that
 takes the substructure positions $(x_i^{\rm lens}, y_i^{\rm lens})$ and
 produces a ``density function'' over two dimensions, composed of delta
 functions at the positions themselves:
@@ -491,8 +491,25 @@ functions at the positions themselves:
 \right\}_{i=1}^{N_{\rm lens}}
 \Longrightarrow
 \sum_{i=1}^{N_{\rm lens}}
-\delta\left(x - x_i^{\rm lens}, y_i^{\rm lens}, y - y_i^{\rm lens}\right).
+\delta\left(x - x_i^{\rm lens}, y - y_i^{\rm lens}\right).
 \end{eqnarray}
+
+The empirical measure, being a function of the actual substructure positions,
+is not available to us since we do not know those positions with certainty.
+However, we have samples from the posterior distribution for those positions,
+and can use these (trivially) to create samples from the posterior distribution
+for the empirical measure. We can also summarise this posterior, for example,
+by taking its expected value.
+
+The posterior expected value of the empirical measure is:
+\begin{eqnarray}
+\int p(\boldsymbol{\theta} | \boldsymbol{D})
+\sum_{i=1}^{N_{\rm lens}}
+\delta\left(x - x_i^{\rm lens}, y_i^{\rm lens} - y_i^{\rm lens}\right)
+\, d\boldsymbol{\theta}
+\end{eqnarray}
+where $\boldsymbol{\theta}$ denotes all parameters and hyperparameters
+(including the $N$s) and ``$\int \,d\boldsymbol{\theta}$'' is an integral and summation over the entire parameter space.
 
 
 
