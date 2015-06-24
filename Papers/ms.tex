@@ -484,7 +484,6 @@ The {\it empirical measure} of the substructure positions is a function that
 takes the substructure positions $(x_i^{\rm lens}, y_i^{\rm lens})$ and
 produces a ``density function'' over two dimensions, composed of delta
 functions at the positions themselves:
-
 \begin{eqnarray}
 \left\{
 (x_i^{\rm lens}, y_i^{\rm lens})
@@ -494,7 +493,10 @@ functions at the positions themselves:
 \delta\left(x - x_i^{\rm lens}, y - y_i^{\rm lens}\right).
 \end{eqnarray}
 
-The empirical measure, being a function of the actual substructure positions,
+Intuitively, the empirical measure is a mathematical object that is like
+an ``infinite resolution histogram'', in this case a two dimensional histogram,
+of the substructure positions.
+Being a function of the actual substructure positions, the empirical measure
 is not available to us since we do not know those positions with certainty.
 However, we have samples from the posterior distribution for those positions,
 and can use these (trivially) to create samples from the posterior distribution
@@ -519,7 +521,12 @@ obtain the expected value of the empirical measure using:
 \delta^2\left(x - x_i^{\rm lens}, y_i^{\rm lens} - y_i^{\rm lens}\right)
 \, d\boldsymbol{\theta}
 \end{eqnarray}
-where $n$ is the number of posterior samples.
+where $n$ is the number of posterior samples. The resulting function is
+an ``image'' with a point mass wherever a substructure occurred. For
+visualisation purposes the image can be blurred, or calculated at a lower
+resolution by replacing the Dirac-delta function with a discrete version
+which returns a nonzero constant
+if a substructure appears in a pixel or zero otherwise.
 
 
 \section{The Cosmic Horseshoe}
