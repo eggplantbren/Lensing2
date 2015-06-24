@@ -415,8 +415,9 @@ where $r = \sqrt{(x-x_c)^2 + (y-y_c)^2}$. This results from an exponential
 distribution (with expectation $W$) for the radial coordinate and a uniform distribution for the angular coordinate in plane polar coordinates. This was
 chosen (as opposed to a more ``obvious'' choice such as a normal distribution)
 for computational reasons: the {\tt RJObject} code requires a function to
-transform from Uniform(0, 1) distributions to this distribution and back, and
-the normal would have required the use of special functions.
+transform from Uniform(0, 1) distributions to this distribution and back
+(making use of cumulative distribution functions and their inverses), and
+the normal would have required the use of special functions for this.
 
 \begin{figure*}
 \includegraphics{pgm.pdf}
@@ -472,6 +473,15 @@ so $3 \times 10^8$ MCMC iterations were actually performed, taking approximately
 30 hours on a PC purchased new in 2012. After resampling these samples to
 reflect the posterior distribution, we were left with 318
 (equally weighted) posterior samples.
+
+The posterior distributions for complex models, such as the mixture models used here, are often challenging and unintuitive to summarise. One effective way
+to visualise the uncertainty in the inferences is to play a movie where each
+frame is a sample from the posterior distribution. The degree to which the
+frames differ from each other conveys the uncertainty remaining after taking
+the data into account.
+
+The {\it empirical measure} of the substructure positions is a function that
+takes the substructure positions $()$
 
 
 
