@@ -297,9 +297,15 @@ b, q, (x_c^{\rm SIE}, y_c^{\rm SIE}), \theta, \gamma, \theta_\gamma
 Since the model is not of fixed dimension (the number of source and lens
 ``blobs'' is unknown), we used a trans-dimensional MCMC sampler based on
 reversible jump MCMC \citep{green}. We implemented the MCMC using the
-{\tt RJObject} software \citep{rjobject}, a C++ library for implementing trans-dimensional
-MCMC with hierarchically-specified priors, and doing the sampling with the
-Diffusive Nested Sampling algorithm \citep{dnest}. Previous astronomical
+{\tt RJObject} software \citep{rjobject}, a C++ library for implementing trans-dimensional MCMC with hierarchically-specified priors when the model is
+a ``mixture model'' or similar, as is the case here.
+The {\tt RJObject} library uses the
+Diffusive Nested Sampling algorithm \citep{dnest} for its sampling, but the
+trans-dimensionality is handled by the MCMC moves. Therefore, the marginal
+likelihood we obtain is one that involves a sum over the hypothesis space
+for $N_{\rm src}$ and $N_{\rm lens}$. In other words, we do not need
+separate runs with different trial values of $N_{\rm src}$ and $N_{\rm lens}$.
+Previous astronomical
 applications of {\tt RJObject} include \citet{magnetron}
 and~\citet{exoplanet}. Proposal moves for the parameters (positions and masses
 of the source and lens blobs), and birth/death moves to add or remove blobs
@@ -466,6 +472,8 @@ so $3 \times 10^8$ MCMC iterations were actually performed, taking approximately
 30 hours on a PC purchased new in 2012. After resampling these samples to
 reflect the posterior distribution, we were left with 318
 (equally weighted) posterior samples.
+
+
 
 \section{The Cosmic Horseshoe}
 As a further demonstration the method, we apply it to the X-band data
