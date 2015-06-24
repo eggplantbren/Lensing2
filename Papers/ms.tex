@@ -480,8 +480,19 @@ frame is a sample from the posterior distribution. The degree to which the
 frames differ from each other conveys the uncertainty remaining after taking
 the data into account.
 
-The {\it empirical measure} of the substructure positions is a function that
-takes the substructure positions $()$
+The {\it empirical measure} of the substructure positions is a functional that
+takes the substructure positions $(x_i^{\rm lens}, y_i^{\rm lens})$ and
+produces a ``density function'' over two dimensions, composed of delta
+functions at the positions themselves:
+
+\begin{eqnarray}
+\left\{
+(x_i^{\rm lens}, y_i^{\rm lens})
+\right\}_{i=1}^{N_{\rm lens}}
+\Longrightarrow
+\sum_{i=1}^{N_{\rm lens}}
+\delta\left(x - x_i^{\rm lens}, y_i^{\rm lens}, y - y_i^{\rm lens}\right).
+\end{eqnarray}
 
 
 
