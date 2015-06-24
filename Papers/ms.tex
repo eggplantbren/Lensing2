@@ -505,12 +505,21 @@ The posterior expected value of the empirical measure is:
 \begin{eqnarray}
 \int p(\boldsymbol{\theta} | \boldsymbol{D})
 \sum_{i=1}^{N_{\rm lens}}
-\delta\left(x - x_i^{\rm lens}, y_i^{\rm lens} - y_i^{\rm lens}\right)
+\delta^2\left(x - x_i^{\rm lens}, y_i^{\rm lens} - y_i^{\rm lens}\right)
 \, d\boldsymbol{\theta}
 \end{eqnarray}
 where $\boldsymbol{\theta}$ denotes all parameters and hyperparameters
 (including the $N$s) and ``$\int \,d\boldsymbol{\theta}$'' is an integral and summation over the entire parameter space.
 
+Since we can approximate posterior expectations using Monte Carlo, we can
+obtain the expected value of the empirical measure using:
+\begin{eqnarray}
+\sum_{k=1}^n
+\sum_{i=1}^{N_{\rm lens}}
+\delta^2\left(x - x_i^{\rm lens}, y_i^{\rm lens} - y_i^{\rm lens}\right)
+\, d\boldsymbol{\theta}
+\end{eqnarray}
+where $n$ is the number of posterior samples.
 
 
 \section{The Cosmic Horseshoe}
