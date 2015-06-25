@@ -120,3 +120,11 @@ ylabel('Total substructure mass')
 savefig('masses.pdf', bbox_inches='tight')
 show()
 
+hist(output[:,18], bins=arange(0, 11) - 0.5*0.3, width=0.3, alpha=0.3)
+xlim([-0.2, 10.2])
+gca().set_xticks(arange(0, 11))
+xlabel('$N_{\\rm lens}$')
+ylabel('Number of Posterior Samples')
+savefig('N_lens.pdf', bbox_inches='tight')
+show()
+
