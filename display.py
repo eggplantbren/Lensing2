@@ -16,6 +16,8 @@ metadata = loadtxt('Data/mock_metadata.txt')
 
 total = zeros((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 magnification = zeros(output.shape[0])
+all_substructures_x = array([])
+all_substructures_y = array([])
 
 figure(figsize=(12, 8))
 ion()
@@ -96,6 +98,10 @@ for i in xrange(0, output.shape[0]):
 	total += src
 	magnification[i] = 2.5*log10(metadata[7]**2*img2.sum()/src.sum())
 
+	# Accumulate these before converting to pixels
+	all_substructures_x = hstack([all_substructures_x, x_substructures])
+	all_substructures_y = hstack([all_substructures_y, y_substructures])
+
 ioff()
 show()
 
@@ -126,5 +132,17 @@ gca().set_xticks(arange(0, 11))
 xlabel('$N_{\\rm lens}$')
 ylabel('Number of Posterior Samples')
 savefig('N_lens.pdf', bbox_inches='tight')
+show()
+
+figure(4, figsize=(8, 8))
+imshow(data, interpolation="nearest", cmap="Oranges")
+hold(True)
+plot(all_substructures_x, all_substructures_y, 'k.', markersize=3)
+gca().set_xticks([])
+gca().set_yticks([])
+xlim([-0.5, metadata[1] - 0.5])
+ylim([metadata[0] - 0.5, -0.5])
+title('Substructure Positions')
+savefig('substructures.pdf', bbox_inches='tight')
 show()
 
