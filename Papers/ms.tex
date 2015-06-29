@@ -630,80 +630,80 @@ and the total mass in substructures.\label{fig:simdata_masses}}
 \end{center}
 \end{figure}
 
- \begin{figure*}
-% \hspace{20pt}
-\begin{subfigure}{.45\textwidth}
-  \centering
-  \includegraphics[width=0.75\linewidth,angle=90]{log_mass_SIE_no_blobs.eps}
-\parbox{0.8\linewidth}{\caption{The log of the SIE mass within the critical curve  for model A.  \label{fig:sub1} }}
-\end{subfigure}%
-\begin{subfigure}{.45\textwidth}
-  \centering
-  \includegraphics[width=0.75\linewidth,angle=90]{log_mass_SIE.eps}
-   \parbox{0.8\linewidth}{\caption{The log of the SIE mass within the critical curve for model B.   \label{fig:sub2}}}
-\end{subfigure}
-   \end{figure*}
+% \begin{figure*}
+%% \hspace{20pt}
+%\begin{subfigure}{.45\textwidth}
+%  \centering
+%  \includegraphics[width=0.75\linewidth,angle=90]{log_mass_SIE_no_blobs.eps}
+%\parbox{0.8\linewidth}{\caption{The log of the SIE mass within the critical curve  for model A.  \label{fig:sub1} }}
+%\end{subfigure}%
+%\begin{subfigure}{.45\textwidth}
+%  \centering
+%  \includegraphics[width=0.75\linewidth,angle=90]{log_mass_SIE.eps}
+%   \parbox{0.8\linewidth}{\caption{The log of the SIE mass within the critical curve for model B.   \label{fig:sub2}}}
+%\end{subfigure}
+%   \end{figure*}
 
-After choosing the prior probabilities one has to initialized the Dnest-code, which mean incorporating the problem specific information for
- example dimensions of the images in pixels, image size in arc-seconds, information on the PSF etc in the metadata file. 
- Besides these problem specific parameters, there are also several other parameters concerning the performance of code which need to be
-  edited in the OPTION file. After these initialization, we ran a test run to explore the amount of necessary levels, and length of the run.
- A sufficiently amount of levels correlates with good degree of mixing, and the length of the run is associated with the larger sample
-  size. After one test run, the amount levels was adapted to 120, and the amount iterations was change to 5000 iterations, for model A this resulted in the effective sample size of 940, and for model B this resulted in the effective sample size of 757.  The difference between the effective sample size is not unexpected, since the probability space which can be explored by applying model B much larger.  \\
-Throughout the paper the standard cosmology was used for the analysis:  $H_0=70 \rm{km~s^{-1} ~pc^{-1}}$,  $\Omega_m = 0.3$,and  $\Omega_\Lambda= 0.7$. 
-The first test would to compare the SIE-mass of the models with the mass obtained in previous  work \cite{Belokurov2007} \cite{Dye2008}.
-Using model A the median  calculated SIE mass within the critical curve in solar masses is  $(5.34 \pm 0.046) \cdot 10^{12} M_\odot$, % (using median + STDDEV)
-which is comparable with previous work which gave the enclosed (cylindriacal) mass $(5.4 \pm 0.09) \cdot 10^{12} M_\odot$ \cite{Belokurov2007} and  mass within the Einstein-ring $(5.02 \pm 0.09) \cdot 10^{12} M_\odot$ \cite{Dye2008}. Figure \ref{fig:sub1} displays the histogram of the enclosed mass within an Einstein ring of $5"$, it displays a very well confined probability distribution of the mass. \\ 
-Using model B the median calculated SIE mass within the critical curve in solar masses is  $(5.34 \pm 0.046) \cdot 10^{12} M_\odot$, % (using median + STDDEV)
-which is slightly smaller compared to the masses obtained with model A and the masses from previous work mentioned above. Which is also not unexpected, because models where the SIE-mass is smaller can compensate by adding a satellite near by. Therefore the distribution is much wider as one can see in figure \ref{fig:sub2}. The median of the SIE-mass in model B is $(4.79 \pm 1.66) \cdot 10^{12} M_\odot$, which leaves a large numerical uncertainty. However by comparison of the two histograms in figure \ref{fig:1} it is apparent that the distribution has a strong feature at the location. \\
- 
-\begin{figure}[!h]
-\hspace{5pt}
-\begin{subfigure}{.45\textwidth}
-  \centering
-  \includegraphics[width=0.7\linewidth,angle=90]{log_total_mass_blob.eps}
-\parbox{0.8\linewidth}{\caption{The log of the total mass of the satellites for model B.   \label{fig:sub3}}}
-\end{subfigure}%
-\hspace{-15pt}
-\begin{subfigure}{.45\textwidth}
-  \centering
-  \vspace{6pt}
-  \includegraphics[width=0.7\linewidth,angle=90]{log_total_mass_blobs_within_ring.eps}
-\parbox{0.8\linewidth}{\caption{The log of the total mass of the satellites within the fixed Einstein-radius for model B.  \label{fig:sub4} }}
-\end{subfigure}
-   \end{figure}
-\vspace{-15pt}
-\noindent Another interesting aspect is the mass of the satellites. Figure \ref{fig:sub3} displays a histogram of the logarithm of the total mass of the satellites per sample. Figure \ref{fig:sub4} displays histogram of the logarithm of the total mass of the satellites within a radius of $ 5"$ from the centre of images per sample. Comparing these two images reveals that large part the massive satellites lie outside the Einstein ring. The satellites at a larger distance can only influence the images if they are more massive. Figure \ref{fig:sub5} display a histogram of the log of the total mass of the SIE and the satellites within the Einstein radius, which clearly looks very similar to \ref{fig:sub1}. 
-Figure \ref{fig:sub6} display a plot of the total mass of the SIE versus mass of the satellites within the Einstein radius whichs  negative correlation of approximately 
-\begin{equation}
- \sum M_{satellites} = 5\cdot10^{12} - M_{SIE}
- \end{equation}
+%After choosing the prior probabilities one has to initialized the Dnest-code, which mean incorporating the problem specific information for
+% example dimensions of the images in pixels, image size in arc-seconds, information on the PSF etc in the metadata file. 
+% Besides these problem specific parameters, there are also several other parameters concerning the performance of code which need to be
+%  edited in the OPTION file. After these initialization, we ran a test run to explore the amount of necessary levels, and length of the run.
+% A sufficiently amount of levels correlates with good degree of mixing, and the length of the run is associated with the larger sample
+%  size. After one test run, the amount levels was adapted to 120, and the amount iterations was change to 5000 iterations, for model A this resulted in the effective sample size of 940, and for model B this resulted in the effective sample size of 757.  The difference between the effective sample size is not unexpected, since the probability space which can be explored by applying model B much larger.  \\
+%Throughout the paper the standard cosmology was used for the analysis:  $H_0=70 \rm{km~s^{-1} ~pc^{-1}}$,  $\Omega_m = 0.3$,and  $\Omega_\Lambda= 0.7$. 
+%The first test would to compare the SIE-mass of the models with the mass obtained in previous  work \cite{Belokurov2007} \cite{Dye2008}.
+%Using model A the median  calculated SIE mass within the critical curve in solar masses is  $(5.34 \pm 0.046) \cdot 10^{12} M_\odot$, % (using median + STDDEV)
+%which is comparable with previous work which gave the enclosed (cylindriacal) mass $(5.4 \pm 0.09) \cdot 10^{12} M_\odot$ \cite{Belokurov2007} and  mass within the Einstein-ring $(5.02 \pm 0.09) \cdot 10^{12} M_\odot$ \cite{Dye2008}. Figure \ref{fig:sub1} displays the histogram of the enclosed mass within an Einstein ring of $5"$, it displays a very well confined probability distribution of the mass. \\ 
+%Using model B the median calculated SIE mass within the critical curve in solar masses is  $(5.34 \pm 0.046) \cdot 10^{12} M_\odot$, % (using median + STDDEV)
+%which is slightly smaller compared to the masses obtained with model A and the masses from previous work mentioned above. Which is also not unexpected, because models where the SIE-mass is smaller can compensate by adding a satellite near by. Therefore the distribution is much wider as one can see in figure \ref{fig:sub2}. The median of the SIE-mass in model B is $(4.79 \pm 1.66) \cdot 10^{12} M_\odot$, which leaves a large numerical uncertainty. However by comparison of the two histograms in figure \ref{fig:1} it is apparent that the distribution has a strong feature at the location. \\
+% 
+%\begin{figure}[!h]
+%\hspace{5pt}
+%\begin{subfigure}{.45\textwidth}
+%  \centering
+%  \includegraphics[width=0.7\linewidth,angle=90]{log_total_mass_blob.eps}
+%\parbox{0.8\linewidth}{\caption{The log of the total mass of the satellites for model B.   \label{fig:sub3}}}
+%\end{subfigure}%
+%\hspace{-15pt}
+%\begin{subfigure}{.45\textwidth}
+%  \centering
+%  \vspace{6pt}
+%  \includegraphics[width=0.7\linewidth,angle=90]{log_total_mass_blobs_within_ring.eps}
+%\parbox{0.8\linewidth}{\caption{The log of the total mass of the satellites within the fixed Einstein-radius for model B.  \label{fig:sub4} }}
+%\end{subfigure}
+%   \end{figure}
+%\vspace{-15pt}
+%\noindent Another interesting aspect is the mass of the satellites. Figure \ref{fig:sub3} displays a histogram of the logarithm of the total mass of the satellites per sample. Figure \ref{fig:sub4} displays histogram of the logarithm of the total mass of the satellites within a radius of $ 5"$ from the centre of images per sample. Comparing these two images reveals that large part the massive satellites lie outside the Einstein ring. The satellites at a larger distance can only influence the images if they are more massive. Figure \ref{fig:sub5} display a histogram of the log of the total mass of the SIE and the satellites within the Einstein radius, which clearly looks very similar to \ref{fig:sub1}. 
+%Figure \ref{fig:sub6} display a plot of the total mass of the SIE versus mass of the satellites within the Einstein radius whichs  negative correlation of approximately 
+%\begin{equation}
+% \sum M_{satellites} = 5\cdot10^{12} - M_{SIE}
+% \end{equation}
 
-The main conclusion of the analysis of the datasets of model A and model B, would be that the application of the DNest code with a free amount of satellite galaxies return a well matching model which is very similar to to the model without any satellites, this proves 
-even though the code has the freedom the explore and create all sort of models, it confirms that the already known distribution is very probable. This shows how well the code works, and beside that it is also good indication that the well established SIE model for this system doesn't need additional satellites to explain the system. 
- 
-\begin{figure}
-\hspace{10pt}
-\begin{subfigure}{.5\textwidth}
-\vspace{-12pt}
-  \centering
-  \includegraphics[width=0.75\linewidth,angle=90]{mass_SIE_plus_blob_mass.eps}
-\parbox{0.8\linewidth}{\caption{The log of add mass of the satellites and SIE within the fixed Einstein-radius for model B.   \label{fig:sub5}}}
-\end{subfigure}
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=0.75\linewidth,angle=90]{joint.eps}
-\parbox{0.8\linewidth}{\caption{Plot of the log of the total mass of the satellites within the fixed Einstein-radius versus the 
-log of the SIE mass within the Einstein radius for model B.  \label{fig:sub6} }}
-\end{subfigure}
+%The main conclusion of the analysis of the datasets of model A and model B, would be that the application of the DNest code with a free amount of satellite galaxies return a well matching model which is very similar to to the model without any satellites, this proves 
+%even though the code has the freedom the explore and create all sort of models, it confirms that the already known distribution is very probable. This shows how well the code works, and beside that it is also good indication that the well established SIE model for this system doesn't need additional satellites to explain the system. 
+% 
+%\begin{figure}
+%\hspace{10pt}
+%\begin{subfigure}{.5\textwidth}
+%\vspace{-12pt}
+%  \centering
+%  \includegraphics[width=0.75\linewidth,angle=90]{mass_SIE_plus_blob_mass.eps}
+%\parbox{0.8\linewidth}{\caption{The log of add mass of the satellites and SIE within the fixed Einstein-radius for model B.   \label{fig:sub5}}}
+%\end{subfigure}
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  \includegraphics[width=0.75\linewidth,angle=90]{joint.eps}
+%\parbox{0.8\linewidth}{\caption{Plot of the log of the total mass of the satellites within the fixed Einstein-radius versus the 
+%log of the SIE mass within the Einstein radius for model B.  \label{fig:sub6} }}
+%\end{subfigure}
 
-   \end{figure}
+%   \end{figure}
 
-  
-  
+%  
+%  
 
-\section{ER 0047-2808}
-We demonstrate the method on the HST images of ER 0047-2808.
+%\section{ER 0047-2808}
+%We demonstrate the method on the HST images of ER 0047-2808.
 
 
 
