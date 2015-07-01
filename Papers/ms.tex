@@ -15,7 +15,7 @@
 \usepackage{epstopdf} 
 
 \title[]
-{Trans-Dimensional Inference for Gravitational Lens Substructures}
+{Trans-Dimensional Bayesian Inference for Gravitational Lens Substructures}
     
 \author[Brewer, Huijser and Lewis]{%
   Brendon~J.~Brewer$^{1}$\thanks{bj.brewer@auckland.ac.nz},
@@ -41,16 +41,18 @@ We introduce a Bayesian solution to the problem of inferring the density
 profile of strong gravitational lenses when the lens galaxy may contain
 multiple dark or faint substructures. The source and lens models are based on
 a superposition of an unknown number of non-negative basis functions
-(or ``blobs'') which were chosen with speed as a primary criterion.
+(or ``blobs'') whose form was chosen with speed as a primary criterion.
 The prior distribution for the blobs' properties is specified hierarchically,
-so the ``mass function'' of substructures is a natural output. We use reversible
+so the ``mass function'' of substructures is a natural output of the method.
+We use reversible
 jump Markov Chain Monte Carlo (MCMC) within Diffusive Nested Sampling (DNS) to
 sample the posterior distribution and evaluate the marginal likelihood of the
-model. We demonstrate the method on a simulated data set with a single
+model parameters including the number of blobs in the source and the lens.
+We demonstrate the method on a simulated data set with a single
 substructure, which is recovered well with moderate uncertainties. We also
-apply the method to an image of the ``Cosmic Horseshoe'' lens, and find some
+apply the method to an image of the ``Cosmic Horseshoe'' system, and find some
 hints of potential substructures. However, we caution that such results could
-also be attributed to misspecifications in the model (such as the shape of
+also be caused by misspecifications in the model (such as the shape of
 the smooth lens component or the point spread function),
 which are difficult to guard against in full generality.
 \end{abstract}
@@ -67,12 +69,20 @@ the distribution of matter, including dark matter, in galaxies
 and measuring the properties of dark matter substructures \citep{koopmans}.
 In recent years, this potential has been realised in several lens systems
 which are thought to contain at least one dark substructure
-\citep{vegetti1, vegetti2, vegetti3}. The present paper describes an
-approach we have developed for the inverse problem of detecting dark
-substructures from image data. However, it may also prove useful in other
-galaxy-galaxy lens modelling areas, such as time-delay cosmography, which
-requires realistically flexible lens models, and reliable uncertainty
-quantification
+\citep{vegetti1, vegetti2, vegetti3}. In these studies, the lens was modelled
+as a superposition of a smooth component (such as an elliptical power-law
+matter distribution) plus a pixellized ``non-parametric'' correction term.
+The estimated spatial structure of the correction term provides clues about
+the locations of possible substructures. In a second modelling step, the lens
+is assumed to be a smooth overall component plus a compact ``blob'' near any
+locations suggested by the correction term.
+
+We have developed an approach for solving this same problem (inferring the
+number and properties of dark substructures given an image) in a more direct
+fashion. However, with appropriate modifications, it may also prove useful in other
+galaxy-galaxy lens modelling areas. One example is time-delay cosmography, which
+requires realistically flexible lens models, and reliable quantification
+of the uncertainties
 \citep{2013ApJ...766...70S, 2014ApJ...788L..35S, grillo}.
 
 In this paper we address the topic of
@@ -538,7 +548,8 @@ be clear about exactly which mass they are talking about, and many definitions
 are possible, although some might be more meaningful or well constrained than
 others.
 
-We do not address the question of exactly which quantities related to the
+In the present paper we do not address the question of exactly which quantities
+related to the
 density profile of the lens are most scientifically interesting. Nevertheless,
 we can verify that the results of the inference do behave in understandable
 ways. For example, in Figure~\ref{fig:simdata_masses},
