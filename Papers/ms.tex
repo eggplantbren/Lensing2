@@ -85,28 +85,26 @@ requires realistically flexible lens models, and reliable quantification
 of the uncertainties
 \citep{2013ApJ...766...70S, 2014ApJ...788L..35S, grillo}.
 
-In this paper we address the topic of
-inferring the matter distribution in the lens galaxy from the lensed,
-blurred image. These approaches may be categorized according to the following
-criteria:
+Lens modelling has been a topic of much interest over the last two decades.
+Most approaches are based on Bayesian inference or maximum likelihood or
+variations thereof. These approaches may be categorized according to the
+following criteria:
 \begin{enumerate}
-\item Whether to use a simply parameterized (e.g. Sérsic), moderately flexible
-(e.g. mixture model, \citet{2011MNRAS.412.2521B})
+\item Whether to use a simply parameterized (e.g. a Sérsic profile),
+moderately flexible (e.g. a mixture model, \citet{2011MNRAS.412.2521B})
 or free-form (e.g. pixellated) model for the surface brightness profile of the source
 \item Whether to use a simply parameterized (e.g. Singular Isothermal Ellipsoid)
 or flexible model (e.g. pixellated) for the mass profile of the lens
 \item How to compute the results (e.g. optimization methods, Markov Chain
-Monte Carlo with or without source parameters marginalized out).
+Monte Carlo with source parameters marginalized out analytically, or
+with the source parameters included).
 \end{enumerate}
 
-Many different approaches have been proposed and applied to
-this problem. Recent sophisicated approaches to
+Recent sophisicated approaches to
 this problem include \citet{2014MNRAS.445.2181C},
 \citet{2015arXiv150500198T}, and
 \citet{2015arXiv150407629B}. {\bf todo: actually comment
 on what's in these papers}.
-
-
 
 The differences between the approaches can be broken down into
 i) different assumptions about the prior information being used, and ii)
