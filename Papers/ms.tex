@@ -430,7 +430,13 @@ the normal would have required the use of special functions for this.
 \begin{figure*}
 \includegraphics{pgm.pdf}
 \caption{A probabilistic graphical model (PGM) of the dependence structure
-of the prior information.\label{fig:pgm}}
+of the prior information, produced using DAFT ({\tt www.daft-pgm.org}).
+The prior for the source and lens blob parameters are specified conditional
+on hyperparameters. The purpose of this is to induce dependence in the prior
+distribution for the blob parameters, implying (for example) that the mass of
+one blob is slightly informative about the mass of another, and that the
+locations might be clustered around a certain typical location.
+\label{fig:pgm}}
 \end{figure*}
 
 \section{Computation}
