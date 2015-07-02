@@ -626,6 +626,13 @@ is quite slow when running on the larger HST image. Therefore this section
 should be considered a further demonstration of the technique, and not a
 thorough study of this system.
 
+We generated 5,000 samples from the DNest target distribution and thinned
+by a factor of $10^5$, so $5 \times 10^8$ MCMC iterations were actually
+performed, taking approximately 36 hours. After resampling, this resulted in 805
+equally weighted posterior samples. Although this image is smaller than the
+simulated data ($46 \times 46$ pixels), we fired $2 \times 2$ rays per pixel
+for greater accuracy.
+
 
 %The field of view of the image is $15.3180" \times 15.3180"$, and the size is $46 \times 46$ pixels, therefore one pixel is equivalent to $0.33"$. \\
 %The method discussed  in the previous section is applied to two models, the first model consist of a flexible source and a Singular Isothermal Elliptical(SIE) model for the lens. This model is has been used often  \cite{Dye2008}, \cite{schneider_falcoa_Ehlers_1994},      . 
