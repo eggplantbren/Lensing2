@@ -453,6 +453,14 @@ locations might be clustered around a certain typical location.
 \label{fig:pgm}}
 \end{figure*}
 
+The conditional prior for the data given the parameters
+is a product of independent gaussian distributions, one for each pixel.
+This is conventionally called the ``sampling distribution'', or sometimes just the ``likelihood''. However, sampling distribution is misleading since no
+physical frequency distribution exists which is being sampled from. The term
+likelihood is also usually used to refer to the scalar function of the parameters
+obtained when the data are known. For a discussion of the view that this
+object is really a prior distribution, see \citet[][pp. 33--35]{caticha}.
+
 \section{Computation}
 To compute the posterior distribution for the parameters
 (of which there are 24--464, depending on the values of $N_{\rm src}$ and
@@ -766,7 +774,14 @@ is $\mathcal{H} \approx 129$ nats.
 %\section{ER 0047-2808}
 %We demonstrate the method on the HST images of ER 0047-2808.
 
-
+\newpage
+The conditional prior for the data given the parameters
+is a product of independent gaussian distributions, one for each pixel.
+This is conventionally called the ``sampling distribution'', or sometimes just the ``likelihood''. However, sampling distribution is misleading since no
+physical frequency distribution exists which is being sampled from. The term
+likelihood is also usually used to refer to the scalar function of the parameters
+obtained when the data are known. For a discussion of the view that this
+object is really a prior distribution, see \citet[][pp. 33--35]{caticha}.
 
 \section*{Acknowledgements}
 It is a pleasure to thank Phil Marshall (Stanford) and Tommaso Treu (UCLA)
@@ -796,6 +811,10 @@ preprint. ArXiv: 1411.3921
 
 \bibitem[\protect\citeauthoryear{Brewer 
 \& Donovan}{2015}]{exoplanet} Brewer B.~J., Donovan C.~P., 2015, MNRAS, 448, 3206 
+
+\bibitem[Caticha(2008)]{caticha} Caticha, A.\ 2008.\ Lectures 
+on Probability, Entropy, and Statistical Physics.\ ArXiv e-prints 
+arXiv:0808.0012. 
 
 \bibitem[\protect\citeauthoryear{Coles, Read, 
 \& Saha}{2014}]{2014MNRAS.445.2181C} Coles J.~P., Read J.~I., Saha P., 2014, MNRAS, 445, 2181
