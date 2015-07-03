@@ -167,9 +167,6 @@ we will need a hierarchical model which specifies the prior probability
 distribution for the masses conditional on some hyperparameters. Inferring the
 mass function of the blobs then reduces to calculating the posterior
 distribution for the hyperparameters.
-Computing the posterior distribution over the parameters of such a model
-requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
-of possible sources and lenses.
 
 \section{The Model}
 We now describe the details of our model and its parameterization. The
@@ -453,15 +450,28 @@ locations might be clustered around a certain typical location.
 \label{fig:pgm}}
 \end{figure*}
 
+\subsection{Conditional prior for the data}
 The conditional prior for the data given the parameters
 is a product of independent gaussian distributions, one for each pixel.
-This is conventionally called the ``sampling distribution'', or sometimes just the ``likelihood''. However, sampling distribution is misleading since no
+The mean of the gaussian is given by the ``mock'' noise-free image we would
+expect based on the parameters. The standard deviation of the gaussian is
+a combination of three terms; the first (denoted $s_{ij}$) is a ``noise map''
+which is loaded from a file, the second is an unknown constant $\sigma_0$
+which applies to the whole image, and the third is proportional to the
+square root of the mock image, with proportionality constant $\sigma_1$.
+
+This is usually called the ``sampling distribution'', or sometimes just the
+``likelihood''. However, sampling distribution is misleading since no
 physical frequency distribution exists which is being sampled from. The term
 likelihood is also usually used to refer to the scalar function of the parameters
 obtained when the data are known. For a discussion of the view that this
 object is really a prior distribution, see \citet[][pp. 33--35]{caticha}.
 
 \section{Computation}
+Computing the posterior distribution over the parameters of such a model
+requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
+of possible sources and lenses.
+
 To compute the posterior distribution for the parameters
 (of which there are 24--464, depending on the values of $N_{\rm src}$ and
 $N_{\rm lens}$), we use Diffusive Nested Sampling \citep{dnest}, a form
