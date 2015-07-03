@@ -43,7 +43,7 @@ multiple dark or faint substructures. The source and lens models are based on
 a superposition of an unknown number of non-negative basis functions
 (or ``blobs'') whose form was chosen with speed as a primary criterion.
 The prior distribution for the blobs' properties is specified hierarchically,
-so the ``mass function'' of substructures is a natural output of the method.
+so the mass function of substructures is a natural output of the method.
 We use reversible
 jump Markov Chain Monte Carlo (MCMC) within Diffusive Nested Sampling (DNS) to
 sample the posterior distribution and evaluate the marginal likelihood of the
@@ -86,7 +86,7 @@ of the uncertainties
 \citep{2013ApJ...766...70S, 2014ApJ...788L..35S, grillo}.
 
 Lens modelling has been a topic of much interest over the last two decades.
-Most approaches are based on Bayesian inference or maximum likelihood or
+Most approaches are based on Bayesian inference, maximum likelihood or
 variations thereof. These approaches may be categorized according to the
 following criteria:
 \begin{enumerate}
@@ -106,13 +106,12 @@ this problem include \citet{2014MNRAS.445.2181C},
 \citet{2015arXiv150407629B}. {\bf todo: actually comment
 on what's in these papers}.
 
-The differences between the approaches can be broken down into
-i) different assumptions about the prior information being used, and ii)
-different computational methods used to compute the results.
 Each approach involves tradeoffs between convenience and realism.
 Simply parameterized models, such as Sérsic surface
-brightness profiles for the source, and singular isothermal ellipsoid plus
-external shear (SIE+$\gamma$) models for the lens, are very
+brightness profiles for the source,
+and singular isothermal ellipsoid plus
+external shear (SIE+$\gamma$) models for the lens \citep{1994A&A...284..285K},
+are very
 convenient. They only have a few adjustable parameters, and they capture
 (to ``first order'') relevant prior information that we have about the
 source and lens profiles. Of course, they are clearly simplifications,
@@ -132,34 +131,42 @@ beliefs about the source. It assigns virtually zero prior probability
 to the hypothesis that the source actually looks like a galaxy, and very high
 prior probability to the hypothesis that the source looks like noise (or
 blurred noise). These priors also assign nonzero probability to negative
-surface brightness or density values.
+surface brightness or density values; in fact, the marginal prior probability
+that any pixel is negative is 0.5.
 
 \citet{2011MNRAS.412.2521B} argued that an ideal
 modelling approach lies somewhere between simply-parameterised and
-pixellated models.
+pixellated models. One way of achieving this is with mixture models.
 The source and the lens can be built up from a mixture of a moderate
 number (from a few to a few hundred) of
 simply parameterised components. For the source, this allows
 us to incorporate prior knowledge about the local correlations (the surface
 brightness at any particular point is likely to be similar to that at a
 nearby point) and the fact that most of the sky is
-dark \citep{2006ApJ...637..608B}. The main differences between the
-\citet{2011MNRAS.412.2521B} and that of the present approach are:
-i) we use a simpler and faster basis set, and ii) we apply it to the lens
-as well as the source. However, in the present paper we do not account for
+dark \citep{2006ApJ...637..608B}. The \citet{2011MNRAS.412.2521B} model also
+allowed for multi-band data, and allowed for our expectation that the image
+may or may not be similar in different bands.
+
+The present paper is similar in approach to \citet{2011MNRAS.412.2521B}.
+The main differences are:
+i) we use a simpler and faster set of basis functions,
+ii) we apply it to the lens as well as the source, and
+iii) the implementation is based on a C++ template library developed by
+\citet{rjobject} which allows for hierarchical priors and trans-dimensional
+MCMC to be implemented in a relatively straightforward manner.
+However, in the present paper we do not account for
 multi-band data.
 
-For the lens, if we are interested in detecting and measuring the properties of
-dark substructures, a superposition of an unknown number of ``blobs'' is the
-most natural model. In addition, if we want to constrain the ``mass function'' of
-these blobs, we will need a hierarchical model which specifies the probability
-distribution for the masses, conditional on some hyperparameters. Inferring the
+\section{Finding dark substructures}
+If we are interested in detecting and measuring the properties of
+possible dark substructures in a lens galaxy,
+a superposition of an unknown number of ``blobs'' is the
+most natural model. In addition, if we want to constrain the mass function of
+these blobs \citep[e.g.][]{2009MNRAS.400.1583V, 2014MNRAS.442.2017V},
+we will need a hierarchical model which specifies the prior probability
+distribution for the masses conditional on some hyperparameters. Inferring the
 mass function of the blobs then reduces to calculating the posterior
 distribution for the hyperparameters.
-
-Computing the posterior distribution over the parameters of such a model
-requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
-of possible sources and lenses.
 
 \section{The Model}
 We now describe the details of our model and its parameterization. The
@@ -224,6 +231,10 @@ where $\boldsymbol{\theta}^{\rm src}_i$ denotes the parameters for source blob $
 \right\}.
 \end{eqnarray}
 
+The dimensionality of the parameter space for the source depends on the
+minimum and maximum values of $N_{\rm src}$, which we set to 0 and 100
+respectively (more detail about priors is given in Section~\ref{sec:priors}).
+Therefore the source is described by 1 -- 401 parameters.
 
 \subsection{The Lens}
 The surface mass density profile of the lens is modelled as a superposition
@@ -320,7 +331,7 @@ of the source and lens blobs), and birth/death moves to add or remove blobs
 to the source or lens, are handled internally by {\tt RJObject}.
 
 
-\section{Prior Probability Distributions}
+\section{Prior Probability Distributions}\label{sec:priors}
 The prior probability distributions for all hyperparameters, parameters, and
 the data, are given in Table~\ref{tab:priors}, and a factorization of the
 joint distribution is displayed in Figure~\ref{fig:pgm}. With these priors,
@@ -346,18 +357,18 @@ $N_{\rm lens}$	&	Number of lens blobs	& Uniform($0, 1, ..., 10$)\\
 \hline
 {\bf Source hyperparameters} ($\boldsymbol{\alpha}_{\rm src}$)\\
 \hline
-$(x_c^{\rm src}, y_c^{\rm src})$ & Typical position of source blobs & iid Cauchy(location=$(0,0)$, scale=0.1$\times$(image width))\\
-$R_{\rm src}$   &	Typical distance of blobs from $(x_c^{\rm src}, y_c^{\rm src})$ & LogUniform(0.01$\times$(image width), 10$\times$(image width))\\
+$(x_c^{\rm src}, y_c^{\rm src})$ & Typical position of source blobs & iid Cauchy(location=$(0,0)$, scale=0.1$\times${\tt imageWidth})\\
+$R_{\rm src}$   &	Typical distance of blobs from $(x_c^{\rm src}, y_c^{\rm src})$ & LogUniform(0.01$\times${\tt imageWidth}, 10$\times${\tt imageWidth})\\
 $\mu_{\rm src}$ &	Typical flux of source blobs	& $\ln(\mu_{\rm src}) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
-$W_{\rm max}^{\rm src}$ &		Maximum width of source blobs	& LogUniform(0.001$\times$(image width), image width)\\
+$W_{\rm max}^{\rm src}$ &		Maximum width of source blobs	& LogUniform(0.001$\times${\tt imageWidth}, {\tt imageWidth})\\
 $W_{\rm min}^{\rm src}$ &		Minimum width of source blobs	& Uniform(0, $W_{\rm max}^{\rm src}$)\\
 \hline
 {\bf Lens hyperparameters} ($\boldsymbol{\alpha}_{\rm lens}$)\\
 \hline
-$(x_c^{\rm lens}, y_c^{\rm lens})$ & Typical position of lens blobs & iid Cauchy(location=$(0,0)$, scale=0.1$\times$(image width))\\
-$R_{\rm lens}$  &	Typical distance of blobs from $(x_c^{\rm lens}, y_c^{\rm lens})$ 	& LogUniform(0.01$\times$(image width), 10$\times$(image width))\\
+$(x_c^{\rm lens}, y_c^{\rm lens})$ & Typical position of lens blobs & iid Cauchy(location=$(0,0)$, scale=0.1$\times${\tt imageWidth})\\
+$R_{\rm lens}$  &	Typical distance of blobs from $(x_c^{\rm lens}, y_c^{\rm lens})$ 	& LogUniform(0.01$\times${\tt imageWidth}, 10$\times${\tt imageWidth})\\
 $\mu_{\rm lens}$&	Typical mass of lens blobs	& $\ln(\mu_{\rm lens}) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
-$W_{\rm max}^{\rm lens}$ &		Maximum width of lens blobs	& LogUniform(0.001$\times$(image width), image width)\\
+$W_{\rm max}^{\rm lens}$ &		Maximum width of lens blobs	& LogUniform(0.001$\times${\tt imageWidth}, {\tt imageWidth})\\
 $W_{\rm min}^{\rm lens}$ &		Minimum width of lens blobs	& Uniform(0, $W_{\rm max}^{\rm lens}$)\\
 \hline
 {\bf Source Blob Parameters} ($\boldsymbol{\theta}_i^{\rm src}$)\\
@@ -374,9 +385,9 @@ $v_i$  & Blob width & Uniform($W_{\rm min}^{\rm src}$, $W_{\rm max}^{\rm src}$)\
 \hline
 {\bf Smooth Lens Parameters} ($\boldsymbol{\theta}_{\rm SIE}$)\\
 \hline
-$b$ & SIE Einstein Radius & LogUniform(0.001$\times$(image width), image width)\\
+$b$ & SIE Einstein Radius & LogUniform(0.001$\times${\tt imageWidth}, {\tt imageWidth})\\
 $q$ & Axis ratio & Uniform(0, 0.95)\\
-$(x_c^{\rm SIE}, y_c^{\rm SIE})$ & Central position & iid Cauchy(location=$(0,0)$, scale=0.1$\times$(image width))\\
+$(x_c^{\rm SIE}, y_c^{\rm SIE})$ & Central position & iid Cauchy(location=$(0,0)$, scale=0.1$\times${\tt imageWidth})\\
 $\theta$ & Orientation angle & Uniform$(0, \pi)$\\
 $\gamma$ & External shear & Cauchy$(0, 0.05)T(0, \infty)$\\
 $\theta_\gamma$ & External shear angle & Uniform$(0, \pi)$\\
@@ -439,7 +450,28 @@ locations might be clustered around a certain typical location.
 \label{fig:pgm}}
 \end{figure*}
 
+\subsection{Conditional prior for the data}
+The conditional prior for the data given the parameters
+is a product of independent gaussian distributions, one for each pixel.
+The mean of the gaussian is given by the ``mock'' noise-free image we would
+expect based on the parameters. The standard deviation of the gaussian is
+a combination of three terms; the first (denoted $s_{ij}$) is a ``noise map''
+which is loaded from a file, the second is an unknown constant $\sigma_0$
+which applies to the whole image, and the third is proportional to the
+square root of the mock image, with proportionality constant $\sigma_1$.
+
+This is usually called the ``sampling distribution'', or sometimes just the
+``likelihood''. However, sampling distribution is misleading since no
+physical frequency distribution exists which is being sampled from. The term
+likelihood is also usually used to refer to the scalar function of the parameters
+obtained when the data are known. For a discussion of the view that this
+object is really a prior distribution, see \citet[][pp. 33--35]{caticha}.
+
 \section{Computation}
+Computing the posterior distribution over the parameters of such a model
+requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
+of possible sources and lenses.
+
 To compute the posterior distribution for the parameters
 (of which there are 24--464, depending on the values of $N_{\rm src}$ and
 $N_{\rm lens}$), we use Diffusive Nested Sampling \citep{dnest}, a form
@@ -755,8 +787,6 @@ reproducibility of the results from the sampling and the effective sample size}.
 %\section{ER 0047-2808}
 %We demonstrate the method on the HST images of ER 0047-2808.
 
-
-
 \section*{Acknowledgements}
 It is a pleasure to thank Phil Marshall (Stanford) and Tommaso Treu (UCLA)
 for valuable discussion.
@@ -786,6 +816,10 @@ preprint. ArXiv: 1411.3921
 \bibitem[\protect\citeauthoryear{Brewer 
 \& Donovan}{2015}]{exoplanet} Brewer B.~J., Donovan C.~P., 2015, MNRAS, 448, 3206 
 
+\bibitem[Caticha(2008)]{caticha} Caticha, A.\ 2008.\ Lectures 
+on Probability, Entropy, and Statistical Physics.\ ArXiv e-prints 
+arXiv:0808.0012. 
+
 \bibitem[\protect\citeauthoryear{Coles, Read, 
 \& Saha}{2014}]{2014MNRAS.445.2181C} Coles J.~P., Read J.~I., Saha P., 2014, MNRAS, 445, 2181
 
@@ -801,6 +835,9 @@ accepted for publication in ApJ. arXiv:1501.05251
 
 \bibitem[\protect\citeauthoryear{Koopmans}{2005}]{koopmans} 
 Koopmans L.~V.~E., 2005, MNRAS, 363, 1136
+
+\bibitem[\protect\citeauthoryear{Kormann, Schneider, 
+\& Bartelmann}{1994}]{1994A&A...284..285K} Kormann R., Schneider P., Bartelmann M., 1994, A\&A, 284, 285
 
 \bibitem[\protect\citeauthoryear{O'Hagan and Forster}{2004}]{ohagan}
 O'Hagan, A., Forster,~J., 2004, Bayesian inference. London: Arnold.
@@ -828,16 +865,24 @@ Suyu S.~H., et al., 2013, ApJ, 766, 70
 
 \bibitem[\protect\citeauthoryear{Treu}{2010}]{treu} Treu T., 2010, ARA\&A, 48, 87 
 
+\bibitem[\protect\citeauthoryear{Vegetti 
+\& Koopmans}{2009}]{2009MNRAS.400.1583V} Vegetti S., Koopmans L.~V.~E., 2009, MNRAS, 400, 1583
+
 \bibitem[\protect\citeauthoryear{Vegetti et 
 al.}{2012}]{vegetti1} Vegetti S., Lagattuta D.~J., McKean J.~P., 
 Auger M.~W., Fassnacht C.~D., Koopmans L.~V.~E., 2012, Natur, 481, 341 
+
+\bibitem[\protect\citeauthoryear{Vegetti, Czoske, 
+\& Koopmans}{2010}]{vegetti3} Vegetti S., Czoske O., Koopmans L.~V.~E., 2010, MNRAS, 407, 225
 
 \bibitem[\protect\citeauthoryear{Vegetti et 
 al.}{2010}]{vegetti2} Vegetti S., Koopmans L.~V.~E., Bolton A., 
 Treu T., Gavazzi R., 2010, MNRAS, 408, 1969 
 
-\bibitem[\protect\citeauthoryear{Vegetti, Czoske, 
-\& Koopmans}{2010}]{vegetti3} Vegetti S., Czoske O., Koopmans L.~V.~E., 2010, MNRAS, 407, 225
+\bibitem[\protect\citeauthoryear{Vegetti et 
+al.}{2014}]{2014MNRAS.442.2017V} Vegetti S., Koopmans L.~V.~E., Auger 
+M.~W., Treu T., Bolton A.~S., 2014, MNRAS, 442, 2017 
+
 
 \bibitem[\protect\citeauthoryear{Warren 
 \& Dye}{2003}]{2003ApJ...590..673W} Warren S.~J., Dye S., 2003, ApJ, 590, 673
