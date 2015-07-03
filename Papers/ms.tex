@@ -167,7 +167,6 @@ we will need a hierarchical model which specifies the prior probability
 distribution for the masses conditional on some hyperparameters. Inferring the
 mass function of the blobs then reduces to calculating the posterior
 distribution for the hyperparameters.
-
 Computing the posterior distribution over the parameters of such a model
 requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
 of possible sources and lenses.
@@ -235,6 +234,10 @@ where $\boldsymbol{\theta}^{\rm src}_i$ denotes the parameters for source blob $
 \right\}.
 \end{eqnarray}
 
+The dimensionality of the parameter space for the source depends on the
+minimum and maximum values of $N_{\rm src}$, which we set to 0 and 100
+respectively (more detail about priors is given in Section~\ref{sec:priors}).
+Therefore the source is described by 1 -- 401 parameters.
 
 \subsection{The Lens}
 The surface mass density profile of the lens is modelled as a superposition
@@ -331,7 +334,7 @@ of the source and lens blobs), and birth/death moves to add or remove blobs
 to the source or lens, are handled internally by {\tt RJObject}.
 
 
-\section{Prior Probability Distributions}
+\section{Prior Probability Distributions}\label{sec:priors}
 The prior probability distributions for all hyperparameters, parameters, and
 the data, are given in Table~\ref{tab:priors}, and a factorization of the
 joint distribution is displayed in Figure~\ref{fig:pgm}. With these priors,
