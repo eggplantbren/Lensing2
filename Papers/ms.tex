@@ -43,7 +43,7 @@ multiple dark or faint substructures. The source and lens models are based on
 a superposition of an unknown number of non-negative basis functions
 (or ``blobs'') whose form was chosen with speed as a primary criterion.
 The prior distribution for the blobs' properties is specified hierarchically,
-so the ``mass function'' of substructures is a natural output of the method.
+so the mass function of substructures is a natural output of the method.
 We use reversible
 jump Markov Chain Monte Carlo (MCMC) within Diffusive Nested Sampling (DNS) to
 sample the posterior distribution and evaluate the marginal likelihood of the
@@ -157,11 +157,14 @@ MCMC to be implemented in a relatively straightforward manner.
 However, in the present paper we do not account for
 multi-band data.
 
-For the lens, if we are interested in detecting and measuring the properties of
-dark substructures, a superposition of an unknown number of ``blobs'' is the
-most natural model. In addition, if we want to constrain the ``mass function'' of
-these blobs, we will need a hierarchical model which specifies the probability
-distribution for the masses, conditional on some hyperparameters. Inferring the
+\section{Finding dark substructures}
+If we are interested in detecting and measuring the properties of
+possible dark substructures in a lens galaxy,
+a superposition of an unknown number of ``blobs'' is the
+most natural model. In addition, if we want to constrain the mass function of
+these blobs \citep[e.g.][]{2009MNRAS.400.1583V, 2014MNRAS.442.2017V},
+we will need a hierarchical model which specifies the prior probability
+distribution for the masses conditional on some hyperparameters. Inferring the
 mass function of the blobs then reduces to calculating the posterior
 distribution for the hyperparameters.
 
@@ -836,16 +839,24 @@ Suyu S.~H., et al., 2013, ApJ, 766, 70
 
 \bibitem[\protect\citeauthoryear{Treu}{2010}]{treu} Treu T., 2010, ARA\&A, 48, 87 
 
+\bibitem[\protect\citeauthoryear{Vegetti 
+\& Koopmans}{2009}]{2009MNRAS.400.1583V} Vegetti S., Koopmans L.~V.~E., 2009, MNRAS, 400, 1583
+
 \bibitem[\protect\citeauthoryear{Vegetti et 
 al.}{2012}]{vegetti1} Vegetti S., Lagattuta D.~J., McKean J.~P., 
 Auger M.~W., Fassnacht C.~D., Koopmans L.~V.~E., 2012, Natur, 481, 341 
+
+\bibitem[\protect\citeauthoryear{Vegetti, Czoske, 
+\& Koopmans}{2010}]{vegetti3} Vegetti S., Czoske O., Koopmans L.~V.~E., 2010, MNRAS, 407, 225
 
 \bibitem[\protect\citeauthoryear{Vegetti et 
 al.}{2010}]{vegetti2} Vegetti S., Koopmans L.~V.~E., Bolton A., 
 Treu T., Gavazzi R., 2010, MNRAS, 408, 1969 
 
-\bibitem[\protect\citeauthoryear{Vegetti, Czoske, 
-\& Koopmans}{2010}]{vegetti3} Vegetti S., Czoske O., Koopmans L.~V.~E., 2010, MNRAS, 407, 225
+\bibitem[\protect\citeauthoryear{Vegetti et 
+al.}{2014}]{2014MNRAS.442.2017V} Vegetti S., Koopmans L.~V.~E., Auger 
+M.~W., Treu T., Bolton A.~S., 2014, MNRAS, 442, 2017 
+
 
 \bibitem[\protect\citeauthoryear{Warren 
 \& Dye}{2003}]{2003ApJ...590..673W} Warren S.~J., Dye S., 2003, ApJ, 590, 673
