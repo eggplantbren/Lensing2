@@ -634,7 +634,11 @@ The estimated marginal likelihood of our model
 is
 $\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -14249$, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
-is $\mathcal{H} \approx 100$ nats. The definition of the information is:
+is $\mathcal{H} \approx 100$ nats. The information represents the degree of
+compression of the posterior distribution with respect to the prior, and can
+be interpreted quite literally as how much was learned about the parameters from
+the data. It is also straightforward to estimate from Nested Sampling
+\citep{skilling}. Its definition is:
 \begin{eqnarray}
 \mathcal{H} = \int p(\boldsymbol{\theta} | \boldsymbol{D})
 \ln\left[\frac{p(\boldsymbol{\theta} | \boldsymbol{D})}{p(\boldsymbol{\theta})}\right]
@@ -721,7 +725,9 @@ $\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -6968$, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
 is $\mathcal{H} \approx 129$ nats.
 
-{\bf Comment on the (non-ideal)
+\subsection{Reproducibility of the results}
+The ``effective sample size'' returned by DNest, which we have described as the
+number of posterior samples
 reproducibility of the results from the sampling and the effective sample size}.
 
 % \begin{figure*}
