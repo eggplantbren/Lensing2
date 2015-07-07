@@ -633,7 +633,18 @@ The estimated marginal likelihood of our model
 is
 $\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -14249$, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
-is $\mathcal{H} \approx 100$ nats.
+is $\mathcal{H} \approx 100$ nats. The definition of the information is:
+\begin{eqnarray}
+\mathcal{H} = \int p(\boldsymbol{\theta} | \boldsymbol{D})
+\ln\left[\frac{p(\boldsymbol{\theta} | \boldsymbol{D})}{p(\boldsymbol{\theta})}\right]
+\, d\boldsymbol{\theta}
+\end{eqnarray}
+and we can build intuition about its meaning based on some simple examples. One
+such example is a uniform prior over a volume $V_0$ and a posterior which is
+uniform over a smaller volume $V_1$ contained within $V_0$. In this case
+$\mathcal{H} = \ln(V_0/V_1)$ nats. Therefore, a value of $\mathcal{H}=100$ nats
+implies the posterior distribution occupies roughly $e^{-100}$ of the prior
+volume.
 
 \begin{figure}
 \begin{center}
