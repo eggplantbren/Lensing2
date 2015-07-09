@@ -727,8 +727,13 @@ is $\mathcal{H} \approx 129$ nats.
 
 \subsection{Reproducibility of the results}
 The ``effective sample size'' returned by DNest, which we have described as the
-number of posterior samples
-reproducibility of the results from the sampling and the effective sample size}.
+number of posterior samples, takes into account the fact DNest's target
+distribution is not the posterior. However, it does not take autocorrelation
+into account, and thus can present an optimistic picture of the accuracy of
+any Monte Carlo estimates of posterior expectations. Most standard diagnostic
+techniques used in MCMC can be applied here. The simplest of these is a
+check of reproducibility. If different runs yield substantially different
+results, the MCMC output should be treated with caution.
 
 % \begin{figure*}
 %% \hspace{20pt}
