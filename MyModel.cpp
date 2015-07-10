@@ -45,11 +45,7 @@ double MyModel::perturb()
 	{
 		logH += source.perturb();
 
-		if(source.get_size_of_diff() < source.get_num_components()
-			&& staleness1 < 10)
-			update_surface_brightness();
-		else
-			calculate_surface_brightness();
+		calculate_surface_brightness();
 		calculate_model_image();
 	}
 	else if(randomU() <= 0.5)
@@ -72,13 +68,7 @@ double MyModel::perturb()
 	{
 		logH += lens.perturb();
 
-		if(lens.get_blobs_flag() &&
-			(lens.get_size_of_diff() < lens.get_num_components())
-			&& staleness2 < 10)
-			update_rays();
-		else
-			shoot_rays();
-
+		shoot_rays();
 		calculate_surface_brightness();
 		calculate_model_image();
 	}
