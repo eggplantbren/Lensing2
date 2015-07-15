@@ -12,6 +12,6 @@ N = size(posterior_sample)[2]
 
 # Loop over samples
 for(i in 1:M)
-	
+	println(alpha(posterior_sample[i, :], 0., 0.,))
 end
 
