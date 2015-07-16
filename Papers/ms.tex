@@ -676,7 +676,8 @@ thorough study of this system.
 
 We generated 5,000 samples from the DNest target distribution and thinned
 by a factor of $10^5$, so $5 \times 10^8$ MCMC iterations were actually
-performed, taking approximately 36 hours. After resampling, this resulted in 805
+performed, taking approximately 40 hours. The first 1/3 of the run was
+excluded as burn-in. After resampling, this resulted in 632
 equally weighted posterior samples. Although this image is smaller than the
 simulated data ($46 \times 46$ pixels), we fired $2 \times 2$ rays per pixel
 for greater accuracy.
@@ -721,7 +722,7 @@ and the total mass in substructures.\label{fig:simdata_masses}}
 
 The estimated marginal likelihood of our model
 is
-$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -6968$, and
+$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -6967$, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
 is $\mathcal{H} \approx 129$ nats.
 
@@ -730,7 +731,7 @@ The ``effective sample size'' returned by DNest, which we have described as the
 number of posterior samples, takes into account the fact DNest's target
 distribution is not the posterior. However, it does not take autocorrelation
 into account, and thus can present an optimistic picture of the accuracy of
-any Monte Carlo estimates of posterior expectations. Most standard diagnostic
+any Monte Carlo approximations to posterior quantities. Most standard diagnostic
 techniques used in MCMC can be applied here. The simplest of these is a
 check of reproducibility. If different runs yield substantially different
 results, the MCMC output should be treated with caution.
