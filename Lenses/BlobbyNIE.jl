@@ -64,3 +64,28 @@ function alpha(parameters, x, y, cos_theta=cos(parameters[8]),
 	return [ax, ay]
 end
 
+function fire_ray(parameters, x, y)
+	(ax, ay) = alpha(parameters, x, y)
+	xs = x - ax
+	ys = y - ay
+	return [xs, ys]
+end
+
+# Compute the magnification at position (x, y).
+# h is the spacing for numerical differentiation
+function magnification(parameters, x, y, h=1E-6)
+	(xs1, ys1) = fire_ray(parameters, x + h, y)
+	(xs2, ys2) = fire_ray(parameters, x - h, y)
+
+	J11 = (xs1 - xs2)/(2*h)
+	J12 = (ys1 - ys2)/(2*h)
+
+	(xs1, ys1) = fire_ray(parameters, x, y + h)
+	(xs2, ys2) = fire_ray(parameters, x, y - h)
+
+	J21 = (xs1 - xs2)/(2*h)
+	J22 = (ys1 - ys2)/(2*h)
+
+	return -2.5*log10(abs(J11*J22 - J12*J21))
+end
+
