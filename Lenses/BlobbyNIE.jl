@@ -114,9 +114,25 @@ end
 # treating the magnification as a potential
 function update(parameters, pos, vel, dt=1E-3)
 	pos = pos + 0.5*dt*vel
-	accel = magnification_derivs(parameters, pos[1], pos[2])
+	accel = -magnification_derivs(parameters, pos[1], pos[2])
 	vel = vel + dt*accel
 	pos = pos + 0.5*dt*vel
-	return [pos, vel]
+	return (pos, vel)
+end
+
+function dynamics(parameters, pos=[0.0, 0.0], vel = [0.0, 0.0],
+						steps=10000, skip=10, dt=1E-3)
+	keep = Array(Float64, div(steps, skip), 2)
+
+	for(i in 1:steps)
+		(pos, vel) = update(parameters, pos, vel, dt)
+
+		if rem(i, skip) == 0
+			keep[div(i, skip), :] = pos
+			println(i)
+		end
+	end
+
+	return keep
 end
 
