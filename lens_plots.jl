@@ -6,6 +6,7 @@ include("Lenses/BlobbyNIE.jl")
 
 # Load the posterior samples
 posterior_sample = readdlm("posterior_sample.txt")
+
 # Size of the 2D array
 M = size(posterior_sample)[1]
 N = size(posterior_sample)[2]
@@ -26,9 +27,14 @@ function magnification_image(parameters, x, y)
 end
 
 # Loop over samples
+plt.ion()
+plt.hold(false)
 for(i in 1:M)
 	mag = magnification_image(posterior_sample[i, :], x, y)
-	plt.imshow(mag, interpolation="nearest")
-	plt.show()
+	plt.imshow(mag, interpolation="nearest", vmin=-10.0, vmax=10.0)
+	plt.title(i)
+	plt.draw()
 end
+plt.ioff()
+plt.show()
 
