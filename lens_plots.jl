@@ -11,8 +11,8 @@ M = size(posterior_sample)[1]
 N = size(posterior_sample)[2]
 
 # Make a grid
-x = linspace(-1, 1, 501)
-y = linspace(-1, 1, 501)
+x = linspace(-10,  10, 501)
+y = linspace( 10, -10, 501)
 
 # Function to calculate magnification on a grid
 function magnification_image(parameters, x, y)
