@@ -112,8 +112,11 @@ end
 # Do one step of a leapfrog integrator
 # on the position (x, y) in the lens plane,
 # treating the magnification as a potential
-function update!(parameters, x, y, current_mag=magnification2(parameters, x, y),
-					dt=1E-3)
-	
+function update(parameters, pos, vel, dt=1E-3)
+	pos = pos + 0.5*dt*vel
+	accel = magnification_derivs(parameters, pos[1], pos[2])
+	vel = vel + dt*accel
+	pos = pos + 0.5*dt*vel
+	return [pos, vel]
 end
 
