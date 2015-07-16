@@ -6,21 +6,21 @@ function alpha(parameters, x, y, cos_theta=cos(parameters[8]),
 								 cos_theta_shear=cos(parameters[10]),
 								 sin_theta_shear=sin(parameters[10]))
 	# Get NIE parameters
-	b = posterior_sample[3]
-	q = posterior_sample[4]
-	rc = posterior_sample[5]
-	xc = posterior_sample[6]
-	yc = posterior_sample[7]
-	theta = posterior_sample[8]
-	shear = posterior_sample[9]
-	theta_shear = posterior_sample[10]
+	b = parameters[3]
+	q = parameters[4]
+	rc = parameters[5]
+	xc = parameters[6]
+	yc = parameters[7]
+	theta = parameters[8]
+	shear = parameters[9]
+	theta_shear = parameters[10]
 
 	# Stuff derived from b and q
 	qq = q;
-	if(qq == 1.)
+	if(qq == 1.0)
 		qq = 0.99999
 	end
-	q_term = sqrt(1. - qq*qq)
+	q_term = sqrt(1.0 - qq*qq)
 	bb = b*sqrt(qq) # Minor axis
 
 	# Rotate and center
