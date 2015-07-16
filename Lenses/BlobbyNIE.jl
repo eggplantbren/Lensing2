@@ -89,3 +89,31 @@ function magnification(parameters, x, y, h=1E-6)
 	return -2.5*log10(abs(J11*J22 - J12*J21))
 end
 
+# A version that keeps magnification less than 10
+function magnification2(parameters, x, y, h=1E-6)
+	mag = magnification(parameters, x, y, h)
+	if mag > 10.0
+		mag = 10.0
+	end
+	return mag
+end
+
+# Current terrible implementation: numerically differentiate
+# magnification (which itself involves numerical derivatives).
+# Better: actually do second derivatives properly
+function magnification_derivs(parameters, x, y, h=1E-6)
+	dmdx = (magnification2(parameters, x+h, y) -
+				magnification2(parameters, x-h, y))/(2*h)
+	dmdy = (magnification2(parameters, x, y+h) -
+				magnification2(parameters, x, y-h))/(2*h)
+	return [dmdx, dmdy]
+end
+
+# Do one step of a leapfrog integrator
+# on the position (x, y) in the lens plane,
+# treating the magnification as a potential
+function update!(parameters, x, y, current_mag=magnification2(parameters, x, y),
+					dt=1E-3)
+	
+end
+
