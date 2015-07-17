@@ -89,23 +89,3 @@ function magnification(parameters, x, y, h=1E-6)
 	return -2.5*log10(abs(J11*J22 - J12*J21))
 end
 
-# Current terrible implementation: numerically differentiate
-# magnification (which itself involves numerical derivatives).
-# Better: actually do second derivatives properly
-function magnification_derivs(parameters, x, y, h=1E-6)
-	dmdx = (magnification(parameters, x+h, y) -
-				magnification(parameters, x-h, y))/(2*h)
-	dmdy = (magnification(parameters, x, y+h) -
-				magnification(parameters, x, y-h))/(2*h)
-	return (dmdx, dmdy)
-end
-
-function move_along_contour(parameters, x, y, distance=0.1)
-	(dmdx, dmdy) = magnification_derivs(parameters, x, y)
-	tan_theta = -dmdx/dmdy
-	theta = atan(tan_theta)
-	x = x + distance*cos(theta)
-	y = y + distance*sin(theta)
-	return (x, y)
-end
-
