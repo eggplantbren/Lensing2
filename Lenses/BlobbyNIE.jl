@@ -1,10 +1,10 @@
 # Function to compute the deflection angles
 # at position (x, y), for the lens specified by
 # the parameters array (a row from sample.txt or posterior_sample.txt)
-function alpha(parameters, x, y, cos_theta=cos(parameters[8]),
-								 sin_theta=sin(parameters[8]),
-								 cos_theta_shear=cos(parameters[10]),
-								 sin_theta_shear=sin(parameters[10]))
+function alpha(parameters::Array{Float64, 2}, x::Float64, y::Float64, cos_theta::Float64=cos(parameters[8]),
+								 sin_theta::Float64=sin(parameters[8]),
+								 cos_theta_shear::Float64=cos(parameters[10]),
+								 sin_theta_shear::Float64=sin(parameters[10]))
 	# Get NIE parameters
 	b = parameters[3]
 	q = parameters[4]
@@ -64,7 +64,7 @@ function alpha(parameters, x, y, cos_theta=cos(parameters[8]),
 	return [ax, ay]
 end
 
-function fire_ray(parameters, x, y)
+function fire_ray(parameters::Array{Float64, 2}, x::Float64, y::Float64)
 	(ax, ay) = alpha(parameters, x, y)
 	xs = x - ax
 	ys = y - ay
@@ -73,7 +73,7 @@ end
 
 # Compute the magnification at position (x, y).
 # h is the spacing for numerical differentiation
-function magnification(parameters, x, y, h=1E-6)
+function magnification(parameters::Array{Float64, 2}, x::Float64, y::Float64, h::Float64=1E-6)
 	(xs1, ys1) = fire_ray(parameters, x + h, y)
 	(xs2, ys2) = fire_ray(parameters, x - h, y)
 

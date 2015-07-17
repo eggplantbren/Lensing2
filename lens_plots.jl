@@ -12,7 +12,7 @@ M = size(posterior_sample)[1]
 N = size(posterior_sample)[2]
 
 # Function to calculate magnification on a grid
-function magnification_image(parameters, x, y)
+function magnification_image(parameters::Array{Float64, 2}, x::Array{Float64, 1}, y::Array{Float64, 1})
 	mag = zeros(length(y), length(x))
 	for(j in 1:length(y))
 		for(i in 1:length(x))
