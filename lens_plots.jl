@@ -22,17 +22,18 @@ function magnification_image(parameters, x, y)
 	return mag
 end
 
-x = linspace(-10,  10, 1001)
-y = linspace( 10, -10, 1001)
+x = linspace(-10,  10, 3001)
+y = linspace( 10, -10, 3001)
 mag = magnification_image(posterior_sample[1, :], x, y)
-plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
-					vmin=-10.0, vmax=10.0, cmap="coolwarm")
-plt.show()
 
+# Use matplotlib's contour function to get the critical curve
 # http://stackoverflow.com/questions/5666056/matplotlib-extracting-data-from-contour-lines
-contour = plt.contour(x, y, mag, [3.0, 4.0])
+contour = plt.contour(x, y, mag, [5.5, 5.51])
+plt.clf()
+plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
+					vmin=-7.0, vmax=7.0, cmap="coolwarm")
 contour = contour[:collections][:1]
 contour = contour[:get_paths]()[1][:vertices]
-plt.plot(contour[:,1], contour[:,2])
+plt.plot(contour[:,1], contour[:,2], "k", linewidth=2)
 plt.show()
 
