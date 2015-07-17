@@ -11,10 +11,6 @@ posterior_sample = readdlm("posterior_sample.txt")
 M = size(posterior_sample)[1]
 N = size(posterior_sample)[2]
 
-# Make a grid
-x = linspace(-10,  10, 501)
-y = linspace( 10, -10, 501)
-
 # Function to calculate magnification on a grid
 function magnification_image(parameters, x, y)
 	mag = zeros(length(y), length(x))
@@ -26,15 +22,20 @@ function magnification_image(parameters, x, y)
 	return mag
 end
 
-# Loop over samples
-plt.ion()
-plt.hold(false)
-for(i in 1:M)
-	mag = magnification_image(posterior_sample[i, :], x, y)
-	plt.imshow(mag, interpolation="nearest", vmin=-10.0, vmax=10.0)
-	plt.title(i)
-	plt.draw()
-end
-plt.ioff()
-plt.show()
+## Loop over samples
+## Make a grid
+#x = linspace(-10,  10, 501)
+#y = linspace( 10, -10, 501)
+#plt.ion()
+#plt.hold(false)
+#for(i in 1:M)
+#	mag = magnification_image(posterior_sample[i, :], x, y)
+#	plt.imshow(mag, interpolation="nearest", vmin=-10.0, vmax=10.0)
+#	plt.title(i)
+#	plt.draw()
+#end
+#plt.ioff()
+#plt.show()
+
+dynamics(posterior_sample[1, :], pos=[0, 5], skip=10, dt=0.01)
 

@@ -120,18 +120,37 @@ function update(parameters, pos, vel, dt=1E-3)
 	return (pos, vel)
 end
 
-function dynamics(parameters, pos=[0.0, 0.0], vel = [0.0, 0.0],
+# So we can use matplotlib
+using PyCall
+@pyimport matplotlib.pyplot as plt
+
+function dynamics(parameters; pos=[0.0, 0.0], vel=[0.0, 0.0],
 						steps=10000, skip=10, dt=1E-3)
+	# Output array
 	keep = Array(Float64, div(steps, skip), 2)
 
+	# Show the magnification map
+	plt.ion()
+	plt.hold(true)
+	plt.imshow(magnification_image(parameters, linspace(-10, 10, 501),
+												linspace(10, -10, 501)),
+				interpolation="nearest", extent=[-10, 10, -10, 10])
+	plt.draw()
+
+	# Move the par
 	for(i in 1:steps)
 		(pos, vel) = update(parameters, pos, vel, dt)
 
 		if rem(i, skip) == 0
+			plt.plot(pos[1], pos[2], "ko", markersize=1)
+			plt.draw()
 			keep[div(i, skip), :] = pos
 			println(i)
 		end
 	end
+
+	plt.ioff()
+	plt.show()
 
 	return keep
 end
