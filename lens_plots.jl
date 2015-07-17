@@ -22,6 +22,15 @@ function magnification_image(parameters, x, y)
 	return mag
 end
 
+x = linspace(-10,  10, 1001)
+y = linspace( 10, -10, 1001)
+mag = magnification_image(posterior_sample[1, :], x, y)
+plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
+					vmin=-10.0, vmax=10.0)
+plt.show()
+
+
+
 ## Loop over samples
 ## Make a grid
 #x = linspace(-10,  10, 501)
@@ -36,6 +45,4 @@ end
 #end
 #plt.ioff()
 #plt.show()
-
-dynamics(posterior_sample[1, :], pos=[0, 5], skip=10, dt=0.01)
 
