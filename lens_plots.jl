@@ -40,3 +40,23 @@ contour = contour[:get_paths]()[1][:vertices]
 plt.plot(contour[:,1], contour[:,2], "k", linewidth=2)
 plt.show()
 
+# Fire the contour through to the source plane
+xs = contour[:,1]
+ys = contour[:,2]
+for(i in 1:size(xs)[1])
+	(xs[i], ys[i]) = fire_ray(posterior_sample[which, :],
+									contour[i, 1], contour[i, 2])
+end
+
+plt.figure(figsize=(8, 8))
+plt.plot(xs, ys, "k-")
+plt.xlabel("x_s")
+plt.ylabel("y_s")
+rays = zeros(size(xs)[1], 4)
+rays[:,1] = contour[:,1]
+rays[:,2] = contour[:,2]
+rays[:,3] = xs
+rays[:,4] = ys
+writedlm("rays.txt", rays)
+plt.show()
+
