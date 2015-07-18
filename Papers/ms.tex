@@ -514,11 +514,11 @@ some noise added.\label{fig:simulated_image}}
 \end{center}
 \end{figure}
 
-We executed the code to generate 3,000 samples from the ``mixture of
+We executed the code to generate 5,000 samples from the ``mixture of
 constrained priors'' distribution of DNest. Our thinning factor was $10^5$,
-so $3 \times 10^8$ MCMC iterations were actually performed, taking approximately
-30 hours on a PC purchased new in 2012. After resampling these samples to
-reflect the posterior distribution, we were left with 318
+so $5 \times 10^8$ MCMC iterations were actually performed, taking approximately
+48 hours on a PC purchased new in 2012. After resampling these samples to
+reflect the posterior distribution, we were left with 537
 (equally weighted) posterior samples.
 
 The posterior distributions for complex models, such as the mixture models used here, are often challenging and unintuitive to summarise. One effective way
@@ -632,9 +632,9 @@ and other such possibilities.
 The estimated marginal likelihood of our model
 (averaged over all parameters including $N_{\rm lens}$ and $N_{\rm src}$)
 is
-$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -14249$, and
+$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -14248$, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
-is $\mathcal{H} \approx 100$ nats. The information represents the degree of
+is $\mathcal{H} \approx 99$ nats. The information represents the degree of
 compression of the posterior distribution with respect to the prior, and can
 be interpreted quite literally as how much was learned about the parameters from
 the data. It is also straightforward to estimate from Nested Sampling
