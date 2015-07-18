@@ -7,6 +7,9 @@ include("Lenses/BlobbyNIE.jl")
 # Load the posterior samples
 posterior_sample = readdlm("posterior_sample.txt")
 
+# Specify a row
+which = 1
+
 # Size of the 2D array
 M = size(posterior_sample)[1]
 N = size(posterior_sample)[2]
@@ -24,7 +27,7 @@ end
 
 x = linspace(-10,  10, 3001)
 y = linspace( 10, -10, 3001)
-mag = magnification_image(posterior_sample[1, :], x, y)
+mag = magnification_image(posterior_sample[which, :], x, y)
 
 # Use matplotlib's contour function to get the critical curve
 # http://stackoverflow.com/questions/5666056/matplotlib-extracting-data-from-contour-lines
