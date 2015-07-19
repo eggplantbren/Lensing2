@@ -48,16 +48,36 @@ mag = magnification_image(posterior_sample[which, :], x, y)
 #									contour[i, 1], contour[i, 2])
 #end
 
-plt.imshow(mag .> 5., interpolation="nearest", cmap="gray")
+plt.imshow(-(mag .> 5.5), interpolation="nearest", cmap="gray")
 plt.show()
 
+xx = zeros(size(y)[1], size(x)[1])
+yy = zeros(size(y)[1], size(x)[1])
+for(j in 1:size(yy)[1])
+	for(i in 1:size(xx)[1])
+		xx[i, j] = x[j]
+		yy[i, j] = y[i]
+	end
+end
+
+xx = xx[mag .> 5.5]
+yy = yy[mag .> 5.5]
+xs = xx
+ys = yy
+for(i in 1:size(xs)[1])
+	(xs[i], ys[i]) = fire_ray(posterior_sample[which, :],
+									xx[i], yy[i])
+end
+
+
+
 plt.figure(figsize=(8, 8))
-plt.plot(xs, ys, "k-")
+plt.plot(xs, ys, "k.", markersize=1)
 plt.xlabel("x_s")
 plt.ylabel("y_s")
 rays = zeros(size(xs)[1], 4)
-rays[:,1] = contour[:,1]
-rays[:,2] = contour[:,2]
+rays[:,1] = xx
+rays[:,2] = yy
 rays[:,3] = xs
 rays[:,4] = ys
 writedlm("rays.txt", rays)
