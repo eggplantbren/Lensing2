@@ -100,12 +100,10 @@ or free-form (e.g. pixellated) model for the surface brightness profile of the s
 Monte Carlo with source parameters marginalized out analytically, or
 with the source parameters included).
 \end{enumerate}
-
-Recent sophisicated approaches to
-this problem include \citet{2014MNRAS.445.2181C},
+Recent sophisicated approaches investigating different prior assumptions
+and computational approaches include \citet{2014MNRAS.445.2181C},
 \citet{2015arXiv150500198T}, and
-\citet{2015arXiv150407629B}. {\bf todo: actually comment
-on what's in these papers}.
+\citet{2015arXiv150407629B}. 
 
 Each approach involves tradeoffs between convenience and realism.
 Simply parameterized models, such as Sérsic surface
@@ -137,7 +135,9 @@ that any pixel is negative is 0.5.
 
 \citet{2011MNRAS.412.2521B} argued that an ideal
 modelling approach lies somewhere between simply-parameterised and
-pixellated models. One way of achieving this is with mixture models.
+pixellated models, which is also a motivation behind
+\citet{2015arXiv150500198T}'s investigation of shapelets.
+One way of achieving this is with mixture models.
 The source and the lens can be built up from a mixture of a moderate
 number (from a few to a few hundred) of
 simply parameterised components. For the source, this allows
@@ -151,7 +151,8 @@ may or may not be similar in different bands.
 The present paper is similar in approach to \citet{2011MNRAS.412.2521B}.
 The main differences are:
 i) we use a simpler and faster set of basis functions,
-ii) we apply it to the lens as well as the source, and
+ii) we apply it to the lens as well as the source, allowing for the
+possibility of substructure, and
 iii) the implementation is based on a C++ template library developed by
 \citet{rjobject} which allows for hierarchical priors and trans-dimensional
 MCMC to be implemented in a relatively straightforward manner.
@@ -159,6 +160,7 @@ However, in the present paper we do not account for
 multi-band data.
 
 \section{Finding dark substructures}
+If possible, it is best
 If we are interested in detecting and measuring the properties of
 possible dark substructures in a lens galaxy,
 a superposition of an unknown number of ``blobs'' is the
@@ -173,11 +175,12 @@ distribution for the hyperparameters.
 We now describe the details of our model and its parameterization. The
 motivation for most of our modelling choices is a compromise between
 computational efficiency, realism, and ease of implementation. None of the
-choices we have made are final in any sense, and we encourage exploration of
+choices we have made are final in any sense; rather, this model should be
+considered a proof of concept. We encourage exploration of
 other choices. Since we can compute marginal likelihoods, Bayesian model
 comparison between our choices here and any proposed alternatives should be
 straightforward, provided a mixture of our model and another is considered
-reasonable.
+a reasonable model of prior beliefs.
 
 \subsection{The Source}
 The surface brightness profile of the source is assumed to be composed of
