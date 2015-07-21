@@ -169,7 +169,10 @@ these blobs \citep[e.g.][]{2009MNRAS.400.1583V, 2014MNRAS.442.2017V},
 we will need a hierarchical model which specifies the prior probability
 distribution for the masses conditional on some hyperparameters. Inferring the
 mass function of the blobs then reduces to calculating the posterior
-distribution for the hyperparameters.
+distribution for the hyperparameters. This is related to the general principle
+that we should (ideally) construct our inference methods so that the
+quantities we infer directly answer our scientific questions
+\citep{2015arXiv150507840A, 2015ApJ...807...87S, pancoast}.
 
 \section{The Model}
 We now describe the details of our model and its parameterization. The
@@ -828,7 +831,8 @@ results, the MCMC output should be treated with caution.
 %We demonstrate the method on the HST images of ER 0047-2808.
 
 \section*{Acknowledgements}
-It is a pleasure to thank Phil Marshall (Stanford) and Tommaso Treu (UCLA)
+It is a pleasure to thank Phil Marshall (Stanford), Tommaso Treu (UCLA),
+Ross Fadely (NYU), and Alan Heavens (Edinburgh)
 for valuable discussion.
 
 This work was funded by a Marsden Fast Start grant from the Royal Society of
@@ -836,6 +840,10 @@ New Zealand.
 
 
 \begin{thebibliography}{99}
+\bibitem[\protect\citeauthoryear{Alsing et al.}{2015}]{2015arXiv150507840A} 
+Alsing J., Heavens A., Jaffe A.~H., Kiessling A., Wandelt B., Hoffmann T., 
+2015, arXiv, arXiv:1505.07840
+
 \bibitem[\protect\citeauthoryear{Birrer, Amara, 
 \& Refregier}{2015}]{2015arXiv150407629B} Birrer S., Amara A., Refregier A., 2015, arXiv, arXiv:1504.07629
 
@@ -884,6 +892,13 @@ Koopmans L.~V.~E., 2005, MNRAS, 363, 1136
 
 \bibitem[\protect\citeauthoryear{O'Hagan and Forster}{2004}]{ohagan}
 O'Hagan, A., Forster,~J., 2004, Bayesian inference. London: Arnold.
+
+\bibitem[\protect\citeauthoryear{Pancoast, Brewer, 
+\& Treu}{2011}]{pancoast} Pancoast A., Brewer B.~J., Treu T., 2011, ApJ, 730, 139
+
+\bibitem[\protect\citeauthoryear{Schneider et 
+al.}{2015}]{2015ApJ...807...87S} Schneider M.~D., Hogg D.~W., Marshall 
+P.~J., Dawson W.~A., Meyers J., Bard D.~J., Lang D., 2015, ApJ, 807, 87
 
 \bibitem[\protect\citeauthoryear{Sivia \& Skilling}{2006}]{sivia} Sivia, 
 D.~ S., Skilling, J., 2006, Data Analysis: A Bayesian Tutorial, 2nd 
