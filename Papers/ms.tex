@@ -332,8 +332,8 @@ Previous astronomical
 applications of {\tt RJObject} include \citet{magnetron}
 and~\citet{exoplanet}. Proposal moves for the parameters (positions and masses
 of the source and lens blobs), and birth/death moves to add or remove blobs
-to the source or lens, are handled internally by {\tt RJObject}.
-
+to the source or lens, are handled internally by {\tt RJObject} and
+fit into the general framework described in \citet{rjobject}.
 
 \section{Prior Probability Distributions}\label{sec:priors}
 The prior probability distributions for all hyperparameters, parameters, and
@@ -345,9 +345,11 @@ some priors hierarchically to allow (for example)
 blobs to cluster around a typical central
 position, rather than implying a high probability for substructure positions
 being spread uniformly (in a frequency sense) over the sky. We also applied
-hierarchical priors to the substructure masses (and fluxes) so that, while
+hierarchical priors to the substructure masses (and source fluxes) so that, while
 the typical order of magnitude of the masses is unknown, the masses
-themselves are likely to be roughly the same order of magnitude.
+themselves are likely to be roughly the same order of magnitude. The
+hyperparameters of these distributions can also be interpreted as
+straightforward answers to questions about the substructure mass function.
 
 \begin{table*}
 \begin{tabular}{|l|l|l|}
@@ -415,8 +417,8 @@ a distribution denotes truncation to the interval $[\alpha, \beta]$.
 \label{tab:priors}}
 \end{table*}
 
-We assign somewhat informative Cauchy priors to the central positions of the
-source and the lens.
+We assign somewhat informative (but heavy-tailed)
+Cauchy priors to the central positions of the source and the lens.
 One might object to the Cauchy priors
 for the central positions (and argue instead for gaussians) on the
 basis that they do not have rotational symmetry. However, the priors we
@@ -470,6 +472,17 @@ physical frequency distribution exists which is being sampled from. The term
 likelihood is also usually used to refer to the scalar function of the parameters
 obtained when the data are known. For a discussion of the view that this
 object is really a prior distribution, see \citet[][pp. 33--35]{caticha}.
+
+It is common to provide a ``variance image'' to lens modelling software,
+which specifies the standard deviations used in the likelihood function.
+However, telescopes do not provide variance images. It also does not make
+sense to specify vague priors prior to the image pixel values but posterior to
+the variance image (which usually resembles the image itself, and therefore
+would be highly informative). Allowing the standard deviation of the gaussian in the
+likelihood to depend on the mock image brightness is a more principled way
+of modelling our actual inferential situation. Nevertheless, we allow for an
+input variance image as well, which can be used for ad-hoc masking of
+troublesome regions (such as unmodelled flux from other sources).
 
 \section{Computation}
 Computing the posterior distribution over the parameters of such a model
