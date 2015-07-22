@@ -756,6 +756,15 @@ data were informative enough to show this, the current
 model would only be able to explain the data by adding substructures. Hence, an alternative explanation for these results is that, rather than containing a substructure, the density profile of the lens is simply not within
 the SIE family. One way of investigating this is to use a different family of
 smooth lens models and doing model selection based on the marginal likelihoods.
+Another option which we defer to future work is to implement a more flexible
+model (such as a concentric mixture of concentric elliptical lenses).
+
+Another potential inadequacy of our model is the assumption that the PSF is
+known. In practice, the PSF is often estimated from the image of nearby star(s),
+or from theoretical knowledge of the telescope (especially in the case of
+space based imaging). However, if the PSF is misspecified, or in fact varies
+across the image, this could induce subtle effects in the imaging which our
+current model could only explain using substructure.
 
 \begin{figure}
 \begin{center}
