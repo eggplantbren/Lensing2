@@ -712,7 +712,15 @@ for greater accuracy.
 The joint posterior distribution for the SIE mass total substructure mass
 for the Cosmic Horseshoe is given in Figure~\ref{fig:masses2}. As with
 the simulated data (Figure~\ref{fig:masses}), we see an expected negative
-correlation between these two quantities.
+correlation between these two quantities. However, the points are not as
+smoothly distributed in this case (we discuss this issue further
+in Section~\ref{sec:convergence}). The posterior distribution for
+$N_{\rm lens}$ also shows some evidence for more than zero substructures.
+In particular, the prior probability for $N_{\rm lens} > 0$ was 10/11
+$\approx$ 0.91, whereas the posterior probability is approximately 0.97.
+This corresponds to a Bayes Factor of approximately 3 in favour of
+$N_{\rm lens} > 0$ versus the alternative $N_{\rm lens} = 0$.
+
 
 \begin{figure}
 \begin{center}
@@ -743,7 +751,7 @@ $\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -6967$, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
 is $\mathcal{H} \approx 129$ nats.
 
-\subsection{Reproducibility of the results}
+\subsection{Reproducibility of the results}\label{sec:convergence}
 The ``effective sample size'' returned by DNest, which we have described as the
 number of posterior samples, takes into account the fact DNest's target
 distribution is not the posterior. However, it does not take autocorrelation
