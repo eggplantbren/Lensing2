@@ -326,7 +326,7 @@ reversible jump MCMC \citep{green}. We implemented the MCMC using the
 {\tt RJObject} software \citep{rjobject}, a C++ library for implementing trans-dimensional MCMC with hierarchically-specified priors when the model is
 a ``mixture model'' or similar, as is the case here.
 The {\tt RJObject} library uses the
-Diffusive Nested Sampling algorithm \citep{dnest} for its sampling, but the
+Diffusive Nested Sampling algorithm \citep[DNS][]{dnest} for its sampling, but the
 trans-dimensionality is handled by the MCMC moves. Therefore, the marginal
 likelihood we obtain is one that involves a sum over the hypothesis space
 for $N_{\rm src}$ and $N_{\rm lens}$. In other words, we do not need
@@ -534,7 +534,7 @@ some noise added.\label{fig:simulated_image}}
 \end{figure}
 
 We executed the code to generate 5,000 samples from the ``mixture of
-constrained priors'' distribution of DNest. Our thinning factor was $10^5$,
+constrained priors'' distribution of DNS. Our thinning factor was $10^5$,
 so $5 \times 10^8$ MCMC iterations were actually performed, taking approximately
 48 hours on a PC purchased new in 2012. After resampling these samples to
 reflect the posterior distribution, we were left with 537
@@ -701,7 +701,7 @@ thorough study of this system.
 \end{center}
 \end{figure}
 
-We generated 5,000 samples from the DNest target distribution and thinned
+We generated 5,000 samples from the DNS target distribution and thinned
 by a factor of $10^5$, so $5 \times 10^8$ MCMC iterations were actually
 performed, taking approximately 40 hours. The first 1/3 of the run was
 excluded as burn-in. After resampling, this resulted in 632
@@ -778,8 +778,8 @@ the information (Kullback-Leibler divergence from the prior to the posterior)
 is $\mathcal{H} \approx 129$ nats.
 
 \subsection{Reproducibility of the results}\label{sec:convergence}
-The ``effective sample size'' returned by DNest, which we have described as the
-number of posterior samples, takes into account the fact DNest's target
+The ``effective sample size'' returned by DNS, which we have described as the
+number of posterior samples, takes into account the fact DNS's target
 distribution is not the posterior. However, it does not take autocorrelation
 into account, and thus can present an optimistic picture of the accuracy of
 any Monte Carlo approximations to posterior quantities. Most standard diagnostic
