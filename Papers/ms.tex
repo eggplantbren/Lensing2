@@ -684,14 +684,23 @@ measure).
 
 \section{The Cosmic Horseshoe}
 As a further demonstration the method, we apply it to the X-band data
-from the Isaac Newton Telescope (INT). This image of the Cosmic Horseshoe
-\citep{}, which is shown in Figure~\ref{fig:horseshoe_image}. For this system,
+of the Cosmic Horseshoe \citep{2008MNRAS.388..384D} taken with the Isaac Newton Telescope (INT). The image is shown in Figure~\ref{fig:horseshoe_image}.
+For this system,
 more data is available (Y and Z band data, as well as more recent
 Hubble Space Telescope (HST) imaging). Unfortunately our current implementation
 doesn't allow for multi-band data (unlike \citet{2011MNRAS.412.2521B}), and
 is quite slow when running on the larger HST image. Therefore this section
 should be considered a further demonstration of the technique, and not a
 thorough study of this system.
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{horseshoe_image.pdf}
+\caption{The X-band INT image of the Cosmic Horseshoe.
+\label{fig:horseshoe_image}}
+\end{center}
+\end{figure}
 
 We generated 5,000 samples from the DNest target distribution and thinned
 by a factor of $10^5$, so $5 \times 10^8$ MCMC iterations were actually
@@ -700,21 +709,6 @@ excluded as burn-in. After resampling, this resulted in 632
 equally weighted posterior samples. Although this image is smaller than the
 simulated data ($46 \times 46$ pixels), we fired $2 \times 2$ rays per pixel
 for greater accuracy.
-
-
-%The field of view of the image is $15.3180" \times 15.3180"$, and the size is $46 \times 46$ pixels, therefore one pixel is equivalent to $0.33"$. \\
-%The method discussed  in the previous section is applied to two models, the first model consist of a flexible source and a Singular Isothermal Elliptical(SIE) model for the lens. This model is has been used often  \cite{Dye2008}, \cite{schneider_falcoa_Ehlers_1994},      . 
-%The second model has in addition to the flexible source and SIE, also possible satellites. \\
-%The amount of added satellites is automatically determined by the program. If models the addition of an satellite galaxies gives a higher probability it will be preferred over then model without satellite galaxies.  \\
-%In both models the SIE is specified by the usual parameters: the location of the SIE ($x_c$,$y_c$), b, axis ratio $f$\footnote{in the code denoted with $q$},  the core radius$\zeta$, $\theta$, shear $\gamma$, and $\theta_{\gamma}$ \cite{kormann_schneider_1994}.\\
-
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.5]{horseshoe_image.pdf}
-\caption{\label{fig:horseshoe_image}}
-\end{center}
-\end{figure}
-
 
 \begin{figure}
 \begin{center}
@@ -884,6 +878,10 @@ arXiv:0808.0012.
 \bibitem[\protect\citeauthoryear{Coles, Read, 
 \& Saha}{2014}]{2014MNRAS.445.2181C} Coles J.~P., Read J.~I., Saha P., 2014, MNRAS, 445, 2181
 
+\bibitem[\protect\citeauthoryear{Dye et al.}{2008}]{2008MNRAS.388..384D} 
+Dye S., Evans N.~W., Belokurov V., Warren S.~J., Hewett P., 2008, MNRAS, 
+388, 384 
+
 \bibitem[\protect\citeauthoryear{Fadely 
 \& Keeton}{2012}]{2012MNRAS.419..936F} Fadely R., Keeton C.~R., 2012, MNRAS, 419, 936
 
@@ -953,7 +951,6 @@ Treu T., Gavazzi R., 2010, MNRAS, 408, 1969
 \bibitem[\protect\citeauthoryear{Vegetti et 
 al.}{2014}]{2014MNRAS.442.2017V} Vegetti S., Koopmans L.~V.~E., Auger 
 M.~W., Treu T., Bolton A.~S., 2014, MNRAS, 442, 2017 
-
 
 \bibitem[\protect\citeauthoryear{Warren 
 \& Dye}{2003}]{2003ApJ...590..673W} Warren S.~J., Dye S., 2003, ApJ, 590, 673
