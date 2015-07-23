@@ -820,8 +820,8 @@ check of reproducibility. If different runs yield substantially different
 results, the MCMC output should be treated with caution. For example, in
 Figure~\ref{fig:masses2}, there is a correlation between the mass attributed
 to the SIE component and that attributed to substructures. However, the
-distribution also appears somewhat ``lumpy'' or multimodal. This is probably
-not a feature of the actual posterior distribution, but rather appears due to
+distribution also appears somewhat ``lumpy'' or multimodal. This may
+not be a feature of the actual posterior distribution, but could arise due to
 imperfect sampling. Whereas a standard Metropolis sampler would move around
 very slowly in the hypothesis space, the DNS algorithm naturally spends some
 of the time sampling the prior. Therefore, a particle exploring the parameter
@@ -831,6 +831,12 @@ is a natural feature of the algorithm (and is also present in related
 algorithms such as parallel tempering). Despite this feature, the patchy
 nature of Figure~\ref{fig:masses2} suggests that posterior exploration is
 still challenging in this problem.
+
+The results for the simulated data (Figure~\ref{fig:masses})
+were less complex because of the definite existence of one substructure.
+Its mass and position provide some information about the hyperparameters
+$\boldsymbol{\alpha}_{\rm lens}$, restricting the probability that
+high mass substructures exist far from the image.
 
 \section{Conclusions}
 We have developed a trans-dimensional Bayesian approach motivated directly by
