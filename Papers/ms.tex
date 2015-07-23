@@ -815,12 +815,22 @@ algorithms such as parallel tempering). Despite this feature, the patchy
 nature of Figure~\ref{fig:masses2} suggests that posterior exploration is
 still challenging in this problem.
 
+\section{Conclusions}
+We have developed a trans-dimensional Bayesian approach motivated directly by
+the question of whether dark substructures exist in a lens galaxy, given image
+data. By making use of the Diffusive Nested Sampling algorithm \citep{dnest}
+and the {\tt RJObject} library \citep{rjobject}, we outsource the difficulties
+associated with choosing Metropolis proposals for a hierarchical model of
+non-fixed dimension. The model allows for source and lens ``blobs'' to appear
+as needed to explain the data.
+
+
+
 
 \section*{Acknowledgements}
 It is a pleasure to thank Phil Marshall (Stanford), Tommaso Treu (UCLA),
 Ross Fadely (NYU), and Alan Heavens (Edinburgh)
 for valuable discussion.
-
 This work was funded by a Marsden Fast Start grant from the Royal Society of
 New Zealand.
 
@@ -867,7 +877,7 @@ Dye S., Evans N.~W., Belokurov V., Warren S.~J., Hewett P., 2008, MNRAS,
 \bibitem[\protect\citeauthoryear{Fadely 
 \& Keeton}{2012}]{2012MNRAS.419..936F} Fadely R., Keeton C.~R., 2012, MNRAS, 419, 936
 
-\bibitem[\protect\citeauthoryear{Green}{1995}]{rjmcmc}
+\bibitem[\protect\citeauthoryear{Green}{1995}]{green}
 Green, P.~J., 1995, Reversible Jump Markov Chain Monte Carlo Computation and Bayesian Model Determination, Biometrika 82 (4): 711–732.
 
 \bibitem[\protect\citeauthoryear{Grillo et al.}{2015}]{grillo} 
