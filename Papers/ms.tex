@@ -86,7 +86,8 @@ of the uncertainties
 \citep{2013ApJ...766...70S, 2014ApJ...788L..35S, grillo}.
 
 Lens modelling has been a topic of much interest over the last two decades.
-Most approaches are based on Bayesian inference, maximum likelihood or
+Most approaches are based on Bayesian inference \citep{sivia, ohagan}, maximum
+likelihood \citep{millar} or
 variations thereof. These approaches may be categorized according to the
 following criteria:
 \begin{enumerate}
@@ -610,7 +611,7 @@ In the present paper we do not address the question of exactly which quantities
 related to the
 density profile of the lens are most scientifically interesting. Nevertheless,
 we can verify that the results of the inference do behave in understandable
-ways. For example, in Figure~\ref{fig:simdata_masses},
+ways. For example, in Figure~\ref{fig:masses},
 we plot the joint posterior distribution
 for the SIE mass within its critical ellipse and the total substructure mass
 over the entire domain. As one would expect, there is a strong dependence
@@ -619,10 +620,10 @@ SIE can be traded off with mass in substructures to some extent, while
 the model remains (loosely speaking) ``consistent with the data''.
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.4]{simdata_masses.pdf}
+\includegraphics[scale=0.4]{masses.pdf}
 \caption{The joint posterior distribution for the SIE mass (integrated within
 its critical ellipse, which is not the critical curve of the lens overall),
-and the total mass in substructures.\label{fig:simdata_masses}}
+and the total mass in substructures.\label{fig:masses}}
 \end{center}
 \end{figure}
 
@@ -720,7 +721,7 @@ for greater accuracy.
 
 The joint posterior distribution for the SIE mass total substructure mass
 for the Cosmic Horseshoe is given in Figure~\ref{fig:masses2}. As with
-the simulated data (Figure~\ref{fig:simdata_masses}), we see an expected negative
+the simulated data (Figure~\ref{fig:masses}), we see an expected negative
 correlation between these two quantities. However, the points are not as
 smoothly distributed in this case (we discuss this issue further
 in Section~\ref{sec:convergence}). The posterior distribution for
@@ -905,6 +906,9 @@ Koopmans L.~V.~E., 2005, MNRAS, 363, 1136
 
 \bibitem[\protect\citeauthoryear{Kormann, Schneider, 
 \& Bartelmann}{1994}]{1994A&A...284..285K} Kormann R., Schneider P., Bartelmann M., 1994, A\&A, 284, 285
+
+\bibitem[\protect\citeauthoryear{Millar}{2011}]{millar}
+Millar, R.~B., Maximum likelihood estimation and inference: with examples in R, SAS and ADMB. Vol. 111. John Wiley \& Sons, 2011.
 
 \bibitem[\protect\citeauthoryear{O'Hagan and Forster}{2004}]{ohagan}
 O'Hagan, A., Forster,~J., 2004, Bayesian inference. London: Arnold.
