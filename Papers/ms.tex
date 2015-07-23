@@ -849,8 +849,23 @@ As a proof of concept, we demonstrated the successful recovery of a single
 substructure from simulated data for which all of the model assumptions were
 true. We then applied the method to an image of the Cosmic Horseshoe system
 and found mild evidence in favour of the existence of a substructure, or at
-the very least, a departure from a simple SIE+$\gamma$ lens profile.
+the very least, a departure from a simple SIE+$\gamma$ lens profile. The
+main output of our method is a set of posterior samples, each representing
+a plausible scenario for the lens and the source given the data
+and the assumed prior information. These samples can be displayed as a movie,
+which is a very useful method for intuitively understanding the remaining
+uncertainty. Any posterior summaries of interest can be
+produced from the samples, but the interpretation of many of these summaries
+is not necessarily straightforward. We have suggested that the
+posterior expectation of the empirical measure of substructure positions is
+one of the most helpful summaries.
 
+The model assumptions used in this paper are fairly simple. In future work we
+intend to generalise the smooth lens model beyond the overly simplistic
+SIE+$\gamma$ model, and to generalize the model to multi-band data. Applications
+to other systems are also forthcoming, as well as variants on the model using
+different conditional priors for the substructure properties given the
+hyperparameters.
 
 \section*{Acknowledgements}
 It is a pleasure to thank Phil Marshall (Stanford), Tommaso Treu (UCLA),
