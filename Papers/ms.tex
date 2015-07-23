@@ -692,7 +692,8 @@ As a further demonstration the method, we apply it to the g-band data
 of the Cosmic Horseshoe \citep{belokurov, 2008MNRAS.388..384D} taken with the Isaac Newton Telescope (INT). The image is shown in Figure~\ref{fig:horseshoe_image}.
 For this system,
 more data is available (i and U band data, as well as more recent
-Hubble Space Telescope (HST) imaging). Unfortunately our current implementation
+Hubble Space Telescope (HST) imaging), although the g-band image is the highest
+signal-to-noise of the INT images. Unfortunately our current implementation
 doesn't allow for multi-band data (unlike \citet{2011MNRAS.412.2521B}), and
 is quite slow when running on the larger HST image. Therefore this section
 should be considered a further demonstration of the technique, and not a
@@ -822,9 +823,16 @@ data. By making use of the Diffusive Nested Sampling algorithm \citep{dnest}
 and the {\tt RJObject} library \citep{rjobject}, we outsource the difficulties
 associated with choosing Metropolis proposals for a hierarchical model of
 non-fixed dimension. The model allows for source and lens ``blobs'' to appear
-as needed to explain the data.
+as needed to explain the data. The prior for the blobs' properties is
+specified hierarchically, to more realistically model sensible prior beliefs,
+and to tie the model parameters directly to questions of scientific interest
+such as the mass function of substructures.
 
-
+As a proof of concept, we demonstrated the successful recovery of a single
+substructure from simulated data for which all of the model assumptions were
+true. We then applied the method to an image of the Cosmic Horseshoe system
+and found mild evidence in favour of the existence of a substructure, or at
+the very least, a departure from a simple SIE+$\gamma$ lens profile.
 
 
 \section*{Acknowledgements}
