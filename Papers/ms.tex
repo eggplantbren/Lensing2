@@ -8,7 +8,6 @@
 \usepackage{xspace}
 %\usepackage{dsfont}
 \usepackage[utf8]{inputenc}
-\usepackage{caption}
 \usepackage{subcaption} % subfigures
 \usepackage{float}
 
@@ -512,7 +511,8 @@ Evaluating likelihood function requires that we compute a ``mock'' image from
 the current setting of the parameters. This mock image is calculated using
 standard ray-tracing methods with a uniform grid of $n \times n$ rays
 fired per image pixel. However, certain kinds of proposals do not affect the
-image in any way, such as those that change the noise parameters.
+image in any way, such as those which change the noise parameters. For efficiency
+we do not recompute the mock image in these cases.
 
 \section{Simulated Data}
 To demonstrate the method, we generated a simulated dataset with a single
@@ -693,7 +693,9 @@ of the Cosmic Horseshoe J1004+4112 \citep{belokurov, 2008MNRAS.388..384D} taken 
 For this system,
 more data is available (i and U band data, as well as more recent
 Hubble Space Telescope (HST) imaging), although the g-band image is the highest
-signal-to-noise of the INT images. Unfortunately our current implementation
+signal-to-noise of the INT images. The source redshift is $z_s=2.379$, and the
+lens is a massive luminous red galaxy at $z_l=0.4457$.
+Unfortunately our current implementation
 doesn't allow for multi-band data (unlike \citet{2011MNRAS.412.2521B}), and
 is quite slow when running on the larger HST image. Therefore this section
 should be considered a further demonstration of the technique, and not a
@@ -702,7 +704,8 @@ thorough study of this system.
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{horseshoe_image.pdf}
-\caption{The g-band INT image of the Cosmic Horseshoe.
+\caption{The g-band INT image of the Cosmic Horseshoe, with the lens galaxy
+subtracted.
 \label{fig:horseshoe_image}}
 \end{center}
 \end{figure}
@@ -717,7 +720,7 @@ for greater accuracy.
 
 The joint posterior distribution for the SIE mass total substructure mass
 for the Cosmic Horseshoe is given in Figure~\ref{fig:masses2}. As with
-the simulated data (Figure~\ref{fig:masses}), we see an expected negative
+the simulated data (Figure~\ref{fig:simdata_masses}), we see an expected negative
 correlation between these two quantities. However, the points are not as
 smoothly distributed in this case (we discuss this issue further
 in Section~\ref{sec:convergence}). The posterior distribution for
@@ -733,14 +736,16 @@ $N_{\rm lens} > 0$ versus the alternative $N_{\rm lens} = 0$.
 \includegraphics[scale=0.4]{masses2.pdf}
 \caption{The joint posterior distribution for the SIE mass (integrated within
 its critical ellipse, which is not the critical curve of the lens overall),
-and the total mass in substructures.\label{fig:simdata_masses}}
+and the total mass in substructures.\label{fig:masses2}}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.4]{N_lens2.pdf}
-\caption{\label{fig:N_lens2}}
+\caption{The posterior distribution for the number of lens substructures
+in the Cosmic Horseshoe system. There is mild evidence in favour of the
+hypothesis that $N_{\rm lens} \neq 0$.\label{fig:N_lens2}}
 \end{center}
 \end{figure}
 
@@ -786,8 +791,6 @@ there is little consistency in the positions of the substructures.
 \label{fig:substructures2}}
 \end{center}
 \end{figure}
-
-
 
 The estimated marginal likelihood of our model
 is
