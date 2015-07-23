@@ -157,7 +157,7 @@ iii) the implementation is based on a C++ template library developed by
 \citet{rjobject} which allows for hierarchical priors and trans-dimensional
 MCMC to be implemented in a relatively straightforward manner.
 However, in the present paper we do not account for
-multi-band data.
+multi-band data; this will be reserved for a future contribution.
 
 \section{Finding dark substructures}
 If possible, it is best
@@ -343,7 +343,7 @@ The prior probability distributions for all hyperparameters, parameters, and
 the data, are given in Table~\ref{tab:priors}, and a factorization of the
 joint distribution is displayed in Figure~\ref{fig:pgm}. With these priors,
 we aim to express a large degree of prior uncertainty (hence the liberal use
-of uniform, loguniform, and Cauchy distributions). However, we also specify
+of uniform, log-uniform, and Cauchy distributions). However, we also specify
 some priors hierarchically to allow (for example)
 blobs to cluster around a typical central
 position, rather than implying a high probability for substructure positions
@@ -536,7 +536,9 @@ some noise added.\label{fig:simulated_image}}
 We executed the code to generate 5,000 samples from the ``mixture of
 constrained priors'' distribution of DNS. Our thinning factor was $10^5$,
 so $5 \times 10^8$ MCMC iterations were actually performed, taking approximately
-48 hours on a PC purchased new in 2012. After resampling these samples to
+48 hours on a modest desktop PC\footnote{The computer was purchased in 2012
+and has a second-generation intel i7 processor, and the process was run on
+8 threads.}. After resampling these samples to
 reflect the posterior distribution, we were left with 537
 (equally weighted) posterior samples.
 
@@ -675,7 +677,10 @@ volume.
 \includegraphics[scale=0.4]{substructures.pdf}
 \caption{The simulated data, with substructure positions overlaid (a
 Monte Carlo approximation to the posterior expectation of the empirical
-measure).
+measure). The density of black points in any region is proportional to the
+expected number of substructures whose centers lie within that region. In this
+case, there is strong evidence for a substructure close to the top-left image
+(where one was actually placed).
 \label{fig:substructures}}
 \end{center}
 \end{figure}
