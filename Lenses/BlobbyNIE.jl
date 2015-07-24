@@ -92,8 +92,28 @@ end
 
 # Input: parameters of a blob (length four)
 function blob_mass_within(parameters::Array{Float64, 2},
-							x_min, x_max, y_min, y_max)
+							x_min, x_max, y_min, y_max; n=1001)
 	assert(size(parameters) == (1, 4))
 	xc, yc, mass, width = parameters
+	widthsq = width^2
+	C = mass*2.0/pi/widthsq
+
+	x = linspace(x_min, x_max, n)
+	y = linspace(y_max, y_min, n)
+	f = zeros(n, n)
+	for(j in 1:n)
+		for(i in 1:n)
+			rsq = (x[i] - xc)^2 + (y[j] - yc)^2
+			if(rsq <= widthsq)
+				f[i, j] += C*(1.0 - rsq/widthsq)
+			end
+		end
+	end
+
+	return (x[2] - x[1])*(y[1] - y[2])*sum(f)
 end
+
+params = zeros(1, 4)
+params[1], params[2], params[3], params[4] = 0.0, 0.0, 1.0, 0.5
+println(blob_mass_within(params, -0.5, 0.5, -0.5, 0.5))
 
