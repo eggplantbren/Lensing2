@@ -89,3 +89,11 @@ function magnification(parameters::Array{Float64, 2}, x::Float64, y::Float64, h:
 	return -2.5*log10(abs(J11*J22 - J12*J21))
 end
 
+
+# Input: parameters of a blob (length four)
+function blob_mass_within(parameters::Array{Float64, 2},
+							x_min, x_max, y_min, y_max)
+	assert(size(parameters) == (1, 4))
+	xc, yc, mass, width = parameters
+end
+
