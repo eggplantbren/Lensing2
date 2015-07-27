@@ -6,6 +6,7 @@ include("Lenses/BlobbyNIE.jl")
 
 # Load the posterior samples
 posterior_sample = readdlm("posterior_sample.txt")
+metadata = readdlm("Data/mock_metadata.txt")
 
 # Specify a row
 which = 1
@@ -64,7 +65,30 @@ plt.hold(true)
 plt.plot(rays[:,1], rays[:,2], "w.", markersize=1)
 plt.plot(rays[:,3], rays[:,4], "b.", markersize=1)
 plt.axis([-10.0, 10.0, -10.0, 10.0])
-plt.show()
 writedlm("rays.txt", rays)
+plt.show()
+
+src = vec(posterior_sample[which, 469:468 + metadata[1]*metadata[2]*metadata[8]^2])
+img = vec(posterior_sample[which, 469 + 2*metadata[1]*metadata[2]*metadata[8]^2:(size(posterior_sample)[2]-2)])
+src = transpose(reshape(src, int(metadata[2]*metadata[8]), int(metadata[1]*metadata[8])))
+img = transpose(reshape(img, int(metadata[2]), int(metadata[1])))
+
+plt.rc("font", size=20, family="serif", serif="Computer Sans")
+plt.rc("text", usetex=True)
+plt.subplot(1, 2, 1)
+plt.imshow(src, interpolation="nearest", cmap="Oranges", extent=[-10, 10, -10, 10])
+plt.hold(true)
+plt.plot(rays[:,3], rays[:,4], "k.", markersize=1)
+plt.title("Source")
+plt.gca().set_xticks([])
+plt.gca().set_yticks([])
+plt.subplot(1, 2, 2)
+plt.imshow(img, interpolation="nearest", cmap="Oranges", extent=[-10, 10, -10, 10])
+plt.hold(true)
+plt.plot(rays[:,1], rays[:,2], "k.", markersize=1)
+plt.title("Image")
+plt.axis(metadata[3:6])
+plt.gca().set_xticks([])
+plt.gca().set_yticks([])
 plt.show()
 
