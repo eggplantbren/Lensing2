@@ -48,7 +48,8 @@ mag = magnification_image(posterior_sample[which, :], x, y)
 #									contour[i, 1], contour[i, 2])
 #end
 
-plt.imshow(-(mag .> 5.5), interpolation="nearest", cmap="gray")
+plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
+					vmin=-7.0, vmax=7.0, cmap="coolwarm")
 plt.show()
 
 xx = zeros(size(y)[1], size(x)[1])

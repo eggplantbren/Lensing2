@@ -71,9 +71,9 @@ function fire_ray(parameters::Array{Float64, 2}, x::Float64, y::Float64)
 	return [xs, ys]
 end
 
-# Compute the magnification at position (x, y).
+# Compute the jacobian of the lens-->source plane mapping at position (x, y).
 # h is the spacing for numerical differentiation
-function magnification(parameters::Array{Float64, 2}, x::Float64, y::Float64, h::Float64=1E-6)
+function jacobian(parameters::Array{Float64, 2}, x::Float64, y::Float64, h::Float64=1E-6)
 	(xs1, ys1) = fire_ray(parameters, x + h, y)
 	(xs2, ys2) = fire_ray(parameters, x - h, y)
 
@@ -86,7 +86,14 @@ function magnification(parameters::Array{Float64, 2}, x::Float64, y::Float64, h:
 	J21 = (xs1 - xs2)/(2*h)
 	J22 = (ys1 - ys2)/(2*h)
 
-	return -2.5*log10(abs(J11*J22 - J12*J21))
+	return(J11*J22 - J12*J21)
+end
+
+
+# Compute the magnification (in magnitudes) at position (x, y).
+# h is the spacing for numerical differentiation
+function magnification(parameters::Array{Float64, 2}, x::Float64, y::Float64, h::Float64=1E-6)
+	return -2.5*log10(abs(jacobian(parameters, x, y, h)))
 end
 
 
