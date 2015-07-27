@@ -25,9 +25,20 @@ function magnification_image(parameters::Array{Float64, 2}, x::Array{Float64, 1}
 	return mag
 end
 
+# Function to calculate jacobian on a grid
+function jacobian_image(parameters::Array{Float64, 2}, x::Array{Float64, 1}, y::Array{Float64, 1})
+	mag = zeros(length(y), length(x))
+	for(j in 1:length(y))
+		for(i in 1:length(x))
+			mag[i, j] = jacobian(parameters, x[i], y[j])
+		end
+	end
+	return mag
+end
+
 x = linspace(-10,  10, 3001)
 y = linspace( 10, -10, 3001)
-mag = magnification_image(posterior_sample[which, :], x, y)
+mag = jacobian_image(posterior_sample[which, :], x, y)
 
 ## Use matplotlib's contour function to get the critical curve
 ## http://stackoverflow.com/questions/5666056/matplotlib-extracting-data-from-contour-lines
