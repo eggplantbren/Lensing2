@@ -36,9 +36,9 @@ function jacobian_image(parameters::Array{Float64, 2}, x::Array{Float64, 1}, y::
 	return mag
 end
 
-x = linspace(-10,  10, 3001)
-y = linspace( 10, -10, 3001)
-mag = jacobian_image(posterior_sample[which, :], x, y)
+x = linspace(-10,  10, 1001)
+y = linspace( 10, -10, 1001)
+mag = magnification_image(posterior_sample[which, :], x, y)
 
 ## Use matplotlib's contour function to get the critical curve
 ## http://stackoverflow.com/questions/5666056/matplotlib-extracting-data-from-contour-lines
@@ -60,38 +60,39 @@ mag = jacobian_image(posterior_sample[which, :], x, y)
 #end
 
 plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
-					vmin=-7.0, vmax=7.0, cmap="coolwarm")
+					vmin=-5.0, vmax=5.0, cmap="coolwarm")
 plt.show()
 
-xx = zeros(size(y)[1], size(x)[1])
-yy = zeros(size(y)[1], size(x)[1])
-for(j in 1:size(yy)[1])
-	for(i in 1:size(xx)[1])
-		xx[i, j] = x[j]
-		yy[i, j] = y[i]
+rays = zeros(100000, 4)
+n_rays = 0
+for(j in 1:size(y)[1])
+	f1 = jacobian(posterior_sample[which, :], x[1], y[j])
+	for(i in 2:size(x)[1])
+		f2 = jacobian(posterior_sample[which, :], x[i], y[j])
+		if(sign(f1) == -sign(f2))
+			rays[n_rays+1, :] = [[x[i], y[j], 0.0, 0.0]]
+			n_rays += 1
+		end
+		f1 = f2
+	end
+
+	if(mod(j, 10) == 0)
+		println(j, " ", n_rays)
 	end
 end
-
-xx = xx[mag .> 5.5]
-yy = yy[mag .> 5.5]
-xs = xx
-ys = yy
-for(i in 1:size(xs)[1])
-	(xs[i], ys[i]) = fire_ray(posterior_sample[which, :],
-									xx[i], yy[i])
-end
-
-
+rays = rays[1:n_rays, :]
 
 plt.figure(figsize=(8, 8))
-plt.plot(xs, ys, "k.", markersize=1)
-plt.xlabel("x_s")
-plt.ylabel("y_s")
-rays = zeros(size(xs)[1], 4)
-rays[:,1] = xx
-rays[:,2] = yy
-rays[:,3] = xs
-rays[:,4] = ys
-writedlm("rays.txt", rays)
+plt.plot(rays[:,1], rays[:,2], "k.", markersize=1)
 plt.show()
+
+#plt.xlabel("x_s")
+#plt.ylabel("y_s")
+#rays = zeros(size(xs)[1], 4)
+#rays[:,1] = xx
+#rays[:,2] = yy
+#rays[:,3] = xs
+#rays[:,4] = ys
+#writedlm("rays.txt", rays)
+#plt.show()
 
