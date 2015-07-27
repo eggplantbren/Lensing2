@@ -19,7 +19,7 @@ function magnification_image(parameters::Array{Float64, 2}, x::Array{Float64, 1}
 	mag = zeros(length(y), length(x))
 	for(j in 1:length(y))
 		for(i in 1:length(x))
-			mag[i, j] = magnification(parameters, x[i], y[j])
+			mag[i, j] = magnification(parameters, x[j], y[i])
 		end
 	end
 	return mag
@@ -30,7 +30,7 @@ function jacobian_image(parameters::Array{Float64, 2}, x::Array{Float64, 1}, y::
 	mag = zeros(length(y), length(x))
 	for(j in 1:length(y))
 		for(i in 1:length(x))
-			mag[i, j] = jacobian(parameters, x[i], y[j])
+			mag[i, j] = jacobian(parameters, x[j], y[i])
 		end
 	end
 	return mag
@@ -52,11 +52,10 @@ for(j in 1:length(x))
 		f1 = jacobian(params, x[j], y[i])
 		f2 = jacobian(params, x[j], y[i+1])
 		if(sign(f1) != sign(f2))
-			(xs, ys) = fire_ray(params, x[i], 0.5*(y[j] + y[j+1]))
-			rays[n_rays+1, :] = [[x[i], 0.5*(y[j] + y[j+1]), xs, ys]]
+			(xs, ys) = fire_ray(params, x[j], y[i])
+			rays[n_rays+1, :] = [[x[j], y[i], xs, ys]]
 			n_rays += 1
 		end
-		f1 = f2
 	end
 end
 rays = rays[1:n_rays, :]
@@ -64,6 +63,7 @@ rays = rays[1:n_rays, :]
 plt.hold(true)
 plt.plot(rays[:,1], rays[:,2], "w.", markersize=1)
 plt.plot(rays[:,3], rays[:,4], "b.", markersize=1)
+plt.axis([-10.0, 10.0, -10.0, 10.0])
 plt.show()
 writedlm("rays.txt", rays)
 plt.show()
