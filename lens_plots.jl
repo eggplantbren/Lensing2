@@ -36,28 +36,9 @@ function jacobian_image(parameters::Array{Float64, 2}, x::Array{Float64, 1}, y::
 	return mag
 end
 
-x = linspace(-10,  10, 2001)
-y = linspace( 10, -10, 2001)
-mag = sign(jacobian_image(posterior_sample[which, :], x, y))
-
-## Use matplotlib's contour function to get the critical curve
-## http://stackoverflow.com/questions/5666056/matplotlib-extracting-data-from-contour-lines
-#contour = plt.contour(x, y, mag, [5.5, 5.51])
-#plt.clf()
-#plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
-#					vmin=-7.0, vmax=7.0, cmap="coolwarm")
-#contour = contour[:collections][:1]
-#contour = contour[:get_paths]()[1][:vertices]
-#plt.plot(contour[:,1], contour[:,2], "k", linewidth=2)
-#plt.show()
-
-## Fire the contour through to the source plane
-#xs = contour[:,1]
-#ys = contour[:,2]
-#for(i in 1:size(xs)[1])
-#	(xs[i], ys[i]) = fire_ray(posterior_sample[which, :],
-#									contour[i, 1], contour[i, 2])
-#end
+x = linspace(-10,  10, 3001)
+y = linspace( 10, -10, 3001)
+mag = magnification_image(posterior_sample[which, :], x, y)
 
 plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
 					vmin=-5.0, vmax=5.0, cmap="coolwarm")
@@ -66,36 +47,24 @@ plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
 params = posterior_sample[which, :]
 rays = zeros(100000, 4)
 n_rays = 0
-for(j in 1:length(y))
-	f1 = jacobian(params, x[1], y[j])
-	for(i in 2:length(x))
-		f2 = jacobian(params, x[i], y[j])
+for(j in 1:length(x))
+	for(i in 1:(length(y)-1))
+		f1 = jacobian(params, x[j], y[i])
+		f2 = jacobian(params, x[j], y[i+1])
 		if(sign(f1) != sign(f2))
-			(xs, ys) = fire_ray(params, x[i], y[j])
-			rays[n_rays+1, :] = [[x[i], y[j], xs, ys]]
+			(xs, ys) = fire_ray(params, x[i], 0.5*(y[j] + y[j+1]))
+			rays[n_rays+1, :] = [[x[i], 0.5*(y[j] + y[j+1]), xs, ys]]
 			n_rays += 1
 		end
 		f1 = f2
-	end
-
-	if(mod(j, 10) == 0)
-		println(j, " ", n_rays)
 	end
 end
 rays = rays[1:n_rays, :]
 
 plt.hold(true)
 plt.plot(rays[:,1], rays[:,2], "w.", markersize=1)
-plt.plot(
+plt.plot(rays[:,3], rays[:,4], "b.", markersize=1)
 plt.show()
-
-#plt.xlabel("x_s")
-#plt.ylabel("y_s")
-#rays = zeros(size(xs)[1], 4)
-#rays[:,1] = xx
-#rays[:,2] = yy
-#rays[:,3] = xs
-#rays[:,4] = ys
-#writedlm("rays.txt", rays)
-#plt.show()
+writedlm("rays.txt", rays)
+plt.show()
 

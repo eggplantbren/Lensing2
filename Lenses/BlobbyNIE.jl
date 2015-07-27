@@ -73,7 +73,7 @@ end
 
 # Compute the jacobian of the lens-->source plane mapping at position (x, y).
 # h is the spacing for numerical differentiation
-function jacobian(parameters::Array{Float64, 2}, x::Float64, y::Float64, h::Float64=1E-6)
+function jacobian(parameters::Array{Float64, 2}, x::Float64, y::Float64, h::Float64=1E-7)
 	(xs1, ys1) = fire_ray(parameters, x + h, y)
 	(xs2, ys2) = fire_ray(parameters, x - h, y)
 
