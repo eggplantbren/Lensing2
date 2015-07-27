@@ -74,7 +74,7 @@ src = transpose(reshape(src, int(metadata[2]*metadata[8]), int(metadata[1]*metad
 img = transpose(reshape(img, int(metadata[2]), int(metadata[1])))
 
 plt.rc("font", size=20, family="serif", serif="Computer Sans")
-plt.rc("text", usetex=True)
+plt.rc("text", usetex=true)
 plt.subplot(1, 2, 1)
 plt.imshow(src, interpolation="nearest", cmap="Oranges", extent=[-10, 10, -10, 10])
 plt.hold(true)
