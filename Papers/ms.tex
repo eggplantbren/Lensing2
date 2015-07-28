@@ -814,7 +814,23 @@ The estimated marginal likelihood of our model
 is
 $\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -6967$, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
-is $\mathcal{H} \approx 129$ nats.
+is $\mathcal{H} \approx 129$ nats. 
+Three example models (lens and source) sampled from the posterior are shown
+in Figure~\ref{fig:sources}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.8]{sources.pdf}
+\caption{Three example sources (and the corresponding lensed, blurred images)
+representative of the posterior distribution. All three lens system scenarios
+have substructures, which cause subtle distortions from the usual shape of
+the caustics and critical curves (plotted as black curves).
+The angular scales are 3 arcseconds for the sources and 15
+arcseconds for the images.
+\label{fig:sources}}
+\end{center}
+\end{figure}
+
 
 \subsection{Reproducibility of the results}\label{sec:convergence}
 The ``effective sample size'' returned by DNS, which we have described as the
