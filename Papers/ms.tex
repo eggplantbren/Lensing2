@@ -45,10 +45,12 @@ so the mass function of substructures is a natural output of the method.
 We use reversible
 jump Markov Chain Monte Carlo (MCMC) within Diffusive Nested Sampling (DNS) to
 sample the posterior distribution and evaluate the marginal likelihood of the
-model parameters including the number of blobs in the source and the lens.
+model, including the summation over the unknown
+number of blobs in the source and the lens.
 We demonstrate the method on a simulated data set with a single
 substructure, which is recovered well with moderate uncertainties. We also
-apply the method to an image of the ``Cosmic Horseshoe'' system, and find some
+apply the method to the g-band
+image of the ``Cosmic Horseshoe'' system, and find some
 hints of potential substructures. However, we caution that such results could
 also be caused by misspecifications in the model (such as the shape of
 the smooth lens component or the point spread function),
@@ -61,11 +63,12 @@ gravitational lensing --- methods: data analysis --- methods: statistical
 \end{keywords}
 
 \section{Introduction}
-Galaxy-galaxy lensing is a powerful astrophysical tool for studying
+Galaxy-galaxy gravitational lensing is a powerful astrophysical tool for studying
 the distribution of matter, including dark matter, in galaxies
-\citep{treu}. It holds substantial potential as a technique for discovering
-and measuring the properties of dark matter substructures \citep{koopmans}.
-In recent years, this potential has been realised in several lens systems
+\citep{treu}. One promising application of lensing is to study
+and measure the properties of dark matter substructures in the lens
+galaxy \citep{koopmans}.
+In recent years, this promise has been realised in several lens systems
 which are thought to contain at least one dark substructure
 \citep{vegetti1, vegetti2, vegetti3}. In these studies, the lens was modelled
 as a superposition of a smooth component (such as an elliptical power-law
@@ -96,8 +99,8 @@ or free-form (e.g. pixellated) model for the surface brightness profile of the s
 \item Whether to use a simply parameterized (e.g. Singular Isothermal Ellipsoid
 [SIE]) or flexible model (e.g. pixellated) for the mass profile of the lens
 \item How to compute the results (e.g. optimization methods, Markov Chain
-Monte Carlo with source parameters marginalized out analytically, or
-with the source parameters included).
+Monte Carlo [MCMC] with source parameters marginalized out analytically, or
+MCMC with the source parameters included).
 \end{enumerate}
 Recent sophisicated approaches investigating different prior assumptions
 and computational approaches include \citet{2014MNRAS.445.2181C},
@@ -122,15 +125,15 @@ other hand, pixellated models for the source \citep[e.g.][]{suyu} or the lens
 source surface brightness profile or lens projected density profile. However, the prior
 distribution over pixel values is often chosen to be a multivariate gaussian
 for mathematical reasons, so
-that the source can be analytically marginalized over
+that the source can be analytically marginalized out
 \citep{2003ApJ...590..673W}. Unfortunately, a multivariate gaussian prior
-over pixel intensities can correspond to a very poor model of our prior
+over pixel intensities usually corresponds to a poor model of our prior
 beliefs about the source. It assigns virtually zero prior probability
 to the hypothesis that the source actually looks like a galaxy, and very high
 prior probability to the hypothesis that the source looks like noise (or
 blurred noise). These priors also assign nonzero probability to negative
 surface brightness or density values; in fact, the marginal prior probability
-that any pixel is negative is 0.5.
+that any pixel is negative is typically 0.5.
 
 \citet{2011MNRAS.412.2521B} argued that an ideal
 modelling approach lies somewhere between simply-parameterised and
@@ -158,7 +161,6 @@ MCMC to be implemented in a relatively straightforward manner.
 However, in the present paper we do not account for
 multi-band data; this will be reserved for a future contribution.
 
-\section{Finding dark substructures}
 If possible, it is best
 If we are interested in detecting and measuring the properties of
 possible dark substructures in a lens galaxy,
@@ -181,8 +183,8 @@ choices we have made are final in any sense; rather, this model should be
 considered a proof of concept. We encourage exploration of
 other choices. Since we can compute marginal likelihoods, Bayesian model
 comparison between our choices here and any proposed alternatives should be
-straightforward, provided a mixture of our model and another is considered
-a reasonable model of prior beliefs.
+straightforward, if a union of our hypothesis space and another
+can be considered a reasonable model of prior uncertainty.
 
 \subsection{The Source}
 The surface brightness profile of the source is assumed to be composed of
@@ -190,7 +192,6 @@ a sum of a finite number of ``blobs'', or basis functions, in order to
 allow some flexibility while incorporating prior information about the
 non-negativity of surface brightness, and the spatial correlation expected
 in real surface brightness profiles.
-
 For computational speed, we choose the following
 functional form for the surface brightness profile
 of a single blob centered at the origin:
