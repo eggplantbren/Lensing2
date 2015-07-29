@@ -199,7 +199,7 @@ of a single blob centered at the origin:
 \begin{eqnarray}
 f(x, y) &=& \left\{
 \begin{array}{lr}
-\frac{2A}{\pi w^2}\left[1 - \left(\frac{r}{w}\right)^2\right], & r \leq w\\
+\frac{2A}{\pi w^2}\left(1 - \frac{r^2}{w^2}\right), & r \leq w\\
 0, & \textnormal{otherwise}
 \end{array}
 \right.
@@ -219,7 +219,7 @@ $\{A_i\}$, the overall surface brightness profile is:
 \begin{eqnarray}
 f(x, y) &=& \sum_{i=1}^{N_{\rm src}}\left\{
 \begin{array}{lr}
-\frac{2A_i}{\pi w_i^2}\left[1 - \left(\frac{r_i}{w_i}\right)^2\right], & r_i \leq w_i\\
+\frac{2A_i}{\pi w_i^2}\left(1 - \frac{r_i^2}{w_i^2}\right), & r_i \leq w_i\\
 0, & \textnormal{otherwise}
 \end{array}
 \right.
@@ -271,7 +271,7 @@ centered at the origin has the following surface mass density profile:
 \begin{eqnarray}
 \rho(x, y) &=& \left\{
 \begin{array}{lr}
-\frac{2M}{\pi v^2}\left[1 - \left(\frac{r}{v}\right)^2\right], & r \leq v\\
+\frac{2M}{\pi v^2}\left(1 - \frac{r^2}{v^2}\right), & r \leq v\\
 0, & \textnormal{otherwise}
 \end{array}
 \right.
@@ -285,14 +285,14 @@ The deflection angles for a single blob are:
 \alpha_x(x, y) &=&
 \left\{
 \begin{array}{lr}
-\left[2 - (r/v)^2\right]\frac{Mx}{\pi v^2}, & r \leq v\\
+\left(2 - r^2/v^2\right)\frac{Mx}{\pi v^2}, & r \leq v\\
 \frac{Mx}{\pi r^2}, & \textnormal{otherwise}
 \end{array}
 \right.\\
 \alpha_y(x, y) &=&
 \left\{
 \begin{array}{lr}
-\left[2 - (r/v)^2\right]\frac{My}{\pi v^2}, & r \leq v\\
+\left(2 - r^2/v^2\right)\frac{My}{\pi v^2}, & r \leq v\\
 \frac{My}{\pi r^2}, & \textnormal{otherwise}
 \end{array}
 \right.
