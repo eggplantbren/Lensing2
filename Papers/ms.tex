@@ -271,7 +271,7 @@ centered at the origin has the following surface mass density profile:
 \begin{eqnarray}
 \rho(x, y) &=& \left\{
 \begin{array}{lr}
-\frac{M}{2\pi v^2}\left[1 - \left(\frac{r}{v}\right)^2\right], & r \leq v\\
+\frac{2M}{\pi v^2}\left[1 - \left(\frac{r}{v}\right)^2\right], & r \leq v\\
 0, & \textnormal{otherwise}
 \end{array}
 \right.
@@ -285,15 +285,15 @@ The deflection angles for a single blob are:
 \alpha_x(x, y) &=&
 \left\{
 \begin{array}{lr}
--\frac{\left[2(r/v)^2 - (r/v)^4\right]Mx}{r^3}, & r \leq v\\
--\frac{Mx}{\pi r^3}, & \textnormal{otherwise}
+\left[2 - (r/v)^2\right]\frac{Mx}{\pi v^2}, & r \leq v\\
+\frac{Mx}{\pi r^2}, & \textnormal{otherwise}
 \end{array}
 \right.\\
 \alpha_y(x, y) &=&
 \left\{
 \begin{array}{lr}
--\frac{\left[2(r/v)^2 - (r/v)^4\right]My}{r^3}, & r \leq v\\
--\frac{My}{\pi r^3}, & \textnormal{otherwise}
+\left[2 - (r/v)^2\right]\frac{My}{\pi v^2}, & r \leq v\\
+\frac{My}{\pi r^2}, & \textnormal{otherwise}
 \end{array}
 \right.
 \end{eqnarray}
