@@ -276,11 +276,8 @@ centered at the origin has the following surface mass density profile:
 \end{array}
 \right.
 \end{eqnarray}
+which is the same as the surface brightness profile of a source blob.
 The deflection angles for a single blob are:
-
-%Menc = 4.*components[i][2]/widthsq*(0.5*rsq -
-%				rsq*rsq/(4*widthsq));
-
 \begin{eqnarray}
 \alpha_x(x, y) &=&
 \left\{
@@ -297,7 +294,9 @@ The deflection angles for a single blob are:
 \end{array}
 \right.
 \end{eqnarray}
-where $r=\sqrt{x^2 + y^2}$. For $N$ such blobs the deflection angles are
+where $r=\sqrt{x^2 + y^2}$. These do not depend on any slow functions such
+as square roots or exponentials.
+For $N$ such blobs the deflection angles are
 summed over all blobs. Therefore the lens can be entirely described by
 the following parameters:
 
@@ -312,11 +311,11 @@ where $\boldsymbol{\theta}^{\rm lens}_i$ denotes the parameters for lens blob $i
 \boldsymbol{\theta}^{\rm lens}_i &=& \left\{x_i^{\rm lens}, y_i^{\rm lens}, M_i, v_i
 \right\},
 \end{eqnarray}
-and $\boldsymbol{\theta}_{\rm SIE}$ describes the parameters for the SIE
+and $\boldsymbol{\theta}_{\rm SIE}$ describes the parameters for the SIE+$\gamma$
 component:
 \begin{eqnarray}
 \boldsymbol{\theta}_{\rm SIE} = \left\{
-b, q, (x_c^{\rm SIE}, y_c^{\rm SIE}), \theta, \gamma, \theta_\gamma
+b, q, x_c^{\rm SIE}, y_c^{\rm SIE}, \theta, \gamma, \theta_\gamma
 \right\}.
 \end{eqnarray}
 
@@ -418,7 +417,9 @@ data, in our model. Uniform$(a, b)$ is a uniform
 distribution between $a$ and $b$. LogUniform$(a, b)$ is a log-uniform
 distribution (with density $f(x) \propto 1/x$, sometimes erroneously called
 a Jeffreys prior) between $a$ and $b$. The notation $T(\alpha, \beta)$ after
-a distribution denotes truncation to the interval $[\alpha, \beta]$.
+a distribution denotes truncation to the interval $[\alpha, \beta]$. The
+constant {\tt imageWidth} is the geometric mean of the image dimensions in
+the $x$ and $y$ directions.
 \label{tab:priors}}
 \end{table*}
 
@@ -493,7 +494,6 @@ troublesome regions (such as unmodelled flux from other sources).
 Computing the posterior distribution over the parameters of such a model
 requires that we can implement Markov Chain Monte Carlo (MCMC) over the space
 of possible sources and lenses.
-
 To compute the posterior distribution for the parameters
 (of which there are 24--464, depending on the values of $N_{\rm src}$ and
 $N_{\rm lens}$), we use Diffusive Nested Sampling \citep{dnest}, a form
@@ -510,7 +510,7 @@ or the source) while keeping the actual blobs in place, as well as proposals
 that change the hyperparameters and shift all of the relevant blobs in
 so they are appropriate for the new values of the hyperparameters.
 
-Evaluating likelihood function requires that we compute a ``mock'' image from
+Evaluating the likelihood function requires that we compute a ``mock'' image from
 the current setting of the parameters. This mock image is calculated using
 standard ray-tracing methods with a uniform grid of $n \times n$ rays
 fired per image pixel. However, certain kinds of proposals do not affect the
@@ -520,7 +520,7 @@ we do not recompute the mock image in these cases.
 \section{Simulated Data}
 To demonstrate the method, we generated a simulated dataset with a single
 substructure. The image is shown in Figure~\ref{fig:simulated_image}, and
-consists of 100 $\times$ 100 pixels. The PSF was compact and was
+consists of 100 $\times$ 100 pixels. The point spread function (PSF) was compact and was
 defined on a 5 $\times$ 5 grid. The data was created by firing only one ray
 per pixel, and the inference was also carried out under the same level of
 approximation. Since the model assumptions are all correct for this image, the
@@ -551,8 +551,10 @@ frame is a sample from the posterior distribution. The degree to which the
 frames differ from each other conveys the uncertainty remaining after taking
 the data into account.
 
+For the purposes of a paper, static summaries are more convenient than movies.
+One useful summary is based on the concept of empirical measure.
 The {\it empirical measure} of the substructure positions is a function that
-takes the substructure positions $(x_i^{\rm lens}, y_i^{\rm lens})$ and
+takes the actual substructure positions $(x_i^{\rm lens}, y_i^{\rm lens})$ and
 produces a ``density function'' over two dimensions, composed of delta
 functions at the positions themselves:
 \begin{eqnarray}
@@ -602,8 +604,9 @@ if a substructure appears in a pixel or zero otherwise.
 The masses of the smooth and substructure components of the lens are usually
 of interest. Since the total mass of an SIE lens is infinite, the question
 needs to be redefined, so we ask about the mass within some aperture of finite
-area. For an SIE, the mass (in dimensionless units) within the critical
-ellipse is simply $b^2$. However, the blobs have finite total masses
+area. For an SIE, the mass (in dimensionless units based on the critical density)
+within the critical
+ellipse is simply $\pi b^2$. However, the blobs have finite total masses
 $\{M_i\}$. To obtain the posterior distribution for the lens masses, one must
 be clear about exactly which mass they are talking about, and many definitions
 are possible, although some might be more meaningful or well constrained than
@@ -771,13 +774,13 @@ is not uncommon. For example, \citet{exoplanet} found evidence for a large
 number of Keplerian signals in a time series, but the number of such signals
 with well constrained properties was much lower. Related to this, we can
 compute posterior probabilities for any hypothesis about the substructure
-masses. With 95\% probability the substructure mass is less than 5.80$\times 10^{12}$ solar masses and with 75\% probability it is less than 3.56$\times 10^{12}$ solar masses. As the einstein ring implies a mass of about $5 \times 10^{12}$
-solar masses, it is not the substructure mass over the entire domain
-that is of interest.
+masses. With 95\% probability the substructure mass is less than 5.80$\times 10^{12}$ solar masses and with 75\% probability it is less than 3.56$\times 10^{12}$ solar masses. As the einstein ring itself implies a mass of about $5 \times 10^{12}$
+solar masses, these summaries are affected by the possibility of blobs outside
+the main einstein ring.
 
 As with any inference, the results presented here may be sensitive to many of
 the input modelling assumptions, and a slightly different (yet still
-``reasonable'') set of choices might yield different results. For example, if
+reasonable) set of choices might yield different results. For example, if
 the density profile of the lens was smooth but not of the SIE form, and the
 data were informative enough to show this, the current
 model would only be able to explain the data by adding substructures. Hence, an alternative explanation for these results is that, rather than containing a substructure, the density profile of the lens is simply not within the SIE$+\gamma$ family. In fact, some of the posterior
@@ -789,7 +792,7 @@ density profile.
 One way of further investigating this is to use a different family of
 smooth lens models and doing model selection based on the marginal likelihoods.
 Another option which we defer to future work is to implement a more flexible
-model (such as a concentric mixture of concentric elliptical lenses). This
+model (such as a mixture of concentric elliptical lenses). This
 result is consistent with that of \citet{2008MNRAS.388..384D}, who found a slight preference for an elliptical power law profile over the SIE
 (which is a specific case of an elliptical power law).
 
@@ -848,12 +851,12 @@ to the SIE component and that attributed to substructures. However, the
 distribution also appears somewhat ``lumpy'' or multimodal. This may
 not be a feature of the actual posterior distribution, but could arise due to
 imperfect sampling. Whereas a standard Metropolis sampler would move around
-very slowly in the hypothesis space, the DNS algorithm naturally spends some
+very slowly in the hypothesis space, DNS naturally spends a non-negligible fraction
 of the time sampling the prior. Therefore, a particle exploring the parameter
 space can ``forget'' its good fitting position, move somewhere completely
 different, and find another good fitting model in a different location. This
 is a natural feature of the algorithm (and is also present in related
-algorithms such as parallel tempering). Despite this feature, the patchy
+algorithms such as parallel tempering). Despite this, the patchy
 nature of Figure~\ref{fig:masses2} suggests that posterior exploration is
 still challenging in this problem.
 
