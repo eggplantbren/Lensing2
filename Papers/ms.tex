@@ -94,7 +94,7 @@ variations thereof. These approaches may be categorized according to the
 following criteria:
 \begin{enumerate}
 \item Whether to use a simply parameterized (e.g. a Sérsic profile),
-moderately flexible (e.g. a mixture model, \citet{2011MNRAS.412.2521B})
+moderately flexible \citep[e.g. a mixture model,][]{2011MNRAS.412.2521B}
 or free-form (e.g. pixellated) model for the surface brightness profile of the source;\\
 \item Whether to use a simply parameterized (e.g. Singular Isothermal Ellipsoid
 [SIE]) or flexible model (e.g. pixellated) for the mass profile of the lens; and\\
@@ -260,7 +260,7 @@ direct use of blobs is closer to the scientific question at hand
 when investigating postential dark substructures.
 
 The SIE+$\gamma$ has nine free parameters:
-the (circularized) einstein radius $b$, axis ratio $q$, central position
+the (circularized) Einstein radius $b$, axis ratio $q$, central position
 $(x_c, y_c)$, orientation angle $\theta$, the external shear $\gamma$, and the
 orientation angle of the external shear, $\theta_{\gamma}$.
 
@@ -531,8 +531,9 @@ the problem, and the kind of outputs the method can produce.
 \begin{center}
 \includegraphics[scale=0.5]{simulated_image.pdf}
 \caption{A simulated image of a simple ``galaxy'' lensed by an SIE+$\gamma$
-lens plus a single dark substructure. The image was blurred by a PSF and had
-some noise added.\label{fig:simulated_image}}
+lens in the center of the image (which does not contribute any flux), plus a
+single substructure close to the top left image.
+The image was blurred by a PSF and had some noise added.\label{fig:simulated_image}}
 \end{center}
 \end{figure}
 
@@ -774,9 +775,9 @@ is not uncommon. For example, \citet{exoplanet} found evidence for a large
 number of Keplerian signals in a time series, but the number of such signals
 with well constrained properties was much lower. Related to this, we can
 compute posterior probabilities for any hypothesis about the substructure
-masses. With 95\% probability the substructure mass is less than 5.80$\times 10^{12}$ solar masses and with 75\% probability it is less than 3.56$\times 10^{12}$ solar masses. As the einstein ring itself implies a mass of about $5 \times 10^{12}$
+masses. With 95\% probability the substructure mass is less than 5.80$\times 10^{12}$ solar masses and with 75\% probability it is less than 3.56$\times 10^{12}$ solar masses. As the Einstein ring itself implies a mass of about $5 \times 10^{12}$
 solar masses, these summaries are affected by the possibility of blobs outside
-the main einstein ring.
+the main Einstein ring.
 
 As with any inference, the results presented here may be sensitive to many of
 the input modelling assumptions, and a slightly different (yet still
