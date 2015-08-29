@@ -108,7 +108,7 @@ show()
 
 figure(1)
 mean_source = total/output.shape[0]
-imshow(mean_source, interpolation='nearest')
+imshow(mean_source, interpolation='nearest', cmap='Oranges')
 title('Posterior Mean Source')
 
 figure(2)
