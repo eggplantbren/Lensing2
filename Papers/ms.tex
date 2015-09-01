@@ -51,8 +51,9 @@ jump Markov Chain Monte Carlo (MCMC) within Diffusive Nested Sampling (DNS) to
 sample the posterior distribution and evaluate the marginal likelihood of the
 model, including the summation over the unknown
 number of blobs in the source and the lens.
-We demonstrate the method on a simulated data set with a single
-substructure, which is recovered well with moderate uncertainties. We also
+We demonstrate the method on {\revisions two
+simulated data sets: one with a single
+substructure, and one with ten}. We also
 apply the method to the g-band
 image of the ``Cosmic Horseshoe'' system, and find some
 hints of potential substructures. However, we caution that such results could
@@ -522,8 +523,9 @@ image in any way, such as those which change the noise parameters. For efficienc
 we do not recompute the mock image in these cases.
 
 \section{{\revisions``Easy''} Simulated Data}
-To demonstrate the method, we generated a simulated dataset with a single
-substructure. The image is shown in Figure~\ref{fig:simulated_image}, and
+To demonstrate the method, we generated a simulated dataset {\revisions where
+the lens was an SIE$+\gamma$ profile with a single additional substructure}.
+The image is shown in Figure~\ref{fig:simulated_image}, and
 consists of 100 $\times$ 100 pixels. The point spread function (PSF) was compact and was
 defined on a 5 $\times$ 5 grid. The data was created by firing only one ray
 per pixel, and the inference was also carried out under the same level of
@@ -698,6 +700,9 @@ case, there is strong evidence for a substructure close to the top-left image
 
 {\revisions
 \section{``Harder'' Simulated Data}
+To further test the algorithm, we created a ``harder'' simulated image, where
+the lens consisted of an SIE+$\gamma$ profile plus 10 additional substructures.
+
 }
 
 \section{The Cosmic Horseshoe}
