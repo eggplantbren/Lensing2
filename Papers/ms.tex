@@ -9,8 +9,12 @@
 %\usepackage{dsfont}
 \usepackage[utf8]{inputenc}
 \usepackage{float}
+\usepackage{color}
 
-\usepackage{epstopdf} 
+\usepackage{epstopdf}
+
+% For revisions
+\newcommand{\revisions}{\color{blue}}
 
 \title[]
 {Trans-Dimensional Bayesian Inference for Gravitational Lens Substructures}
@@ -517,7 +521,7 @@ fired per image pixel. However, certain kinds of proposals do not affect the
 image in any way, such as those which change the noise parameters. For efficiency
 we do not recompute the mock image in these cases.
 
-\section{Simulated Data}
+\section{{\revisions``Easy''} Simulated Data}
 To demonstrate the method, we generated a simulated dataset with a single
 substructure. The image is shown in Figure~\ref{fig:simulated_image}, and
 consists of 100 $\times$ 100 pixels. The point spread function (PSF) was compact and was
@@ -692,7 +696,9 @@ case, there is strong evidence for a substructure close to the top-left image
 \end{center}
 \end{figure}
 
-
+{\revisions
+\section{``Harder'' Simulated Data}
+}
 
 \section{The Cosmic Horseshoe}
 As a further demonstration the method, we apply it to the g-band data
