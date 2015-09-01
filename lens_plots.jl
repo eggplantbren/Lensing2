@@ -46,6 +46,20 @@ for(which in 1:3)
 
 
 	params = posterior_sample[which, :]
+	x_substructures = params[20:29]
+	y_substructures = params[30:39]
+	m_substructures = params[40:49]
+	x_substructures = x_substructures[m_substructures .!= 0.]
+	y_substructures = y_substructures[m_substructures .!= 0.]
+
+	# Convert x and y to pixel coordinates for overplotting
+	dx = (metadata[4] - metadata[3])/metadata[2]
+	dy = (metadata[6] - metadata[5])/metadata[1]
+	x_substructures = (x_substructures - metadata[3])/dx - 0.5
+	y_substructures = (metadata[6] - y_substructures)/dy - 0.5
+	x_nie = (params[6] - metadata[3])/dx - 0.5
+	y_nie = (metadata[6] - params[6])/dy - 0.5
+
 	rays = zeros(100000, 4)
 	n_rays = 0
 	for(j in 1:length(x))
@@ -102,6 +116,12 @@ for(which in 1:3)
 	plt.imshow(img, interpolation="nearest", cmap="Oranges", extent=metadata[3:6])
 	plt.hold(true)
 	plt.plot(rays[:,1], rays[:,2], "k.", markersize=1)
+
+	# Plot center of NIE
+	plot(x_nie, y_nie, 'yo', markersize=10)
+	# Substructures
+	plot(x_substructures, y_substructures, 'wo', alpha=0.5)
+
 	if(which == 1)
 		plt.title("Image")
 	end
