@@ -688,7 +688,7 @@ volume.
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.4]{substructures.pdf}
-\caption{The simulated data, with substructure positions overlaid (a
+\caption{The {\revisions `easy'} simulated data, with substructure positions overlaid (a
 Monte Carlo approximation to the posterior expectation of the empirical
 measure). The density of black points in any region is proportional to the
 expected number of substructures whose centers lie within that region. In this
@@ -702,8 +702,20 @@ case, there is strong evidence for a substructure close to the top-left image
 \section{``Harder'' Simulated Data}
 To further test the algorithm, we created a ``harder'' simulated image, where
 the lens consisted of an SIE+$\gamma$ profile plus 10 additional substructures.
+The image is shown in Figure~\ref{fig:image2}. With the easy dataset, there
+was little hope of measuring the substructure mass function parameter
+$\mu_{\rm lens}$ since there was only a single substructure which would provide
+little information about $\mu_{\rm lens}$ (only constraining its general
+order of magnitude), even if its mass were measured perfectly.}
 
-}
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{image2.pdf}
+\caption{{\revisions The `harder' simulated data, consisting of a more
+complex source profile, and a lens with 10 substructures.}
+\label{fig:image2}}
+\end{center}
+\end{figure}
 
 \section{The Cosmic Horseshoe}
 As a further demonstration the method, we apply it to the g-band data
