@@ -597,23 +597,27 @@ for the empirical measure. We can also summarise this posterior, for example,
 by taking its expected value.
 
 The posterior expected value of the empirical measure is:
+{\revisions
 \begin{eqnarray}
 \int p(\boldsymbol{\theta} | \boldsymbol{D})
 \sum_{i=1}^{N_{\rm lens}}
 \delta^2\left(x - x_i^{\rm lens}, y - y_i^{\rm lens}\right)
 \, d\boldsymbol{\theta}
 \end{eqnarray}
+}
 where $\boldsymbol{\theta}$ denotes all parameters and hyperparameters
 (including the $N$s) and ``$\int \,d\boldsymbol{\theta}$'' is an integral and summation over the entire parameter space.
 
 Since we can approximate posterior expectations using Monte Carlo, we can
 obtain the expected value of the empirical measure using:
+{\revisions
 \begin{eqnarray}
 \frac{1}{n}
 \sum_{k=1}^n
 \sum_{i=1}^{N_{\rm lens}^k}
 \delta^2\left(x - x_{ik}^{\rm lens}, y - y_{ik}^{\rm lens}\right)
 \end{eqnarray}
+}
 where $n$ is the number of posterior samples. The resulting function is
 an ``image'' with a point mass wherever a substructure occurred. For
 visualisation purposes the image can be blurred, or calculated at a lower
