@@ -600,7 +600,7 @@ The posterior expected value of the empirical measure is:
 \begin{eqnarray}
 \int p(\boldsymbol{\theta} | \boldsymbol{D})
 \sum_{i=1}^{N_{\rm lens}}
-\delta^2\left(x - x_i^{\rm lens}, y_i^{\rm lens} - y_i^{\rm lens}\right)
+\delta^2\left(x - x_i^{\rm lens}, y - y_i^{\rm lens}\right)
 \, d\boldsymbol{\theta}
 \end{eqnarray}
 where $\boldsymbol{\theta}$ denotes all parameters and hyperparameters
@@ -611,8 +611,8 @@ obtain the expected value of the empirical measure using:
 \begin{eqnarray}
 \frac{1}{n}
 \sum_{k=1}^n
-\sum_{i=1}^{N_{\rm lens}}
-\delta^2\left(x - x_i^{\rm lens}, y_i^{\rm lens} - y_i^{\rm lens}\right)
+\sum_{i=1}^{N_{\rm lens}^k}
+\delta^2\left(x - x_{ik}^{\rm lens}, y - y_{ik}^{\rm lens}\right)
 \end{eqnarray}
 where $n$ is the number of posterior samples. The resulting function is
 an ``image'' with a point mass wherever a substructure occurred. For
