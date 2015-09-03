@@ -19,6 +19,7 @@ MyModel::MyModel()
 ,surface_brightness(Data::get_instance().get_x_rays())
 ,model_image(Data::get_instance().get_ni(),
 		vector<long double>(Data::get_instance().get_nj()))
+,staleness1(0), staleness2(0)
 {
 
 }
@@ -145,8 +146,6 @@ void MyModel::shoot_rays()
 			ys[i][j] = y[i][j] - ay;
 		}
 	}
-
-	staleness2 = 0;
 }
 
 void MyModel::calculate_surface_brightness()
@@ -169,62 +168,6 @@ void MyModel::calculate_surface_brightness()
 			psf.blur_image2(surface_brightness);
 		else
 			psf.blur_image(surface_brightness);
-	}
-
-	staleness1 = 0;
-}
-
-void MyModel::update_surface_brightness()
-{
-	staleness1++;
-
-	vector< vector<long double> >
-		delta_surface_brightness(surface_brightness.size(),
-			vector<long double>(surface_brightness[0].size(), 0.));
-
-	for(size_t i=0; i<xs.size(); i++)
-	{
-		for(size_t j=0; j<xs[i].size(); j++)
-		{
-			delta_surface_brightness[i][j] = source.evaluate_diff
-							(xs[i][j], ys[i][j]);
-		}
-	}
-
-	if(Data::get_instance().psf_is_highres())
-	{
-		// Blur using the PSF
-		const PSF& psf = Data::get_instance().get_psf();
-
-		if(Data::get_instance().use_fft())
-			psf.blur_image2(delta_surface_brightness);
-		else
-			psf.blur_image(delta_surface_brightness);
-	}
-
-	// Add the delta to the surface brightness
-	for(size_t i=0; i<surface_brightness.size(); i++)
-		for(size_t j=0; j<surface_brightness[i].size(); j++)
-			surface_brightness[i][j] += delta_surface_brightness[i][j];
-}
-
-
-void MyModel::update_rays()
-{
-	staleness2++;
-
-	const vector< vector<long double> >& x = Data::get_instance().get_x_rays();
-	const vector< vector<long double> >& y = Data::get_instance().get_y_rays();
-
-	double ax, ay;
-	for(size_t i=0; i<xs.size(); i++)
-	{
-		for(size_t j=0; j<xs[i].size(); j++)
-		{
-			lens.alpha_diff(x[i][j], y[i][j], ax, ay);
-			xs[i][j] -= ax;
-			ys[i][j] -= ay;
-		}
 	}
 }
 
