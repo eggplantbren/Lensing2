@@ -74,9 +74,9 @@ for i in xrange(0, output.shape[0]):
 	imshow(img2, interpolation='nearest', cmap='Oranges')
 	hold(True)
 	# Plot center of NIE
-	plot(x_nie, y_nie, 'yo', markersize=10)
+	plot(x_nie, y_nie, 'wo', markersize=15, alpha=0.5)
 	# Substructures
-	plot(x_substructures, y_substructures, 'wo', alpha=0.5)
+	plot(x_substructures, y_substructures, 'g*', markersize=15, alpha=0.5)
 	xlim([-0.5, metadata[1] - 0.5])
 	ylim([metadata[0] - 0.5, -0.5])
 	title('Model Image ' + str(i+1))
