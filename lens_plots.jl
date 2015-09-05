@@ -118,9 +118,9 @@ for(which in 1:3)
 	plt.plot(rays[:,1], rays[:,2], "k.", markersize=1)
 
 	# Plot center of NIE
-	plot(x_nie, y_nie, 'yo', markersize=10)
+	plot(x_nie, y_nie, 'wo', markersize=15)
 	# Substructures
-	plot(x_substructures, y_substructures, 'wo', alpha=0.5)
+	plot(x_substructures, y_substructures, "g*", markersize=15, alpha=0.5)
 
 	if(which == 1)
 		plt.title("Image")
