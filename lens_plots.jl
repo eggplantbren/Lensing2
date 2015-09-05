@@ -52,13 +52,13 @@ for(which in 1:3)
 	x_substructures = x_substructures[m_substructures .!= 0.]
 	y_substructures = y_substructures[m_substructures .!= 0.]
 
-	# Convert x and y to pixel coordinates for overplotting
+#	# Convert x and y to pixel coordinates for overplotting
 	dx = (metadata[4] - metadata[3])/metadata[2]
 	dy = (metadata[6] - metadata[5])/metadata[1]
 	x_substructures = (x_substructures - metadata[3])/dx - 0.5
 	y_substructures = (metadata[6] - y_substructures)/dy - 0.5
-	x_nie = (params[6] - metadata[3])/dx - 0.5
-	y_nie = (metadata[6] - params[6])/dy - 0.5
+	x_nie = params[6]#(params[6] - metadata[3])/dx - 0.5
+	y_nie = params[7]#(metadata[6] - params[7])/dy - 0.5
 
 	rays = zeros(100000, 4)
 	n_rays = 0
@@ -118,16 +118,16 @@ for(which in 1:3)
 	plt.plot(rays[:,1], rays[:,2], "k.", markersize=1)
 
 	# Plot center of NIE
-	plt.plot(x_nie, y_nie, "wo", markersize=15)
+	plt.plot(x_nie, y_nie, "wo")
 	# Substructures
-	plt.plot(x_substructures, y_substructures, "g*", markersize=15, alpha=0.5)
+	plt.plot(x_substructures, y_substructures, "g*", alpha=0.5)
 
 	if(which == 1)
 		plt.title("Image")
 	end
 	plt.axis(metadata[3:6])
-	#plt.gca().set_xticks([])
-	#plt.gca().set_yticks([])
+	plt.gca().set_xticks([])
+	plt.gca().set_yticks([])
 end
 
 plt.savefig("sources.pdf", bbox_inches="tight")
