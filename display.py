@@ -124,6 +124,10 @@ plot(mass_units*pi*output[:,2]**2, mass_units*output[:,39:48].sum(axis=1),\
 					'bo', markersize=5, alpha=0.2)
 xlabel('SIE mass (within critical ellipse)')
 ylabel('Total substructure mass')
+
+# Plot the true masses
+#truth = loadtxt('Data/mock_truth.txt')
+#plot(pi*truth[2], truth[39:49].sum(), 'ro')
 savefig('masses.pdf', bbox_inches='tight')
 show()
 
