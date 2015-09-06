@@ -41,14 +41,7 @@ for i in xrange(0, output.shape[0]):
 	x_substructures = x_substructures[good]
 	y_substructures = y_substructures[good]
 	m_substructures = m_substructures[good]
-
-	# Convert x and y to pixel coordinates for overplotting
-	dx = (metadata[3] - metadata[2])/metadata[1]
-	dy = (metadata[5] - metadata[4])/metadata[0]
-	x_substructures = (x_substructures - metadata[2])/dx - 0.5
-	y_substructures = (metadata[5] - y_substructures)/dy - 0.5
-	x_nie = (x[5] - metadata[2])/dx - 0.5
-	y_nie = (metadata[5] - x[6])/dy - 0.5
+	x_nie, y_nie = x[5], x[6]
 
 	# Extract images
 	# For MyModel2 (sersic source only), replace 468 with 66
@@ -63,22 +56,20 @@ for i in xrange(0, output.shape[0]):
 	img2 = img2.reshape((metadata[0], metadata[1]))
 
 	subplot(2,3,1)
-	imshow(src, interpolation='nearest', cmap='Oranges')
+	imshow(src, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
 	title('Model Source ' + str(i+1))
 
 	subplot(2,3,2)
-	imshow(img1, interpolation='nearest', cmap='Oranges')
+	imshow(img1, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
 	title('Unblurred Image ' + str(i+1))
 
 	subplot(2,3,3)
-	imshow(img2, interpolation='nearest', cmap='Oranges')
+	imshow(img2, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
 	hold(True)
 	# Plot center of NIE
 	plot(x_nie, y_nie, 'wo', markersize=15, alpha=0.5)
 	# Substructures
 	plot(x_substructures, y_substructures, 'g*', markersize=15, alpha=0.5)
-	xlim([-0.5, metadata[1] - 0.5])
-	ylim([metadata[0] - 0.5, -0.5])
 	title('Model Image ' + str(i+1))
 	hold(False)
 
