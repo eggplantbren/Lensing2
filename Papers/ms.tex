@@ -640,7 +640,7 @@ In the present paper we do not address the question of exactly which quantities
 related to the
 density profile of the lens are most scientifically interesting. Nevertheless,
 we can verify that the results of the inference do behave in understandable
-ways. For example, in Figure~\ref{fig:masses},
+ways. For example, in Figure~\ref{fig:masses1},
 we plot the joint posterior distribution
 for the SIE mass within its critical ellipse and the total substructure mass
 over the entire domain. As one would expect, there is a strong dependence
@@ -649,15 +649,15 @@ SIE can be traded off with mass in substructures to some extent, while
 the model remains (loosely speaking) ``consistent with the data''.
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.4]{masses.pdf}
+\includegraphics[scale=0.4]{masses1.pdf}
 \caption{The joint posterior distribution for the SIE mass (integrated within
 its critical ellipse, which is not the critical curve of the lens overall),
-and the total mass in substructures.\label{fig:masses}}
+and the total mass in substructures.\label{fig:masses1}}
 \end{center}
 \end{figure}
 
 The posterior distribution for $N_{\rm lens}$ is also clearly of interest, and
-is displayed in Figure~\ref{fig:N_lens}. The prior for this parameter was
+is displayed in Figure~\ref{fig:N_lens1}. The prior for this parameter was
 uniform from 0 to 10 (inclusive), and the possibility $N=0$ has been
 (loosely speaking) ``ruled out'' by the image data. The true solution ($N=1$)
 has the highest probability. However, the possibilities with $N > 1$ are
@@ -668,7 +668,7 @@ is related to the choice of prior for the blob amplitudes and positions.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.4]{N_lens.pdf}
+\includegraphics[scale=0.4]{N_lens1.pdf}
 \caption{The marginal posterior distribution for $N_{\rm lens}$, the
 number of substructures in the lens. The prior was uniform and the true
 value used to generate the data was 1. However, the data is only informative
@@ -676,7 +676,7 @@ enough to suppress the probability of values above 1 slightly, since it
 is possible (given this data) that low mass substructures might exist somewhere,
 or that what we think is one substructure might actually be two close together,
 and other such possibilities.
-\label{fig:N_lens}}
+\label{fig:N_lens1}}
 \end{center}
 \end{figure}
 
@@ -704,14 +704,14 @@ volume.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.4]{substructures.pdf}
+\includegraphics[scale=0.4]{substructures1.pdf}
 \caption{The {\revisions `easy'} simulated data, with substructure positions overlaid (a
 Monte Carlo approximation to the posterior expectation of the empirical
 measure). The density of black points in any region is proportional to the
 expected number of substructures whose centers lie within that region. In this
 case, there is strong evidence for a substructure close to the top-left image
 (where one was actually placed).
-\label{fig:substructures}}
+\label{fig:substructures1}}
 \end{center}
 \end{figure}
 
@@ -780,8 +780,8 @@ simulated data ($46 \times 46$ pixels), we fired $2 \times 2$ rays per pixel
 for greater accuracy.
 
 The joint posterior distribution for the SIE mass total substructure mass
-for the Cosmic Horseshoe is given in Figure~\ref{fig:masses2}. As with
-the simulated data (Figure~\ref{fig:masses}), we see an expected negative
+for the Cosmic Horseshoe is given in Figure~\ref{fig:masses3}. As with
+the simulated data (Figure~\ref{fig:masses1}), we see an expected negative
 correlation between these two quantities. However, the points are not as
 smoothly distributed in this case (we discuss this issue further
 in Section~\ref{sec:convergence}). An upper ``limit'' on the SIE mass, with
@@ -792,7 +792,7 @@ these cases, the substructures are far from the image --- it is the environment
 that is being modelled.
 
 The posterior distribution for
-$N_{\rm lens}$ (Figure~\ref{fig:N_lens2})
+$N_{\rm lens}$ (Figure~\ref{fig:N_lens3})
 also shows some evidence for more than zero substructures.
 In particular, the prior probability for $N_{\rm lens} > 0$ was 10/11
 $\approx$ 0.91, whereas the posterior probability is approximately 0.97.
@@ -801,30 +801,30 @@ $N_{\rm lens} > 0$ versus the alternative $N_{\rm lens} = 0$.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.4]{masses2.pdf}
+\includegraphics[scale=0.4]{masses3.pdf}
 \caption{The joint posterior distribution for the SIE mass (integrated within
 its critical ellipse, which is not the critical curve of the lens overall),
 and the total mass in substructures. The units are defined by the critical
 density, so that a mass of $\pi$ units would have an Einstein radius of one arcsecond. To calculate the masses in solar masses, we assumed a flat cosmology with
 $\Omega_m=0.3$, $\Omega_\Lambda=0.7$, and
 $H_0=70$ km/s/Mpc.
-\label{fig:masses2}}
+\label{fig:masses3}}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.4]{N_lens2.pdf}
+\includegraphics[scale=0.4]{N_lens3.pdf}
 \caption{The posterior distribution for the number of lens substructures
 in the Cosmic Horseshoe system. There is mild evidence in favour of the
-hypothesis that $N_{\rm lens} \neq 0$.\label{fig:N_lens2}}
+hypothesis that $N_{\rm lens} \neq 0$.\label{fig:N_lens3}}
 \end{center}
 \end{figure}
 
 Despite weak evidence for the existence of substructure, when we examine the
 expected value of the empirical measure of substructure positions
-(Figure~\ref{fig:substructures2}) we find no consistency in their positions,
-unlike for the simulated data (Figure~\ref{fig:substructures}). This situation
+(Figure~\ref{fig:substructures3}) we find no consistency in their positions,
+unlike for the simulated data (Figure~\ref{fig:substructures1}). This situation
 is not uncommon. For example, \citet{exoplanet} found evidence for a large
 number of Keplerian signals in a time series, but the number of such signals
 with well constrained properties was much lower. Related to this, we can
@@ -860,13 +860,13 @@ current model could only explain using substructure.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.4]{substructures2.pdf}
+\includegraphics[scale=0.4]{substructures3.pdf}
 \caption{The positions of substructures encountered in the MCMC sampling
 for the Cosmic Horseshoe; technically a Monte Carlo approximation to the
 posterior expected value of the empirical measure of substructure
-positions. Unlike Figure~\ref{fig:substructures}, for the Cosmic Horseshoe
+positions. Unlike Figure~\ref{fig:substructures1}, for the Cosmic Horseshoe
 there is little consistency in the positions of the substructures.
-\label{fig:substructures2}}
+\label{fig:substructures3}}
 \end{center}
 \end{figure}
 
@@ -904,7 +904,7 @@ any Monte Carlo approximations to posterior quantities. Most standard diagnostic
 techniques used in MCMC can be applied here. The simplest of these is a
 check of reproducibility. If different runs yield substantially different
 results, the MCMC output should be treated with caution. For example, in
-Figure~\ref{fig:masses2}, there is a correlation between the mass attributed
+Figure~\ref{fig:masses3}, there is a correlation between the mass attributed
 to the SIE component and that attributed to substructures. However, the
 distribution also appears somewhat ``lumpy'' or multimodal. This may
 not be a feature of the actual posterior distribution, but could arise due to
@@ -915,10 +915,10 @@ space can ``forget'' its good fitting position, move somewhere completely
 different, and find another good fitting model in a different location. This
 is a natural feature of the algorithm (and is also present in related
 algorithms such as parallel tempering). Despite this, the patchy
-nature of Figure~\ref{fig:masses2} suggests that posterior exploration is
+nature of Figure~\ref{fig:masses3} suggests that posterior exploration is
 still challenging in this problem.
 
-The results for the simulated data (Figure~\ref{fig:masses})
+The results for the simulated data (Figure~\ref{fig:masses1})
 were less complex because of the definite existence of one substructure.
 Its mass and position provide some information about the hyperparameters
 $\boldsymbol{\alpha}_{\rm lens}$, restricting the probability that
