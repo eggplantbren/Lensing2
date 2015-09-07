@@ -732,6 +732,15 @@ $\mu_{\rm lens}$ since there was only a single substructure which would provide
 little information about $\mu_{\rm lens}$ (only constraining its general
 order of magnitude), even if its mass were measured perfectly.}
 
+{\revisions As with the `easy' dataset,
+we generated 5,000 samples from the DNS target distribution and thinned
+by a factor of $10^5$, so $5 \times 10^8$ MCMC iterations were actually
+performed, taking approximately 60 hours. The slower runtime in this case
+was because $N_{\rm lens} = 10$, more CPU time was spent exploring parts of
+the hypothesis space where $N_{\rm lens}$ is high. The run resulted in 557
+equally-weighted posterior samples.
+}
+
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{image2.pdf}
