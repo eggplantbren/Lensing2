@@ -118,7 +118,8 @@ ylabel('Total substructure mass')
 
 # Plot the true masses
 #truth = loadtxt('Data/mock_truth.txt')
-#plot(pi*truth[2], truth[39:49].sum(), 'ro')
+#hold(True)
+#plot(pi*truth[2]**2, truth[39:49].sum(), 'r*', markersize=20)
 savefig('masses.pdf', bbox_inches='tight')
 show()
 
