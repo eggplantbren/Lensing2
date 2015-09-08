@@ -732,15 +732,6 @@ $\mu_{\rm lens}$ since there was only a single substructure which would provide
 little information about $\mu_{\rm lens}$ (only constraining its general
 order of magnitude), even if its mass were measured perfectly.}
 
-{\revisions As with the `easy' dataset,
-we generated 5,000 samples from the DNS target distribution and thinned
-by a factor of $10^5$, so $5 \times 10^8$ MCMC iterations were actually
-performed, taking approximately 60 hours. The slower runtime in this case
-was because $N_{\rm lens} = 10$, more CPU time was spent exploring parts of
-the hypothesis space where $N_{\rm lens}$ is high. The run resulted in 557
-equally-weighted posterior samples.
-}
-
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{image2.pdf}
@@ -752,6 +743,15 @@ substructures (star symbols) occured within the square image boundary, but the o
 \end{center}
 \end{figure}
 
+{\revisions As with the `easy' dataset,
+we generated 5,000 samples from the DNS target distribution and thinned
+by a factor of $10^5$, so $5 \times 10^8$ MCMC iterations were actually
+performed, taking approximately 60 hours. The slower runtime in this case
+was because $N_{\rm lens} = 10$, more CPU time was spent exploring parts of
+the hypothesis space where $N_{\rm lens}$ is high. The run resulted in 557
+equally-weighted posterior samples. The posterior distribution for the SIE
+mass and the total substructure mass is given in Figure~\ref{fig:masses2}.
+}
 
 \begin{figure}
 \begin{center}
@@ -762,6 +762,25 @@ Same as Figure~\ref{fig:masses1}, but for the `harder' simulated dataset.
 \label{fig:masses2}}
 \end{center}
 \end{figure}
+
+{\revisions
+To demonstrate the claim that we can infer something about the mass function
+of substructures directly, we have plotted the posterior
+distribution for $\mu_{\rm lens}$, the hyperparameter for the substructure
+masses, in Figure~\ref{fig:mu_lens}.
+}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.45]{mu_lens.pdf}
+\caption{{\revisions The posterior distribution for $\mu_{\rm lens}$, the
+hyperparameter which determines the prior expected value of substructure
+masses, given the `harder' simulated data. The true value (in arbitrary units)
+was 1, which is indicated by the vertical line.
+}
+\label{fig:mu_lens}}
+\end{figure}
+
 
 \begin{figure}
 \begin{center}
