@@ -8,7 +8,7 @@ include("Lenses/BlobbyNIE.jl")
 posterior_sample = readdlm("posterior_sample.txt")
 metadata = readdlm("Data/mock_metadata.txt")
 
-plt.figure(figsize=(5, 6))
+plt.figure(figsize=(8, 10))
 for(which in 1:3)
 	# Size of the 2D array
 	M = size(posterior_sample)[1]
@@ -36,8 +36,8 @@ for(which in 1:3)
 		return mag
 	end
 
-	x = linspace(-10,  10, 1001)
-	y = linspace( 10, -10, 1001)
+	x = linspace(metadata[3], metadata[4], 1001)
+	y = linspace(metadata[5], metadata[6], 1001)
 #	mag = magnification_image(posterior_sample[which, :], x, y)
 #	plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
 #						vmin=-5.0, vmax=5.0, cmap="coolwarm")
@@ -50,32 +50,32 @@ for(which in 1:3)
 	y_substructures = y_substructures[m_substructures .!= 0.]
 	x_nie, y_nie = params[6], params[7]
 
-	rays = zeros(100000, 4)
-	n_rays = 0
-	for(j in 1:length(x))
-		for(i in 1:(length(y)-1))
-			f1 = jacobian(params, x[j], y[i])
-			f2 = jacobian(params, x[j], y[i+1])
-			if(sign(f1) != sign(f2))
-				(xs, ys) = fire_ray(params, x[j], y[i])
-				rays[n_rays+1, :] = [[x[j], y[i], xs, ys]]
-				n_rays += 1
-			end
-		end
-	end
-	for(i in 1:length(y))
-		for(j in 1:(length(x)-1))
-			f1 = jacobian(params, x[j], y[i])
-			f2 = jacobian(params, x[j+1], y[i])
-			if(sign(f1) != sign(f2))
-				(xs, ys) = fire_ray(params, x[j], y[i])
-				rays[n_rays+1, :] = [[x[j], y[i], xs, ys]]
-				n_rays += 1
-			end
-		end
-	end
+#	rays = zeros(100000, 4)
+#	n_rays = 0
+#	for(j in 1:length(x))
+#		for(i in 1:(length(y)-1))
+#			f1 = jacobian(params, x[j], y[i])
+#			f2 = jacobian(params, x[j], y[i+1])
+#			if(sign(f1) != sign(f2))
+#				(xs, ys) = fire_ray(params, x[j], y[i])
+#				rays[n_rays+1, :] = [[x[j], y[i], xs, ys]]
+#				n_rays += 1
+#			end
+#		end
+#	end
+#	for(i in 1:length(y))
+#		for(j in 1:(length(x)-1))
+#			f1 = jacobian(params, x[j], y[i])
+#			f2 = jacobian(params, x[j+1], y[i])
+#			if(sign(f1) != sign(f2))
+#				(xs, ys) = fire_ray(params, x[j], y[i])
+#				rays[n_rays+1, :] = [[x[j], y[i], xs, ys]]
+#				n_rays += 1
+#			end
+#		end
+#	end
 
-	rays = rays[1:n_rays, :]
+#	rays = rays[1:n_rays, :]
 
 ##	plt.hold(true)
 ##	plt.plot(rays[:,1], rays[:,2], "w.", markersize=1)
@@ -91,21 +91,30 @@ for(which in 1:3)
 
 	plt.rc("font", size=14, family="serif", serif="Computer Sans")
 	plt.rc("text", usetex=true)
-	plt.subplot(3, 2, 2*which - 1)
+	plt.subplot(3, 3, 3*which - 2)
 	plt.imshow(src, interpolation="nearest", cmap="Oranges", extent=metadata[3:6])
 	plt.hold(true)
-	plt.plot(rays[:,3], rays[:,4], "k.", markersize=1)
+#	plt.plot(rays[:,3], rays[:,4], "k.", markersize=1)
 	if(which == 1)
 		plt.title("Source")
 	end
-	plt.axis(metadata[3:6])
+	plt.axis(0.5*metadata[3:6])
 	plt.gca()[:set_xticks]([])
 	plt.gca()[:set_yticks]([])
 
-	plt.subplot(3, 2, 2*which)
+	plt.subplot(3, 3, 3*which - 1)
+	f = density(posterior_sample[which, :], metadata[3], metadata[4], metadata[5], metadata[6])
+	plt.imshow(f, interpolation="nearest", cmap="Oranges", extent=metadata[3:6])
+	plt.gca()[:set_xticks]([])
+	plt.gca()[:set_yticks]([])
+	if(which == 1)
+		plt.title("Density in substructures")
+	end
+
+	plt.subplot(3, 3, 3*which)
 	plt.imshow(img, interpolation="nearest", cmap="Oranges", extent=metadata[3:6])
 	plt.hold(true)
-	plt.plot(rays[:,1], rays[:,2], "k.", markersize=1)
+#	plt.plot(rays[:,1], rays[:,2], "k.", markersize=1)
 
 	# Plot center of NIE
 	plt.plot(x_nie, y_nie, "wo")
