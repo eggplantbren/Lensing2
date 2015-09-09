@@ -96,6 +96,31 @@ function magnification(parameters::Array{Float64, 2}, x::Float64, y::Float64, h:
 	return -2.5*log10(abs(jacobian(parameters, x, y, h)))
 end
 
+function density(parameters::Array{Float64, 2},
+					x_min, x_max, y_min, y_max; n=1001)
+	assert(size(parameters)[1] == 1)
+
+	x = linspace(x_min, x_max, n)
+	y = linspace(y_max, y_min, n)
+	f = zeros(n, n)
+
+	for(k in 1:parameters[19])
+		xc, yc, mass, width = parameters[19+k], parameters[29+k], parameters[39+k], parameters[49+k]
+		widthsq = width^2
+		C = mass*2.0/pi/widthsq
+
+		for(j in 1:n)
+			for(i in 1:n)
+				rsq = (x[i] - xc)^2 + (y[j] - yc)^2
+				if(rsq <= widthsq)
+					f[i, j] += C*(1.0 - rsq/widthsq)
+				end
+			end
+		end
+	end
+
+	return f
+end
 
 # Input: parameters of a blob (length four)
 function blob_mass_within(parameters::Array{Float64, 2},
@@ -123,4 +148,5 @@ end
 params = zeros(1, 4)
 params[1], params[2], params[3], params[4] = 0.0, 0.0, 1.0, 0.5
 println(blob_mass_within(params, -0.5, 0.5, -0.5, 0.5))
+
 
