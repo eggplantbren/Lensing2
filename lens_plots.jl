@@ -8,7 +8,6 @@ include("Lenses/BlobbyNIE.jl")
 posterior_sample = readdlm("posterior_sample.txt")
 metadata = readdlm("Data/mock_metadata.txt")
 
-
 plt.figure(figsize=(5, 6))
 for(which in 1:3)
 	# Size of the 2D array
@@ -37,13 +36,11 @@ for(which in 1:3)
 		return mag
 	end
 
-	x = linspace(-10,  10, 3001)
-	y = linspace( 10, -10, 3001)
-	mag = magnification_image(posterior_sample[which, :], x, y)
-
+	x = linspace(-10,  10, 1001)
+	y = linspace( 10, -10, 1001)
+#	mag = magnification_image(posterior_sample[which, :], x, y)
 #	plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
 #						vmin=-5.0, vmax=5.0, cmap="coolwarm")
-
 
 	params = posterior_sample[which, :]
 	x_substructures = params[20:29]
@@ -51,14 +48,7 @@ for(which in 1:3)
 	m_substructures = params[40:49]
 	x_substructures = x_substructures[m_substructures .!= 0.]
 	y_substructures = y_substructures[m_substructures .!= 0.]
-
-#	# Convert x and y to pixel coordinates for overplotting
-	dx = (metadata[4] - metadata[3])/metadata[2]
-	dy = (metadata[6] - metadata[5])/metadata[1]
-	x_substructures = (x_substructures - metadata[3])/dx - 0.5
-	y_substructures = (metadata[6] - y_substructures)/dy - 0.5
-	x_nie = params[6]#(params[6] - metadata[3])/dx - 0.5
-	y_nie = params[7]#(metadata[6] - params[7])/dy - 0.5
+	x_nie, y_nie = params[6], params[7]
 
 	rays = zeros(100000, 4)
 	n_rays = 0
@@ -87,31 +77,31 @@ for(which in 1:3)
 
 	rays = rays[1:n_rays, :]
 
-#	plt.hold(true)
-#	plt.plot(rays[:,1], rays[:,2], "w.", markersize=1)
-#	plt.plot(rays[:,3], rays[:,4], "b.", markersize=1)
-#	plt.axis([-10.0, 10.0, -10.0, 10.0])
-#	writedlm("rays.txt", rays)
-#	plt.show()
+##	plt.hold(true)
+##	plt.plot(rays[:,1], rays[:,2], "w.", markersize=1)
+##	plt.plot(rays[:,3], rays[:,4], "b.", markersize=1)
+##	plt.axis([-10.0, 10.0, -10.0, 10.0])
+##	writedlm("rays.txt", rays)
+##	plt.show()
 
 	src = vec(posterior_sample[which, 469:468 + metadata[1]*metadata[2]*metadata[8]^2])
 	img = vec(posterior_sample[which, 469 + 2*metadata[1]*metadata[2]*metadata[8]^2:(size(posterior_sample)[2]-2)])
 	src = transpose(reshape(src, int(metadata[2]*metadata[8]), int(metadata[1]*metadata[8])))
 	img = transpose(reshape(img, int(metadata[2]), int(metadata[1])))
 
-
-
 	plt.rc("font", size=14, family="serif", serif="Computer Sans")
 	plt.rc("text", usetex=true)
 	plt.subplot(3, 2, 2*which - 1)
-	plt.imshow(src, interpolation="nearest", cmap="Oranges", extent=[-10, 10, -10, 10])
+	plt.imshow(src, interpolation="nearest", cmap="Oranges", extent=metadata[3:6])
 	plt.hold(true)
 	plt.plot(rays[:,3], rays[:,4], "k.", markersize=1)
 	if(which == 1)
 		plt.title("Source")
 	end
-
 	plt.axis(metadata[3:6])
+	plt.gca()[:set_xticks]([])
+	plt.gca()[:set_yticks]([])
+
 	plt.subplot(3, 2, 2*which)
 	plt.imshow(img, interpolation="nearest", cmap="Oranges", extent=metadata[3:6])
 	plt.hold(true)
@@ -121,13 +111,13 @@ for(which in 1:3)
 	plt.plot(x_nie, y_nie, "wo")
 	# Substructures
 	plt.plot(x_substructures, y_substructures, "g*", alpha=0.5)
+	plt.axis(metadata[3:6])
 
 	if(which == 1)
 		plt.title("Image")
 	end
-	plt.axis(metadata[3:6])
-	plt.gca().set_xticks([])
-	plt.gca().set_yticks([])
+	plt.gca()[:set_xticks]([])
+	plt.gca()[:set_yticks]([])
 end
 
 plt.savefig("sources.pdf", bbox_inches="tight")
