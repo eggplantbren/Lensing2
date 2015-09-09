@@ -562,7 +562,7 @@ so $5 \times 10^8$ MCMC iterations were actually performed, taking approximately
 48 hours on a modest desktop PC\footnote{The computer was purchased in 2012
 and has a second-generation intel i7 processor, and the process was run on
 8 threads.}. After resampling these samples to
-reflect the posterior distribution, we were left with 537
+reflect the posterior distribution, we were left with {\revisions 500}
 (equally weighted) posterior samples.
 
 The posterior distributions for complex models, such as the mixture models used here, are often challenging and unintuitive to summarise. One effective way
@@ -682,10 +682,10 @@ and other such possibilities.
 
 The estimated marginal likelihood of our model
 (averaged over all parameters including $N_{\rm lens}$ and $N_{\rm src}$)
-is
-$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -14248$, and
+is {\revisions
+$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -14141.4$, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
-is $\mathcal{H} \approx 99$ nats. The information represents the degree of
+is $\mathcal{H} \approx 99.4$ nats}. The information represents the degree of
 compression of the posterior distribution with respect to the prior, and can
 be interpreted quite literally as how much was learned about the parameters from
 the data. It is also straightforward to estimate from Nested Sampling
