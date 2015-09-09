@@ -844,8 +844,8 @@ subtracted.
 
 We generated 5,000 samples from the DNS target distribution and thinned
 by a factor of $10^5$, so $5 \times 10^8$ MCMC iterations were actually
-performed, taking approximately 40 hours. The first 1/3 of the run was
-excluded as burn-in. After resampling, this resulted in 632
+performed, taking approximately 40 hours. After resampling, this resulted in
+{\revisions 718}
 equally weighted posterior samples. Although this image is smaller than the
 simulated data ($46 \times 46$ pixels), we fired $2 \times 2$ rays per pixel
 for greater accuracy.
@@ -942,10 +942,10 @@ there is little consistency in the positions of the substructures.
 \end{figure}
 
 The estimated marginal likelihood of our model
-is
-$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -6967$, and
+is {\revisions
+$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -6948.5$}, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
-is $\mathcal{H} \approx 129$ nats. 
+is {\revisions $\mathcal{H} \approx 123.1$} nats. 
 Three example models (lens and source) sampled from the posterior are shown
 in Figure~\ref{fig:sources}. {\revisions
 The model was able to fit the data down to the noise level.
@@ -982,8 +982,8 @@ not be a feature of the actual posterior distribution, but could arise due to
 imperfect sampling. Whereas a standard Metropolis sampler would move around
 very slowly in the hypothesis space, DNS naturally spends a non-negligible fraction
 of the time sampling the prior. Therefore, a particle exploring the parameter
-space can ``forget'' its good fitting position, move somewhere completely
-different, and find another good fitting model in a different location. This
+space can ``forget'' its good-fitting position, move somewhere completely
+different, and find another good-fitting model in a different location. This
 is a natural feature of the algorithm (and is also present in related
 algorithms such as parallel tempering). Despite this, the patchy
 nature of Figure~\ref{fig:masses3} suggests that posterior exploration is
