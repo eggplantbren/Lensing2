@@ -8,7 +8,7 @@ include("Lenses/BlobbyNIE.jl")
 posterior_sample = readdlm("posterior_sample.txt")
 metadata = readdlm("Data/mock_metadata.txt")
 
-plt.figure(figsize=(8, 10))
+plt.figure(figsize=(8, 8))
 for(which in 1:3)
 	# Size of the 2D array
 	M = size(posterior_sample)[1]
