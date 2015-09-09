@@ -111,7 +111,7 @@ function density(parameters::Array{Float64, 2},
 
 		for(j in 1:n)
 			for(i in 1:n)
-				rsq = (x[i] - xc)^2 + (y[j] - yc)^2
+				rsq = (x[j] - xc)^2 + (y[i] - yc)^2
 				if(rsq <= widthsq)
 					f[i, j] += C*(1.0 - rsq/widthsq)
 				end
@@ -135,7 +135,7 @@ function blob_mass_within(parameters::Array{Float64, 2},
 	f = zeros(n, n)
 	for(j in 1:n)
 		for(i in 1:n)
-			rsq = (x[i] - xc)^2 + (y[j] - yc)^2
+			rsq = (x[j] - xc)^2 + (y[i] - yc)^2
 			if(rsq <= widthsq)
 				f[i, j] += C*(1.0 - rsq/widthsq)
 			end
