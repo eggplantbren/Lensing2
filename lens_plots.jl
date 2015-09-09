@@ -36,8 +36,8 @@ for(which in 1:3)
 		return mag
 	end
 
-	x = linspace(metadata[3], metadata[4], 1001)
-	y = linspace(metadata[5], metadata[6], 1001)
+#	x = linspace(metadata[3], metadata[4], 1001)
+#	y = linspace(metadata[5], metadata[6], 1001)
 #	mag = magnification_image(posterior_sample[which, :], x, y)
 #	plt.imshow(mag, interpolation="nearest", extent=[-10, 10, -10, 10],
 #						vmin=-5.0, vmax=5.0, cmap="coolwarm")
