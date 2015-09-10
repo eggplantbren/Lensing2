@@ -216,7 +216,10 @@ These basis functions are inverted paraboloids, which are faster to evaluate
 than gaussians, since they do not
 contain an exponential function. In addition, the finite support means that
 each blob will evaluate to zero over a large fraction of the domain which
-confers an additional speed advantage.
+confers an additional speed advantage. {\revisions More conventional choices such as
+gaussians are possible, as are alternative compact basis functions, perhaps
+inspired by the smoothed particle hydrodynamics literature
+\citep{2012MNRAS.425.1068D}.}
 
 If our model contains $N_{\rm src}$ such blobs, positioned at
 $\left\{(x_i^{\rm src}, y_i^{\rm src})\right\}$ with widths $\{w_i\}$ and total fluxes
@@ -1071,6 +1074,11 @@ arXiv:0808.0012.
 
 \bibitem[\protect\citeauthoryear{Coles, Read, 
 \& Saha}{2014}]{2014MNRAS.445.2181C} Coles J.~P., Read J.~I., Saha P., 2014, MNRAS, 445, 2181
+
+{\revisions
+\bibitem[\protect\citeauthoryear{Dehnen 
+\& Aly}{2012}]{2012MNRAS.425.1068D} Dehnen W., Aly H., 2012, MNRAS, 425, 1068
+}
 
 \bibitem[\protect\citeauthoryear{Dye et al.}{2008}]{2008MNRAS.388..384D} 
 Dye S., Evans N.~W., Belokurov V., Warren S.~J., Hewett P., 2008, MNRAS, 
