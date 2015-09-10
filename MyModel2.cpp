@@ -68,13 +68,7 @@ double MyModel2::perturb()
 	{
 		logH += lens.perturb();
 
-		if(lens.get_blobs_flag() &&
-			(lens.get_size_of_diff() < lens.get_num_components())
-			&& staleness2 < 10)
-			update_rays();
-		else
-			shoot_rays();
-
+		shoot_rays();
 		calculate_surface_brightness();
 		calculate_model_image();
 	}
