@@ -683,7 +683,7 @@ and other such possibilities.
 The estimated marginal likelihood of our model
 (averaged over all parameters including $N_{\rm lens}$ and $N_{\rm src}$)
 is {\revisions
-$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -14141.4$, and
+$\ln\left[p(\boldsymbol{D})\right] \approx -14141.4$, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
 is $\mathcal{H} \approx 99.4$ nats}. The information represents the degree of
 compression of the posterior distribution with respect to the prior, and can
@@ -812,7 +812,7 @@ fact exist.
 {\revisions
 The estimated marginal likelihood of our model, for the `harder' simulated data,
 is
-$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -5671.9$, and
+$\ln\left[p(\boldsymbol{D})\right] \approx -5671.9$, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
 is $\mathcal{H} \approx 155.7$ nats. 
 As with the easy dataset, the standardised residuals of the sampled models
@@ -856,7 +856,7 @@ the simulated data (Figure~\ref{fig:masses1}), we see an expected negative
 correlation between these two quantities. However, the points are not as
 smoothly distributed in this case (we discuss this issue further
 in Section~\ref{sec:convergence}). An upper ``limit'' on the SIE mass, with
-95\% posterior probability, is $5.21 \times 10^{12}$ solar masses.
+95\% posterior probability, is $5.20 \times 10^{12}$ solar masses.
 The algorithm has also found
 some possibilities where the substructure mass is much greater than this. In
 these cases, the substructures are far from the image --- it is the environment
@@ -866,8 +866,8 @@ The posterior distribution for
 $N_{\rm lens}$ (Figure~\ref{fig:N_lens3})
 also shows some evidence for more than zero substructures.
 In particular, the prior probability for $N_{\rm lens} > 0$ was 10/11
-$\approx$ 0.91, whereas the posterior probability is approximately 0.97.
-This corresponds to a Bayes Factor of approximately 3 in favour of
+$\approx$ 0.91, whereas the posterior probability is approximately {\revisions 0.997}.
+This corresponds to a Bayes Factor of {\revisions about 300} in favour of
 $N_{\rm lens} > 0$ versus the alternative $N_{\rm lens} = 0$.
 
 \begin{figure}
@@ -887,8 +887,7 @@ $H_0=70$ km/s/Mpc.
 \begin{center}
 \includegraphics[scale=0.4]{N_lens3.pdf}
 \caption{{\revisions Same as Figure~\ref{fig:N_lens1}, but for the Cosmic Horseshoe.} The posterior distribution for the number of lens substructures
-in the Cosmic Horseshoe system. There is mild evidence in favour of the
-hypothesis that $N_{\rm lens} \neq 0$.\label{fig:N_lens3}}
+in the Cosmic Horseshoe system. There is {\revisions moderate} evidence in favour of the hypothesis that $N_{\rm lens} \neq 0$.\label{fig:N_lens3}}
 \end{center}
 \end{figure}
 
@@ -943,7 +942,7 @@ there is little consistency in the positions of the substructures.
 
 The estimated marginal likelihood of our model
 is {\revisions
-$\ln\left[p(\boldsymbol{D} | \boldsymbol{\theta})\right] \approx -6948.5$}, and
+$\ln\left[p(\boldsymbol{D})\right] \approx -6948.5$}, and
 the information (Kullback-Leibler divergence from the prior to the posterior)
 is {\revisions $\mathcal{H} \approx 123.1$} nats. 
 Three example models (lens and source) sampled from the posterior are shown
@@ -1009,7 +1008,7 @@ such as the mass function of substructures.
 As a proof of concept, we demonstrated the successful recovery of a single
 substructure from simulated data for which all of the model assumptions were
 true. We then applied the method to an image of the Cosmic Horseshoe system
-and found mild evidence in favour of the existence of a substructure, or at
+and found {\revisions moderate} evidence in favour of the existence of a substructure, or at
 the very least, a departure from a simple SIE+$\gamma$ lens profile. The
 main output of our method is a set of posterior samples, each representing
 a plausible scenario for the lens and the source given the data
