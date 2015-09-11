@@ -58,10 +58,12 @@ for i in xrange(0, output.shape[0]):
 	subplot(2,3,1)
 	imshow(src, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
 	title('Model Source ' + str(i+1))
+	axis(metadata[2:6])
 
 	subplot(2,3,2)
 	imshow(img1, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
 	title('Unblurred Image ' + str(i+1))
+	axis(metadata[2:6])
 
 	subplot(2,3,3)
 	imshow(img2, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
@@ -72,15 +74,18 @@ for i in xrange(0, output.shape[0]):
 	plot(x_substructures, y_substructures, 'g*', markersize=15, alpha=0.5)
 	title('Model Image ' + str(i+1))
 	hold(False)
+	axis(metadata[2:6])
 
 	subplot(2,2,3)
-	imshow(data, interpolation='nearest', cmap='Oranges')
+	imshow(data, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
 	title('Data')
+	axis(metadata[2:6])
 
 	subplot(2,2,4)
 	sigma = sqrt(sig**2 + x[0]**2 + x[1]*img2)
-	imshow((img2 - data)/sigma, interpolation='nearest', cmap='Oranges')
+	imshow((img2 - data)/sigma, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
 	title('Standardised Residuals')
+	axis(metadata[2:6])
 	draw()
 
 	if saveFrames:
