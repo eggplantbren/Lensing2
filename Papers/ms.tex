@@ -83,7 +83,7 @@ The estimated spatial structure of the correction term provides clues about
 the locations of possible substructures. In a second modelling step, the lens
 is assumed to be a smooth overall component plus a compact ``blob'' near any
 locations suggested by the correction term. This kind of inference has also
-been done with point-like multiple images of QSOs \citep{2012MNRAS.419..936F}.
+been done with point-like multiple images of {\revisions quasars} \citep{2012MNRAS.419..936F}.
 
 {\revisions In this paper, we introduce} an approach for solving this same problem (inferring the
 number and properties of dark substructures given an image) in a more direct
@@ -145,7 +145,8 @@ that any pixel is negative is typically 0.5.
 \citet{2011MNRAS.412.2521B} argued that an ideal
 modelling approach lies somewhere between simply-parameterised and
 pixellated models, which is also a motivation behind
-\citet{2015arXiv150500198T}'s investigation of shapelets.
+{\revisions the investigation of
+shapelets by \citet{2015arXiv150500198T}}.
 One way of achieving this is with mixture models.
 The source and the lens can be built up from a mixture of a moderate
 number (from a few to a few hundred) of
@@ -251,7 +252,6 @@ where $\boldsymbol{\theta}^{\rm src}_i$ denotes the parameters for source blob $
 \boldsymbol{\theta}^{\rm src}_i &=& \left\{x_i, y_i, A_i, w_i
 \right\}.
 \end{eqnarray}
-
 The dimensionality of the parameter space for the source depends on the
 minimum and maximum values of $N_{\rm src}$, which we set to 0 and 100
 respectively (more detail about priors is given in Section~\ref{sec:priors}).
@@ -308,7 +308,8 @@ The deflection angles for a single blob are:
 \end{array}
 \right.
 \end{eqnarray}
-where $r=\sqrt{x^2 + y^2}$. These do not depend on any slow functions such
+where $r=\sqrt{x^2 + y^2}$. These do not depend on any
+{\revisions computationally expensive} functions such
 as square roots or exponentials.
 For $N$ such blobs the deflection angles are
 summed over all blobs. Therefore the lens can be entirely described by
@@ -341,7 +342,7 @@ We implemented the MCMC using the
 {\tt RJObject} software \citep{rjobject}, a C++ library for implementing trans-dimensional MCMC with hierarchically-specified priors when the model is
 a ``mixture model'' or similar, as is the case here.
 The {\tt RJObject} library uses the
-Diffusive Nested Sampling algorithm \citep[DNS][]{dnest} for its sampling, but the
+Diffusive Nested Sampling algorithm \citep[DNS;][]{dnest} for its sampling, but the
 trans-dimensionality is handled by the MCMC moves. Therefore, the marginal
 likelihood we obtain is one that involves a sum over the hypothesis space
 for $N_{\rm src}$ and $N_{\rm lens}$. In other words, we do not need
