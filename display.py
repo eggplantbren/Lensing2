@@ -57,17 +57,17 @@ for i in xrange(0, output.shape[0]):
 	img2 = img2.reshape((metadata[0], metadata[1]))
 
 	subplot(2,3,1)
-	imshow(src, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
+	imshow(src, extent=metadata[2:6], interpolation='nearest', cmap='Blues')
 	title('Model Source ' + str(i+1))
 	axis(metadata[2:6])
 
 	subplot(2,3,2)
-	imshow(img1, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
+	imshow(img1, extent=metadata[2:6], interpolation='nearest', cmap='Blues')
 	title('Unblurred Image ' + str(i+1))
 	axis(metadata[2:6])
 
 	subplot(2,3,3)
-	imshow(img2, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
+	imshow(img2, extent=metadata[2:6], interpolation='nearest', cmap='Blues')
 	hold(True)
 	# Plot center of NIE
 	plot(x_nie, y_nie, 'wo', markersize=15, alpha=0.5)
@@ -78,14 +78,14 @@ for i in xrange(0, output.shape[0]):
 	axis(metadata[2:6])
 
 	subplot(2,2,3)
-	imshow(data*not_masked, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
+	imshow(data*not_masked, extent=metadata[2:6], interpolation='nearest', cmap='Blues')
 	title('Data')
 	axis(metadata[2:6])
 
 	subplot(2,2,4)
 	sigma = np.ones(sig.shape)
 	sigma[not_masked] = sqrt(sig[not_masked]**2 + x[0]**2 + x[1]*img2[not_masked])
-	imshow(((img2 - data)/sigma)*not_masked, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
+	imshow(((img2 - data)/sigma)*not_masked, extent=metadata[2:6], interpolation='nearest', cmap='Blues')
 	title('Standardised Residuals')
 	axis(metadata[2:6])
 	draw()
@@ -106,7 +106,7 @@ show()
 
 figure(1)
 mean_source = total/output.shape[0]
-imshow(mean_source, interpolation='nearest', cmap='Oranges')
+imshow(mean_source, interpolation='nearest', cmap='Blues')
 title('Posterior Mean Source')
 
 figure(2)
@@ -139,7 +139,7 @@ savefig('N_lens.pdf', bbox_inches='tight')
 show()
 
 figure(4, figsize=(8, 8))
-imshow(data, extent=metadata[2:6], interpolation="nearest", cmap="Oranges")
+imshow(data, extent=metadata[2:6], interpolation="nearest", cmap="Blues")
 hold(True)
 plot(all_substructures_x, all_substructures_y, 'k.', markersize=3)
 gca().set_xticks([])
