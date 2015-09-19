@@ -13,6 +13,7 @@ if saveFrames:
 output = atleast_2d(loadtxt('posterior_sample.txt'))
 data = loadtxt('Data/mock_image.txt')
 sig = loadtxt('Data/mock_sigma.txt')
+not_masked = (sig < 1E100)
 metadata = loadtxt('Data/mock_metadata.txt')
 
 total = zeros((metadata[0]*metadata[7], metadata[1]*metadata[7]))
@@ -77,13 +78,14 @@ for i in xrange(0, output.shape[0]):
 	axis(metadata[2:6])
 
 	subplot(2,2,3)
-	imshow(data*(sig < 1E100), extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
+	imshow(data*not_masked, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
 	title('Data')
 	axis(metadata[2:6])
 
 	subplot(2,2,4)
-	sigma = sqrt(sig**2 + x[0]**2 + x[1]*img2)
-	imshow((img2 - data)/sigma, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
+	sigma = np.ones(sig.shape)
+	sigma[not_masked] = sqrt(sig[not_masked]**2 + x[0]**2 + x[1]*img2[not_masked])
+	imshow(((img2 - data)/sigma)*not_masked, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
 	title('Standardised Residuals')
 	axis(metadata[2:6])
 	draw()
