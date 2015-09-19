@@ -77,7 +77,7 @@ for i in xrange(0, output.shape[0]):
 	axis(metadata[2:6])
 
 	subplot(2,2,3)
-	imshow(data, extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
+	imshow(data*(sig < 1E100), extent=metadata[2:6], interpolation='nearest', cmap='Oranges')
 	title('Data')
 	axis(metadata[2:6])
 
