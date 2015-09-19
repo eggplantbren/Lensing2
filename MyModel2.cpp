@@ -90,10 +90,13 @@ double MyModel2::logLikelihood() const
 	{
 		for(size_t j=0; j<image[i].size(); j++)
 		{
-			var = sigma[i][j]*sigma[i][j] + sigma0*sigma0
-					+ sigma1*model_image[i][j];
-			logL += -0.5*log(2.*M_PI*var) -
-			0.5*pow(image[i][j] - model_image[i][j], 2)/var;
+			if(sigma[i][j] < 1E100)
+			{
+				var = sigma[i][j]*sigma[i][j] + sigma0*sigma0
+						+ sigma1*model_image[i][j];
+				logL += -0.5*log(2.*M_PI*var) -
+				0.5*pow(image[i][j] - model_image[i][j], 2)/var;
+			}
 		}
 	}
 
