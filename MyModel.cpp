@@ -138,7 +138,6 @@ void MyModel::shoot_rays()
 {
 	const vector< vector<long double> >& x = Data::get_instance().get_x_rays();
 	const vector< vector<long double> >& y = Data::get_instance().get_y_rays();
-	const vector< vector<double> >& sigma = Data::get_instance().get_sigma();
 
 	double ax, ay;
 	for(size_t i=0; i<xs.size(); i++)
@@ -154,8 +153,6 @@ void MyModel::shoot_rays()
 
 void MyModel::calculate_surface_brightness()
 {
-	const vector< vector<double> >& sigma = Data::get_instance().get_sigma();
-
 	for(size_t i=0; i<xs.size(); i++)
 		for(size_t j=0; j<xs[i].size(); j++)
 				surface_brightness[i][j] = source.evaluate(xs[i][j], ys[i][j]);
