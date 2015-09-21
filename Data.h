@@ -23,8 +23,8 @@ class Data
 		int resolution;
 
 		// The ray grid
-		std::vector< std::vector<long double> > x_rays;
-		std::vector< std::vector<long double> > y_rays;
+		std::vector< std::vector<double> > x_rays;
+		std::vector< std::vector<double> > y_rays;
 
 		// The pixels
 		std::vector< std::vector<double> > image;
@@ -54,9 +54,9 @@ class Data
 		double get_y_min() const { return y_min; }
 		double get_y_max() const { return y_max; }
 		int get_resolution() const { return resolution; }
-		const std::vector< std::vector<long double> >& get_x_rays() const
+		const std::vector< std::vector<double> >& get_x_rays() const
 			{ return x_rays; }
-		const std::vector< std::vector<long double> >& get_y_rays() const
+		const std::vector< std::vector<double> >& get_y_rays() const
 			{ return y_rays; }
 		const std::vector< std::vector<double> >& get_image() const
 			{ return image; }

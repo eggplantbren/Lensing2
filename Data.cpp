@@ -88,9 +88,9 @@ void Data::compute_ray_grid()
 {
 	// Make vectors of the correct size
 	x_rays.assign(ni*resolution,
-			vector<long double>(nj*resolution));
+			vector<double>(nj*resolution));
 	y_rays.assign(ni*resolution,
-			vector<long double>(nj*resolution));
+			vector<double>(nj*resolution));
 
 	// Distance between adjacent rays
 	double L = dx/resolution;

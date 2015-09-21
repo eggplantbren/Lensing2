@@ -17,10 +17,10 @@ class PSF
 	public:
 		PSF(int size);
 		// Uses loopy method
-		void blur_image(std::vector< std::vector<long double> >& img) const;
+		void blur_image(std::vector< std::vector<double> >& img) const;
 		// Uses fft method
 		void blur_image2
-			(std::vector< std::vector<long double> >& img) const;
+			(std::vector< std::vector<double> >& img) const;
 		void normalise();
 		void calculate_fft(int Ni, int Nj);
 		void load(const char* filename);

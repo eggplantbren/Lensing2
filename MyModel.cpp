@@ -18,7 +18,7 @@ MyModel::MyModel()
 ,ys(Data::get_instance().get_y_rays())
 ,surface_brightness(Data::get_instance().get_x_rays())
 ,model_image(Data::get_instance().get_ni(),
-		vector<long double>(Data::get_instance().get_nj()))
+		vector<double>(Data::get_instance().get_nj()))
 ,staleness1(0), staleness2(0)
 {
 
@@ -112,8 +112,8 @@ void MyModel::print(std::ostream& out) const
 	source.print(out);
 
 	// Make an image of the source (uses the ray resolution)
-	const vector< vector<long double> >& x = Data::get_instance().get_x_rays();
-	const vector< vector<long double> >& y = Data::get_instance().get_y_rays();
+	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
+	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
 	for(size_t i=0; i<xs.size(); i++)
 		for(size_t j=0; j<xs[i].size(); j++)
 			out<<source.evaluate(x[i][j], y[i][j])<<' ';
@@ -136,8 +136,8 @@ string MyModel::description() const
 
 void MyModel::shoot_rays()
 {
-	const vector< vector<long double> >& x = Data::get_instance().get_x_rays();
-	const vector< vector<long double> >& y = Data::get_instance().get_y_rays();
+	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
+	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
 
 	double ax, ay;
 	for(size_t i=0; i<xs.size(); i++)
@@ -174,7 +174,7 @@ void MyModel::calculate_model_image()
 	int resolution = Data::get_instance().get_resolution();
 
 	model_image.assign(Data::get_instance().get_ni(),
-		vector<long double>(Data::get_instance().get_nj(), 0.));
+		vector<double>(Data::get_instance().get_nj(), 0.));
 
 	int ii, jj;
 	double coeff = pow(static_cast<double>(resolution), -2);

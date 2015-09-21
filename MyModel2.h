@@ -20,14 +20,14 @@ class MyModel2:public DNest3::Model
 		double sigma0, sigma1;
 
 		// Source plane position of rays
-		std::vector< std::vector<long double> > xs;
-		std::vector< std::vector<long double> > ys;
+		std::vector< std::vector<double> > xs;
+		std::vector< std::vector<double> > ys;
 
 		// Surface brightness of rays
-		std::vector< std::vector<long double> > surface_brightness;
+		std::vector< std::vector<double> > surface_brightness;
 
 		// Model image
-		std::vector< std::vector<long double> > model_image;
+		std::vector< std::vector<double> > model_image;
 
 		// Staleness numbers for source and lens respectively
 		unsigned int staleness1, staleness2;
