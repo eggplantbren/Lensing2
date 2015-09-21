@@ -21,10 +21,7 @@ class BlobbySPEMD:public Lens
 		double x_min, x_max, y_min, y_max, scale;
 
 		// Strength, axis ratio, core radius
-		double b, q, rc;
-
-		// Derived parameters based on b and q
-		double bb, qq, q_term;
+		double b, q, rc, slope;
 
 		// Position
 		double xc, yc;
@@ -47,7 +44,7 @@ class BlobbySPEMD:public Lens
 		BlobbySPEMD(double x_min, double x_max, double y_min, double y_max);
 
 		// Needed methods
-		void alpha(double x, double y, double& ax, double& ay) const;
+		void alpha(double x, double y, double& ax, double& ay);
 		void alpha_diff(double x, double y, double& ax, double& ay) const;
 		void from_prior();
 		double perturb();

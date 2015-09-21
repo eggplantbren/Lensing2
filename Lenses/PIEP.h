@@ -34,7 +34,7 @@ class PIEP:public Lens
 		PIEP(double x_min, double x_max, double y_min, double y_max);
 
 		// Needed methods
-		void alpha(double x, double y, double& ax, double& ay) const;
+		void alpha(double x, double y, double& ax, double& ay);
 		void from_prior();
 		double perturb();
 		void print(std::ostream& out) const;

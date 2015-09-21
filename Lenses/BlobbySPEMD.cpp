@@ -10,6 +10,12 @@ using namespace std;
 using namespace DNest3;
 using namespace Lensing2;
 
+extern "C"
+{
+	void fastelldefl_(double* x, double* y, double* b, double* gam, double* q,
+						double* rcsq, double alpha[]);
+}
+
 const bool BlobbySPEMD::disable_blobs = false;
 const bool BlobbySPEMD::singular = true;
 
@@ -23,15 +29,17 @@ BlobbySPEMD::BlobbySPEMD(double x_min, double x_max, double y_min, double y_max)
 	assert(x_max > x_min && y_max > y_min);
 }
 
-void BlobbySPEMD::alpha(double x, double y, double& ax, double& ay) const
+void BlobbySPEMD::alpha(double x, double y, double& ax, double& ay)
 {
 	// Rotate and center
 	double xx =  (x - xc)*cos_theta + (y - yc)*sin_theta;
 	double yy = -(x - xc)*sin_theta + (y - yc)*cos_theta;
 
-	double psi = sqrt(qq*qq*(xx*xx + rc*rc) + yy*yy);
-	double alphax = bb/q_term*atan(q_term*xx/(psi + rc));
-	double alphay = bb/q_term*atanh(q_term*yy/(psi + qq*qq*rc));
+	double aa[2];
+	double rcsq = rc*rc;
+	fastelldefl_(&xx, &yy, &b, &slope, &q, &rcsq, aa);
+	double alphax = aa[0];
+	double alphay = aa[1];
 
 	// Rotate back
 	ax = alphax*cos_theta - alphay*sin_theta;
@@ -73,71 +81,17 @@ void BlobbySPEMD::alpha(double x, double y, double& ax, double& ay) const
 	}
 }
 
-void BlobbySPEMD::alpha_diff(double x, double y, double& ax, double& ay) const
-{
-	ax = 0.;
-	ay = 0.;
-
-	// Add blobs
-	if(BlobbySPEMD::disable_blobs)
-		return;
-
-	const vector< vector<double> >& added = blobs.get_added();
-	double rsq, widthsq, Menc;
-	for(size_t i=0; i<added.size(); i++)
-	{
-		rsq = pow(x - added[i][0], 2)
-				+ pow(y - added[i][1], 2);
-		widthsq = pow(added[i][3], 2);
-
-		if(rsq < widthsq)
-		{
-			Menc = 4.*added[i][2]/widthsq*(0.5*rsq -
-				rsq*rsq/(4*widthsq));
-		}
-		else
-			Menc = added[i][2];
-		ax += Menc*(x - added[i][0])/(M_PI*rsq);
-		ay += Menc*(y - added[i][1])/(M_PI*rsq);
-	}
-
-	// Remove blobs
-	const vector< vector<double> >& removed = blobs.get_removed();
-	for(size_t i=0; i<removed.size(); i++)
-	{
-		rsq = pow(x - removed[i][0], 2)
-				+ pow(y - removed[i][1], 2);
-		widthsq = pow(removed[i][3], 2);
-
-		if(rsq < widthsq)
-		{
-			Menc = 4.*removed[i][2]/widthsq*(0.5*rsq -
-				rsq*rsq/(4*widthsq));
-		}
-		else
-			Menc = removed[i][2];
-		ax -= Menc*(x - removed[i][0])/(M_PI*rsq);
-		ay -= Menc*(y - removed[i][1])/(M_PI*rsq);
-	}
-}
-
-
 void BlobbySPEMD::from_prior()
 {
-	b = exp(log(1E-3) + log(1E3)*randomU())*scale;
+	b = exp(tan(M_PI*(0.97*randomU() - 0.485)));
 	q = 0.05 + 0.95*randomU();
-
-	// Stuff derived from b and q
-	qq = q;
-	if(qq == 1.)
-		qq = 0.99999;
-	q_term = sqrt(1. - qq*qq);
-	bb = b*sqrt(qq); // Minor axis
 
 	if(singular)
 		rc = 1E-7*scale;
 	else
 		rc = exp(log(1E-3) + log(1E3)*randomU())*scale;
+
+	slope = -1. + 3.*randomU();
 
 	do
 	{
@@ -173,34 +127,22 @@ double BlobbySPEMD::perturb()
 	int which;
 	do
 	{
-		which = randInt(7);
+		which = randInt(8);
 	}while(singular && which == 2);
 
 	if(which == 0)
 	{
-		b = log(b/scale);
-		b += log(1E3)*randh();
-		b = mod(b - log(1E-3), log(1E3)) + log(1E-3);
-		b = scale*exp(b);
-
-		// Stuff derived from b and q
-		qq = q;
-		if(qq == 1.)
-			qq = 0.99999;
-		q_term = sqrt(1. - qq*qq);
-		bb = b*sqrt(qq); // Minor axis
+		b = log(b);
+		b = (atan(b)/M_PI + 0.485)/0.97;
+		b += randh();
+		wrap(b, 0., 1.);
+		b = tan(M_PI*(0.97*b - 0.485));
+		b = exp(b);
 	}
 	else if(which == 1)
 	{
 		q += 0.95*randh();
 		wrap(q, 0.05, 1.);
-
-		// Stuff derived from b and q
-		qq = q;
-		if(qq == 1.)
-			qq = 0.99999;
-		q_term = sqrt(1. - qq*qq);
-		bb = b*sqrt(qq); // Minor axis
 	}
 	else if(which == 2)
 	{
@@ -210,6 +152,11 @@ double BlobbySPEMD::perturb()
 		rc = scale*exp(rc);
 	}
 	else if(which == 3)
+	{
+		slope += 3.*randh();
+		wrap(slope, -1., 2.);
+	}
+	else if(which == 4)
 	{
 		logH -= -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
 		logH -= -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
@@ -223,13 +170,13 @@ double BlobbySPEMD::perturb()
 		logH += -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
 		logH += -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
 	}
-	else if(which == 4)
+	else if(which == 5)
 	{
 		theta += M_PI*randh();
 		theta = mod(theta, M_PI);
 		cos_theta = cos(theta); sin_theta = sin(theta);
 	}
-	else if(which == 5)
+	else if(which == 6)
 	{
 		shear = atan(shear/0.05)/M_PI/0.5;
 		shear += randh();
@@ -248,7 +195,7 @@ double BlobbySPEMD::perturb()
 
 void BlobbySPEMD::print(ostream& out) const
 {
-	out<<b<<' '<<q<<' '<<rc<<' '<<xc<<' '<<yc<<' '<<theta<<' ';
+	out<<b<<' '<<q<<' '<<rc<<' '<<slope<<' '<<xc<<' '<<yc<<' '<<theta<<' ';
 	out<<shear<<' '<<theta_shear<<' ';
 	blobs.print(out); out<<' ';
 }
