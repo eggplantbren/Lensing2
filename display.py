@@ -118,7 +118,7 @@ show()
 figure(3)
 rc("font", size=16, family="serif", serif="Computer Sans")
 rc("text", usetex=True)
-plot(mass_units*pi*output[:,2]**2, mass_units*output[:,39:48].sum(axis=1),\
+plot(mass_units*pi*output[:,2]**2, mass_units*output[:,39:49].sum(axis=1),\
 					'bo', markersize=5, alpha=0.2)
 xlabel('SIE mass (within critical ellipse)')
 ylabel('Total substructure mass')
