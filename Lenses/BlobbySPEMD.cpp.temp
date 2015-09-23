@@ -37,7 +37,9 @@ void BlobbySPEMD::alpha(double x, double y, double& ax, double& ay)
 
 	double aa[2];
 	double rcsq = rc*rc;
-	fastelldefl_(&xx, &yy, &b, &slope, &q, &rcsq, aa);
+	double kappa = 0.5*b*pow((2.-2.*slope)/q, slope);
+
+	fastelldefl_(&xx, &yy, &kappa, &slope, &q, &rcsq, aa);
 	double alphax = aa[0];
 	double alphay = aa[1];
 
