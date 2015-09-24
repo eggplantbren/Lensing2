@@ -31,9 +31,9 @@ x = exp(logr)*cos(phi)
 y = exp(logr)*sin(phi)
 dA = exp(2*logr)*du*dphi
 
-sie = spemd_density(x, y, [1.3, 1., 0.5])
-within = x**2 + y**2 < 1.3**2
-print((sie*dA)[within].sum())
+sie = spemd_density(x, y, [0.8, 0.7, 0.5])
+within = x**2*0.7**2 + y**2 < 0.8**2
+print((sie*dA)[within].sum(), pi*0.8**2)
 imshow(log(sie))
 show()
 
