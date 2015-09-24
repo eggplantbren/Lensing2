@@ -1,0 +1,60 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{dsfont}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[left=3cm,top=3cm,right=3cm]{geometry}
+
+\newcommand{\yy}{\boldsymbol{y}}	% The unknown parameters
+\newcommand{\btheta}{\boldsymbol{\theta}}  % The data
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\parindent=0cm
+
+\title{}
+\author{}
+
+\begin{document}
+%\maketitle
+
+\section*{SIS}
+
+The density profile is
+\begin{eqnarray}
+\kappa(x, y) = \frac{b}{2r}
+\end{eqnarray}
+The total mass inside $r=b$ is
+
+\begin{eqnarray}
+\int_0^{2\pi}\int_0^b \frac{b}{2r} r \, dr \, d\phi
+&=& \pi b^2.
+\end{eqnarray}
+
+\section*{SPEMD}
+The density profile is
+\begin{eqnarray}
+\kappa(x, y) = Cr^{-2\gamma}
+\end{eqnarray}
+The total mass inside $r=b$ is
+
+\begin{eqnarray}
+\int_0^{2\pi}\int_0^b Cr^{-2\gamma} r \, dr \, d\phi
+&=& 2\pi C \int_0^b r^{1-2\gamma} \, dr\\
+&=& 2\pi C \left[\frac{r^{2-2\gamma}}{2-2\gamma}\right]_0^b\\
+&=& 2\pi C \frac{b^{2-2\gamma}}{2-2\gamma}
+\end{eqnarray}
+
+And I want this to equal $\pi b^2$. Therefore
+\begin{eqnarray}
+2\pi C \frac{b^{2-2\gamma}}{2-2\gamma} &=& \pi b^2\\
+C b^{2-2\gamma} &=& (b^2/2)(2-2\gamma)\\
+C &=& (1/2)b^{2\gamma}(2 - 2\gamma).
+\end{eqnarray}
+
+
+
+
+
+\end{document}
+
