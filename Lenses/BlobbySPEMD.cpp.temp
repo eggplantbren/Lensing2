@@ -16,7 +16,7 @@ extern "C"
 						double* rcsq, double alpha[]);
 }
 
-const bool BlobbySPEMD::disable_blobs = true;
+const bool BlobbySPEMD::disable_blobs = false;
 const bool BlobbySPEMD::singular = true;
 
 BlobbySPEMD::BlobbySPEMD(double x_min, double x_max, double y_min, double y_max)
