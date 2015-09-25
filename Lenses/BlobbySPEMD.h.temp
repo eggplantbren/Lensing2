@@ -23,6 +23,9 @@ class BlobbySPEMD:public Lens
 		// Strength, axis ratio, core radius
 		double b, q, rc, slope;
 
+		// Derived parameters based on b and q
+		double bb, qq;
+
 		// Position
 		double xc, yc;
 
