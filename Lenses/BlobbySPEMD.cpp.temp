@@ -85,7 +85,7 @@ void BlobbySPEMD::alpha(double x, double y, double& ax, double& ay)
 
 void BlobbySPEMD::from_prior()
 {
-	b = exp(tan(M_PI*(0.97*randomU() - 0.485)));
+	b = exp(log(1E-3) + log(1E3)*randomU())*scale;
 	q = 0.05 + 0.95*randomU();
 
 	// Stuff derived from b and q
@@ -140,12 +140,10 @@ double BlobbySPEMD::perturb()
 
 	if(which == 0)
 	{
-		b = log(b);
-		b = (atan(b)/M_PI + 0.485)/0.97;
-		b += randh();
-		wrap(b, 0., 1.);
-		b = tan(M_PI*(0.97*b - 0.485));
-		b = exp(b);
+		b = log(b/scale);
+		b += log(1E3)*randh();
+		b = mod(b - log(1E-3), log(1E3)) + log(1E-3);
+		b = scale*exp(b);
 
 		// Stuff derived from b and q
 		qq = q;
