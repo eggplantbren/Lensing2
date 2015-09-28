@@ -99,7 +99,7 @@ void BlobbySPEMD::from_prior()
 	else
 		rc = exp(log(1E-3) + log(1E3)*randomU())*scale;
 
-	slope = 0.3 + 0.4*randomU();
+	slope = 0.1 + 0.8*randomU();
 
 	do
 	{
@@ -171,8 +171,8 @@ double BlobbySPEMD::perturb()
 	}
 	else if(which == 3)
 	{
-		slope += 0.4*randh();
-		wrap(slope, 0.3, 0.7);
+		slope += 0.8*randh();
+		wrap(slope, 0.1, 0.9);
 	}
 	else if(which == 4)
 	{
