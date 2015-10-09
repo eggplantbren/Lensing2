@@ -14,7 +14,8 @@
 \usepackage{epstopdf}
 
 % For revisions
-\newcommand{\revisions}{\color{blue}}
+\newcommand{\revisions}{}
+\newcommand{\revisionstwo}{\color{blue}}
 
 \title[]
 {Trans-Dimensional Bayesian Inference for Gravitational Lens Substructures}
@@ -226,7 +227,12 @@ each blob will evaluate to zero over a large fraction of the domain which
 confers an additional speed advantage. {\revisions More conventional choices such as
 gaussians are possible, as are alternative compact basis functions, perhaps
 inspired by the smoothed particle hydrodynamics literature
-\citep{2012MNRAS.425.1068D}.}
+\citep{2012MNRAS.425.1068D}.} {\revisionstwo Alternative choices, such as Sérsic
+profiles, may be more realistic despite their computational cost. This is
+especially likely in the case of an early-type source galaxy
+\citep[e.g.][]{eels}. Such modifications are possible without great effort
+using the {\tt RJObject} library, and once implemented, the marginal likelihood
+can be compared across different choices for the source model.}
 
 If our model contains $N_{\rm src}$ such blobs, positioned at
 $\left\{(x_i^{\rm src}, y_i^{\rm src})\right\}$ with widths $\{w_i\}$ and total fluxes
@@ -1057,6 +1063,9 @@ New Zealand.
 \bibitem[\protect\citeauthoryear{Alsing et al.}{2015}]{2015arXiv150507840A} 
 Alsing J., Heavens A., Jaffe A.~H., Kiessling A., Wandelt B., Hoffmann T., 
 2015, arXiv, arXiv:1505.07840
+
+\bibitem[\protect\citeauthoryear{Auger et al.}{2011}]{eels} 
+Auger M.~W., Treu T., Brewer B.~J., Marshall P.~J., 2011, MNRAS, 411, L6
 
 \bibitem[\protect\citeauthoryear{Belokurov et 
 al.}{2007}]{belokurov} Belokurov V., et al., 2007, ApJ, 671, L9
