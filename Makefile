@@ -1,9 +1,10 @@
-CFLAGS = -O3 -DARMA_NO_DEBUG -DNDEBUG -Wall -Wextra -ansi -pedantic
-LIBS = -lrjobject -ldnest3 -lgsl -lgslcblas -lboost_thread -lboost_system -lgfortran
+CC = g++
+CFLAGS = -std=c++11 -O3 -DARMA_NO_DEBUG -DNDEBUG -Wall -Wextra -pedantic
+LIBS = -ldnest4 -lpthread
 
 default:
-	gfortran -O3 -c fastell.f
-	g++ -c $(CFLAGS) *.cpp Lenses/*.cpp Sources/*.cpp
-	g++ -o main *.o $(LIBS)
+#	gfortran -O3 -c fastell.f
+	$(CC) $(CFLAGS) -I$(DNEST4_PATH) -c *.cpp Sources/Blobby.cpp Lenses/BlobbyNIE.cpp
+	$(CC) -L$(DNEST4_PATH)/DNest4/code -o main *.o $(LIBS)
 	rm -rf *.o
 

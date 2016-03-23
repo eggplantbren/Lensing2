@@ -1,13 +1,12 @@
 #include <iostream>
 #include <fstream>
-#include "RandomNumberGenerator.h"
-#include "Start.h"
+#include "DNest4/code/Start.h"
 #include "MyModel.h"
 #include "Sources/Blobby.h"
 #include "Data.h"
 
 using namespace std;
-using namespace DNest3;
+using namespace DNest4;
 using namespace Lensing2;
 
 int main(int argc, char** argv)
@@ -19,7 +18,7 @@ int main(int argc, char** argv)
 					"Data/mock_psf.txt");
 
 	// Run DNest
-	MTSampler<MyModel> sampler = setup_mt<MyModel>(argc, argv);
+	Sampler<MyModel> sampler = setup<MyModel>(argc, argv);
 	sampler.run();
 	return 0;
 }

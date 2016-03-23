@@ -1,11 +1,11 @@
 #include "PSF.h"
-#include "Utils.h"
+#include "DNest4/code/Utils.h"
 #include <cassert>
 #include <iostream>
 #include <fstream>
 
 using namespace std;
-using namespace DNest3;
+using namespace DNest4;
 using namespace arma;
 
 PSF::PSF(int size)
