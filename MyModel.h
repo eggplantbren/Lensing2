@@ -1,7 +1,6 @@
-#ifndef _MyModel_
-#define _MyModel_
+#ifndef Lensing2_MyModel
+#define Lensing2_MyModel
 
-#include "Model.h"
 #include "Sources/Blobby.h"
 #include "Lenses/BlobbyNIE.h"
 #include <vector>
@@ -9,7 +8,7 @@
 namespace Lensing2
 {
 
-class MyModel:public DNest3::Model
+class MyModel
 {
 	private:
 		Blobby source;
@@ -40,13 +39,13 @@ class MyModel:public DNest3::Model
 		MyModel();
 
 		// Generate the point from the prior
-		void fromPrior();
+		void from_prior(DNest4::RNG& rng);
 
 		// Metropolis-Hastings proposals
-		double perturb();
+		double perturb(DNest4::RNG& rng);
 
 		// Likelihood function
-		double logLikelihood() const;
+		double log_likelihood() const;
 
 		// Print to stream
 		void print(std::ostream& out) const;

@@ -2,6 +2,7 @@
 #define Lensing2_Lens_h
 
 #include <ostream>
+#include "DNest4/code/RNG.h"
 
 namespace Lensing2
 {
@@ -19,8 +20,8 @@ class Lens
 					double& ax, double& ay) = 0;
 
 		// MCMC related stuff
-		virtual void from_prior() = 0;
-		virtual double perturb() = 0;
+		virtual void from_prior(DNest4::RNG& rng) = 0;
+		virtual double perturb(DNest4::RNG& rng) = 0;
 		virtual void print(std::ostream& out) const = 0;
 };
 

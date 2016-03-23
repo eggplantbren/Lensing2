@@ -1,13 +1,12 @@
 #include "MyModel.h"
 #include "Data.h"
-
-#include "RandomNumberGenerator.h"
-#include "Utils.h"
 #include <cmath>
 
 using namespace std;
-using namespace Lensing2;
-using namespace DNest3;
+using namespace DNest4;
+
+namespace Lensing2
+{
 
 MyModel::MyModel()
 :source(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
@@ -24,13 +23,13 @@ MyModel::MyModel()
 
 }
 
-void MyModel::fromPrior()
+void MyModel::from_prior(RNG& rng)
 {
-	source.from_prior();
-	lens.from_prior();
+	source.from_prior(rng);
+	lens.from_prior(rng);
 
-	sigma0 = tan(M_PI*(0.97*randomU() - 0.485));
-	sigma1 = tan(M_PI*(0.97*randomU() - 0.485));
+	sigma0 = tan(M_PI*(0.97*rng.rand() - 0.485));
+	sigma1 = tan(M_PI*(0.97*rng.rand() - 0.485));
 	sigma0 = exp(sigma0); sigma1 = exp(sigma1);
 
 	shoot_rays();
@@ -38,36 +37,36 @@ void MyModel::fromPrior()
 	calculate_model_image();
 }
 
-double MyModel::perturb()
+double MyModel::perturb(RNG& rng)
 {
 	double logH = 0.;
 
-	if(randomU() <= 0.5)
+	if(rng.rand() <= 0.5)
 	{
-		logH += source.perturb();
+		logH += source.perturb(rng);
 
 		calculate_surface_brightness();
 		calculate_model_image();
 	}
-	else if(randomU() <= 0.5)
+	else if(rng.rand() <= 0.5)
 	{
 		sigma0 = log(sigma0);
 		sigma0 = (atan(sigma0)/M_PI + 0.485)/0.97;
-		sigma0 += randh();
+		sigma0 += rng.randh();
 		wrap(sigma0, 0., 1.);
 		sigma0 = tan(M_PI*(0.97*sigma0 - 0.485));
 		sigma0 = exp(sigma0);
 
 		sigma1 = log(sigma1);
 		sigma1 = (atan(sigma1)/M_PI + 0.485)/0.97;
-		sigma1 += randh();
+		sigma1 += rng.randh();
 		wrap(sigma1, 0., 1.);
 		sigma1 = tan(M_PI*(0.97*sigma1 - 0.485));
 		sigma1 = exp(sigma1);
 	}
 	else
 	{
-		logH += lens.perturb();
+		logH += lens.perturb(rng);
 
 		shoot_rays();
 		calculate_surface_brightness();
@@ -77,7 +76,7 @@ double MyModel::perturb()
 	return logH;
 }
 
-double MyModel::logLikelihood() const
+double MyModel::log_likelihood() const
 {
 	double logL = 0.;
 	const vector< vector<double> >& image =
@@ -200,28 +199,5 @@ void MyModel::calculate_model_image()
 	}
 }
 
-
-#include <fstream>
-void MyModel::test()
-{
-	RandomNumberGenerator::initialise_instance();
-
-	MyModel m;
-
-	fstream fout("output.txt", ios::out);
-	for(int i=0; i<1000; i++)
-	{
-		RandomNumberGenerator::get_instance().set_seed(i);
-		m.fromPrior();
-		m.perturb();
-		m.print(fout); fout<<' ';
-		m.shoot_rays();
-		m.calculate_surface_brightness();
-		m.calculate_model_image();
-		m.print(fout); fout<<endl;
-		cout<<(i+1)<<endl;
-	}
-
-	fout.close();
-}
+} // namespace Lensing2
 
