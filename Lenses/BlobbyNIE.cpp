@@ -1,13 +1,10 @@
 #include "BlobbyNIE.h"
 
-#include "RandomNumberGenerator.h"
-#include "Utils.h"
-
 #include <cmath>
 #include <cassert>
 
 using namespace std;
-using namespace DNest3;
+using namespace DNest4;
 using namespace Lensing2;
 
 const bool BlobbyNIE::disable_blobs = false;
@@ -122,10 +119,10 @@ void BlobbyNIE::alpha_diff(double x, double y, double& ax, double& ay) const
 }
 
 
-void BlobbyNIE::from_prior()
+void BlobbyNIE::from_prior(RNG& rng)
 {
-	b = exp(log(1E-3) + log(1E3)*randomU())*scale;
-	q = 0.05 + 0.95*randomU();
+	b = exp(log(1E-3) + log(1E3)*rng.rand())*scale;
+	q = 0.05 + 0.95*rng.rand();
 
 	// Stuff derived from b and q
 	qq = q;
@@ -137,35 +134,35 @@ void BlobbyNIE::from_prior()
 	if(singular)
 		rc = 1E-7*scale;
 	else
-		rc = exp(log(1E-3) + log(1E3)*randomU())*scale;
+		rc = exp(log(1E-3) + log(1E3)*rng.rand())*scale;
 
 	do
 	{
 		xc = 0.5*(x_max + x_min) +
-			0.1*(x_max - x_min)*tan(M_PI*(randomU() - 0.5));
+			0.1*(x_max - x_min)*tan(M_PI*(rng.rand() - 0.5));
 		yc = 0.5*(y_max + y_min) +
-			0.1*(y_max - y_min)*tan(M_PI*(randomU() - 0.5));
+			0.1*(y_max - y_min)*tan(M_PI*(rng.rand() - 0.5));
 	}while(xc < x_min || xc > x_max || yc < y_min || yc > y_max);
 
-	theta = M_PI*randomU();
+	theta = M_PI*rng.rand();
 	cos_theta = cos(theta); sin_theta = sin(theta);
 
 	// Half-cauchy prior
-	shear = 0.05*tan(M_PI*(0.5*randomU()));
-	theta_shear = M_PI*randomU();
+	shear = 0.05*tan(M_PI*(0.5*rng.rand()));
+	theta_shear = M_PI*rng.rand();
 	cos_theta_shear = cos(theta_shear); sin_theta_shear = sin(theta_shear);
 
-	blobs.fromPrior();
+	blobs.from_prior(rng);
 }
 
-double BlobbyNIE::perturb()
+double BlobbyNIE::perturb(RNG& rng)
 {
 	double logH = 0.;
 
 	blobs_flag = false;
-	if(randomU() <= 0.5 && !BlobbyNIE::disable_blobs)
+	if(rng.rand() <= 0.5 && !BlobbyNIE::disable_blobs)
 	{
-		logH += blobs.perturb();
+		logH += blobs.perturb(rng);
 		blobs_flag = true;
 		return logH;
 	}
@@ -173,13 +170,13 @@ double BlobbyNIE::perturb()
 	int which;
 	do
 	{
-		which = randInt(7);
+		which = rng.rand_int(7);
 	}while(singular && which == 2);
 
 	if(which == 0)
 	{
 		b = log(b/scale);
-		b += log(1E3)*randh();
+		b += log(1E3)*rng.randh();
 		b = mod(b - log(1E-3), log(1E3)) + log(1E-3);
 		b = scale*exp(b);
 
@@ -192,7 +189,7 @@ double BlobbyNIE::perturb()
 	}
 	else if(which == 1)
 	{
-		q += 0.95*randh();
+		q += 0.95*rng.randh();
 		wrap(q, 0.05, 1.);
 
 		// Stuff derived from b and q
@@ -205,7 +202,7 @@ double BlobbyNIE::perturb()
 	else if(which == 2)
 	{
 		rc = log(rc/scale);
-		rc += log(1E3)*randh();
+		rc += log(1E3)*rng.randh();
 		rc = mod(rc - log(1E-3), log(1E3)) + log(1E-3);
 		rc = scale*exp(rc);
 	}
@@ -214,8 +211,8 @@ double BlobbyNIE::perturb()
 		logH -= -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
 		logH -= -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
 
-		xc += (x_max - x_min)*randh();
-		yc += (y_max - y_min)*randh();
+		xc += (x_max - x_min)*rng.randh();
+		yc += (y_max - y_min)*rng.randh();
 
 		xc = mod(xc - x_min, x_max - x_min) + x_min;
 		yc = mod(yc - y_min, y_max - y_min) + y_min;
@@ -225,20 +222,20 @@ double BlobbyNIE::perturb()
 	}
 	else if(which == 4)
 	{
-		theta += M_PI*randh();
+		theta += M_PI*rng.randh();
 		theta = mod(theta, M_PI);
 		cos_theta = cos(theta); sin_theta = sin(theta);
 	}
 	else if(which == 5)
 	{
 		shear = atan(shear/0.05)/M_PI/0.5;
-		shear += randh();
+		shear += rng.randh();
 		shear = mod(shear, 1.);
 		shear = 0.05*tan(M_PI*(0.5*shear));
 	}
 	else
 	{
-		theta_shear += M_PI*randh();
+		theta_shear += M_PI*rng.randh();
 		theta_shear = mod(theta_shear, M_PI);
 		cos_theta_shear = cos(theta_shear); sin_theta_shear = sin(theta_shear);
 	}

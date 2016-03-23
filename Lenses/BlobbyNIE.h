@@ -3,8 +3,8 @@
 
 #include <ostream>
 #include "../BasicCircular.h"
-#include <RJObject.h>
-#include "Lens.h"
+#include "../Lens.h"
+#include "DNest4/code/RJObject/RJObject.h"
 
 namespace Lensing2
 {
@@ -36,7 +36,7 @@ class BlobbyNIE:public Lens
 		double shear;
 		double theta_shear, cos_theta_shear, sin_theta_shear;
 
-		RJObject<BasicCircular> blobs;
+		DNest4::RJObject<BasicCircular> blobs;
 		bool blobs_flag;
 
 		// A flag to disable the blobs
@@ -49,8 +49,8 @@ class BlobbyNIE:public Lens
 		// Needed methods
 		void alpha(double x, double y, double& ax, double& ay);
 		void alpha_diff(double x, double y, double& ax, double& ay) const;
-		void from_prior();
-		double perturb();
+		void from_prior(DNest4::RNG& rng);
+		double perturb(DNest4::RNG& rng);
 		void print(std::ostream& out) const;
 
 		// Methods for partial update
