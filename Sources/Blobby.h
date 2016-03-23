@@ -1,9 +1,9 @@
-#ifndef Lensing2_Blobby_h
-#define Lensing2_Blobby_h
+#ifndef Lensing2_Blobby
+#define Lensing2_Blobby
 
-#include "Source.h"
+#include "../Source.h"
 #include "../BasicCircular.h"
-#include <RJObject.h>
+#include "DNest4/code/RJObject/RJObject.h"
 
 namespace Lensing2
 {
@@ -11,7 +11,7 @@ namespace Lensing2
 class Blobby:public Source
 {
 	private:
-		RJObject<BasicCircular> blobs;
+		DNest4::RJObject<BasicCircular> blobs;
 
 	public:
 		// Pass in image scale and flux scale
@@ -24,8 +24,8 @@ class Blobby:public Source
 		int get_size_of_diff() const;
 		int get_num_components() const;
 
-		void from_prior();
-		double perturb();
+		void from_prior(DNest4::RNG& rng);
+		double perturb(DNest4::RNG& rng);
 		void print(std::ostream& out) const;
 };
 

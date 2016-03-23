@@ -1,7 +1,8 @@
-#ifndef Lensing2_Source_h
-#define Lensing2_Source_h
+#ifndef Lensing2_Source
+#define Lensing2_Source
 
 #include <ostream>
+#include "DNest4/code/RNG.h"
 
 namespace Lensing2
 {
@@ -18,8 +19,8 @@ class Source
 		virtual double evaluate(double x, double y) const = 0;
 
 		// MCMC related stuff
-		virtual void from_prior() = 0;
-		virtual double perturb() = 0;
+		virtual void from_prior(DNest4::RNG& rng) = 0;
+		virtual double perturb(DNest4::RNG& rng) = 0;
 
 		virtual void print(std::ostream& out) const = 0;
 };

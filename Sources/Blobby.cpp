@@ -1,9 +1,11 @@
 #include "Blobby.h"
-#include "RandomNumberGenerator.h"
+#include "DNest4/code/RNG.h"
 
 using namespace std;
-using namespace Lensing2;
-using namespace DNest3;
+using namespace DNest4;
+
+namespace Lensing2
+{
 
 Blobby::Blobby(double x_min, double x_max,
 					double y_min, double y_max)
@@ -81,16 +83,16 @@ double Blobby::evaluate_diff(double x, double y) const
 	return f;
 }
 
-void Blobby::from_prior()
+void Blobby::from_prior(RNG& rng)
 {
-	blobs.fromPrior();
+	blobs.from_prior(rng);
 }
 
-double Blobby::perturb()
+double Blobby::perturb(RNG& rng)
 {
 	double logH = 0.;
 
-	logH += blobs.perturb();
+	logH += blobs.perturb(rng);
 
 	return logH;
 }
@@ -99,4 +101,6 @@ void Blobby::print(ostream& out) const
 {
 	blobs.print(out);
 }
+
+} // namespace Lensing2
 
