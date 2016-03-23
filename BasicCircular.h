@@ -1,9 +1,9 @@
-#ifndef _BasicCircular_
-#define _BasicCircular_
+#ifndef Lensing2_BasicCircular
+#define Lensing2_BasicCircular
 
-#include <Distributions/Distribution.h>
+#include "DNest4/code/RJObject/ConditionalPriors/ConditionalPrior.h"
 
-class BasicCircular:public Distribution
+class BasicCircular:public DNest4::ConditionalPrior
 {
 	private:
 		// Limits
@@ -19,13 +19,13 @@ class BasicCircular:public Distribution
 		// Uniform distribution for widths
 		double b, k, a;
 
-		double perturb_parameters();
+		double perturb_hyperparameters(DNest4::RNG& rng);
 
 	public:
 		BasicCircular(double x_min, double x_max,
 					double y_min, double y_max);
 
-		void fromPrior();
+		void from_prior(DNest4::RNG& rng);
 
 		double log_pdf(const std::vector<double>& vec) const;
 		void from_uniform(std::vector<double>& vec) const;

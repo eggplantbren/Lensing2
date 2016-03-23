@@ -1,9 +1,9 @@
 #include "BasicCircular.h"
-#include "RandomNumberGenerator.h"
-#include "Utils.h"
+#include "DNest4/code/RNG.h"
+#include "DNest4/code/Utils.h"
 #include <cmath>
 
-using namespace DNest3;
+using namespace DNest4;
 
 BasicCircular::BasicCircular(double x_min, double x_max,
 					double y_min, double y_max)
@@ -16,38 +16,38 @@ BasicCircular::BasicCircular(double x_min, double x_max,
 
 }
 
-void BasicCircular::fromPrior()
+void BasicCircular::from_prior(RNG& rng)
 {
 	do
 	{
 		xc = 0.5*(x_max + x_min) +
-			0.1*(x_max - x_min)*tan(M_PI*(randomU() - 0.5));
+			0.1*(x_max - x_min)*tan(M_PI*(rng.rand() - 0.5));
 		yc = 0.5*(y_max + y_min) +
-			0.1*(y_max - y_min)*tan(M_PI*(randomU() - 0.5));
+			0.1*(y_max - y_min)*tan(M_PI*(rng.rand() - 0.5));
 	}while(xc < x_min || xc > x_max || yc < y_min || yc > y_max);
 
-	width = exp(log(1E-2*size) + log(1E3)*randomU());
+	width = exp(log(1E-2*size) + log(1E3)*rng.rand());
 
-	mu = tan(M_PI*(0.97*randomU() - 0.485));
+	mu = tan(M_PI*(0.97*rng.rand() - 0.485));
 	mu = exp(mu);
 
-	b = exp(log(1E-3*size) + log(1E3)*randomU());
-	k = randomU();
+	b = exp(log(1E-3*size) + log(1E3)*rng.rand());
+	k = rng.rand();
 	a = k*b;
 }
 
-double BasicCircular::perturb_parameters()
+double BasicCircular::perturb_hyperparameters(RNG& rng)
 {
 	double logH = 0.;
-	int which = randInt(5);
+	int which = rng.rand_int(5);
 
 	if(which == 0)
 	{
 		logH -= -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
 		logH -= -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
 
-		xc += (x_max - x_min)*randh();
-		yc += (y_max - y_min)*randh();
+		xc += (x_max - x_min)*rng.randh();
+		yc += (y_max - y_min)*rng.randh();
 
 		xc = mod(xc - x_min, x_max - x_min) + x_min;
 		yc = mod(yc - y_min, y_max - y_min) + y_min;
@@ -58,7 +58,7 @@ double BasicCircular::perturb_parameters()
 	else if(which == 1)
 	{
 		width = log(width);
-		width += log(1E3)*pow(10., 1.5 - 6.*randomU())*randn();
+		width += log(1E3)*pow(10., 1.5 - 6.*rng.rand())*rng.randn();
 		width = mod(width - log(1E-2*size), log(1E3)) + log(1E-2*size);
 		width = exp(width);
 	}
@@ -66,7 +66,7 @@ double BasicCircular::perturb_parameters()
 	{
 		mu = log(mu);
 		mu = (atan(mu)/M_PI + 0.485)/0.97;
-		mu += randh();
+		mu += rng.randh();
 		wrap(mu, 0., 1.);
 		mu = tan(M_PI*(0.97*mu - 0.485));
 		mu = exp(mu);
@@ -74,14 +74,14 @@ double BasicCircular::perturb_parameters()
 	else if(which == 3)
 	{
 		b = log(b);
-		b += log(1E3)*pow(10., 1.5 - 6.*randomU())*randn();
+		b += log(1E3)*pow(10., 1.5 - 6.*rng.rand())*rng.randn();
 		b = mod(b - log(1E-3*size), log(1E3)) + log(1E-3*size);
 		b = exp(b);
 		a = k*b;
 	}
 	else
 	{
-		k += randh();
+		k += rng.randh();
 		wrap(k, 0., 1.);
 		a = k*b;
 	}
