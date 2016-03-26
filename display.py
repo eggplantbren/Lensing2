@@ -4,13 +4,14 @@ and the residuals.
 """
 from pylab import *
 import os
+import dnest4.deprecated as dn4
 
 mass_units = 1.
 saveFrames = False # For making movies
 if saveFrames:
 	os.system('rm Frames/*.png')
 
-output = atleast_2d(loadtxt('posterior_sample.txt'))
+output = atleast_2d(dn4.my_loadtxt('posterior_sample.txt'))
 data = loadtxt('Data/mock_image.txt')
 sig = loadtxt('Data/mock_sigma.txt')
 not_masked = (sig < 1E100)
@@ -24,7 +25,7 @@ all_substructures_y = array([])
 figure(figsize=(12, 8))
 ion()
 hold(False)
-for i in xrange(0, output.shape[0]):
+for i in range(0, output.shape[0]):
 	x = output[i, :]
 
 	# Extract substructure information
