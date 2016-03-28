@@ -18,7 +18,6 @@ MyModel::MyModel()
 ,surface_brightness(Data::get_instance().get_x_rays())
 ,model_image(Data::get_instance().get_ni(),
 		vector<double>(Data::get_instance().get_nj()))
-,staleness1(0), staleness2(0)
 {
 
 }
@@ -105,7 +104,7 @@ double MyModel::log_likelihood() const
 
 void MyModel::print(std::ostream& out) const
 {
-	out<<setprecision(5);
+	out<<setprecision(6);
 	out<<' '<<sigma0<<' '<<sigma1<<' ';
 	lens.print(out);
 	source.print(out);
@@ -124,8 +123,6 @@ void MyModel::print(std::ostream& out) const
 	for(size_t i=0; i<model_image.size(); i++)
 		for(size_t j=0; j<model_image[i].size(); j++)
 			out<<model_image[i][j]<<' ';
-
-	out<<staleness1<<' '<<staleness2<<' ';
 }
 
 string MyModel::description() const
