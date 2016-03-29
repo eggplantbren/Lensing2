@@ -19,14 +19,14 @@ class Blobby:public Source
 					double y_min, double y_max);
 
 		// Required methods
-		double evaluate(double x, double y) const;
-		double evaluate_diff(double x, double y) const;
-		int get_size_of_diff() const;
-		int get_num_components() const;
-
+		double evaluate(double x, double y, bool update) const;
 		void from_prior(DNest4::RNG& rng);
 		double perturb(DNest4::RNG& rng);
 		void print(std::ostream& out) const;
+
+        // Getter
+		const DNest4::RJObject<BasicCircular>& get_blobs() const
+        { return blobs; }
 };
 
 } // namespace Lensing2
