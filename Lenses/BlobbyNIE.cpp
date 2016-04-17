@@ -71,55 +71,6 @@ void BlobbyNIE::alpha(double x, double y, double& ax, double& ay)
 	}
 }
 
-void BlobbyNIE::alpha_diff(double x, double y, double& ax, double& ay) const
-{
-	ax = 0.;
-	ay = 0.;
-
-	// Add blobs
-	if(BlobbyNIE::disable_blobs)
-		return;
-
-	const vector< vector<double> >& added = blobs.get_added();
-	double rsq, widthsq, Menc;
-	for(size_t i=0; i<added.size(); i++)
-	{
-		rsq = pow(x - added[i][0], 2)
-				+ pow(y - added[i][1], 2);
-		widthsq = pow(added[i][3], 2);
-
-		if(rsq < widthsq)
-		{
-			Menc = 4.*added[i][2]/widthsq*(0.5*rsq -
-				rsq*rsq/(4*widthsq));
-		}
-		else
-			Menc = added[i][2];
-		ax += Menc*(x - added[i][0])/(M_PI*rsq);
-		ay += Menc*(y - added[i][1])/(M_PI*rsq);
-	}
-
-	// Remove blobs
-	const vector< vector<double> >& removed = blobs.get_removed();
-	for(size_t i=0; i<removed.size(); i++)
-	{
-		rsq = pow(x - removed[i][0], 2)
-				+ pow(y - removed[i][1], 2);
-		widthsq = pow(removed[i][3], 2);
-
-		if(rsq < widthsq)
-		{
-			Menc = 4.*removed[i][2]/widthsq*(0.5*rsq -
-				rsq*rsq/(4*widthsq));
-		}
-		else
-			Menc = removed[i][2];
-		ax -= Menc*(x - removed[i][0])/(M_PI*rsq);
-		ay -= Menc*(y - removed[i][1])/(M_PI*rsq);
-	}
-}
-
-
 void BlobbyNIE::from_prior(RNG& rng)
 {
 	b = exp(log(1E-3) + log(1E3)*rng.rand())*scale;
