@@ -2,6 +2,7 @@
 #define Lensing2_BlobbyNIE_h
 
 #include <ostream>
+#include <exception>
 #include "../BasicCircular.h"
 #include "../Lens.h"
 #include "DNest4/code/RJObject/RJObject.h"

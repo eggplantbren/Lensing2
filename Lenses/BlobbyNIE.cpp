@@ -17,7 +17,8 @@ BlobbyNIE::BlobbyNIE(double x_min, double x_max, double y_min, double y_max)
 	BasicCircular(x_min, x_max, y_min, y_max))
 ,blobs_flag(false)
 {
-	assert(x_max > x_min && y_max > y_min);
+	if(x_max < x_min || y_max < y_min)
+        throw std::logic_error("Invalid input to BlobbyNIE constructor.");
 }
 
 void BlobbyNIE::alpha(double x, double y, double& ax, double& ay)
