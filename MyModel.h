@@ -28,11 +28,8 @@ class MyModel
 		// Model image
 		std::vector< std::vector<double> > model_image;
 
-		// Staleness numbers for source and lens respectively
-		unsigned int staleness1, staleness2;
-
 		void shoot_rays();
-		void calculate_surface_brightness();
+		void calculate_surface_brightness(bool update);
 		void calculate_model_image();
 
 	public:

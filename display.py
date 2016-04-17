@@ -54,7 +54,7 @@ for i in range(0, output.shape[0]):
 	img1 = x[468 + metadata[0]*metadata[1]*metadata[7]**2:468 + 2*metadata[0]*metadata[1]*metadata[7]**2]
 	img1 = img1.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 
-	img2 = x[468 + 2*metadata[0]*metadata[1]*metadata[7]**2:-2]
+	img2 = x[468 + 2*metadata[0]*metadata[1]*metadata[7]**2:]
 	img2 = img2.reshape((metadata[0], metadata[1]))
 
 	subplot(2,3,1)
