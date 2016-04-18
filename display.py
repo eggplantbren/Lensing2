@@ -6,10 +6,8 @@ from pylab import *
 import os
 import dnest4.deprecated as dn4
 
-mass_units = 1.
-saveFrames = False # For making movies
-if saveFrames:
-	os.system('rm Frames/*.png')
+mass_units = 1.0
+os.system('rm Frames/*.png')
 
 output = atleast_2d(dn4.my_loadtxt('posterior_sample.txt'))
 data = loadtxt('Data/mock_image.txt')
@@ -23,7 +21,6 @@ all_substructures_x = array([])
 all_substructures_y = array([])
 
 figure(figsize=(12, 8))
-ion()
 hold(False)
 for i in range(0, output.shape[0]):
 	x = output[i, :]
@@ -91,9 +88,8 @@ for i in range(0, output.shape[0]):
 	axis(metadata[2:6])
 	draw()
 
-	if saveFrames:
-		savefig('Frames/' + '%0.4d'%(i+1) + '.png', bbox_inches='tight')
-		print('Frames/' + '%0.4d'%(i+1) + '.png')
+	savefig('Frames/' + '%0.4d'%(i+1) + '.png', bbox_inches='tight')
+	print('Frames/' + '%0.4d'%(i+1) + '.png')
 
 	total += src
 	magnification[i] = 2.5*log10(metadata[7]**2*img2.sum()/src.sum())
@@ -102,7 +98,6 @@ for i in range(0, output.shape[0]):
 	all_substructures_x = hstack([all_substructures_x, x_substructures])
 	all_substructures_y = hstack([all_substructures_y, y_substructures])
 
-ioff()
 show()
 
 figure(1)
