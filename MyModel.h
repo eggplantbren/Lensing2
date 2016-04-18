@@ -28,8 +28,8 @@ class MyModel
 		// Model image
 		std::vector< std::vector<double> > model_image;
 
-		void shoot_rays();
-		void calculate_surface_brightness(bool update);
+		void shoot_rays(bool update=false);
+		void calculate_surface_brightness(bool update=false);
 		void calculate_model_image();
 
 	public:

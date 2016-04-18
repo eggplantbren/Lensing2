@@ -16,7 +16,7 @@ class Source
 		virtual ~Source() { }
 
 		// Evaluate at a single position
-		virtual double evaluate(double x, double y, bool update) const = 0;
+		virtual double evaluate(double x, double y, bool update=false) const = 0;
 
 		// MCMC related stuff
 		virtual void from_prior(DNest4::RNG& rng) = 0;

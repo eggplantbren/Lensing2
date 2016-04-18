@@ -21,37 +21,45 @@ BlobbyNIE::BlobbyNIE(double x_min, double x_max, double y_min, double y_max)
         throw std::logic_error("Invalid input to BlobbyNIE constructor.");
 }
 
-void BlobbyNIE::alpha(double x, double y, double& ax, double& ay)
+void BlobbyNIE::alpha(double x, double y, double& ax, double& ay, bool update)
 {
-	// Rotate and center
-	double xx =  (x - xc)*cos_theta + (y - yc)*sin_theta;
-	double yy = -(x - xc)*sin_theta + (y - yc)*cos_theta;
+    ax = 0.0;
+    ay = 0.0;
 
-	double psi = sqrt(qq*qq*(xx*xx + rc*rc) + yy*yy);
-	double alphax = bb/q_term*atan(q_term*xx/(psi + rc));
-	double alphay = bb/q_term*atanh(q_term*yy/(psi + qq*qq*rc));
+    if(!update)
+    {
+        // All the NIE stuff
 
-	// Rotate back
-	ax = alphax*cos_theta - alphay*sin_theta;
-	ay = alphax*sin_theta + alphay*cos_theta;
+	    // Rotate and center
+	    double xx =  (x - xc)*cos_theta + (y - yc)*sin_theta;
+	    double yy = -(x - xc)*sin_theta + (y - yc)*cos_theta;
 
-	// Go into shear coordinate system
-	xx =  x*cos_theta_shear + y*sin_theta_shear;
-	yy = -x*sin_theta_shear + y*cos_theta_shear;
+	    double psi = sqrt(qq*qq*(xx*xx + rc*rc) + yy*yy);
+	    double alphax = bb/q_term*atan(q_term*xx/(psi + rc));
+	    double alphay = bb/q_term*atanh(q_term*yy/(psi + qq*qq*rc));
 
-	// Calculate external shear
-	alphax = -shear*xx;
-	alphay = shear*yy;
+	    // Rotate back
+	    ax += alphax*cos_theta - alphay*sin_theta;
+	    ay += alphax*sin_theta + alphay*cos_theta;
 
-	// Add external shear
-	ax += alphax*cos_theta_shear - alphay*sin_theta_shear;
-	ay += alphax*sin_theta_shear + alphay*cos_theta_shear;
+	    // Go into shear coordinate system
+	    xx =  x*cos_theta_shear + y*sin_theta_shear;
+	    yy = -x*sin_theta_shear + y*cos_theta_shear;
+
+	    // Calculate external shear
+	    alphax = -shear*xx;
+	    alphay = shear*yy;
+
+	    // Add external shear
+	    ax += alphax*cos_theta_shear - alphay*sin_theta_shear;
+	    ay += alphax*sin_theta_shear + alphay*cos_theta_shear;
+    }
 
 	// Add blobs
 	if(BlobbyNIE::disable_blobs)
 		return;
 
-	const vector< vector<double> >& components = blobs.get_components();
+	const vector< vector<double> >& components = (update)?(blobs.get_added()):(blobs.get_components());
 	double rsq, widthsq, Menc;
 	for(size_t i=0; i<components.size(); i++)
 	{
@@ -202,14 +210,4 @@ void BlobbyNIE::print(ostream& out) const
 	blobs.print(out); out<<' ';
 }
 
-int BlobbyNIE::get_size_of_diff() const
-{
-	return static_cast<int>(blobs.get_added().size()
-					+ blobs.get_removed().size());
-}
-
-int BlobbyNIE::get_num_components() const
-{
-	return static_cast<int>(blobs.get_components().size());
-}
 

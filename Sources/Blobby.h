@@ -19,7 +19,7 @@ class Blobby:public Source
 					double y_min, double y_max);
 
 		// Required methods
-		double evaluate(double x, double y, bool update) const;
+		double evaluate(double x, double y, bool update=false) const;
 		void from_prior(DNest4::RNG& rng);
 		double perturb(DNest4::RNG& rng);
 		void print(std::ostream& out) const;

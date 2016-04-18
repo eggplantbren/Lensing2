@@ -32,7 +32,7 @@ void MyModel::from_prior(RNG& rng)
 	sigma0 = exp(sigma0); sigma1 = exp(sigma1);
 
 	shoot_rays();
-	calculate_surface_brightness(false);
+	calculate_surface_brightness();
 	calculate_model_image();
 }
 
@@ -67,8 +67,9 @@ double MyModel::perturb(RNG& rng)
 	{
 		logH += lens.perturb(rng);
 
-		shoot_rays();
-		calculate_surface_brightness(false);
+		shoot_rays(lens.get_blobs_flag() &&
+                   lens.get_blobs().get_removed().size() == 0);
+		calculate_surface_brightness();
 		calculate_model_image();
 	}
 
@@ -130,7 +131,7 @@ string MyModel::description() const
 	return string("lens parameters (b, q, rc, xc, yc, theta, shear, theta_shear), sigma0, sigma1, mock image");
 }
 
-void MyModel::shoot_rays()
+void MyModel::shoot_rays(bool update)
 {
 	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
 	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
@@ -140,9 +141,17 @@ void MyModel::shoot_rays()
 	{
 		for(size_t j=0; j<xs[i].size(); j++)
 		{
-			lens.alpha(x[i][j], y[i][j], ax, ay);
-			xs[i][j] = x[i][j] - ax;
-			ys[i][j] = y[i][j] - ay;
+			lens.alpha(x[i][j], y[i][j], ax, ay, update);
+            if(update)
+            {
+                xs[i][j] -= ax;
+                ys[i][j] -= ay;
+            }
+            else
+            {
+    			xs[i][j] = x[i][j] - ax;
+	    		ys[i][j] = y[i][j] - ay;
+            }
 		}
 	}
 }

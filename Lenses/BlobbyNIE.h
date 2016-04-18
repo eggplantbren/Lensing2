@@ -48,15 +48,14 @@ class BlobbyNIE:public Lens
 		BlobbyNIE(double x_min, double x_max, double y_min, double y_max);
 
 		// Needed methods
-		void alpha(double x, double y, double& ax, double& ay);
-		void alpha_diff(double x, double y, double& ax, double& ay) const;
+		void alpha(double x, double y, double& ax, double& ay, bool update=false);
 		void from_prior(DNest4::RNG& rng);
 		double perturb(DNest4::RNG& rng);
 		void print(std::ostream& out) const;
 
-		// Methods for partial update
-		int get_size_of_diff() const;
-		int get_num_components() const;
+		// Getter
+		const DNest4::RJObject<BasicCircular>& get_blobs() const
+        { return blobs; }
 
 		// If true, the most recent perturb only involved the blobs
 		bool get_blobs_flag() const { return blobs_flag; }

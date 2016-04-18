@@ -17,7 +17,7 @@ class Lens
 
 		// Deflection angle formula
 		virtual void alpha(double x, double y,
-					double& ax, double& ay) = 0;
+					double& ax, double& ay, bool update=false) = 0;
 
 		// MCMC related stuff
 		virtual void from_prior(DNest4::RNG& rng) = 0;
