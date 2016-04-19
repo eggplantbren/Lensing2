@@ -103,6 +103,8 @@ void BlobbySPEMD::from_prior(RNG& rng)
 	else
 		rc = exp(log(1E-3) + log(1E3)*rng.rand())*scale;
 
+    slope = 0.1 + 0.8*rng.rand();
+
 	do
 	{
 		xc = 0.5*(x_max + x_min) +
