@@ -51,8 +51,6 @@ Data/jackpot_psf.txt
 Data/jackpot_sigma.txt
 Data/psf.txt
 Data/temp.jpg
-Lenses/BlobbySPEMD.cpp
-Lenses/BlobbySPEMD.h
 Papers/response.odt
 Papers/source.tgz
 Sandpit/fastell.f
