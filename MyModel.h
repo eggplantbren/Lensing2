@@ -2,7 +2,7 @@
 #define Lensing2_MyModel
 
 #include "Sources/Blobby.h"
-#include "Lenses/BlobbyNIE.h"
+#include "Lenses/BlobbySPEMD.h"
 #include <vector>
 
 namespace Lensing2
@@ -12,7 +12,7 @@ class MyModel
 {
 	private:
 		Blobby source;
-		BlobbyNIE lens;
+		BlobbySPEMD lens;
 
 		// Noise model - constant variance plus component
 		// that depends on the flux of the model
