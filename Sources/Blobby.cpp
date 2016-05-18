@@ -9,7 +9,7 @@ namespace Lensing2
 
 Blobby::Blobby(double x_min, double x_max,
 					double y_min, double y_max)
-:blobs(4, 100, false,
+:blobs(4, 500, false,
 	BasicCircular(x_min, x_max, y_min, y_max), PriorType::log_uniform)
 {
 
