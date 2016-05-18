@@ -135,22 +135,31 @@ void MyModel::shoot_rays(bool update)
 {
 	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
 	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
+    const vector< vector<double> >& sigma = Data::get_instance().get_sigma();
+    int resolution = Data::get_instance().get_resolution();
 
 	double ax, ay;
+    int ii, jj;
 	for(size_t i=0; i<xs.size(); i++)
 	{
+        ii = i/resolution;
 		for(size_t j=0; j<xs[i].size(); j++)
 		{
-			lens.alpha(x[i][j], y[i][j], ax, ay, update);
-            if(update)
+            jj = j/resolution;
+            if(sigma[ii][jj] < 1E100)
             {
-                xs[i][j] -= ax;
-                ys[i][j] -= ay;
-            }
-            else
-            {
-    			xs[i][j] = x[i][j] - ax;
-	    		ys[i][j] = y[i][j] - ay;
+    			lens.alpha(x[i][j], y[i][j], ax, ay, update);
+            
+                if(update)
+                {
+                    xs[i][j] -= ax;
+                    ys[i][j] -= ay;
+                }
+                else
+                {
+        			xs[i][j] = x[i][j] - ax;
+	        		ys[i][j] = y[i][j] - ay;
+                }
             }
 		}
 	}
@@ -158,17 +167,25 @@ void MyModel::shoot_rays(bool update)
 
 void MyModel::calculate_surface_brightness(bool update)
 {
-    if(update)
+    const vector< vector<double> >& sigma = Data::get_instance().get_sigma();
+    int resolution = Data::get_instance().get_resolution();
+
+    int ii, jj;
+    for(size_t i=0; i<xs.size(); i++)
     {
-        for(size_t i=0; i<xs.size(); i++)
-            for(size_t j=0; j<xs[i].size(); j++)
+        ii = i/resolution;
+        for(size_t j=0; j<xs[i].size(); j++)
+        {
+            jj = j/resolution;
+            if(sigma[ii][jj] < 1E100)
+            {
+                if(!update)
+                    surface_brightness[i][j] = 0.0;
                 surface_brightness[i][j] += source.evaluate(xs[i][j], ys[i][j], update);
-    }
-    else
-    {
-        for(size_t i=0; i<xs.size(); i++)
-            for(size_t j=0; j<xs[i].size(); j++)
-                surface_brightness[i][j] = source.evaluate(xs[i][j], ys[i][j], update);
+            }
+            else
+                surface_brightness[i][j] = 0.0;
+        }
     }
 
 	if(Data::get_instance().psf_is_highres())
