@@ -71,7 +71,7 @@ for i in range(0, output.shape[0]):
 	# Plot center of NIE
 	plot(x_nie, y_nie, 'wo', markersize=15, alpha=0.5)
 	# Substructures
-	plot(x_substructures, y_substructures, 'g*', markersize=15, alpha=0.5)
+	plot(x_substructures, y_substructures, 'w*', markersize=15, alpha=0.5)
 	title('Model Image ' + str(i+1))
 	hold(False)
 	axis(metadata[2:6])
