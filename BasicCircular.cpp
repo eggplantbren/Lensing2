@@ -96,8 +96,10 @@ double BasicCircular::log_pdf(const std::vector<double>& vec) const
 
 	double logp = 0.;
 	double r = sqrt(pow(vec[0] - xc, 2) + pow(vec[1] - yc, 2));
+    if(r > width)
+        return -1E300;
 
-	logp += -log(r) - log(width) - r/width;
+	logp += -2*log(width);
 	logp += -log(mu) - vec[2]/mu;
 	logp += -log(b - a);
 
@@ -106,7 +108,7 @@ double BasicCircular::log_pdf(const std::vector<double>& vec) const
 
 void BasicCircular::from_uniform(std::vector<double>& vec) const
 {
-	double r = -width*log(1. - vec[0]);
+	double r = width*sqrt(vec[0]);
 	double phi = 2.*M_PI*vec[1];
 
 	vec[0] = xc + r*cos(phi);
@@ -122,7 +124,7 @@ void BasicCircular::to_uniform(std::vector<double>& vec) const
 	if(phi < 0.)
 		phi += 2.*M_PI;
 
-	vec[0] = 1. - exp(-r/width);
+	vec[0] = pow(r/width, 2);
 	vec[1] = phi/(2.*M_PI);
 	vec[2] = 1. - exp(-vec[2]/mu);
 	vec[3] = (vec[3] - a)/(b - a);
