@@ -130,9 +130,8 @@ savefig('masses.pdf', bbox_inches='tight')
 show()
 
 width=0.6
-hist(output[:,19], bins=arange(0, 10) - 0.5*width, width=width, alpha=0.5)
-xlim([-0.2, 10.2])
-gca().set_xticks(arange(0, 11))
+hist(output[:,19], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.5)
+xlim([-0.5, 50.5])
 xlabel('$N_{\\rm lens}$')
 ylabel('Number of Posterior Samples')
 savefig('N_lens.pdf', bbox_inches='tight')
