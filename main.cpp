@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 {
 	// Load some "data"
 	Data::get_instance().load("Data/mock_metadata.txt",
-					"Data/mock_image.txt",
+					"Data/harder_image.txt",
 					"Data/mock_sigma.txt",
 					"Data/mock_psf.txt");
 
