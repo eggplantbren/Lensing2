@@ -109,7 +109,7 @@ imshow(mean_source, interpolation='nearest', cmap='viridis')
 title('Posterior Mean Source')
 
 figure(2)
-hist(magnification, 50, alpha=0.5)
+hist(magnification, 50, alpha=0.5, color="k")
 xlabel('Magnification (magnitudes)')
 title('Magnification = {a:.3f} +- {b:.3f}'.format(a=magnification.mean(), b=magnification.std()))
 show()
@@ -130,7 +130,7 @@ savefig('masses.pdf', bbox_inches='tight')
 show()
 
 width=0.6
-hist(output[:,19], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.5)
+hist(output[:,19], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.5, color="k")
 xlim([-0.5, 50.5])
 xlabel('$N_{\\rm lens}$')
 ylabel('Number of Posterior Samples')
