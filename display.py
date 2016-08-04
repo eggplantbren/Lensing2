@@ -77,14 +77,17 @@ for i in range(0, output.shape[0]):
 	axis(metadata[2:6])
 
 	subplot(2,2,3)
-	imshow(data*not_masked, extent=metadata[2:6], interpolation='nearest', cmap='viridis')
+	temp = data*not_masked
+	imshow(data*not_masked, extent=metadata[2:6],\
+			vmin=-0.1*temp.max(), vmax=temp.max(),\
+			interpolation='nearest', cmap='viridis')
 	title('Data')
 	axis(metadata[2:6])
 
 	subplot(2,2,4)
 	sigma = np.ones(sig.shape)
 	sigma[not_masked] = sqrt(sig[not_masked]**2 + x[0]**2 + x[1]*img2[not_masked])
-	imshow(((img2 - data)/sigma)*not_masked, extent=metadata[2:6], interpolation='nearest', cmap='viridis')
+	imshow(((img2 - data)/sigma)*not_masked, extent=metadata[2:6], interpolation='nearest', cmap='coolwarm')
 	title('Standardised Residuals')
 	axis(metadata[2:6])
 	draw()
@@ -138,7 +141,10 @@ savefig('N_lens.pdf', bbox_inches='tight')
 show()
 
 figure(4, figsize=(8, 8))
-imshow(data*not_masked, extent=metadata[2:6], interpolation="nearest", cmap='viridis')
+temp = data*not_masked
+imshow(data*not_masked, extent=metadata[2:6],\
+		vmin=-0.1*temp.max(), vmax=temp.max(),\
+		interpolation='nearest', cmap='viridis')
 hold(True)
 plot(all_substructures_x, all_substructures_y, 'w.', markersize=3)
 gca().set_xticks([])
