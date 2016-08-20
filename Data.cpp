@@ -50,10 +50,10 @@ void Data::load(const char* metadata_file, const char* image_file,
 	fin.open(image_file, ios::in);
 	if(!fin)
 		cerr<<"# ERROR: couldn't open file "<<image_file<<"."<<endl;
-	image.assign(ni, vector<double>(nj));
-	for(size_t i=0; i<image.size(); i++)
-		for(size_t j=0; j<image[i].size(); j++)
-			fin>>image[i][j];
+	image = arma::mat(ni, nj);
+	for(int i=0; i<ni; ++i)
+		for(int j=0; j<nj; ++j)
+			fin>>image(i, j);
 	fin.close();
 
 	/*
@@ -62,10 +62,10 @@ void Data::load(const char* metadata_file, const char* image_file,
 	fin.open(sigma_file, ios::in);
 	if(!fin)
 		cerr<<"# ERROR: couldn't open file "<<sigma_file<<"."<<endl;
-	sigma.assign(ni, vector<double>(nj));
-	for(size_t i=0; i<sigma.size(); i++)
-		for(size_t j=0; j<sigma[i].size(); j++)
-			fin>>sigma[i][j];
+	sigma = arma::mat(ni, nj);
+	for(int i=0; i<ni; ++i)
+		for(int j=0; j<nj; ++j)
+			fin>>sigma(i, j);
 	fin.close();
 
 	/*
@@ -87,20 +87,18 @@ void Data::load(const char* metadata_file, const char* image_file,
 void Data::compute_ray_grid()
 {
 	// Make vectors of the correct size
-	x_rays.assign(ni*resolution,
-			vector<double>(nj*resolution));
-	y_rays.assign(ni*resolution,
-			vector<double>(nj*resolution));
+	x_rays = arma::mat(ni*resolution, nj*resolution);
+	y_rays = arma::mat(ni*resolution, nj*resolution);
 
 	// Distance between adjacent rays
 	double L = dx/resolution;
 
-	for(size_t i=0; i<x_rays.size(); i++)
-	{
-		for(size_t j=0; j<x_rays[i].size(); j++)
+    for(size_t j=0; j<x_rays.n_cols; ++j)
+    {
+        for(size_t i=0; i<x_rays.n_rows; ++i)
 		{
-			x_rays[i][j] = x_min + (j + 0.5)*L;
-			y_rays[i][j] = y_max - (i + 0.5)*L;
+			x_rays(i, j) = x_min + (j + 0.5)*L;
+			y_rays(i, j) = y_max - (i + 0.5)*L;
 		}
 	}
 }

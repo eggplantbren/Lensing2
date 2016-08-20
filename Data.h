@@ -2,6 +2,7 @@
 #define _Data_
 
 #include <vector>
+#include <armadillo>
 #include "PSF.h"
 
 namespace Lensing2
@@ -23,14 +24,14 @@ class Data
 		int resolution;
 
 		// The ray grid
-		std::vector< std::vector<double> > x_rays;
-		std::vector< std::vector<double> > y_rays;
+		arma::mat x_rays;
+		arma::mat y_rays;
 
 		// The pixels
-		std::vector< std::vector<double> > image;
+		arma::mat image;
 
 		// Sigma map
-		std::vector< std::vector<double> > sigma;
+		arma::mat sigma;
 
 		// The PSF
 		PSF psf;
@@ -54,13 +55,13 @@ class Data
 		double get_y_min() const { return y_min; }
 		double get_y_max() const { return y_max; }
 		int get_resolution() const { return resolution; }
-		const std::vector< std::vector<double> >& get_x_rays() const
+		const arma::mat& get_x_rays() const
 			{ return x_rays; }
-		const std::vector< std::vector<double> >& get_y_rays() const
+		const arma::mat& get_y_rays() const
 			{ return y_rays; }
-		const std::vector< std::vector<double> >& get_image() const
+		const arma::mat& get_image() const
 			{ return image; }
-		const std::vector< std::vector<double> >& get_sigma() const
+		const arma::mat& get_sigma() const
 			{ return sigma; }
 		const PSF& get_psf() const { return psf; }
 		bool use_fft() const { return fft_flag1; }
