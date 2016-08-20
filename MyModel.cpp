@@ -17,7 +17,7 @@ MyModel::MyModel()
 ,ys(Data::get_instance().get_y_rays())
 ,surface_brightness(Data::get_instance().get_x_rays())
 ,model_image(Data::get_instance().get_ni(),
-		vector<double>(Data::get_instance().get_nj()))
+		Data::get_instance().get_nj())
 {
 
 }
@@ -78,24 +78,21 @@ double MyModel::perturb(RNG& rng)
 
 double MyModel::log_likelihood() const
 {
-	double logL = 0.;
-	const vector< vector<double> >& image =
-				Data::get_instance().get_image();
-
-	const vector< vector<double> >& sigma =
-				Data::get_instance().get_sigma();
+	double logL = 0.0;
+	const auto& image = Data::get_instance().get_image();
+	const auto& sigma =	Data::get_instance().get_sigma();
 
 	double var;
-	for(size_t i=0; i<image.size(); i++)
-	{
-		for(size_t j=0; j<image[i].size(); j++)
-		{
-			if(sigma[i][j] < 1E100)
+    for(size_t j=0; j<image.n_cols; ++j)
+    {
+        for(size_t i=0; i<image.n_rows; ++i)
+        {
+			if(sigma(i, j) < 1E100)
 			{
-				var = sigma[i][j]*sigma[i][j] + sigma0*sigma0
-						+ sigma1*model_image[i][j];
+				var = sigma(i, j)*sigma(i, j) + sigma0*sigma0
+						+ sigma1*model_image(i, j);
 				logL += -0.5*log(2.*M_PI*var) -
-				0.5*pow(image[i][j] - model_image[i][j], 2)/var;
+				0.5*pow(image(i, j) - model_image(i, j), 2)/var;
 			}
 		}
 	}
@@ -111,19 +108,19 @@ void MyModel::print(std::ostream& out) const
 	source.print(out);
 
 	// Make an image of the source (uses the ray resolution)
-	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
-	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
-	for(size_t i=0; i<xs.size(); i++)
-		for(size_t j=0; j<xs[i].size(); j++)
-			out<<source.evaluate(x[i][j], y[i][j], false)<<' ';
+	const auto& x = Data::get_instance().get_x_rays();
+	const auto& y = Data::get_instance().get_y_rays();
+	for(size_t i=0; i<xs.n_rows; i++)
+		for(size_t j=0; j<xs.n_cols; j++)
+			out<<source.evaluate(x(i, j), y(i, j), false)<<' ';
 
-	for(size_t i=0; i<xs.size(); i++)
-		for(size_t j=0; j<xs[i].size(); j++)
-			out<<surface_brightness[i][j]<<' ';
+	for(size_t i=0; i<xs.n_rows; i++)
+		for(size_t j=0; j<xs.n_cols; j++)
+			out<<surface_brightness(i, j)<<' ';
 
-	for(size_t i=0; i<model_image.size(); i++)
-		for(size_t j=0; j<model_image[i].size(); j++)
-			out<<model_image[i][j]<<' ';
+	for(size_t i=0; i<model_image.n_rows; i++)
+		for(size_t j=0; j<model_image.n_cols; j++)
+			out<<model_image(i, j)<<' ';
 }
 
 string MyModel::description() const
@@ -133,25 +130,25 @@ string MyModel::description() const
 
 void MyModel::shoot_rays(bool update)
 {
-	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
-	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
+	const auto& x = Data::get_instance().get_x_rays();
+	const auto& y = Data::get_instance().get_y_rays();
 
 	double ax, ay;
-	for(size_t i=0; i<xs.size(); i++)
+	for(size_t j=0; j<xs.n_cols; ++j)
 	{
-		for(size_t j=0; j<xs[i].size(); j++)
+		for(size_t i=0; i<xs.n_rows; ++i)
 		{
-			lens.alpha(x[i][j], y[i][j], ax, ay, update);
+			lens.alpha(x(i, j), y(i, j), ax, ay, update);
         
             if(update)
             {
-                xs[i][j] -= ax;
-                ys[i][j] -= ay;
+                xs(i, j) -= ax;
+                ys(i, j) -= ay;
             }
             else
             {
-    			xs[i][j] = x[i][j] - ax;
-        		ys[i][j] = y[i][j] - ay;
+    			xs(i, j) = x(i, j) - ax;
+        		ys(i, j) = y(i, j) - ay;
             }
 		}
 	}
@@ -159,14 +156,14 @@ void MyModel::shoot_rays(bool update)
 
 void MyModel::calculate_surface_brightness(bool update)
 {
-    for(size_t i=0; i<xs.size(); i++)
-    {
-        for(size_t j=0; j<xs[i].size(); j++)
-        {
+	for(size_t j=0; j<xs.n_cols; ++j)
+	{
+		for(size_t i=0; i<xs.n_rows; ++i)
+		{
             if(!update)
-                surface_brightness[i][j] = 0.0;
+                surface_brightness(i, j) = 0.0;
 
-            surface_brightness[i][j] += source.evaluate(xs[i][j], ys[i][j],
+            surface_brightness(i, j) += source.evaluate(xs(i, j), ys(i, j),
                                                                 update);
         }
     }
@@ -175,11 +172,7 @@ void MyModel::calculate_surface_brightness(bool update)
 	{
 		// Blur using the PSF
 		const PSF& psf = Data::get_instance().get_psf();
-
-		if(Data::get_instance().use_fft())
-			psf.blur_image2(surface_brightness);
-		else
-			psf.blur_image(surface_brightness);
+		psf.blur_image2(surface_brightness);
 	}
 }
 
@@ -187,18 +180,19 @@ void MyModel::calculate_model_image()
 {
 	int resolution = Data::get_instance().get_resolution();
 
-	model_image.assign(Data::get_instance().get_ni(),
-		vector<double>(Data::get_instance().get_nj(), 0.));
+    for(size_t j=0; j<model_image.n_cols; ++j)
+        for(size_t i=0; i<model_image.n_rows; ++i)
+            model_image(i, j) = 0.0;
 
 	int ii, jj;
 	double coeff = pow(static_cast<double>(resolution), -2);
-	for(size_t i=0; i<xs.size(); i++)
-	{
-		ii = i/resolution;
-		for(size_t j=0; j<xs[i].size(); j++)
-		{
-			jj = j/resolution;
-			model_image[ii][jj] += coeff*surface_brightness[i][j];
+	for(size_t j=0; j<xs.n_cols; ++j)
+    {
+		jj = j/resolution;
+        for(size_t i=0; i<xs.n_rows; ++i)
+        {
+            ii = i/resolution;
+			model_image(ii, jj) += coeff*surface_brightness(i, j);
 		}
 	}
 
@@ -206,11 +200,7 @@ void MyModel::calculate_model_image()
 	{
 		// Blur using the PSF
 		const PSF& psf = Data::get_instance().get_psf();
-
-		if(Data::get_instance().use_fft())
-			psf.blur_image2(model_image);
-		else
-			psf.blur_image(model_image);
+		psf.blur_image2(model_image);
 	}
 }
 

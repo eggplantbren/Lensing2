@@ -4,6 +4,7 @@
 #include "Sources/Blobby.h"
 #include "Lenses/BlobbySPEMD.h"
 #include <vector>
+#include <armadillo>
 
 namespace Lensing2
 {
@@ -19,14 +20,13 @@ class MyModel
 		double sigma0, sigma1;
 
 		// Source plane position of rays
-		std::vector< std::vector<double> > xs;
-		std::vector< std::vector<double> > ys;
+		arma::mat xs, ys;
 
 		// Surface brightness of rays
-		std::vector< std::vector<double> > surface_brightness;
+		arma::mat surface_brightness;
 
 		// Model image
-		std::vector< std::vector<double> > model_image;
+		arma::mat model_image;
 
 		void shoot_rays(bool update=false);
 		void calculate_surface_brightness(bool update=false);
