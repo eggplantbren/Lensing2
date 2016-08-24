@@ -15,6 +15,13 @@ data = loadtxt('Data/harder_image.txt')
 sig = loadtxt('Data/mock_sigma.txt')
 not_masked = (sig < 1E100)
 metadata = loadtxt('Data/mock_metadata.txt')
+metadata = [m for m in metadata]
+metadata[0] = int(metadata[0])
+metadata[1] = int(metadata[1])
+for i in range(6, 9):
+    metadata[i] = int(metadata[i])
+
+print(metadata)
 
 total = zeros((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 magnification = zeros(output.shape[0])
