@@ -3,7 +3,7 @@
 
 #include <ostream>
 #include <exception>
-#include "../BasicCircular.h"
+#include "../BasicUniform.h"
 #include "../Lens.h"
 #include "DNest4/code/RJObject/RJObject.h"
 
@@ -37,7 +37,7 @@ class BlobbySPEMD:public Lens
 		double shear;
 		double theta_shear, cos_theta_shear, sin_theta_shear;
 
-		DNest4::RJObject<BasicCircular> blobs;
+		DNest4::RJObject<BasicUniform> blobs;
 		bool blobs_flag;
 
 		// A flag to disable the blobs
@@ -54,7 +54,7 @@ class BlobbySPEMD:public Lens
 		void print(std::ostream& out) const;
 
 		// Getter
-		const DNest4::RJObject<BasicCircular>& get_blobs() const
+		const DNest4::RJObject<BasicUniform>& get_blobs() const
         { return blobs; }
 
 		// If true, the most recent perturb only involved the blobs

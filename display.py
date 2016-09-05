@@ -10,7 +10,7 @@ mass_units = 1.0
 os.system("rm Frames/*.png")
 os.system("rm movie.mkv")
 
-output = atleast_2d(dn4.my_loadtxt('posterior_sample.txt'))
+output = dn4.my_loadtxt('posterior_sample.txt')
 data = loadtxt('Data/harder_image.txt')
 sig = loadtxt('Data/mock_sigma.txt')
 not_masked = (sig < 1E100)
@@ -20,8 +20,6 @@ metadata[0] = int(metadata[0])
 metadata[1] = int(metadata[1])
 for i in range(6, 9):
     metadata[i] = int(metadata[i])
-
-print(metadata)
 
 total = zeros((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 magnification = zeros(output.shape[0])
@@ -34,10 +32,10 @@ for i in range(0, output.shape[0]):
 	x = output[i, :]
 
 	# Extract substructure information
-	n_substructures = x[19]
-	x_substructures = x[20:70]
-	y_substructures = x[70:120]
-	m_substructures = x[120:170]
+	n_substructures = x[16]
+	x_substructures = x[17:67]
+	y_substructures = x[67:117]
+	m_substructures = x[117:167]
 
 	# Remove substructures out of image boundaries (don't plot these)
 	good = logical_and(x_substructures > metadata[2],
@@ -53,13 +51,13 @@ for i in range(0, output.shape[0]):
 	# Extract images
 	# For MyModel2 (sersic source only), replace 468 with 66
 	# Sersic source model parameters are columns 59-65
-	src = x[2229:2229 + metadata[0]*metadata[1]*metadata[7]**2]
+	src = x[2226:2226 + metadata[0]*metadata[1]*metadata[7]**2]
 	src = src.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 
-	img1 = x[2229 + metadata[0]*metadata[1]*metadata[7]**2:2229 + 2*metadata[0]*metadata[1]*metadata[7]**2]
+	img1 = x[2226 + metadata[0]*metadata[1]*metadata[7]**2:2226 + 2*metadata[0]*metadata[1]*metadata[7]**2]
 	img1 = img1.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 
-	img2 = x[2229 + 2*metadata[0]*metadata[1]*metadata[7]**2:]
+	img2 = x[2226 + 2*metadata[0]*metadata[1]*metadata[7]**2:]
 	img2 = img2.reshape((metadata[0], metadata[1]))
 
 	subplot(2,3,1)
