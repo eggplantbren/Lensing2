@@ -1,6 +1,7 @@
 #include "MyModel.h"
 #include "Data.h"
 #include <cmath>
+#include <sstream>
 
 using namespace std;
 using namespace DNest4;
@@ -134,7 +135,49 @@ void MyModel::print(std::ostream& out) const
 
 string MyModel::description() const
 {
-	return string("");
+    stringstream s;
+    s<<"sigma0, sigma1, ";
+    s<<"b, q, rc, slope, xc, yc, theta, shear, theta_shear, ";
+    s<<"dim_lens_blobs, max_num_lens_blobs, ";
+    s<<"mu_lens_blobs, a_lens_blobs, b_lens_blobs, ";
+    s<<"num_lens_blobs, ";
+
+    for(int i=0; i<50; ++i)
+        s<<"lens_blob_x["<<i<<"], ";
+    for(int i=0; i<50; ++i)
+        s<<"lens_blob_y["<<i<<"], ";
+    for(int i=0; i<50; ++i)
+        s<<"lens_blob_mass["<<i<<"], ";
+    for(int i=0; i<50; ++i)
+        s<<"lens_blob_width["<<i<<"], ";
+
+    s<<"dim_source_blobs, max_num_source_blobs, ";
+    s<<"xc_source_blobs, yc_source_blobs, width_source_blobs, ";
+    s<<"mu_source_blobs, a_source_blobs, b_source_blobs, ";
+    s<<"num_source_blobs, ";
+
+    for(int i=0; i<500; ++i)
+        s<<"source_blob_x["<<i<<"], ";
+    for(int i=0; i<500; ++i)
+        s<<"source_blob_y["<<i<<"], ";
+    for(int i=0; i<500; ++i)
+        s<<"source_blob_mass["<<i<<"], ";
+    for(int i=0; i<500; ++i)
+        s<<"source_blob_width["<<i<<"], ";
+
+    for(size_t i=0; i<xs.size(); i++)
+		for(size_t j=0; j<xs[i].size(); j++)
+            s<<"source["<<i<<"]["<<j<<"], ";
+
+    for(size_t i=0; i<xs.size(); i++)
+		for(size_t j=0; j<xs[i].size(); j++)
+            s<<"image["<<i<<"]["<<j<<"], ";
+
+    for(size_t i=0; i<xs.size(); i++)
+		for(size_t j=0; j<xs[i].size(); j++)
+            s<<"blurred_image["<<i<<"]["<<j<<"], ";
+
+	return s.str();
 }
 
 void MyModel::shoot_rays(bool update)

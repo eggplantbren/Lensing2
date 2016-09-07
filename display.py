@@ -138,7 +138,7 @@ savefig('masses.pdf', bbox_inches='tight')
 show()
 
 width=0.6
-hist(output[:,19], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.5, color="k")
+hist(output[:,16], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.5, color="k")
 xlim([-0.5, 50.5])
 xlabel('$N_{\\rm lens}$')
 ylabel('Number of Posterior Samples')
