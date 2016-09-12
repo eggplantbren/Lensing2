@@ -6,6 +6,16 @@ from pylab import *
 import os
 import dnest4.deprecated as dn4
 
+print("WARNING! This will delete\
+ movie.mkv and the Frames/ directory, if these exist.")
+ch = input("Continue? y/n: ")
+if ch != "y" and ch != "Y":
+    exit()
+
+os.system("rm -rf Frames/ movie.mkv")
+os.mkdir("Frames")
+
+
 mass_units = 1.0
 os.system("rm Frames/*.png")
 os.system("rm movie.mkv")
