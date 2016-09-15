@@ -33,6 +33,7 @@ void MyModel::from_prior(RNG& rng)
 {
 	source.from_prior(rng);
 	lens.from_prior(rng);
+    psf_power = 2*rng.rand();
 
 	sigma0 = tan(M_PI*(0.97*rng.rand() - 0.485));
 	sigma1 = tan(M_PI*(0.97*rng.rand() - 0.485));
@@ -56,19 +57,34 @@ double MyModel::perturb(RNG& rng)
 	}
 	else if(rng.rand() <= 0.5)
 	{
-		sigma0 = log(sigma0);
-		sigma0 = (atan(sigma0)/M_PI + 0.485)/0.97;
-		sigma0 += rng.randh();
-		wrap(sigma0, 0., 1.);
-		sigma0 = tan(M_PI*(0.97*sigma0 - 0.485));
-		sigma0 = exp(sigma0);
+        int which = rng.rand_int(3);
 
-		sigma1 = log(sigma1);
-		sigma1 = (atan(sigma1)/M_PI + 0.485)/0.97;
-		sigma1 += rng.randh();
-		wrap(sigma1, 0., 1.);
-		sigma1 = tan(M_PI*(0.97*sigma1 - 0.485));
-		sigma1 = exp(sigma1);
+        if(which == 0)
+        {
+		    sigma0 = log(sigma0);
+		    sigma0 = (atan(sigma0)/M_PI + 0.485)/0.97;
+		    sigma0 += rng.randh();
+		    wrap(sigma0, 0., 1.);
+		    sigma0 = tan(M_PI*(0.97*sigma0 - 0.485));
+		    sigma0 = exp(sigma0);
+        }
+        else if(which == 1)
+        {
+		    sigma1 = log(sigma1);
+		    sigma1 = (atan(sigma1)/M_PI + 0.485)/0.97;
+		    sigma1 += rng.randh();
+		    wrap(sigma1, 0., 1.);
+		    sigma1 = tan(M_PI*(0.97*sigma1 - 0.485));
+		    sigma1 = exp(sigma1);
+        }
+        else
+        {
+            psf_power += 2*rng.rand();
+            wrap(psf_power, 0.0, 2.0);
+            if(Data::get_instance().psf_is_highres())
+	            calculate_surface_brightness();
+	        calculate_model_image();
+        }
 	}
 	else
 	{
@@ -113,7 +129,7 @@ double MyModel::log_likelihood() const
 void MyModel::print(std::ostream& out) const
 {
 	out<<setprecision(6);
-	out<<' '<<sigma0<<' '<<sigma1<<' ';
+	out<<' '<<sigma0<<' '<<sigma1<<' '<<psf_power<<' ';
 	lens.print(out);
 	source.print(out);
 
@@ -136,7 +152,7 @@ void MyModel::print(std::ostream& out) const
 string MyModel::description() const
 {
     stringstream s;
-    s<<"sigma0, sigma1, ";
+    s<<"sigma0, sigma1, psf_power, ";
     s<<"b, q, rc, slope, xc, yc, theta, shear, theta_shear, ";
     s<<"dim_lens_blobs, max_num_lens_blobs, ";
     s<<"mu_lens_blobs, a_lens_blobs, b_lens_blobs, ";
@@ -224,11 +240,10 @@ void MyModel::calculate_surface_brightness(bool update)
 	{
 		// Blur using the PSF
 		const PSF& psf = Data::get_instance().get_psf();
-
-		if(Data::get_instance().use_fft())
-			psf.blur_image2(surface_brightness);
-		else
-			psf.blur_image(surface_brightness);
+        auto psf2 = psf;
+        psf2.calculate_fft(surface_brightness.size(),
+                            surface_brightness[0].size(), 1.0);
+		psf2.blur_image2(surface_brightness);
 	}
 }
 
@@ -255,11 +270,10 @@ void MyModel::calculate_model_image()
 	{
 		// Blur using the PSF
 		const PSF& psf = Data::get_instance().get_psf();
-
-		if(Data::get_instance().use_fft())
-			psf.blur_image2(model_image);
-		else
-			psf.blur_image(model_image);
+        auto psf2 = psf;
+        psf2.calculate_fft(model_image.size(),
+                            model_image.size(), 1.0);
+		psf2.blur_image2(model_image);
 	}
 }
 

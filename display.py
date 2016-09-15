@@ -42,10 +42,10 @@ for i in range(0, output.shape[0]):
 	x = output[i, :]
 
 	# Extract substructure information
-	n_substructures = x[16]
-	x_substructures = x[17:67]
-	y_substructures = x[67:117]
-	m_substructures = x[117:167]
+	n_substructures = x[17]
+	x_substructures = x[18:68]
+	y_substructures = x[68:118]
+	m_substructures = x[118:168]
 
 	# Remove substructures out of image boundaries (don't plot these)
 	good = logical_and(x_substructures > metadata[2],
@@ -56,18 +56,18 @@ for i in range(0, output.shape[0]):
 	x_substructures = x_substructures[good]
 	y_substructures = y_substructures[good]
 	m_substructures = m_substructures[good]
-	x_nie, y_nie = x[6], x[7]
+	x_nie, y_nie = x[7], x[8]
 
 	# Extract images
 	# For MyModel2 (sersic source only), replace 468 with 66
 	# Sersic source model parameters are columns 59-65
-	src = x[2226:2226 + metadata[0]*metadata[1]*metadata[7]**2]
+	src = x[2227:2227 + metadata[0]*metadata[1]*metadata[7]**2]
 	src = src.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 
-	img1 = x[2226 + metadata[0]*metadata[1]*metadata[7]**2:2226 + 2*metadata[0]*metadata[1]*metadata[7]**2]
+	img1 = x[2227 + metadata[0]*metadata[1]*metadata[7]**2:2227 + 2*metadata[0]*metadata[1]*metadata[7]**2]
 	img1 = img1.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 
-	img2 = x[2226 + 2*metadata[0]*metadata[1]*metadata[7]**2:]
+	img2 = x[2227 + 2*metadata[0]*metadata[1]*metadata[7]**2:]
 	img2 = img2.reshape((metadata[0], metadata[1]))
 
 	subplot(2,3,1)
@@ -135,7 +135,7 @@ show()
 figure(3)
 rc("font", size=16, family="serif", serif="Computer Sans")
 rc("text", usetex=True)
-plot(output[:,2], mass_units*output[:,120:170].sum(axis=1),\
+plot(output[:,3], mass_units*output[:,121:171].sum(axis=1),\
 					'ko', markersize=5, alpha=0.2)
 xlabel('SPEMD Einstein Radius')
 ylabel('Total substructure mass')
@@ -148,7 +148,7 @@ savefig('masses.pdf', bbox_inches='tight')
 show()
 
 width=0.6
-hist(output[:,16], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.5, color="k")
+hist(output[:,17], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.5, color="k")
 xlim([-0.5, 50.5])
 xlabel('$N_{\\rm lens}$')
 ylabel('Number of Posterior Samples')

@@ -13,6 +13,7 @@ class MyModel
 	private:
 		Blobby source;
 		BlobbySPEMD lens;
+        double psf_power;
 
 		// Noise model - constant variance plus component
 		// that depends on the flux of the model
