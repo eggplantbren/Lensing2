@@ -89,7 +89,12 @@ void BlobbySPEMD::alpha(double x, double y, double& ax, double& ay, bool update)
 
 void BlobbySPEMD::from_prior(RNG& rng)
 {
-	b = exp(log(1E-3) + log(1E3)*rng.rand())*scale;
+    while(true)
+    {
+	    b = rng.rand();
+        if(rng.rand() <= (b/scale))
+            break;
+    }
 	q = 0.05 + 0.95*rng.rand();
 
 	// Stuff derived from b and q
@@ -144,10 +149,10 @@ double BlobbySPEMD::perturb(RNG& rng)
 
 	if(which == 0)
 	{
-		b = log(b/scale);
-		b += log(1E3)*rng.randh();
-		b = mod(b - log(1E-3), log(1E3)) + log(1E-3);
-		b = scale*exp(b);
+        logH -= log(b/scale);
+		b += rng.randh();
+        DNest4::wrap(b, 0.0, scale);
+        logH += log(b/scale);
 
 		// Stuff derived from b and q
 		qq = q;
