@@ -18,10 +18,13 @@ BasicUniform::BasicUniform(double x_min, double x_max,
 
 void BasicUniform::from_prior(RNG& rng)
 {
-	mu = tan(M_PI*(0.97*rng.rand() - 0.485));
-	mu = exp(mu);
+    // mass \propto (einstein radius)^2
+    // Don't want ER > size
+    // =>
+    // Don't want mass > size^2
+	mu = exp(log(1E-6*size*size) + log(1E6)*rng.rand());
 
-	b = exp(log(1E-3*size) + log(1E3)*rng.rand());
+	b = exp(log(0.001*size) + log(300.0)*rng.rand());
 	k = rng.rand();
 	a = k*b;
 }
@@ -34,17 +37,15 @@ double BasicUniform::perturb_hyperparameters(RNG& rng)
 	if(which == 0)
 	{
 		mu = log(mu);
-		mu = (atan(mu)/M_PI + 0.485)/0.97;
-		mu += rng.randh();
-		wrap(mu, 0., 1.);
-		mu = tan(M_PI*(0.97*mu - 0.485));
+		mu += log(1E6)*rng.randh();
+        DNest4::wrap(mu, log(1E-6*size*size), log(size*size));
 		mu = exp(mu);
 	}
 	else if(which == 1)
 	{
 		b = log(b);
-		b += log(1E3)*pow(10., 1.5 - 6.*rng.rand())*rng.randn();
-		b = mod(b - log(1E-3*size), log(1E3)) + log(1E-3*size);
+		b += log(300.0)*rng.randh();
+        wrap(b, log(0.001*size), log(0.3*size));
 		b = exp(b);
 		a = k*b;
 	}
