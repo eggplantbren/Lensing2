@@ -4,6 +4,7 @@
 #include "Sources/Blobby.h"
 #include "Lenses/BlobbySPEMD.h"
 #include <vector>
+#include <istream>
 
 namespace Lensing2
 {
@@ -52,6 +53,9 @@ class MyModel
 		std::string description() const;
 
 		static void test();
+
+        // Read from an input stream
+        void read(std::istream& in);
 };
 
 } // namespace Lensing2

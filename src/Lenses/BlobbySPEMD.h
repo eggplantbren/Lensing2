@@ -3,6 +3,7 @@
 
 #include <ostream>
 #include <exception>
+#include <istream>
 #include "../BasicUniform.h"
 #include "../Lens.h"
 #include "DNest4/code/RJObject/RJObject.h"
@@ -59,6 +60,9 @@ class BlobbySPEMD:public Lens
 
 		// If true, the most recent perturb only involved the blobs
 		bool get_blobs_flag() const { return blobs_flag; }
+
+        // Read from an input stream
+        void read(std::istream& in);
 };
 
 }

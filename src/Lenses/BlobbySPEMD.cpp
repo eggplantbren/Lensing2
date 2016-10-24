@@ -222,3 +222,8 @@ void BlobbySPEMD::print(ostream& out) const
 	blobs.print(out); out<<' ';
 }
 
+void BlobbySPEMD::read(std::istream& in)
+{
+    in>>b>>q>>rc>>slope>>xc>>yc>>theta>>shear>>theta_shear;
+}
+
