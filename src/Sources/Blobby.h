@@ -23,6 +23,7 @@ class Blobby:public Source
 		void from_prior(DNest4::RNG& rng);
 		double perturb(DNest4::RNG& rng);
 		void print(std::ostream& out) const;
+        void read(std::istream& in);
 
         // Getter
 		const DNest4::RJObject<BasicCircular>& get_blobs() const

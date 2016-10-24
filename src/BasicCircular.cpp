@@ -133,3 +133,10 @@ void BasicCircular::print(std::ostream& out) const
 	out<<xc<<' '<<yc<<' '<<width<<' '<<mu<<' '<<a<<' '<<b<<' ';
 }
 
+void BasicCircular::read(std::istream& in)
+{
+    in>>xc>>yc>>width>>mu>>a>>b;
+    k = a/b;
+}
+
+

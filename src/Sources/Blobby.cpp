@@ -57,5 +57,10 @@ void Blobby::print(ostream& out) const
 	blobs.print(out);
 }
 
+void Blobby::read(istream& in)
+{
+    blobs.read(in);
+}
+
 } // namespace Lensing2
 

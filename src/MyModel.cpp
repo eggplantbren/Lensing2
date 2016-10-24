@@ -280,28 +280,12 @@ void MyModel::calculate_model_image()
 void MyModel::read(std::istream& in)
 {
     in>>sigma0>>sigma1>>psf_power;
+    lens.read(in);
+    source.read(in);
 
-
-//	out<<' '<<sigma0<<' '<<sigma1<<' '<<psf_power<<' ';
-//	lens.print(out);
-//	source.print(out);
-
-//	// Make an image of the source (uses the ray resolution)
-//	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
-//	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
-//	for(size_t i=0; i<xs.size(); i++)
-//		for(size_t j=0; j<xs[i].size(); j++)
-//			out<<source.evaluate(x[i][j], y[i][j], false)<<' ';
-
-//	for(size_t i=0; i<xs.size(); i++)
-//		for(size_t j=0; j<xs[i].size(); j++)
-//			out<<surface_brightness[i][j]<<' ';
-
-//	for(size_t i=0; i<model_image.size(); i++)
-//		for(size_t j=0; j<model_image[i].size(); j++)
-//			out<<model_image[i][j]<<' ';
-
-
+	shoot_rays();
+	calculate_surface_brightness();
+	calculate_model_image();
 }
 
 } // namespace Lensing2

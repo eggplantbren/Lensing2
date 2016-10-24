@@ -2,6 +2,7 @@
 #define Lensing2_BasicCircular
 
 #include "DNest4/code/RJObject/ConditionalPriors/ConditionalPrior.h"
+#include <istream>
 
 class BasicCircular:public DNest4::ConditionalPrior
 {
@@ -32,6 +33,7 @@ class BasicCircular:public DNest4::ConditionalPrior
 		void to_uniform(std::vector<double>& vec) const;
 
 		void print(std::ostream& out) const;
+        void read(std::istream& in);
 };
 
 #endif

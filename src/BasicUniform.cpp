@@ -96,3 +96,9 @@ void BasicUniform::print(std::ostream& out) const
 	out<<mu<<' '<<a<<' '<<b<<' ';
 }
 
+void BasicUniform::read(std::istream& in)
+{
+    in>>mu>>a>>b;
+    k = a/b;
+}
+
