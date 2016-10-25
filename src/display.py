@@ -135,7 +135,7 @@ show()
 figure(3)
 rc("font", size=16, family="serif", serif="Computer Sans")
 rc("text", usetex=True)
-plot(output[:,3], mass_units*output[:,121:171].sum(axis=1),\
+plot(output[:,3], mass_units*output[:,118:168].sum(axis=1),\
 					'ko', markersize=5, alpha=0.2)
 xlabel('SPEMD Einstein Radius')
 ylabel('Total substructure mass')
