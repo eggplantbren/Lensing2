@@ -71,11 +71,11 @@ for i in range(0, output.shape[0]):
 #            x_substructures < metadata[3])
 #    good = logical_and(good, y_substructures > metadata[4])
 #    good = logical_and(good, y_substructures < metadata[5])
-#    good = logical_and(good, m_substructures > 0.)
-#    x_substructures = x_substructures[good]
-#    y_substructures = y_substructures[good]
-#    m_substructures = m_substructures[good]
-#    w_substructures = w_substructures[good]
+    good = (m_substructures > 0.)
+    x_substructures = x_substructures[good]
+    y_substructures = y_substructures[good]
+    m_substructures = m_substructures[good]
+    w_substructures = w_substructures[good]
     x_nie, y_nie = x[7], x[8]
 
     # Extract images
