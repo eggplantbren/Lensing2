@@ -191,7 +191,7 @@ imshow(data*not_masked, extent=metadata[2:6],\
         vmin=-0.1*temp.max(), vmax=temp.max(),\
         interpolation='nearest', cmap='viridis')
 hold(True)
-plot(all_substructures_x, all_substructures_y, 'w.', markersize=3)
+plot(all_substructures_x, all_substructures_y, 'w.', markersize=3, alpha=0.1)
 gca().set_xticks([])
 gca().set_yticks([])
 axis(metadata[2:6])
