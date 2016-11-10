@@ -1,4 +1,4 @@
-1	# Number of particles
+5	# Number of particles
 10000	# new level interval
 20000	# save interval
 100	# threadSteps - how many steps each thread should do independently before communication
