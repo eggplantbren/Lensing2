@@ -61,19 +61,19 @@ double BasicUniform::perturb_hyperparameters(RNG& rng)
 
 double BasicUniform::log_pdf(const std::vector<double>& vec) const
 {
-	if(vec[2] < 0. || vec[3] < a || vec[3] > b)
-		return -1E300;
+    if(vec[2] < 0. || vec[3] < a || vec[3] > b)
+        return -1E300;
 
     if(vec[0] < x_min || vec[0] > x_max ||
         vec[1] < y_min || vec[1] > y_max)
         return -1E300;
 
-	double logp = 0.;
+    double logp = 0.;
 
-	logp += -log(mu) - vec[2]/mu;
-	logp += -log(b - a);
+    logp += -log(mu) - vec[2]/mu;
+    logp += -log(b - a);
 
-	return logp;
+    return logp;
 }
 
 void BasicUniform::from_uniform(std::vector<double>& vec) const

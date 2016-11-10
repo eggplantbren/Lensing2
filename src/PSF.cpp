@@ -83,10 +83,10 @@ void PSF::calculate_fft(int Ni, int Nj, double psf_power)
             tot += psf(i, j);
     for(size_t j=0; j<psf.n_cols; ++j)
         for(size_t i=0; i<psf.n_rows; ++i)
-            psf(i, j) /= tot;
+        psf(i, j) /= tot;
 
-	fft_of_psf = fft2(psf);
-	fft_ready = true;
+    fft_of_psf = fft2(psf);
+    fft_ready = true;
 }
 
 void PSF::blur_image(vector< vector<double> >& img) const
