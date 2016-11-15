@@ -99,6 +99,81 @@ gravitational lensing: strong --- methods: data analysis --- methods: statistica
 \section{Introduction}
 
 
+
+\section{Prior Distribution}
+The joint prior distribution for the hyperparameters, parameters, and the
+data is summarised in Table~\ref{tab:priors}.
+
+\begin{table*}
+\begin{tabular}{|l|l|l|}
+\hline
+Quantity	&	Meaning		& Prior\\
+\hline
+{\bf Numbers of Blobs}\\
+\hline
+$N_{\rm src}$	&	Number of source blobs	& Uniform($0, 1, ..., 100$)\\
+$N_{\rm lens}$	&	Number of lens blobs	& Uniform($0, 1, ..., 10$)\\
+\hline
+{\bf Source hyperparameters} ($\boldsymbol{\alpha}_{\rm src}$)\\
+\hline
+$(x_c^{\rm src}, y_c^{\rm src})$ & Typical position of source blobs & iid Cauchy(location=$(0,0)$, scale=0.1$\times${\tt imageWidth})\\
+$R_{\rm src}$   &	Typical distance of blobs from $(x_c^{\rm src}, y_c^{\rm src})$ & LogUniform(0.01$\times${\tt imageWidth}, 10$\times${\tt imageWidth})\\
+$\mu_{\rm src}$ &	Typical flux of source blobs	& $\ln(\mu_{\rm src}) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
+$W_{\rm max}^{\rm src}$ &		Maximum width of source blobs	& LogUniform(0.001$\times${\tt imageWidth}, {\tt imageWidth})\\
+$W_{\rm min}^{\rm src}$ &		Minimum width of source blobs	& Uniform(0, $W_{\rm max}^{\rm src}$)\\
+\hline
+{\bf Lens hyperparameters} ($\boldsymbol{\alpha}_{\rm lens}$)\\
+\hline
+$(x_c^{\rm lens}, y_c^{\rm lens})$ & Typical position of lens blobs & iid Cauchy(location=$(0,0)$, scale=0.1$\times${\tt imageWidth})\\
+$R_{\rm lens}$  &	Typical distance of blobs from $(x_c^{\rm lens}, y_c^{\rm lens})$ 	& LogUniform(0.01$\times${\tt imageWidth}, 10$\times${\tt imageWidth})\\
+$\mu_{\rm lens}$&	Typical mass of lens blobs	& $\ln(\mu_{\rm lens}) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
+$W_{\rm max}^{\rm lens}$ &		Maximum width of lens blobs	& LogUniform(0.001$\times${\tt imageWidth}, {\tt imageWidth})\\
+$W_{\rm min}^{\rm lens}$ &		Minimum width of lens blobs	& Uniform(0, $W_{\rm max}^{\rm lens}$)\\
+\hline
+{\bf Source Blob Parameters} ($\boldsymbol{\theta}_i^{\rm src}$)\\
+\hline
+$(x_i^{\rm src}, y_i^{\rm src})$ & Blob position & Circular(location=$(x_c^{\rm src}, y_c^{\rm src})$, scale=$R_{\rm src}$)\\
+$A_i$  & Blob flux & Exponential(mean=$\mu_{\rm src}$)\\
+$w_i$  & Blob width & Uniform($W_{\rm min}^{\rm src}$, $W_{\rm max}^{\rm src}$)\\
+\hline
+{\bf Lens Blob Parameters} ($\boldsymbol{\theta}_i^{\rm lens}$)\\
+\hline
+$(x_i^{\rm lens}, y_i^{\rm lens})$ & Blob position & Circular(location=$(x_c^{\rm lens}, y_c^{\rm lens})$, scale=$R_{\rm lens}$) \\
+$M_i$  & Blob mass & Exponential(mean=$\mu_{\rm lens}$)\\
+$v_i$  & Blob width & Uniform($W_{\rm min}^{\rm lens}$, $W_{\rm max}^{\rm lens}$)\\
+\hline
+{\bf Smooth Lens Parameters} ($\boldsymbol{\theta}_{\rm SIE}$)\\
+\hline
+$b$ & SIE Einstein Radius & LogUniform(0.001$\times${\tt imageWidth}, {\tt imageWidth})\\
+$q$ & Axis ratio & Uniform(0, 0.95)\\
+$(x_c^{\rm SIE}, y_c^{\rm SIE})$ & Central position & iid Cauchy(location=$(0,0)$, scale=0.1$\times${\tt imageWidth})\\
+$\theta$ & Orientation angle & Uniform$(0, \pi)$\\
+$\gamma$ & External shear & Cauchy$(0, 0.05)T(0, \infty)$\\
+$\theta_\gamma$ & External shear angle & Uniform$(0, \pi)$\\
+\hline
+{\bf Noise Parameters} ($\boldsymbol{\sigma}$)\\
+\hline
+$\sigma_0$ & Constant component of noise variance & $\ln(\sigma_0) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
+$\sigma_1$ & Coefficient for variance increasing with flux &
+$\ln(\sigma_1) \sim$ Cauchy(0, 1)$T(-21.205, 21.205)$\\
+\hline
+{\bf Data} ($\boldsymbol{D}$)\\
+\hline
+$D_{ij}$ & Pixel intensities & Normal$(m_{ij}, s_{ij}^2 + \sigma_0^2 + \sigma_1m_{ij})$
+\end{tabular}
+\caption{The prior distribution for all hyperparameters, parameters, and the
+data, in our model. Uniform$(a, b)$ is a uniform
+distribution between $a$ and $b$. LogUniform$(a, b)$ is a log-uniform
+distribution (with density $f(x) \propto 1/x$, sometimes erroneously called
+a Jeffreys prior) between $a$ and $b$. The notation $T(\alpha, \beta)$ after
+a distribution denotes truncation to the interval $[\alpha, \beta]$. The
+constant {\tt imageWidth} is the geometric mean of the image dimensions in
+the $x$ and $y$ directions. {\color{blue} THIS WILL NEED TO BE UPDATED}
+\label{tab:priors}}
+\end{table*}
+
+
+
 \section*{Acknowledgements}
 It is a pleasure to thank Matt Auger (Cambridge) for valuable discussion and
 providing the data. Barkana
