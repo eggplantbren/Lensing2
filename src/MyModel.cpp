@@ -242,7 +242,7 @@ void MyModel::calculate_surface_brightness(bool update)
 		const PSF& psf = Data::get_instance().get_psf();
         auto psf2 = psf;
         psf2.calculate_fft(surface_brightness.size(),
-                            surface_brightness[0].size(), 1.0);
+                            surface_brightness[0].size(), psf_power);
 		psf2.blur_image2(surface_brightness);
 	}
 }
@@ -272,7 +272,7 @@ void MyModel::calculate_model_image()
 		const PSF& psf = Data::get_instance().get_psf();
         auto psf2 = psf;
         psf2.calculate_fft(model_image.size(),
-                            model_image.size(), 1.0);
+                            model_image.size(), psf_power);
 		psf2.blur_image2(model_image);
 	}
 }
