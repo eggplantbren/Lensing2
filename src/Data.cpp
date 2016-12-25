@@ -82,6 +82,14 @@ void Data::load(const char* metadata_file, const char* image_file,
 		else
 			psf.calculate_fft(ni, nj);
 	}
+
+    // Now save the filenames used to run_data.txt
+    fstream fout("run_data.txt", ios::out);
+    fout<<metadata_file<<endl;
+    fout<<image_file<<endl;
+    fout<<sigma_file<<endl;
+    fout<<psf_file<<endl;
+    fout.close();
 }
 
 void Data::compute_ray_grid()

@@ -28,15 +28,24 @@ os.system("rm Frames/*.png")
 os.system("rm movie.mkv")
 
 output = dn4.my_loadtxt('posterior_sample.txt')
-data = loadtxt('Data/harder_image.txt')
-sig = loadtxt('Data/mock_sigma.txt')
+
+# Open run_data.txt to get data filenames used for the run
+f = open("run_data.txt", "r")
+a, b, c, d = f.readline()[:-1], f.readline()[:-1], f.readline()[:-1],\
+                    f.readline()[:-1]
+f.close()
+
+data = loadtxt(b)
+sig = loadtxt(c)
 not_masked = (sig < 1E100)
-metadata = loadtxt('Data/mock_metadata.txt')
+metadata = loadtxt(a)
 metadata = [m for m in metadata]
 metadata[0] = int(metadata[0])
 metadata[1] = int(metadata[1])
 for i in range(6, 9):
     metadata[i] = int(metadata[i])
+f.close()
+
 
 # A grid
 dx = (metadata[3] - metadata[2])/(metadata[7]*metadata[1])

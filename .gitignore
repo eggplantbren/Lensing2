@@ -12,6 +12,7 @@ posterior_sample.txt
 logfile
 Lensing2
 *.pdf
+run_data.txt
 
 # Junk that tends to clutter my status messages
 Data/0047_image.txt
