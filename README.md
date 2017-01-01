@@ -3,7 +3,7 @@ Lensing
 
 Doing gravitational lensing again!
 
-(c) 2014 Brendon J. Brewer.
+(c) 2014 -- 2017 Brendon J. Brewer.
 
 LICENCE
 =======
@@ -21,7 +21,6 @@ from the Royal Society of New Zealand.
 DEPENDENCIES
 ============
 
-* DNest3 (https://www.github.com/eggplantbren/DNest3) and its dependencies
-* RJObject (https://www.github.com/eggplantbren/RJObject)
+* DNest4 (https://www.github.com/eggplantbren/DNest4)
 * Armadillo (http://arma.sourceforge.net/)
 
