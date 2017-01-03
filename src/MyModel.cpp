@@ -224,27 +224,31 @@ void MyModel::shoot_rays(bool update)
 
 void MyModel::calculate_surface_brightness(bool update)
 {
-    for(size_t i=0; i<xs.size(); i++)
-    {
-        for(size_t j=0; j<xs[i].size(); j++)
-        {
-            if(!update)
-                surface_brightness[i][j] = 0.0;
+    std::vector<std::vector<double>> delta
+            (xs.size(), std::vector<double>(xs[0].size(), 0.0));
 
-            surface_brightness[i][j] += source.evaluate(xs[i][j], ys[i][j],
-                                                                update);
-        }
+    for(size_t i=0; i<xs.size(); i++)
+        for(size_t j=0; j<xs[i].size(); j++)
+            delta[i][j] += source.evaluate(xs[i][j], ys[i][j], update);
+
+    if(Data::get_instance().psf_is_highres())
+    {
+        // Blur using the PSF
+        const PSF& psf = Data::get_instance().get_psf();
+        auto psf2 = psf;
+        psf2.calculate_fft(delta.size(), delta[0].size(), psf_power);
+        psf2.blur_image2(delta);
     }
 
-	if(Data::get_instance().psf_is_highres())
-	{
-		// Blur using the PSF
-		const PSF& psf = Data::get_instance().get_psf();
-        auto psf2 = psf;
-        psf2.calculate_fft(surface_brightness.size(),
-                            surface_brightness[0].size(), psf_power);
-		psf2.blur_image2(surface_brightness);
-	}
+    // Increment or replace surface_brightness
+    if(update)
+    {
+        for(size_t i=0; i<xs.size(); ++i)
+            for(size_t j=0; j<xs[i].size(); ++j)
+                surface_brightness[i][j] += delta[i][j];  
+    }
+    else
+        surface_brightness = delta;
 }
 
 void MyModel::calculate_model_image()
