@@ -15,6 +15,8 @@ Lensing2
 run_data.txt
 sampler_state.txt
 loadrow
+src/tests/*
+src/liblensing2.a
 
 # Junk that tends to clutter my status messages
 src/Data/*
