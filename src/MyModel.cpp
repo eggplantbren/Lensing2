@@ -136,9 +136,13 @@ void MyModel::print(std::ostream& out) const
 	// Make an image of the source (uses the ray resolution)
 	const vector< vector<double> >& x = Data::get_instance().get_x_rays();
 	const vector< vector<double> >& y = Data::get_instance().get_y_rays();
+    std::vector<std::vector<double>> evals
+            (x.size(), std::vector<double>(x[0].size()));
+    source.evaluate(x, y, evals, false);
+
 	for(size_t i=0; i<xs.size(); i++)
 		for(size_t j=0; j<xs[i].size(); j++)
-			out<<source.evaluate(x[i][j], y[i][j], false)<<' ';
+			out<<evals[i][j]<<' ';
 
 	for(size_t i=0; i<xs.size(); i++)
 		for(size_t j=0; j<xs[i].size(); j++)
@@ -225,11 +229,9 @@ void MyModel::shoot_rays(bool update)
 void MyModel::calculate_surface_brightness(bool update)
 {
     std::vector<std::vector<double>> delta
-            (xs.size(), std::vector<double>(xs[0].size(), 0.0));
+            (xs.size(), std::vector<double>(xs[0].size()));
 
-    for(size_t i=0; i<xs.size(); i++)
-        for(size_t j=0; j<xs[i].size(); j++)
-            delta[i][j] += source.evaluate(xs[i][j], ys[i][j], update);
+    source.evaluate(xs, ys, delta, update);
 
     if(Data::get_instance().psf_is_highres())
     {

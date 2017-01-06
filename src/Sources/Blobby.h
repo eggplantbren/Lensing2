@@ -10,23 +10,27 @@ namespace Lensing2
 
 class Blobby:public Source
 {
-	private:
-		DNest4::RJObject<BasicCircular> blobs;
+    private:
+        DNest4::RJObject<BasicCircular> blobs;
 
-	public:
-		// Pass in image scale and flux scale
-		Blobby(double x_min, double x_max,
-					double y_min, double y_max);
+    public:
+        // Pass in image scale and flux scale
+        Blobby(double x_min, double x_max,
+                    double y_min, double y_max);
 
-		// Required methods
-		double evaluate(double x, double y, bool update=false) const;
-		void from_prior(DNest4::RNG& rng);
-		double perturb(DNest4::RNG& rng);
-		void print(std::ostream& out) const;
+        // Required methods
+        void evaluate(const std::vector<std::vector<double>>& x,
+                      const std::vector<std::vector<double>>& y,
+                            std::vector<std::vector<double>>& f,
+                            bool update=false) const;
+
+        void from_prior(DNest4::RNG& rng);
+        double perturb(DNest4::RNG& rng);
+        void print(std::ostream& out) const;
         void read(std::istream& in);
 
         // Getter
-		const DNest4::RJObject<BasicCircular>& get_blobs() const
+        const DNest4::RJObject<BasicCircular>& get_blobs() const
         { return blobs; }
 };
 

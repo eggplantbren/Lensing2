@@ -8,54 +8,66 @@ namespace Lensing2
 {
 
 Blobby::Blobby(double x_min, double x_max,
-					double y_min, double y_max)
+                    double y_min, double y_max)
 :blobs(4, 500, false,
-	BasicCircular(x_min, x_max, y_min, y_max), PriorType::log_uniform)
+    BasicCircular(x_min, x_max, y_min, y_max), PriorType::log_uniform)
 {
 
 }
 
-double Blobby::evaluate(double x, double y, bool update) const
+void Blobby::evaluate(const std::vector<std::vector<double>>& x,
+                      const std::vector<std::vector<double>>& y,
+                      std::vector<std::vector<double>>& f,
+                      bool update) const
 {
-	double f = 0.0;
+    // Start the evaluations at zero
+    for(size_t i=0; i<f.size(); ++i)
+        for(size_t j=0; j<f[i].size(); ++j)
+            f[i][j] = 0.0;
 
-	const vector< vector<double> >& components = (update)?
+    const vector< vector<double> >& components = (update)?
                                                  (blobs.get_added()):
                                                  (blobs.get_components());
 
-	double rsq, widthsq, one_over;
+    double rsq, widthsq, one_over;
     double c = 2.0/M_PI;
 
-	for(size_t i=0; i<components.size(); ++i)
-	{
-		rsq = pow(x - components[i][0], 2) + pow(y - components[i][1], 2);
-		widthsq = components[i][3]*components[i][3];
-		one_over = 1.0/widthsq;
+    for(size_t k=0; k<components.size(); ++k)
+    {
+        widthsq = components[k][3]*components[k][3];
+        one_over = 1.0/widthsq;
 
-		if(rsq < widthsq)
-			f += components[i][2]*c*(1.0 - rsq*one_over)*one_over;
-	}
+        for(size_t i=0; i<f.size(); ++i)
+        {
+            for(size_t j=0; j<f[i].size(); ++j)
+            {
+                rsq = pow(x[i][j] - components[k][0], 2) +
+                                    pow(y[i][j] - components[k][1], 2);
 
-	return f;
+                if(rsq < widthsq)
+                    f[i][j] += components[k][2]*c*(1.0 - rsq*one_over)*one_over;
+            }
+        }
+    }
 }
 
 void Blobby::from_prior(RNG& rng)
 {
-	blobs.from_prior(rng);
+    blobs.from_prior(rng);
 }
 
 double Blobby::perturb(RNG& rng)
 {
-	double logH = 0.;
+    double logH = 0.;
 
-	logH += blobs.perturb(rng);
+    logH += blobs.perturb(rng);
 
-	return logH;
+    return logH;
 }
 
 void Blobby::print(ostream& out) const
 {
-	blobs.print(out);
+    blobs.print(out);
 }
 
 void Blobby::read(istream& in)
