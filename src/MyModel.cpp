@@ -1,5 +1,6 @@
 #include "MyModel.h"
 #include "Data.h"
+#include "DNest4/code/Distributions/Cauchy.h"
 #include <cmath>
 #include <sstream>
 
@@ -35,9 +36,20 @@ void MyModel::from_prior(RNG& rng)
 	lens.from_prior(rng);
     psf_power = 2*rng.rand();
 
-	sigma0 = tan(M_PI*(0.97*rng.rand() - 0.485));
-	sigma1 = tan(M_PI*(0.97*rng.rand() - 0.485));
-	sigma0 = exp(sigma0); sigma1 = exp(sigma1);
+
+    DNest4::Cauchy cauchy(0.0, 5.0);
+
+    do
+    {
+    	sigma0 = cauchy.generate(rng);
+    }while(std::abs(sigma0) > 50.0);
+    sigma0 = exp(sigma0);
+
+    do
+    {
+    	sigma1 = cauchy.generate(rng);
+    }while(std::abs(sigma1) > 50.0);
+    sigma1 = exp(sigma1);
 
 	shoot_rays();
 	calculate_surface_brightness();
@@ -61,21 +73,23 @@ double MyModel::perturb(RNG& rng)
 
         if(which == 0)
         {
-		    sigma0 = log(sigma0);
-		    sigma0 = (atan(sigma0)/M_PI + 0.485)/0.97;
-		    sigma0 += rng.randh();
-		    wrap(sigma0, 0., 1.);
-		    sigma0 = tan(M_PI*(0.97*sigma0 - 0.485));
-		    sigma0 = exp(sigma0);
+            DNest4::Cauchy cauchy(0.0, 5.0);
+
+            sigma0 = log(sigma0);
+            logH += cauchy.perturb(sigma0, rng);
+            if(std::abs(sigma0) > 50.0)
+                return -1E300;
+            sigma0 = exp(sigma0);
         }
         else if(which == 1)
         {
-		    sigma1 = log(sigma1);
-		    sigma1 = (atan(sigma1)/M_PI + 0.485)/0.97;
-		    sigma1 += rng.randh();
-		    wrap(sigma1, 0., 1.);
-		    sigma1 = tan(M_PI*(0.97*sigma1 - 0.485));
-		    sigma1 = exp(sigma1);
+            DNest4::Cauchy cauchy(0.0, 5.0);
+
+            sigma1 = log(sigma1);
+            logH += cauchy.perturb(sigma1, rng);
+            if(std::abs(sigma1) > 50.0)
+                return -1E300;
+            sigma1 = exp(sigma1);
         }
         else
         {

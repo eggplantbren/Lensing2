@@ -1,4 +1,5 @@
 #include "BasicCircular.h"
+#include "DNest4/code/Distributions/Cauchy.h"
 #include "DNest4/code/RNG.h"
 #include "DNest4/code/Utils.h"
 #include <cmath>
@@ -28,8 +29,12 @@ void BasicCircular::from_prior(RNG& rng)
 
 	width = exp(log(1E-2*size) + log(1E3)*rng.rand());
 
-	mu = tan(M_PI*(0.97*rng.rand() - 0.485));
-	mu = exp(mu);
+    DNest4::Cauchy cauchy(0.0, 5.0);
+    do
+    {
+    	mu = cauchy.generate(rng);
+    }while(std::abs(mu) > 50.0);
+    mu = exp(mu);
 
 	b = exp(log(1E-3*size) + log(1E3)*rng.rand());
 	k = rng.rand();
@@ -64,12 +69,13 @@ double BasicCircular::perturb_hyperparameters(RNG& rng)
 	}
 	else if(which == 2)
 	{
-		mu = log(mu);
-		mu = (atan(mu)/M_PI + 0.485)/0.97;
-		mu += rng.randh();
-		wrap(mu, 0., 1.);
-		mu = tan(M_PI*(0.97*mu - 0.485));
-		mu = exp(mu);
+        DNest4::Cauchy cauchy(0.0, 5.0);
+
+        mu = log(mu);
+        logH += cauchy.perturb(mu, rng);
+        if(std::abs(mu) > 50.0)
+            return -1E300;
+        mu = exp(mu);
 	}
 	else if(which == 3)
 	{
