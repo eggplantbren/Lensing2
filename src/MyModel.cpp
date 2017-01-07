@@ -13,14 +13,8 @@ namespace Lensing2
 MyModel::MyModel()
 :source(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
 	Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
-,lens(Data::get_instance().get_x_min() - 0.1*
-          (Data::get_instance().get_x_max() - Data::get_instance().get_x_min()),
-      Data::get_instance().get_x_max() + 0.1*
-          (Data::get_instance().get_x_max() - Data::get_instance().get_x_min()),
-      Data::get_instance().get_y_min() - 0.1*
-          (Data::get_instance().get_y_max() - Data::get_instance().get_y_min()),
-      Data::get_instance().get_y_max() + 0.1*
-          (Data::get_instance().get_y_max() - Data::get_instance().get_y_min()))
+,lens(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
+      Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 ,xs(Data::get_instance().get_x_rays())
 ,ys(Data::get_instance().get_y_rays())
 ,surface_brightness(Data::get_instance().get_x_rays())
