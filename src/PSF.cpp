@@ -51,7 +51,8 @@ void PSF::normalise()
 			pixels[i][j] /= sum;
 }
 
-void PSF::calculate_fft(int Ni, int Nj, double psf_power)
+void PSF::calculate_fft(int Ni, int Nj, double sig_delta_fft,
+                            const std::vector<std::vector<double>>& n_delta_fft)
 {
 	// Make the psf the same size as the image
 	mat psf(Ni, Nj);
@@ -60,7 +61,7 @@ void PSF::calculate_fft(int Ni, int Nj, double psf_power)
 	int ni = pixels.size();
 	int nj = pixels[0].size();
 
-	int m, n, sign;
+	int m, n;
 	for(int i=0; i<ni; i++)
 	{
 		m = mod(i - ni/2, Ni);
@@ -68,11 +69,7 @@ void PSF::calculate_fft(int Ni, int Nj, double psf_power)
 		{
 			n = mod(j - nj/2, Nj);
 
-            sign = 1;
-            if(pixels[i][j] < 0.0)
-                sign = -1;
-
-            psf(m, n) = sign*pow(std::abs(pixels[i][j]), psf_power);
+            psf(m, n) = pixels[i][j] * exp(sig_delta_fft * n_delta_fft[i][j]);
 		}
 	}
 
@@ -155,36 +152,36 @@ void PSF::blur_image2(vector< vector<double> >& img) const
 }
 
 
-void PSF::test()
-{
-	PSF psf(5);
-	psf.load("Data/test_psf.txt");
-	psf.calculate_fft(20, 20);
+//void PSF::test()
+//{
+//	PSF psf(5);
+//	psf.load("Data/test_psf.txt");
+//	psf.calculate_fft(20, 20);
 
-	// Point image
-	vector< vector<double> > pixels(20, vector<double>(20, 0.));
-	pixels[10][10] = 1.;
+//	// Point image
+//	vector< vector<double> > pixels(20, vector<double>(20, 0.));
+//	pixels[10][10] = 1.;
 
-	psf.blur_image(pixels);
-	// Print image and reset it to zero
-	for(size_t i=0; i<pixels.size(); i++)
-	{
-		for(size_t j=0; j<pixels.size(); j++)
-		{
-			cout<<pixels[i][j]<<' ';
-			pixels[i][j] = 0.;
-		}
-	}
-	cout<<endl;
+//	psf.blur_image(pixels);
+//	// Print image and reset it to zero
+//	for(size_t i=0; i<pixels.size(); i++)
+//	{
+//		for(size_t j=0; j<pixels.size(); j++)
+//		{
+//			cout<<pixels[i][j]<<' ';
+//			pixels[i][j] = 0.;
+//		}
+//	}
+//	cout<<endl;
 
-	// Do it again with ffts
-	pixels[10][10] = 1.;
+//	// Do it again with ffts
+//	pixels[10][10] = 1.;
 
-	psf.blur_image2(pixels);
-	for(size_t i=0; i<pixels.size(); i++)
-		for(size_t j=0; j<pixels.size(); j++)
-			cout<<pixels[i][j]<<' ';
-	cout<<endl;
-}
+//	psf.blur_image2(pixels);
+//	for(size_t i=0; i<pixels.size(); i++)
+//		for(size_t j=0; j<pixels.size(); j++)
+//			cout<<pixels[i][j]<<' ';
+//	cout<<endl;
+//}
 
 

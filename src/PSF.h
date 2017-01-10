@@ -22,7 +22,8 @@ class PSF
 		void blur_image2
 			(std::vector< std::vector<double> >& img) const;
 		void normalise();
-		void calculate_fft(int Ni, int Nj, double psf_power=1.0);
+		void calculate_fft(int Ni, int Nj, double sig_delta_fft,
+                            const std::vector<std::vector<double>>& n_delta_fft);
 		void load(const char* filename);
 		void set_size(int new_size);
 

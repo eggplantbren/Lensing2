@@ -14,7 +14,9 @@ class MyModel
 	private:
 		Blobby source;
 		BlobbySPEMD lens;
-        double psf_power;
+
+        double sig_delta_psf;
+        std::vector<std::vector<double>> n_delta_psf;
 
 		// Noise model - constant variance plus component
 		// that depends on the flux of the model

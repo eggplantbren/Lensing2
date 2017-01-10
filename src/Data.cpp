@@ -74,15 +74,6 @@ void Data::load(const char* metadata_file, const char* image_file,
 	psf.set_size(psf_size);
 	psf.load(psf_file);
 
-	if(psf_size >= 15)
-	{
-		fft_flag1 = true;
-		if(fft_flag2)
-			psf.calculate_fft(ni*resolution, nj*resolution);
-		else
-			psf.calculate_fft(ni, nj);
-	}
-
     // Now save the filenames used to run_data.txt
     fstream fout("run_data.txt", ios::out);
     fout<<metadata_file<<endl;
