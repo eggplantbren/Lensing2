@@ -87,7 +87,7 @@ double MyModel::perturb(RNG& rng)
         }
         else
         {
-            psf_power += 2*rng.rand();
+            psf_power += 2*rng.randh();
             wrap(psf_power, 0.0, 2.0);
             if(Data::get_instance().psf_is_highres())
 	            calculate_surface_brightness();
