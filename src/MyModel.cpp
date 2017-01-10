@@ -15,7 +15,7 @@ MyModel::MyModel()
 	Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 ,lens(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
       Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
-,n_delta_psf(Data::get_instance().get_psf().get_pixels())
+,alt_psf(Data::get_instance().get_psf().get_pixels())
 ,xs(Data::get_instance().get_x_rays())
 ,ys(Data::get_instance().get_y_rays())
 ,surface_brightness(Data::get_instance().get_x_rays())
@@ -30,10 +30,10 @@ void MyModel::from_prior(RNG& rng)
 	source.from_prior(rng);
 	lens.from_prior(rng);
 
-    sig_delta_psf = 2*rng.rand();
-    for(size_t i=0; i<n_delta_psf.size(); ++i)
-        for(size_t j=0; j<n_delta_psf.size(); ++j)
-            n_delta_psf[i][j] = rng.randn();
+    psf_power = rng.rand();
+    for(size_t i=0; i<alt_psf.size(); ++i)
+        for(size_t j=0; j<alt_psf.size(); ++j)
+            alt_psf[i][j] = -log(1.0 - rng.rand());
 
     DNest4::Cauchy cauchy(0.0, 5.0);
 
@@ -91,8 +91,8 @@ double MyModel::perturb(RNG& rng)
         }
         else if(which == 2)
         {
-            sig_delta_psf += 2*rng.rand();
-            wrap(sig_delta_psf, 0.0, 2.0);
+            psf_power += rng.randh();
+            wrap(psf_power, 0.0, 1.0);
             if(Data::get_instance().psf_is_highres())
 	            calculate_surface_brightness();
 	        calculate_model_image();
@@ -100,25 +100,17 @@ double MyModel::perturb(RNG& rng)
         else
         {
             int ii, jj;
-            if(rng.rand() <= 0.5)
-            {
-                ii = rng.rand_int(n_delta_psf.size());
-                jj = rng.rand_int(n_delta_psf[0].size());
+            int reps = (int)pow(alt_psf.size()*alt_psf[0].size(), rng.rand());
 
-                logH -= -0.5*pow(n_delta_psf[ii][jj], 2);
-                n_delta_psf[ii][jj] += rng.randh();
-                logH += -0.5*pow(n_delta_psf[ii][jj], 2);
-            }
-            else
+            for(int k=0; k<reps; ++k)
             {
-                int reps = (int)pow(n_delta_psf.size()*n_delta_psf[0].size(),
-                                                            rng.rand());
-                for(int k=0; k<reps; ++k)
-                {
-                    ii = rng.rand_int(n_delta_psf.size());
-                    jj = rng.rand_int(n_delta_psf[0].size());
-                    n_delta_psf[ii][jj] = rng.randn();
-                }
+                ii = rng.rand_int(alt_psf.size());
+                jj = rng.rand_int(alt_psf[0].size());
+
+                alt_psf[ii][jj] = 1.0 - exp(-alt_psf[ii][jj]);
+                alt_psf[ii][jj] += rng.randh();
+                DNest4::wrap(alt_psf[ii][jj], 0.0, 1.0);
+                alt_psf[ii][jj] = -log(1.0 - alt_psf[ii][jj]);
             }
 
             if(Data::get_instance().psf_is_highres())
@@ -169,7 +161,7 @@ double MyModel::log_likelihood() const
 void MyModel::print(std::ostream& out) const
 {
 	out<<setprecision(6);
-	out<<' '<<sigma0<<' '<<sigma1<<' '<<sig_delta_psf<<' ';
+	out<<' '<<sigma0<<' '<<sigma1<<' '<<psf_power<<' ';
 	lens.print(out);
 	source.print(out);
 
@@ -196,7 +188,7 @@ void MyModel::print(std::ostream& out) const
 string MyModel::description() const
 {
     stringstream s;
-    s<<"sigma0, sigma1, sig_delta_psf, ";
+    s<<"sigma0, sigma1, psf_power, ";
     s<<"b, q, rc, slope, xc, yc, theta, shear, theta_shear, ";
     s<<"dim_lens_blobs, max_num_lens_blobs, ";
     s<<"mu_lens_blobs, a_lens_blobs, b_lens_blobs, ";
@@ -278,7 +270,7 @@ void MyModel::calculate_surface_brightness(bool update)
         // Blur using the PSF
         const PSF& psf = Data::get_instance().get_psf();
         auto psf2 = psf;
-        psf2.calculate_fft(delta.size(), delta[0].size(), sig_delta_psf, n_delta_psf);
+        psf2.calculate_fft(delta.size(), delta[0].size(), psf_power, alt_psf);
         psf2.blur_image2(delta);
     }
 
@@ -318,14 +310,14 @@ void MyModel::calculate_model_image()
 		const PSF& psf = Data::get_instance().get_psf();
         auto psf2 = psf;
         psf2.calculate_fft(model_image.size(),
-                            model_image.size(), sig_delta_psf, n_delta_psf);
+                            model_image.size(), psf_power, alt_psf);
 		psf2.blur_image2(model_image);
 	}
 }
 
 void MyModel::read(std::istream& in)
 {
-    in>>sigma0>>sigma1>>sig_delta_psf;
+    in>>sigma0>>sigma1>>psf_power;
     lens.read(in);
     source.read(in);
 

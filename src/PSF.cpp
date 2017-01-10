@@ -51,8 +51,8 @@ void PSF::normalise()
 			pixels[i][j] /= sum;
 }
 
-void PSF::calculate_fft(int Ni, int Nj, double sig_delta_fft,
-                            const std::vector<std::vector<double>>& n_delta_fft)
+void PSF::calculate_fft(int Ni, int Nj, double psf_power,
+                            const std::vector<std::vector<double>>& alt_psf)
 {
 	// Make the psf the same size as the image
 	mat psf(Ni, Nj);
@@ -69,7 +69,7 @@ void PSF::calculate_fft(int Ni, int Nj, double sig_delta_fft,
 		{
 			n = mod(j - nj/2, Nj);
 
-            psf(m, n) = pixels[i][j] * exp(sig_delta_fft * n_delta_fft[i][j]);
+            psf(m, n) = pow(pixels[i][j], psf_power)*pow(alt_psf[i][j], 1.0 - psf_power);
 		}
 	}
 
