@@ -54,33 +54,36 @@ void PSF::normalise()
 void PSF::calculate_fft(int Ni, int Nj, double psf_power,
                             const std::vector<std::vector<double>>& alt_psf)
 {
-	// Make the psf the same size as the image
-	mat psf(Ni, Nj);
-	psf.zeros();
+    auto copy = alt_psf;
 
-	int ni = pixels.size();
-	int nj = pixels[0].size();
-
-	int m, n;
-	for(int i=0; i<ni; i++)
-	{
-		m = mod(i - ni/2, Ni);
-		for(int j=0; j<nj; j++)
-		{
-			n = mod(j - nj/2, Nj);
-
-            psf(m, n) = pow(pixels[i][j], psf_power)*pow(alt_psf[i][j], 1.0 - psf_power);
-		}
-	}
-
-    // Normalise back to 1
+    // Normalise alt psf
     double tot = 0.0;
-    for(size_t j=0; j<psf.n_cols; ++j)
-        for(size_t i=0; i<psf.n_rows; ++i)
-            tot += psf(i, j);
-    for(size_t j=0; j<psf.n_cols; ++j)
-        for(size_t i=0; i<psf.n_rows; ++i)
-        psf(i, j) /= tot;
+    for(size_t i=0; i<alt_psf.size(); ++i)
+        for(size_t j=0; j<alt_psf[i].size(); ++j)
+            tot += alt_psf[i][j];
+    for(size_t i=0; i<alt_psf.size(); ++i)
+        for(size_t j=0; j<alt_psf[i].size(); ++j)
+            copy[i][j] /= tot;
+
+    // Make the psf the same size as the image
+    mat psf(Ni, Nj);
+    psf.zeros();
+
+    int ni = pixels.size();
+    int nj = pixels[0].size();
+
+    int m, n;
+    for(int i=0; i<ni; i++)
+    {
+        m = mod(i - ni/2, Ni);
+        for(int j=0; j<nj; j++)
+        {
+            n = mod(j - nj/2, Nj);
+
+            // Interpolate linearly
+            psf(m, n) = psf_power*pixels[i][j] + (1.0-psf_power)*copy[i][j];
+        }
+    }
 
     fft_of_psf = fft2(psf);
     fft_ready = true;
