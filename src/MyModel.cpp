@@ -112,7 +112,6 @@ double MyModel::perturb(RNG& rng)
                 DNest4::wrap(alt_psf[ii][jj], 0.0, 1.0);
                 alt_psf[ii][jj] = -log(1.0 - alt_psf[ii][jj]);
             }
-
             if(Data::get_instance().psf_is_highres())
 	            calculate_surface_brightness();
 	        calculate_model_image();
