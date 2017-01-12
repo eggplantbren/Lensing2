@@ -17,7 +17,7 @@ def blob_density(x, y, params):
     rsq = (x - params[0])**2 + (y - params[1])**2
     widthsq = width**2
     f = zeros(x.shape)
-    f[rsq < widthsq] = mass/(2*pi)*(1 - rsq[rsq < widthsq]/widthsq)/widthsq
+    f[rsq < widthsq] = 2*mass/pi*(1 - rsq[rsq < widthsq]/widthsq)/widthsq
     return f
 
 os.system("rm -rf Frames/ movie.mkv")
@@ -62,6 +62,7 @@ total = zeros((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 magnification = zeros(output.shape[0])
 all_substructures_x = array([])
 all_substructures_y = array([])
+substructure_mass_in_image = array([])
 
 figure(figsize=(14, 9))
 hold(False)
@@ -156,6 +157,9 @@ for i in range(0, output.shape[0]):
     all_substructures_x = hstack([all_substructures_x, x_substructures])
     all_substructures_y = hstack([all_substructures_y, y_substructures])
 
+    substructure_mass_in_image = hstack([substructure_mass_in_image,\
+      substructure_density.sum() * dx * dy])
+
 show()
 
 os.system('ffmpeg -r 10 -i Frames/%06d.png -c:v h264 -b:v 4192k movie.mkv')
@@ -175,7 +179,9 @@ figure(3)
 rc("font", size=16, family="serif", serif="Computer Sans")
 rc("text", usetex=True)
 plot(output[:,3], mass_units*output[:,118:168].sum(axis=1),\
-                    'ko', markersize=5, alpha=0.2)
+                    'k.', alpha=0.2)
+plot(output[:,3], mass_units*array(substructure_mass_in_image),\
+                    'g.', alpha=0.2)
 xlabel('SPEMD Einstein Radius')
 ylabel('Total substructure mass')
 
