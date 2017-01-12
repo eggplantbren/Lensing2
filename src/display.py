@@ -62,6 +62,7 @@ total = zeros((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 magnification = zeros(output.shape[0])
 all_substructures_x = array([])
 all_substructures_y = array([])
+substructure_num_in_image = []
 substructure_mass_in_image = array([])
 
 figure(figsize=(14, 9))
@@ -157,6 +158,12 @@ for i in range(0, output.shape[0]):
     all_substructures_x = hstack([all_substructures_x, x_substructures])
     all_substructures_y = hstack([all_substructures_y, y_substructures])
 
+    inside = (x_substructures > metadata[2]) &\
+             (x_substructures < metadata[3]) &\
+             (y_substructures > metadata[4]) &\
+             (y_substructures < metadata[5])
+
+    substructure_num_in_image.append(sum(inside))
     substructure_mass_in_image = hstack([substructure_mass_in_image,\
       substructure_density.sum() * dx * dy])
 
@@ -193,7 +200,9 @@ savefig('masses.pdf', bbox_inches='tight')
 show()
 
 width=0.6
-hist(output[:,17], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.5, color="k")
+hist(output[:,17], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="k")
+hold(True)
+hist(substructure_num_in_image, bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="g")
 xlim([-0.5, 50.5])
 xlabel('$N_{\\rm lens}$')
 ylabel('Number of Posterior Samples')
