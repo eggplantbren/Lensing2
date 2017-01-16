@@ -3,18 +3,23 @@
 
 #include "DNest4/code/RJObject/ConditionalPriors/ConditionalPrior.h"
 #include <istream>
+#include <boost/math/distributions/normal.hpp>
 
 class BasicUniform:public DNest4::ConditionalPrior
 {
 	private:
 		// Limits
 		double x_min, x_max, y_min, y_max, size;
+        double xc, yc;
 
 		// Mean of exponential distribution for masses
 		double mu;
 
 		// Uniform distribution for widths
 		double b, k, a;
+
+        // A standard normal distribution
+        static const boost::math::normal normal;
 
 		double perturb_hyperparameters(DNest4::RNG& rng);
 

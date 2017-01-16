@@ -5,6 +5,8 @@
 
 using namespace DNest4;
 
+const boost::math::normal BasicUniform::normal(0.0, 1.0);
+
 BasicUniform::BasicUniform(double x_min, double x_max,
 					double y_min, double y_max)
 :x_min(x_min)
@@ -12,6 +14,8 @@ BasicUniform::BasicUniform(double x_min, double x_max,
 ,y_min(y_min)
 ,y_max(y_max)
 ,size(sqrt((x_max - x_min)*(y_max - y_min)))
+,xc(0.5*(x_min + x_max))
+,yc(0.5*(y_min + y_max))
 {
 
 }
@@ -64,11 +68,10 @@ double BasicUniform::log_pdf(const std::vector<double>& vec) const
     if(vec[2] < 0. || vec[3] < a || vec[3] > b)
         return -1E300;
 
-    if(vec[0] < x_min || vec[0] > x_max ||
-        vec[1] < y_min || vec[1] > y_max)
-        return -1E300;
+    double logp = 0.0;
 
-    double logp = 0.;
+    double rsq = pow(vec[0] - xc, 2) + pow(vec[1] - yc, 2);
+    logp += -0.5*rsq / (size * size);
 
     logp += -log(mu) - vec[2]/mu;
     logp += -log(b - a);
@@ -78,16 +81,16 @@ double BasicUniform::log_pdf(const std::vector<double>& vec) const
 
 void BasicUniform::from_uniform(std::vector<double>& vec) const
 {
-	vec[0] = x_min + (x_max - x_min)*vec[0];
-	vec[1] = y_min + (y_max - y_min)*vec[1];
+	vec[0] = xc + size * quantile(normal, vec[0]);
+	vec[1] = yc + size * quantile(normal, vec[1]);
 	vec[2] = -mu*log(1. - vec[2]);
 	vec[3] = a + (b - a)*vec[3];
 }
 
 void BasicUniform::to_uniform(std::vector<double>& vec) const
 {
-	vec[0] = (vec[0] - x_min)/(x_max - x_min);
-	vec[1] = (vec[1] - y_min)/(y_max - y_min);
+	vec[0] = cdf(normal, (vec[0] - xc) / size);
+	vec[1] = cdf(normal, (vec[1] - yc) / size);
 	vec[2] = 1. - exp(-vec[2]/mu);
 	vec[3] = (vec[3] - a)/(b - a);
 }

@@ -20,8 +20,7 @@ BlobbySPEMD::BlobbySPEMD(double x_min, double x_max, double y_min, double y_max)
 :x_min(x_min), x_max(x_max), y_min(y_min), y_max(y_max)
 ,scale(sqrt((x_max - x_min)*(y_max - y_min)))
 ,blobs(4, 50, false,
-	BasicUniform(x_min - 1.0*(x_max - x_min), x_max + 1.0*(x_max - x_min),
-                 y_min - 1.0*(y_max - y_min), y_max + 1.0*(y_max - y_min)),
+	BasicUniform(x_min, x_max, y_min, y_max),
     PriorType::log_uniform)
 ,blobs_flag(false)
 {
