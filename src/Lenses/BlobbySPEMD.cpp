@@ -20,7 +20,7 @@ BlobbySPEMD::BlobbySPEMD(double x_min, double x_max, double y_min, double y_max)
 :x_min(x_min), x_max(x_max), y_min(y_min), y_max(y_max)
 ,scale(sqrt((x_max - x_min)*(y_max - y_min)))
 ,blobs(4, 50, false,
-	BasicUniform(x_min, x_max, y_min, y_max),
+	LensBlobConditionalPrior(x_min, x_max, y_min, y_max),
     PriorType::log_uniform)
 ,blobs_flag(false)
 {

@@ -1,13 +1,13 @@
-#include "BasicUniform.h"
+#include "LensBlobConditionalPrior.h"
 #include "DNest4/code/RNG.h"
 #include "DNest4/code/Utils.h"
 #include <cmath>
 
 using namespace DNest4;
 
-const boost::math::normal BasicUniform::normal(0.0, 1.0);
+const boost::math::normal LensBlobConditionalPrior::normal(0.0, 1.0);
 
-BasicUniform::BasicUniform(double x_min, double x_max,
+LensBlobConditionalPrior::LensBlobConditionalPrior(double x_min, double x_max,
 					double y_min, double y_max)
 :x_min(x_min)
 ,x_max(x_max)
@@ -20,7 +20,7 @@ BasicUniform::BasicUniform(double x_min, double x_max,
 
 }
 
-void BasicUniform::from_prior(RNG& rng)
+void LensBlobConditionalPrior::from_prior(RNG& rng)
 {
     // mass \propto (einstein radius)^2
     // Don't want ER > size
@@ -33,7 +33,7 @@ void BasicUniform::from_prior(RNG& rng)
 	a = k*b;
 }
 
-double BasicUniform::perturb_hyperparameters(RNG& rng)
+double LensBlobConditionalPrior::perturb_hyperparameters(RNG& rng)
 {
 	double logH = 0.;
 	int which = rng.rand_int(3);
@@ -63,7 +63,7 @@ double BasicUniform::perturb_hyperparameters(RNG& rng)
 	return logH;
 }
 
-double BasicUniform::log_pdf(const std::vector<double>& vec) const
+double LensBlobConditionalPrior::log_pdf(const std::vector<double>& vec) const
 {
     if(vec[2] < 0. || vec[3] < a || vec[3] > b)
         return -1E300;
@@ -79,7 +79,7 @@ double BasicUniform::log_pdf(const std::vector<double>& vec) const
     return logp;
 }
 
-void BasicUniform::from_uniform(std::vector<double>& vec) const
+void LensBlobConditionalPrior::from_uniform(std::vector<double>& vec) const
 {
 	vec[0] = xc + size * quantile(normal, vec[0]);
 	vec[1] = yc + size * quantile(normal, vec[1]);
@@ -87,7 +87,7 @@ void BasicUniform::from_uniform(std::vector<double>& vec) const
 	vec[3] = a + (b - a)*vec[3];
 }
 
-void BasicUniform::to_uniform(std::vector<double>& vec) const
+void LensBlobConditionalPrior::to_uniform(std::vector<double>& vec) const
 {
 	vec[0] = cdf(normal, (vec[0] - xc) / size);
 	vec[1] = cdf(normal, (vec[1] - yc) / size);
@@ -95,12 +95,12 @@ void BasicUniform::to_uniform(std::vector<double>& vec) const
 	vec[3] = (vec[3] - a)/(b - a);
 }
 
-void BasicUniform::print(std::ostream& out) const
+void LensBlobConditionalPrior::print(std::ostream& out) const
 {
 	out<<mu<<' '<<a<<' '<<b<<' ';
 }
 
-void BasicUniform::read(std::istream& in)
+void LensBlobConditionalPrior::read(std::istream& in)
 {
     in>>mu>>a>>b;
     k = a/b;

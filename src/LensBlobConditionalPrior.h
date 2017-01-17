@@ -1,11 +1,11 @@
-#ifndef Lensing2_BasicUniform
-#define Lensing2_BasicUniform
+#ifndef Lensing2_LensBlobConditionalPrior
+#define Lensing2_LensBlobConditionalPrior
 
 #include "DNest4/code/RJObject/ConditionalPriors/ConditionalPrior.h"
 #include <istream>
 #include <boost/math/distributions/normal.hpp>
 
-class BasicUniform:public DNest4::ConditionalPrior
+class LensBlobConditionalPrior:public DNest4::ConditionalPrior
 {
 	private:
 		// Limits
@@ -24,7 +24,7 @@ class BasicUniform:public DNest4::ConditionalPrior
 		double perturb_hyperparameters(DNest4::RNG& rng);
 
 	public:
-		BasicUniform(double x_min, double x_max,
+		LensBlobConditionalPrior(double x_min, double x_max,
 					double y_min, double y_max);
 
 		void from_prior(DNest4::RNG& rng);
