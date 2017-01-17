@@ -192,7 +192,7 @@ plot(output[:,3], mass_units*array(substructure_mass_in_image),\
                     'g.', alpha=0.2, label="Center within image")
 xlabel('SPEMD Einstein Radius')
 ylabel('Total substructure mass')
-legend(loc="upper right")
+legend(loc="upper right", numpoints=1)
 
 # Plot the true masses
 #truth = loadtxt('Data/mock_truth.txt')
