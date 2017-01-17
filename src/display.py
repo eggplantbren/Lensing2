@@ -165,7 +165,7 @@ for i in range(0, output.shape[0]):
 
     substructure_num_in_image.append(sum(inside))
     substructure_mass_in_image = hstack([substructure_mass_in_image,\
-      substructure_density.sum() * dx * dy])
+      m_substructures[inside].sum()])
 
 show()
 
@@ -186,11 +186,13 @@ figure(3)
 rc("font", size=16, family="serif", serif="Computer Sans")
 rc("text", usetex=True)
 plot(output[:,3], mass_units*output[:,118:168].sum(axis=1),\
-                    'k.', alpha=0.2)
+                    'k.', alpha=0.2, label="Total")
+hold(True)
 plot(output[:,3], mass_units*array(substructure_mass_in_image),\
-                    'g.', alpha=0.2)
+                    'g.', alpha=0.2, label="Center within image")
 xlabel('SPEMD Einstein Radius')
 ylabel('Total substructure mass')
+legend(loc="upper right")
 
 # Plot the true masses
 #truth = loadtxt('Data/mock_truth.txt')
@@ -200,12 +202,15 @@ savefig('masses.pdf', bbox_inches='tight')
 show()
 
 width=0.6
-hist(output[:,17], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="k")
+hist(output[:,17], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="k",
+        label="Total")
 hold(True)
-hist(substructure_num_in_image, bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="g")
+hist(substructure_num_in_image, bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2,
+        label="Center within image", color="g")
 xlim([-0.5, 50.5])
 xlabel('$N_{\\rm lens}$')
 ylabel('Number of Posterior Samples')
+legend(loc="upper right")
 savefig('N_lens.pdf', bbox_inches='tight')
 show()
 
