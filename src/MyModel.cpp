@@ -319,7 +319,6 @@ void MyModel::calculate_model_image()
 		{
 			jj = j/resolution;
 			model_image[ii][jj] += coeff*surface_brightness[i][j];
-            model_image[ii][jj] += coeff*(bg[0] + bg[1]*x[i][j] + bg[2]*y[i][j]);
 		}
 	}
 
@@ -331,6 +330,17 @@ void MyModel::calculate_model_image()
         psf2.calculate_fft(model_image.size(),
                             model_image.size(), psf_power);
 		psf2.blur_image2(model_image);
+	}
+
+    // Add background
+	for(size_t i=0; i<xs.size(); i++)
+	{
+		ii = i/resolution;
+		for(size_t j=0; j<xs[i].size(); j++)
+		{
+			jj = j/resolution;
+            model_image[ii][jj] += coeff*(bg[0] + bg[1]*x[i][j] + bg[2]*y[i][j]);
+		}
 	}
 }
 
