@@ -16,6 +16,10 @@ class MyModel
 		BlobbySPEMD lens;
         double psf_power;
 
+        // Background stuff
+        std::vector<double> bgparams;
+        std::vector<short> signs;
+
 		// Noise model - constant variance plus component
 		// that depends on the flux of the model
 		double sigma0, sigma1;

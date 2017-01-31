@@ -15,6 +15,8 @@ MyModel::MyModel()
 	Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 ,lens(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
       Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
+,bgparams(3)
+,signs(3)
 ,xs(Data::get_instance().get_x_rays())
 ,ys(Data::get_instance().get_y_rays())
 ,surface_brightness(Data::get_instance().get_x_rays())
@@ -26,12 +28,22 @@ MyModel::MyModel()
 
 void MyModel::from_prior(RNG& rng)
 {
+    DNest4::Cauchy cauchy(0.0, 5.0);
+
 	source.from_prior(rng);
 	lens.from_prior(rng);
     psf_power = 2*rng.rand();
 
+    for(size_t i=0; i<bgparams.size(); ++i)
+    {
+        do
+        {
+            bgparams[i] = cauchy.generate(rng);
+        }while(std::abs(bgparams[i]) > 50.0);
+        bgparams[i] = exp(bgparams[i]);
 
-    DNest4::Cauchy cauchy(0.0, 5.0);
+        signs[i] = (rng.rand() < 0.5) ? (-1) : (1);    
+    }
 
     do
     {
@@ -54,20 +66,37 @@ double MyModel::perturb(RNG& rng)
 {
 	double logH = 0.;
 
-	if(rng.rand() <= 0.5)
+    int choice = rng.rand_int(4);
+    DNest4::Cauchy cauchy(0.0, 5.0);
+
+	if(choice == 0)
 	{
 		logH += source.perturb(rng);
 
 		calculate_surface_brightness(source.get_blobs().get_removed().size() == 0);
 		calculate_model_image();
 	}
-	else if(rng.rand() <= 0.5)
+    else if(choice == 1)
+    {
+        int i = rng.rand_int(3);
+        bgparams[i] = log(bgparams[i]);
+        logH += cauchy.perturb(bgparams[i], rng);
+        if(std::abs(bgparams[i]) > 50.0)
+            logH = -1E300;
+        bgparams[i] = exp(bgparams[i]);
+
+        // Flip sign?
+        if(rng.rand() <= 0.2)
+            signs[i] *= -1;
+
+        calculate_model_image();
+    }
+	else if(choice == 2)
 	{
         int which = rng.rand_int(3);
 
         if(which == 0)
         {
-            DNest4::Cauchy cauchy(0.0, 5.0);
 
             sigma0 = log(sigma0);
             logH += cauchy.perturb(sigma0, rng);
@@ -138,6 +167,11 @@ void MyModel::print(std::ostream& out) const
 {
 	out<<setprecision(6);
 	out<<' '<<sigma0<<' '<<sigma1<<' '<<psf_power<<' ';
+    std::vector<double> bg = bgparams;
+    for(size_t i=0; i<bg.size(); ++i)
+        bg[i] *= signs[i];
+    out<<bg[0]<<' '<<bg[1]<<' '<<bg[2]<<' ';
+
 	lens.print(out);
 	source.print(out);
 
@@ -165,6 +199,7 @@ string MyModel::description() const
 {
     stringstream s;
     s<<"sigma0, sigma1, psf_power, ";
+    s<<"bg[0], bg[1], bg[2], ";
     s<<"b, q, rc, slope, xc, yc, theta, shear, theta_shear, ";
     s<<"dim_lens_blobs, max_num_lens_blobs, ";
     s<<"mu_lens_blobs, a_lens_blobs, b_lens_blobs, ";
@@ -266,7 +301,14 @@ void MyModel::calculate_model_image()
 	int resolution = Data::get_instance().get_resolution();
 
 	model_image.assign(Data::get_instance().get_ni(),
-		vector<double>(Data::get_instance().get_nj(), 0.));
+		vector<double>(Data::get_instance().get_nj(), 0.0));
+
+    const auto& x = Data::get_instance().get_x_rays();
+    const auto& y = Data::get_instance().get_y_rays();
+
+    std::vector<double> bg = bgparams;
+    for(size_t i=0; i<bg.size(); ++i)
+        bg[i] *= signs[i];
 
 	int ii, jj;
 	double coeff = pow(static_cast<double>(resolution), -2);
@@ -277,6 +319,9 @@ void MyModel::calculate_model_image()
 		{
 			jj = j/resolution;
 			model_image[ii][jj] += coeff*surface_brightness[i][j];
+
+            // Add non-zero background
+            model_image[i][j] += bg[0] + bg[1]*x[i][j] + bg[2]*y[i][j];
 		}
 	}
 
@@ -293,13 +338,13 @@ void MyModel::calculate_model_image()
 
 void MyModel::read(std::istream& in)
 {
-    in>>sigma0>>sigma1>>psf_power;
-    lens.read(in);
-    source.read(in);
+//    in>>sigma0>>sigma1>>psf_power;
+//   lens.read(in);
+//    source.read(in);
 
-	shoot_rays();
-	calculate_surface_brightness();
-	calculate_model_image();
+//	shoot_rays();
+//	calculate_surface_brightness();
+//	calculate_model_image();
 }
 
 } // namespace Lensing2
