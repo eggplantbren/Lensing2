@@ -319,9 +319,7 @@ void MyModel::calculate_model_image()
 		{
 			jj = j/resolution;
 			model_image[ii][jj] += coeff*surface_brightness[i][j];
-
-            // Add non-zero background
-            model_image[i][j] += bg[0] + bg[1]*x[i][j] + bg[2]*y[i][j];
+            model_image[ii][jj] += coeff*(bg[0] + bg[1]*x[i][j] + bg[2]*y[i][j]);
 		}
 	}
 
