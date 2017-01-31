@@ -28,6 +28,7 @@ os.system("rm Frames/*.png")
 os.system("rm movie.mkv")
 
 output = dn4.my_loadtxt('posterior_sample.txt')
+indices = dn4.load_column_names("posterior_sample.txt")["indices"]
 
 # Open run_data.txt to get data filenames used for the run
 f = open("run_data.txt", "r")
@@ -71,11 +72,11 @@ for i in range(0, output.shape[0]):
     x = output[i, :]
 
     # Extract substructure information
-    n_substructures = x[17]
-    x_substructures = x[18:68]
-    y_substructures = x[68:118]
-    m_substructures = x[118:168]
-    w_substructures = x[168:218]
+    n_substructures = x[indices["num_lens_blobs"]]
+    x_substructures = x[indices["lens_blob_x[0]"]:indices["lens_blob_x[0]"] + 50]
+    y_substructures = x[indices["lens_blob_y[0]"]:indices["lens_blob_y[0]"] + 50]
+    m_substructures = x[indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"] + 50]
+    w_substructures = x[indices["lens_blob_width[0]"]:indices["lens_blob_width[0]"] + 50]
 
     # Remove substructures out of image boundaries (don't plot these)
 #    good = logical_and(x_substructures > metadata[2],
@@ -87,18 +88,18 @@ for i in range(0, output.shape[0]):
     y_substructures = y_substructures[good]
     m_substructures = m_substructures[good]
     w_substructures = w_substructures[good]
-    x_nie, y_nie = x[7], x[8]
+    x_nie, y_nie = x[indices["xc"]], x[indices["yc"]]
 
     # Extract images
     # For MyModel2 (sersic source only), replace 468 with 66
     # Sersic source model parameters are columns 59-65
-    src = x[2227:2227 + metadata[0]*metadata[1]*metadata[7]**2]
+    src = x[indices["source[0][0]"]:indices["source[0][0]"] + metadata[0]*metadata[1]*metadata[7]**2]
     src = src.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 
-    img1 = x[2227 + metadata[0]*metadata[1]*metadata[7]**2:2227 + 2*metadata[0]*metadata[1]*metadata[7]**2]
+    img1 = x[indices["source[0][0]"] + metadata[0]*metadata[1]*metadata[7]**2:indices["source[0][0]"] + 2*metadata[0]*metadata[1]*metadata[7]**2]
     img1 = img1.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 
-    img2 = x[2227 + 2*metadata[0]*metadata[1]*metadata[7]**2:]
+    img2 = x[indices["source[0][0]"] + 2*metadata[0]*metadata[1]*metadata[7]**2:]
     img2 = img2.reshape((metadata[0], metadata[1]))
 
     subplot(2,3,1)
@@ -185,7 +186,7 @@ show()
 figure(3)
 rc("font", size=16, family="serif", serif="Computer Sans")
 rc("text", usetex=True)
-plot(output[:,3], mass_units*output[:,118:168].sum(axis=1),\
+plot(output[:,3], mass_units*output[:,indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"]+50].sum(axis=1),\
                     'k.', alpha=0.2, label="Total")
 hold(True)
 plot(output[:,3], mass_units*array(substructure_mass_in_image),\
