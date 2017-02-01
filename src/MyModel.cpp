@@ -346,13 +346,24 @@ void MyModel::calculate_model_image()
 
 void MyModel::read(std::istream& in)
 {
-//    in>>sigma0>>sigma1>>psf_power;
-//   lens.read(in);
-//    source.read(in);
+    in>>sigma0>>sigma1>>psf_power;
+    for(size_t i=0; i<bgparams.size(); ++i)
+    {
+        in >> bgparams[i];
+        if(bgparams[i] < 0.0)
+        {
+            bgparams[i] *= -1.0;
+            signs[i] = -1;
+        }
+        else
+            signs[i] = 1;
+    }
+    lens.read(in);
+    source.read(in);
 
-//	shoot_rays();
-//	calculate_surface_brightness();
-//	calculate_model_image();
+	shoot_rays();
+	calculate_surface_brightness();
+	calculate_model_image();
 }
 
 } // namespace Lensing2
