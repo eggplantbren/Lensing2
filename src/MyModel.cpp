@@ -298,10 +298,10 @@ void MyModel::calculate_surface_brightness(bool update)
 
 void MyModel::calculate_model_image()
 {
-	int resolution = Data::get_instance().get_resolution();
+    int resolution = Data::get_instance().get_resolution();
 
-	model_image.assign(Data::get_instance().get_ni(),
-		vector<double>(Data::get_instance().get_nj(), 0.0));
+    model_image.assign(Data::get_instance().get_ni(),
+        vector<double>(Data::get_instance().get_nj(), 0.0));
 
     const auto& x = Data::get_instance().get_x_rays();
     const auto& y = Data::get_instance().get_y_rays();
@@ -310,38 +310,38 @@ void MyModel::calculate_model_image()
     for(size_t i=0; i<bg.size(); ++i)
         bg[i] *= signs[i];
 
-	int ii, jj;
-	double coeff = pow(static_cast<double>(resolution), -2);
-	for(size_t i=0; i<xs.size(); i++)
-	{
-		ii = i/resolution;
-		for(size_t j=0; j<xs[i].size(); j++)
-		{
-			jj = j/resolution;
-			model_image[ii][jj] += coeff*surface_brightness[i][j];
-		}
-	}
+    int ii, jj;
+    double coeff = pow(static_cast<double>(resolution), -2);
+    for(size_t i=0; i<xs.size(); i++)
+    {
+        ii = i/resolution;
+        for(size_t j=0; j<xs[i].size(); j++)
+        {
+            jj = j/resolution;
+            model_image[ii][jj] += coeff*surface_brightness[i][j];
+        }
+    }
 
-	if(!Data::get_instance().psf_is_highres())
-	{
-		// Blur using the PSF
-		const PSF& psf = Data::get_instance().get_psf();
+    if(!Data::get_instance().psf_is_highres())
+    {
+        // Blur using the PSF
+        const PSF& psf = Data::get_instance().get_psf();
         auto psf2 = psf;
         psf2.calculate_fft(model_image.size(),
                             model_image.size(), psf_power);
-		psf2.blur_image2(model_image);
-	}
+        psf2.blur_image2(model_image);
+    }
 
     // Add background
-	for(size_t i=0; i<xs.size(); i++)
-	{
-		ii = i/resolution;
-		for(size_t j=0; j<xs[i].size(); j++)
-		{
-			jj = j/resolution;
+    for(size_t i=0; i<xs.size(); i++)
+    {
+        ii = i/resolution;
+        for(size_t j=0; j<xs[i].size(); j++)
+        {
+            jj = j/resolution;
             model_image[ii][jj] += coeff*(bg[0] + bg[1]*x[i][j] + bg[2]*y[i][j]);
-		}
-	}
+        }
+    }
 }
 
 void MyModel::read(std::istream& in)
