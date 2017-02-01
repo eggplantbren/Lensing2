@@ -18,6 +18,10 @@ class MyModel
         double psf_power;
         std::vector<std::vector<double>> alt_psf;
 
+        // Background stuff
+        std::vector<double> bgparams;
+        std::vector<short> signs;
+
 		// Noise model - constant variance plus component
 		// that depends on the flux of the model
 		double sigma0, sigma1;

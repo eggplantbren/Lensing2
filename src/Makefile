@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -std=c++11 -O3 -DARMA_NO_DEBUG -DNDEBUG -Wall -Wextra -pedantic
-OBJECTS = BasicCircular.o Blobby.o Data.o MyModel.o BasicUniform.o BlobbySPEMD.o fastell.o PSF.o
+OBJECTS = BasicCircular.o Blobby.o Data.o MyModel.o LensBlobConditionalPrior.o BlobbySPEMD.o fastell.o PSF.o
 LIBS = -ldnest4 -lpthread -lgfortran
 
 default:

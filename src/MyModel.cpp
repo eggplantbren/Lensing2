@@ -16,6 +16,8 @@ MyModel::MyModel()
 ,lens(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
       Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 ,alt_psf(Data::get_instance().get_psf().get_pixels())
+,bgparams(3)
+,signs(3)
 ,xs(Data::get_instance().get_x_rays())
 ,ys(Data::get_instance().get_y_rays())
 ,surface_brightness(Data::get_instance().get_x_rays())
@@ -27,6 +29,8 @@ MyModel::MyModel()
 
 void MyModel::from_prior(RNG& rng)
 {
+    DNest4::Cauchy cauchy(0.0, 5.0);
+
 	source.from_prior(rng);
 	lens.from_prior(rng);
 
@@ -35,7 +39,15 @@ void MyModel::from_prior(RNG& rng)
         for(size_t j=0; j<alt_psf.size(); ++j)
             alt_psf[i][j] = -log(1.0 - rng.rand());
 
-    DNest4::Cauchy cauchy(0.0, 5.0);
+    for(size_t i=0; i<bgparams.size(); ++i)
+    {
+        do
+        {
+            bgparams[i] = cauchy.generate(rng);
+        }while(std::abs(bgparams[i]) > 50.0);
+        bgparams[i] = exp(bgparams[i]);
+        signs[i] = (rng.rand() < 0.5) ? (-1) : (1);    
+    }
 
     do
     {
@@ -58,20 +70,37 @@ double MyModel::perturb(RNG& rng)
 {
 	double logH = 0.;
 
-	if(rng.rand() <= 0.5)
+    int choice = rng.rand_int(4);
+    DNest4::Cauchy cauchy(0.0, 5.0);
+
+	if(choice == 0)
 	{
 		logH += source.perturb(rng);
 
 		calculate_surface_brightness(source.get_blobs().get_removed().size() == 0);
 		calculate_model_image();
 	}
-	else if(rng.rand() <= 0.5)
+    else if(choice == 1)
+    {
+        int i = rng.rand_int(3);
+        bgparams[i] = log(bgparams[i]);
+        logH += cauchy.perturb(bgparams[i], rng);
+        if(std::abs(bgparams[i]) > 50.0)
+            logH = -1E300;
+        bgparams[i] = exp(bgparams[i]);
+
+        // Flip sign?
+        if(rng.rand() <= 0.2)
+            signs[i] *= -1;
+
+        calculate_model_image();
+    }
+	else if(choice == 2)
 	{
         int which = rng.rand_int(4);
 
         if(which == 0)
         {
-            DNest4::Cauchy cauchy(0.0, 5.0);
 
             sigma0 = log(sigma0);
             logH += cauchy.perturb(sigma0, rng);
@@ -161,6 +190,11 @@ void MyModel::print(std::ostream& out) const
 {
 	out<<setprecision(6);
 	out<<' '<<sigma0<<' '<<sigma1<<' '<<psf_power<<' ';
+    std::vector<double> bg = bgparams;
+    for(size_t i=0; i<bg.size(); ++i)
+        bg[i] *= signs[i];
+    out<<bg[0]<<' '<<bg[1]<<' '<<bg[2]<<' ';
+
 	lens.print(out);
 	source.print(out);
 
@@ -188,6 +222,7 @@ string MyModel::description() const
 {
     stringstream s;
     s<<"sigma0, sigma1, psf_power, ";
+    s<<"bg[0], bg[1], bg[2], ";
     s<<"b, q, rc, slope, xc, yc, theta, shear, theta_shear, ";
     s<<"dim_lens_blobs, max_num_lens_blobs, ";
     s<<"mu_lens_blobs, a_lens_blobs, b_lens_blobs, ";
@@ -286,37 +321,66 @@ void MyModel::calculate_surface_brightness(bool update)
 
 void MyModel::calculate_model_image()
 {
-	int resolution = Data::get_instance().get_resolution();
+    int resolution = Data::get_instance().get_resolution();
 
-	model_image.assign(Data::get_instance().get_ni(),
-		vector<double>(Data::get_instance().get_nj(), 0.));
+    model_image.assign(Data::get_instance().get_ni(),
+        vector<double>(Data::get_instance().get_nj(), 0.0));
 
-	int ii, jj;
-	double coeff = pow(static_cast<double>(resolution), -2);
-	for(size_t i=0; i<xs.size(); i++)
-	{
-		ii = i/resolution;
-		for(size_t j=0; j<xs[i].size(); j++)
-		{
-			jj = j/resolution;
-			model_image[ii][jj] += coeff*surface_brightness[i][j];
-		}
-	}
+    const auto& x = Data::get_instance().get_x_rays();
+    const auto& y = Data::get_instance().get_y_rays();
 
-	if(!Data::get_instance().psf_is_highres())
-	{
-		// Blur using the PSF
-		const PSF& psf = Data::get_instance().get_psf();
+    std::vector<double> bg = bgparams;
+    for(size_t i=0; i<bg.size(); ++i)
+        bg[i] *= signs[i];
+
+    int ii, jj;
+    double coeff = pow(static_cast<double>(resolution), -2);
+    for(size_t i=0; i<xs.size(); i++)
+    {
+        ii = i/resolution;
+        for(size_t j=0; j<xs[i].size(); j++)
+        {
+            jj = j/resolution;
+            model_image[ii][jj] += coeff*surface_brightness[i][j];
+        }
+    }
+
+    if(!Data::get_instance().psf_is_highres())
+    {
+        // Blur using the PSF
+        const PSF& psf = Data::get_instance().get_psf();
         auto psf2 = psf;
         psf2.calculate_fft(model_image.size(),
-                            model_image.size(), psf_power, alt_psf);
+                           model_image.size(), psf_power, alt_psf);
 		psf2.blur_image2(model_image);
 	}
+
+    // Add background
+    for(size_t i=0; i<xs.size(); i++)
+    {
+        ii = i/resolution;
+        for(size_t j=0; j<xs[i].size(); j++)
+        {
+            jj = j/resolution;
+            model_image[ii][jj] += coeff*(bg[0] + bg[1]*x[i][j] + bg[2]*y[i][j]);
+        }
+    }
 }
 
 void MyModel::read(std::istream& in)
 {
     in>>sigma0>>sigma1>>psf_power;
+    for(size_t i=0; i<bgparams.size(); ++i)
+    {
+        in >> bgparams[i];
+        if(bgparams[i] < 0.0)
+        {
+            bgparams[i] *= -1.0;
+            signs[i] = -1;
+        }
+        else
+            signs[i] = 1;
+    }
     lens.read(in);
     source.read(in);
 

@@ -20,8 +20,7 @@ BlobbySPEMD::BlobbySPEMD(double x_min, double x_max, double y_min, double y_max)
 :x_min(x_min), x_max(x_max), y_min(y_min), y_max(y_max)
 ,scale(sqrt((x_max - x_min)*(y_max - y_min)))
 ,blobs(4, 50, false,
-	BasicUniform(x_min - 1.0*(x_max - x_min), x_max + 1.0*(x_max - x_min),
-                 y_min - 1.0*(y_max - y_min), y_max + 1.0*(y_max - y_min)),
+	LensBlobConditionalPrior(x_min, x_max, y_min, y_max),
     PriorType::log_uniform)
 ,blobs_flag(false)
 {
@@ -232,6 +231,15 @@ void BlobbySPEMD::print(ostream& out) const
 void BlobbySPEMD::read(std::istream& in)
 {
     in>>b>>q>>rc>>slope>>xc>>yc>>theta>>shear>>theta_shear;
+    // Compute derived stuff
+	qq = q;
+	if(qq == 1.)
+		qq = 0.99999;
+	bb = b/sqrt(qq); // Semi-major axis
+
+    cos_theta = cos(theta); sin_theta = sin(theta);
+    cos_theta_shear = cos(theta_shear); sin_theta_shear = sin(theta_shear);
+
     blobs.read(in);
 }
 

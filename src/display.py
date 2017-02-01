@@ -17,7 +17,7 @@ def blob_density(x, y, params):
     rsq = (x - params[0])**2 + (y - params[1])**2
     widthsq = width**2
     f = zeros(x.shape)
-    f[rsq < widthsq] = mass/(2*pi)*(1 - rsq[rsq < widthsq]/widthsq)/widthsq
+    f[rsq < widthsq] = 2*mass/pi*(1 - rsq[rsq < widthsq]/widthsq)/widthsq
     return f
 
 os.system("rm -rf Frames/ movie.mkv")
@@ -28,6 +28,7 @@ os.system("rm Frames/*.png")
 os.system("rm movie.mkv")
 
 output = dn4.my_loadtxt('posterior_sample.txt')
+indices = dn4.load_column_names("posterior_sample.txt")["indices"]
 
 # Open run_data.txt to get data filenames used for the run
 f = open("run_data.txt", "r")
@@ -62,6 +63,10 @@ total = zeros((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 magnification = zeros(output.shape[0])
 all_substructures_x = array([])
 all_substructures_y = array([])
+substructure_num_in_image = []
+substructure_mass_in_image = array([])
+
+max_num_blobs = int(output[0, indices["max_num_lens_blobs"]])
 
 figure(figsize=(14, 9))
 hold(False)
@@ -69,11 +74,11 @@ for i in range(0, output.shape[0]):
     x = output[i, :]
 
     # Extract substructure information
-    n_substructures = x[17]
-    x_substructures = x[18:68]
-    y_substructures = x[68:118]
-    m_substructures = x[118:168]
-    w_substructures = x[168:218]
+    n_substructures = x[indices["num_lens_blobs"]]
+    x_substructures = x[indices["lens_blob_x[0]"]:indices["lens_blob_x[0]"] + max_num_blobs]
+    y_substructures = x[indices["lens_blob_y[0]"]:indices["lens_blob_y[0]"] + max_num_blobs]
+    m_substructures = x[indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"] + max_num_blobs]
+    w_substructures = x[indices["lens_blob_width[0]"]:indices["lens_blob_width[0]"] + max_num_blobs]
 
     # Remove substructures out of image boundaries (don't plot these)
 #    good = logical_and(x_substructures > metadata[2],
@@ -85,18 +90,18 @@ for i in range(0, output.shape[0]):
     y_substructures = y_substructures[good]
     m_substructures = m_substructures[good]
     w_substructures = w_substructures[good]
-    x_nie, y_nie = x[7], x[8]
+    x_nie, y_nie = x[indices["xc"]], x[indices["yc"]]
 
     # Extract images
     # For MyModel2 (sersic source only), replace 468 with 66
     # Sersic source model parameters are columns 59-65
-    src = x[2227:2227 + metadata[0]*metadata[1]*metadata[7]**2]
+    src = x[indices["source[0][0]"]:indices["source[0][0]"] + metadata[0]*metadata[1]*metadata[7]**2]
     src = src.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 
-    img1 = x[2227 + metadata[0]*metadata[1]*metadata[7]**2:2227 + 2*metadata[0]*metadata[1]*metadata[7]**2]
+    img1 = x[indices["source[0][0]"] + metadata[0]*metadata[1]*metadata[7]**2:indices["source[0][0]"] + 2*metadata[0]*metadata[1]*metadata[7]**2]
     img1 = img1.reshape((metadata[0]*metadata[7], metadata[1]*metadata[7]))
 
-    img2 = x[2227 + 2*metadata[0]*metadata[1]*metadata[7]**2:]
+    img2 = x[indices["source[0][0]"] + 2*metadata[0]*metadata[1]*metadata[7]**2:]
     img2 = img2.reshape((metadata[0], metadata[1]))
 
     subplot(2,3,1)
@@ -156,6 +161,15 @@ for i in range(0, output.shape[0]):
     all_substructures_x = hstack([all_substructures_x, x_substructures])
     all_substructures_y = hstack([all_substructures_y, y_substructures])
 
+    inside = (x_substructures > metadata[2]) &\
+             (x_substructures < metadata[3]) &\
+             (y_substructures > metadata[4]) &\
+             (y_substructures < metadata[5])
+
+    substructure_num_in_image.append(sum(inside))
+    substructure_mass_in_image = hstack([substructure_mass_in_image,\
+      m_substructures[inside].sum()])
+
 show()
 
 os.system('ffmpeg -r 10 -i Frames/%06d.png -c:v h264 -b:v 4192k movie.mkv')
@@ -174,10 +188,14 @@ show()
 figure(3)
 rc("font", size=16, family="serif", serif="Computer Sans")
 rc("text", usetex=True)
-plot(output[:,3], mass_units*output[:,118:168].sum(axis=1),\
-                    'ko', markersize=5, alpha=0.2)
+plot(output[:,indices["b"]], mass_units*output[:,indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"]+max_num_blobs].sum(axis=1),\
+                    'k.', alpha=0.2, label="Total")
+hold(True)
+plot(output[:,indices["b"]], mass_units*array(substructure_mass_in_image),\
+                    'g.', alpha=0.2, label="Center within image")
 xlabel('SPEMD Einstein Radius')
 ylabel('Total substructure mass')
+legend(loc="upper right", numpoints=1)
 
 # Plot the true masses
 #truth = loadtxt('Data/mock_truth.txt')
@@ -187,10 +205,15 @@ savefig('masses.pdf', bbox_inches='tight')
 show()
 
 width=0.6
-hist(output[:,17], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.5, color="k")
-xlim([-0.5, 50.5])
+hist(output[:,indices["num_lens_blobs"]], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="k",
+        label="Total")
+hold(True)
+hist(substructure_num_in_image, bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2,
+        label="Center within image", color="g")
+xlim([-0.5, max_num_blobs+0.5])
 xlabel('$N_{\\rm lens}$')
 ylabel('Number of Posterior Samples')
+legend(loc="upper right")
 savefig('N_lens.pdf', bbox_inches='tight')
 show()
 
