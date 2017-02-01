@@ -66,6 +66,8 @@ all_substructures_y = array([])
 substructure_num_in_image = []
 substructure_mass_in_image = array([])
 
+max_num_blobs = int(output[0, indices["max_num_lens_blobs"]])
+
 figure(figsize=(14, 9))
 hold(False)
 for i in range(0, output.shape[0]):
@@ -73,10 +75,10 @@ for i in range(0, output.shape[0]):
 
     # Extract substructure information
     n_substructures = x[indices["num_lens_blobs"]]
-    x_substructures = x[indices["lens_blob_x[0]"]:indices["lens_blob_x[0]"] + 50]
-    y_substructures = x[indices["lens_blob_y[0]"]:indices["lens_blob_y[0]"] + 50]
-    m_substructures = x[indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"] + 50]
-    w_substructures = x[indices["lens_blob_width[0]"]:indices["lens_blob_width[0]"] + 50]
+    x_substructures = x[indices["lens_blob_x[0]"]:indices["lens_blob_x[0]"] + max_num_blobs]
+    y_substructures = x[indices["lens_blob_y[0]"]:indices["lens_blob_y[0]"] + max_num_blobs]
+    m_substructures = x[indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"] + max_num_blobs]
+    w_substructures = x[indices["lens_blob_width[0]"]:indices["lens_blob_width[0]"] + max_num_blobs]
 
     # Remove substructures out of image boundaries (don't plot these)
 #    good = logical_and(x_substructures > metadata[2],
@@ -186,7 +188,7 @@ show()
 figure(3)
 rc("font", size=16, family="serif", serif="Computer Sans")
 rc("text", usetex=True)
-plot(output[:,3], mass_units*output[:,indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"]+50].sum(axis=1),\
+plot(output[:,3], mass_units*output[:,indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"]+max_num_blobs].sum(axis=1),\
                     'k.', alpha=0.2, label="Total")
 hold(True)
 plot(output[:,indices["b"]], mass_units*array(substructure_mass_in_image),\
@@ -208,7 +210,7 @@ hist(output[:,17], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color
 hold(True)
 hist(substructure_num_in_image, bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2,
         label="Center within image", color="g")
-xlim([-0.5, 50.5])
+xlim([-0.5, max_num_blobs+0.5])
 xlabel('$N_{\\rm lens}$')
 ylabel('Number of Posterior Samples')
 legend(loc="upper right")
