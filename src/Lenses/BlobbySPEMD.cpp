@@ -231,6 +231,15 @@ void BlobbySPEMD::print(ostream& out) const
 void BlobbySPEMD::read(std::istream& in)
 {
     in>>b>>q>>rc>>slope>>xc>>yc>>theta>>shear>>theta_shear;
+    // Compute derived stuff
+	qq = q;
+	if(qq == 1.)
+		qq = 0.99999;
+	bb = b/sqrt(qq); // Semi-major axis
+
+    cos_theta = cos(theta); sin_theta = sin(theta);
+    cos_theta_shear = cos(theta_shear); sin_theta_shear = sin(theta_shear);
+
     blobs.read(in);
 }
 
