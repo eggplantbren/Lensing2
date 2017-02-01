@@ -188,7 +188,7 @@ show()
 figure(3)
 rc("font", size=16, family="serif", serif="Computer Sans")
 rc("text", usetex=True)
-plot(output[:,3], mass_units*output[:,indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"]+max_num_blobs].sum(axis=1),\
+plot(output[:,indices["b"]], mass_units*output[:,indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"]+max_num_blobs].sum(axis=1),\
                     'k.', alpha=0.2, label="Total")
 hold(True)
 plot(output[:,indices["b"]], mass_units*array(substructure_mass_in_image),\
@@ -205,7 +205,7 @@ savefig('masses.pdf', bbox_inches='tight')
 show()
 
 width=0.6
-hist(output[:,17], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="k",
+hist(output[:,indices["num_lens_blobs"]], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="k",
         label="Total")
 hold(True)
 hist(substructure_num_in_image, bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2,
