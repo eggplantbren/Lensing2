@@ -189,7 +189,7 @@ rc("text", usetex=True)
 plot(output[:,3], mass_units*output[:,indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"]+50].sum(axis=1),\
                     'k.', alpha=0.2, label="Total")
 hold(True)
-plot(output[:,3], mass_units*array(substructure_mass_in_image),\
+plot(output[:,indices["b"]], mass_units*array(substructure_mass_in_image),\
                     'g.', alpha=0.2, label="Center within image")
 xlabel('SPEMD Einstein Radius')
 ylabel('Total substructure mass')
