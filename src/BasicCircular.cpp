@@ -1,9 +1,12 @@
 #include "BasicCircular.h"
+#include <boost/math/distributions/gamma.hpp>
+#include <boost/math/special_functions/gamma.hpp>
 #include "DNest4/code/Distributions/Cauchy.h"
 #include "DNest4/code/RNG.h"
 #include "DNest4/code/Utils.h"
 #include <cmath>
 
+using namespace boost::math;
 using namespace DNest4;
 
 BasicCircular::BasicCircular(double x_min, double x_max,
@@ -28,6 +31,7 @@ void BasicCircular::from_prior(RNG& rng)
 	}while(xc < x_min || xc > x_max || yc < y_min || yc > y_max);
 
 	width = exp(log(1E-2*size) + log(1E3)*rng.rand());
+    shape = 0.1 + 1.9*rng.rand();
 
     DNest4::Cauchy cauchy(0.0, 5.0);
     do
@@ -44,7 +48,7 @@ void BasicCircular::from_prior(RNG& rng)
 double BasicCircular::perturb_hyperparameters(RNG& rng)
 {
 	double logH = 0.;
-	int which = rng.rand_int(5);
+	int which = rng.rand_int(6);
 
 	if(which == 0)
 	{
@@ -60,14 +64,19 @@ double BasicCircular::perturb_hyperparameters(RNG& rng)
 		logH += -log(1. + pow((xc - 0.5*(x_min + x_max))/(0.1*(x_max - x_min)), 2));
 		logH += -log(1. + pow((yc - 0.5*(y_min + y_max))/(0.1*(y_max - y_min)), 2));
 	}
-	else if(which == 1)
+    else if(which == 1)
+    {
+        shape += 1.9*rng.randh();
+        DNest4::wrap(shape, 0.1, 2.0);
+    }
+	else if(which == 2)
 	{
 		width = log(width);
 		width += log(1E3)*pow(10., 1.5 - 6.*rng.rand())*rng.randn();
 		width = mod(width - log(1E-2*size), log(1E3)) + log(1E-2*size);
 		width = exp(width);
 	}
-	else if(which == 2)
+	else if(which == 3)
 	{
         DNest4::Cauchy cauchy(0.0, 5.0);
 
@@ -77,7 +86,7 @@ double BasicCircular::perturb_hyperparameters(RNG& rng)
             return -1E300;
         mu = exp(mu);
 	}
-	else if(which == 3)
+	else if(which == 4)
 	{
 		b = log(b);
 		b += log(1E3)*pow(10., 1.5 - 6.*rng.rand())*rng.randn();
@@ -97,13 +106,19 @@ double BasicCircular::perturb_hyperparameters(RNG& rng)
 
 double BasicCircular::log_pdf(const std::vector<double>& vec) const
 {
+    gamma_distribution<double> my_gamma(1.0/(shape*shape), width*shape*shape);
+
 	if(vec[2] < 0. || vec[3] < a || vec[3] > b)
 		return -1E300;
 
 	double logp = 0.;
 	double r = sqrt(pow(vec[0] - xc, 2) + pow(vec[1] - yc, 2));
 
-	logp += -log(r) - log(width) - r/width;
+    double alpha  = 1.0/(shape*shape);
+    double lambda = 1.0/(width*shape*shape);
+
+	logp += -log(r) - std::lgamma(alpha) + alpha*log(lambda)
+                        + (alpha - 1.0)*log(r) - lambda*r;
 	logp += -log(mu) - vec[2]/mu;
 	logp += -log(b - a);
 
@@ -112,7 +127,9 @@ double BasicCircular::log_pdf(const std::vector<double>& vec) const
 
 void BasicCircular::from_uniform(std::vector<double>& vec) const
 {
-	double r = -width*log(1. - vec[0]);
+    gamma_distribution<double> my_gamma(1.0/(shape*shape), width*shape*shape);
+
+	double r = quantile(my_gamma, vec[0]);
 	double phi = 2.*M_PI*vec[1];
 
 	vec[0] = xc + r*cos(phi);
@@ -123,12 +140,14 @@ void BasicCircular::from_uniform(std::vector<double>& vec) const
 
 void BasicCircular::to_uniform(std::vector<double>& vec) const
 {
+    gamma_distribution<double> my_gamma(1.0/(shape*shape), width*shape*shape);
+
 	double r = sqrt(pow(vec[0] - xc, 2) + pow(vec[1] - yc, 2));
 	double phi = atan2(vec[1] - yc, vec[0] - xc);
 	if(phi < 0.)
 		phi += 2.*M_PI;
 
-	vec[0] = 1. - exp(-r/width);
+	vec[0] = cdf(my_gamma, r);
 	vec[1] = phi/(2.*M_PI);
 	vec[2] = 1. - exp(-vec[2]/mu);
 	vec[3] = (vec[3] - a)/(b - a);
@@ -136,12 +155,12 @@ void BasicCircular::to_uniform(std::vector<double>& vec) const
 
 void BasicCircular::print(std::ostream& out) const
 {
-	out<<xc<<' '<<yc<<' '<<width<<' '<<mu<<' '<<a<<' '<<b<<' ';
+	out<<xc<<' '<<yc<<' '<<width<<' '<<shape<<' '<<mu<<' '<<a<<' '<<b<<' ';
 }
 
 void BasicCircular::read(std::istream& in)
 {
-    in>>xc>>yc>>width>>mu>>a>>b;
+    in>>xc>>yc>>width>>shape>>mu>>a>>b;
     k = a/b;
 }
 

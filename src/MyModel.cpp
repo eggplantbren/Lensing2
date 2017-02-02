@@ -215,7 +215,7 @@ string MyModel::description() const
         s<<"lens_blob_width["<<i<<"], ";
 
     s<<"dim_source_blobs, max_num_source_blobs, ";
-    s<<"xc_source_blobs, yc_source_blobs, width_source_blobs, ";
+    s<<"xc_source_blobs, yc_source_blobs, width_source_blobs, shape_source_blobs, ";
     s<<"mu_source_blobs, a_source_blobs, b_source_blobs, ";
     s<<"num_source_blobs, ";
 
