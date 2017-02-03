@@ -1,8 +1,10 @@
 #ifndef _PSF_
 #define _PSF_
 
-#include <vector>
 #include <armadillo>
+#include <ostream>
+#include <vector>
+#include "DNest4/code/RNG.h"
 
 class PSF
 {
@@ -23,6 +25,12 @@ class PSF
 
 	public:
 		PSF(int size);
+
+        // DNest4 stuff
+        void from_prior(DNest4::RNG& rng);
+        void perturb(DNest4::RNG& rng);
+        void print(std::ostream& out) const;
+
 		// Uses loopy method
 		void blur_image(std::vector< std::vector<double> >& img) const;
 		// Uses fft method

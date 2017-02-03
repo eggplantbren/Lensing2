@@ -17,6 +17,16 @@ PSF::PSF(int size)
 	pixels[size/2][size/2] = 1.;
 }
 
+void PSF::from_prior(DNest4::RNG& rng)
+{
+    outer_width = size*rng.rand();
+    inner_width_frac = rng.rand();
+    inner_mass_frac = rng.rand();
+    q = exp(0.2*rng.randn());
+    theta = 2*M_PI*rng.rand();
+    cos_theta = cos(theta); sin_theta = sin(theta);
+}
+
 void PSF::set_size(int new_size)
 {
 	size = new_size;
