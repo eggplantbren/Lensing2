@@ -10,6 +10,13 @@ class PSF
 		int size;
 		std::vector< std::vector<double> > pixels;
 
+        // Double-gaussian model
+        double outer_width;
+        double inner_width_frac;
+        double inner_mass_frac;
+        double q;
+        double theta, cos_theta, sin_theta;
+
 		// FFT of the PSF
 		arma::cx_mat fft_of_psf;
 		bool fft_ready;
