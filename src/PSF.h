@@ -28,7 +28,7 @@ class PSF
 
         // DNest4 stuff
         void from_prior(DNest4::RNG& rng);
-        void perturb(DNest4::RNG& rng);
+        double perturb(DNest4::RNG& rng);
         void print(std::ostream& out) const;
 
 		// Uses loopy method

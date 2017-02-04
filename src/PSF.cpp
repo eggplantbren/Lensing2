@@ -1,8 +1,9 @@
 #include "PSF.h"
-#include "DNest4/code/Utils.h"
+
 #include <cassert>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include "DNest4/code/Utils.h"
 
 using namespace std;
 using namespace DNest4;
@@ -25,6 +26,43 @@ void PSF::from_prior(DNest4::RNG& rng)
     q = exp(0.2*rng.randn());
     theta = 2*M_PI*rng.rand();
     cos_theta = cos(theta); sin_theta = sin(theta);
+}
+
+double PSF::perturb(DNest4::RNG& rng)
+{
+    double logH = 0.0;
+
+    int which = rng.rand_int(5);
+    if(which == 0)
+    {
+        outer_width += size*rng.randh();
+        DNest4::wrap(outer_width, 0.0, size);
+    }
+    else if(which == 1)
+    {
+        inner_width_frac += rng.randh();
+        DNest4::wrap(inner_width_frac, 0.0, 1.0);
+    }
+    else if(which == 2)
+    {
+        inner_mass_frac += rng.randh();
+        DNest4::wrap(inner_mass_frac, 0.0, 1.0);
+    }
+    else if(which == 3)
+    {
+        q = log(q);
+        logH -= -0.5*pow(q/0.2, 2);
+        q += 0.2*rng.randh();
+        logH += -0.5*pow(q/0.2, 2);
+        q = exp(q);
+    }
+    else
+    {
+        theta += 2.0*M_PI*rng.randh();
+        DNest4::wrap(theta, 0.0, 2*M_PI);
+    }
+
+    return logH;
 }
 
 void PSF::set_size(int new_size)
