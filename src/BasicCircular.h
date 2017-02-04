@@ -13,6 +13,7 @@ class BasicCircular:public DNest4::ConditionalPrior
 		// Center and width of circle
 		double xc, yc;
 		double width;
+        double shape;
 
 		// Mean of exponential distribution for masses
 		double mu;
@@ -24,7 +25,7 @@ class BasicCircular:public DNest4::ConditionalPrior
 
 	public:
 		BasicCircular(double x_min, double x_max,
-					double y_min, double y_max);
+					  double y_min, double y_max);
 
 		void from_prior(DNest4::RNG& rng);
 
