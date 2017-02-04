@@ -26,6 +26,8 @@ void PSF::from_prior(DNest4::RNG& rng)
     q = exp(0.2*rng.randn());
     theta = 2*M_PI*rng.rand();
     cos_theta = cos(theta); sin_theta = sin(theta);
+
+    assemble();
 }
 
 double PSF::perturb(DNest4::RNG& rng)
@@ -61,8 +63,36 @@ double PSF::perturb(DNest4::RNG& rng)
         theta += 2.0*M_PI*rng.randh();
         DNest4::wrap(theta, 0.0, 2*M_PI);
     }
+    assemble();
 
     return logH;
+}
+
+void PSF::assemble()
+{
+    double inner_width = inner_width_frac * outer_width;
+    double inner_mass = inner_mass_frac;
+    double outer_mass = 1.0 - inner_mass_frac;
+    double tau1 = 1.0/(inner_width*inner_width);
+    double tau2 = 1.0/(outer_width*outer_width);
+    double qInv = 1.0/q;
+    double C = 1.0/(2*M_PI);
+
+    double rsq;
+    for(int i=0; i<size; ++i)
+    {
+        for(int j=0; j<size; ++j)
+        {
+            rsq = q*pow((double)i - 0.5*size, 2)
+                        + pow((double)j - 0.5*size, 2)*qInv;
+
+            pixels[i][j] = 0.0;
+            pixels[i][j] += inner_mass*tau1*C*exp(-0.5*rsq*tau1);
+            pixels[i][j] += outer_mass*tau2*C*exp(-0.5*rsq*tau2);
+        }
+    }
+
+    normalise();
 }
 
 void PSF::set_size(int new_size)

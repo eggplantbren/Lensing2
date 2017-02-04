@@ -31,6 +31,9 @@ class PSF
         double perturb(DNest4::RNG& rng);
         void print(std::ostream& out) const;
 
+        // Get everything ready
+        void assemble();
+
 		// Uses loopy method
 		void blur_image(std::vector< std::vector<double> >& img) const;
 		// Uses fft method
