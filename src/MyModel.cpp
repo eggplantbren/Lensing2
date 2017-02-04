@@ -190,6 +190,10 @@ void MyModel::print(std::ostream& out) const
 {
 	out<<setprecision(6);
 	out<<' '<<sigma0<<' '<<sigma1<<' '<<psf_power<<' ';
+    for(size_t i=0; i<alt_psf.size(); ++i)
+        for(size_t j=0; j<alt_psf[i].size(); ++j)
+            out<<alt_psf[i][j]<<' ';
+
     std::vector<double> bg = bgparams;
     for(size_t i=0; i<bg.size(); ++i)
         bg[i] *= signs[i];
@@ -222,6 +226,11 @@ string MyModel::description() const
 {
     stringstream s;
     s<<"sigma0, sigma1, psf_power, ";
+
+    for(size_t i=0; i<alt_psf.size(); ++i)
+        for(size_t j=0; j<alt_psf[i].size(); ++j)
+            s<<"alt_psf["<<i<<"]["<<j<<"], ";
+
     s<<"bg[0], bg[1], bg[2], ";
     s<<"b, q, rc, slope, xc, yc, theta, shear, theta_shear, ";
     s<<"dim_lens_blobs, max_num_lens_blobs, ";
@@ -370,6 +379,10 @@ void MyModel::calculate_model_image()
 void MyModel::read(std::istream& in)
 {
     in>>sigma0>>sigma1>>psf_power;
+    for(size_t i=0; i<alt_psf.size(); ++i)
+        for(size_t j=0; j<alt_psf[i].size(); ++j)
+            in>>alt_psf[i][j];
+
     for(size_t i=0; i<bgparams.size(); ++i)
     {
         in >> bgparams[i];
