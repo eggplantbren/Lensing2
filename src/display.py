@@ -69,8 +69,8 @@ substructure_mass_in_image = array([])
 max_num_blobs = int(output[0, indices["max_num_lens_blobs"]])
 
 figure(figsize=(14, 9))
-hold(False)
 for i in range(0, output.shape[0]):
+    clf()
     x = output[i, :]
 
     # Extract substructure information
@@ -116,13 +116,11 @@ for i in range(0, output.shape[0]):
 
     subplot(2,3,3)
     imshow(img2, extent=metadata[2:6], interpolation='nearest', cmap='viridis')
-    hold(True)
     # Plot center of NIE
     plot(x_nie, y_nie, 'wo', markersize=15, alpha=0.5)
     # Substructures
     plot(x_substructures, y_substructures, 'w*', markersize=15, alpha=0.5)
     title('Model Image ' + str(i+1))
-    hold(False)
     axis(metadata[2:6])
 
     subplot(2,3,4)
@@ -190,7 +188,6 @@ rc("font", size=16, family="serif", serif="Computer Sans")
 rc("text", usetex=True)
 plot(output[:,indices["b"]], mass_units*output[:,indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"]+max_num_blobs].sum(axis=1),\
                     'k.', alpha=0.2, label="Total")
-hold(True)
 plot(output[:,indices["b"]], mass_units*array(substructure_mass_in_image),\
                     'g.', alpha=0.2, label="Center within image")
 xlabel('SPEMD Einstein Radius')
@@ -199,7 +196,6 @@ legend(loc="upper right", numpoints=1)
 
 # Plot the true masses
 #truth = loadtxt('Data/mock_truth.txt')
-#hold(True)
 #plot(pi*truth[2]**2, truth[39:49].sum(), 'r*', markersize=20)
 savefig('masses.pdf', bbox_inches='tight')
 show()
@@ -207,7 +203,6 @@ show()
 width=0.6
 hist(output[:,indices["num_lens_blobs"]], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="k",
         label="Total")
-hold(True)
 hist(substructure_num_in_image, bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2,
         label="Center within image", color="g")
 xlim([-0.5, max_num_blobs+0.5])
@@ -222,7 +217,6 @@ temp = data*not_masked
 imshow(data*not_masked, extent=metadata[2:6],\
         vmin=-0.1*temp.max(), vmax=temp.max(),\
         interpolation='nearest', cmap='viridis')
-hold(True)
 plot(all_substructures_x, all_substructures_y, 'w.', markersize=3, alpha=0.1)
 gca().set_xticks([])
 gca().set_yticks([])
