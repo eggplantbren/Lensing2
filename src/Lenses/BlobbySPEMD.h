@@ -63,6 +63,9 @@ class BlobbySPEMD:public Lens
 
         // Read from an input stream
         void read(std::istream& in);
+
+        // Remove the blobs
+        void remove_blobs();
 };
 
 }

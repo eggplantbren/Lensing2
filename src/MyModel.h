@@ -60,6 +60,10 @@ class MyModel
 
         // Read from an input stream
         void read(std::istream& in);
+
+        // For purposes of understanding, sometimes I might want to remove
+        // the lens blobs.
+        void remove_lens_blobs();
 };
 
 } // namespace Lensing2

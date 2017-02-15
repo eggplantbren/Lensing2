@@ -366,5 +366,13 @@ void MyModel::read(std::istream& in)
 	calculate_model_image();
 }
 
+void MyModel::remove_lens_blobs()
+{
+    lens.remove_blobs();
+	shoot_rays();
+	calculate_surface_brightness();
+	calculate_model_image();
+}
+
 } // namespace Lensing2
 

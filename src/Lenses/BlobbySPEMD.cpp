@@ -130,6 +130,11 @@ void BlobbySPEMD::from_prior(RNG& rng)
 	blobs.from_prior(rng);
 }
 
+void BlobbySPEMD::remove_blobs()
+{
+    blobs.clear();
+}
+
 double BlobbySPEMD::perturb(RNG& rng)
 {
 	double logH = 0.;
