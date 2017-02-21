@@ -2,6 +2,7 @@
 #include "Data.h"
 #include "DNest4/code/Distributions/Cauchy.h"
 #include <cmath>
+#include <exception>
 #include <sstream>
 
 using namespace std;
@@ -366,9 +367,13 @@ void MyModel::read(std::istream& in)
 	calculate_model_image();
 }
 
-void MyModel::remove_lens_blobs()
+void MyModel::remove_lens_blobs(double x_min, double x_max,
+                                double y_min, double y_max)
 {
-    lens.remove_blobs();
+    if(x_min >= x_max || y_min >= y_max)
+        throw std::invalid_argument("ERROR: min >= max.");
+
+    lens.remove_blobs(x_min, x_max, y_min, y_max);
 	shoot_rays();
 	calculate_surface_brightness();
 	calculate_model_image();

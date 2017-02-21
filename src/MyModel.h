@@ -62,8 +62,9 @@ class MyModel
         void read(std::istream& in);
 
         // For purposes of understanding, sometimes I might want to remove
-        // the lens blobs.
-        void remove_lens_blobs();
+        // the lens blobs within the given box.
+        void remove_lens_blobs(double x_min, double x_max,
+                               double y_min, double y_max);
 };
 
 } // namespace Lensing2

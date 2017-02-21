@@ -130,9 +130,23 @@ void BlobbySPEMD::from_prior(RNG& rng)
 	blobs.from_prior(rng);
 }
 
-void BlobbySPEMD::remove_blobs()
+void BlobbySPEMD::remove_blobs(double x_min,
+                               double x_max,
+                               double y_min,
+                               double y_max)
 {
-    blobs.clear();
+    const auto& components = blobs.get_components();
+    std::vector<std::vector<double>> c;
+    for(size_t i=0; i<components.size(); ++i)
+    {
+        if(components[i][0] >= x_min &&
+           components[i][0] <= x_max &&
+           components[i][1] >= y_min &&
+           components[i][1] <= y_max)
+            c.push_back(components[i]);
+    }
+
+    blobs.set_components(c);
 }
 
 double BlobbySPEMD::perturb(RNG& rng)
