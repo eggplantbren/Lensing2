@@ -53,6 +53,7 @@ class Data
 		double get_x_max() const { return x_max; }
 		double get_y_min() const { return y_min; }
 		double get_y_max() const { return y_max; }
+        double get_scale() const { return sqrt((x_max - x_min)*(y_max - y_min)); }
 		int get_resolution() const { return resolution; }
 		const std::vector< std::vector<double> >& get_x_rays() const
 			{ return x_rays; }
