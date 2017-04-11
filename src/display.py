@@ -110,8 +110,9 @@ for i in range(0, output.shape[0]):
     axis(metadata[2:6])
 
     subplot(2,3,2)
-    imshow(img1, extent=metadata[2:6], interpolation='nearest', cmap='viridis')
-    title('Unblurred Image ' + str(i+1))
+    imshow(log(img1),
+           extent=metadata[2:6], interpolation='nearest', cmap='viridis')
+    title('Lens profile ' + str(i+1))
     axis(metadata[2:6])
 
     subplot(2,3,3)
