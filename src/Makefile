@@ -4,7 +4,7 @@ OBJECTS = BasicCircular.o Blobby.o Data.o MyModel.o LensBlobConditionalPrior.o B
 LIBS = -ldnest4 -lpthread -lgfortran
 
 default:
-	gfortran -O3 -c fastell.f
+	gfortran -O3 -march=native -DNDEBUG -c fastell.f
 	$(CC) $(CFLAGS) -I$(DNEST4_PATH) -c *.cpp Sources/Blobby.cpp Lenses/BlobbySPEMD.cpp
 	ar rcs liblensing2.a $(OBJECTS)
 	$(CC) -L$(DNEST4_PATH)/DNest4/code -o Lensing2 main.o $(OBJECTS) $(LIBS)
