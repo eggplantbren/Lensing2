@@ -78,7 +78,7 @@ double MyModel::perturb(RNG& rng)
         if(rng.rand() >= exp(logH))
             return -1E300;
         else
-            return 0.0;
+            logH = 0.0;
 
 		calculate_surface_brightness(source.get_blobs().get_removed().size() == 0);
 		calculate_model_image();
@@ -89,7 +89,7 @@ double MyModel::perturb(RNG& rng)
         bgparams[i] = log(bgparams[i]);
         logH += cauchy.perturb(bgparams[i], rng);
         if(std::abs(bgparams[i]) > 50.0)
-            logH = -1E300;
+            return -1E300;
         bgparams[i] = exp(bgparams[i]);
 
         // Flip sign?
@@ -138,7 +138,7 @@ double MyModel::perturb(RNG& rng)
         if(rng.rand() >= exp(logH))
             return -1E300;
         else
-            return 0.0;
+            logH = 0.0;
 
 		shoot_rays(lens.get_blobs_flag() &&
                    lens.get_blobs().get_removed().size() == 0);
