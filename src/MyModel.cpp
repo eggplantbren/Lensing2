@@ -74,6 +74,12 @@ double MyModel::perturb(RNG& rng)
 	{
 		logH += source.perturb(rng);
 
+        // Pre-reject
+        if(rng.rand() >= exp(logH))
+            return -1E300;
+        else
+            return 0.0;
+
 		calculate_surface_brightness(source.get_blobs().get_removed().size() == 0);
 		calculate_model_image();
 	}
@@ -127,6 +133,12 @@ double MyModel::perturb(RNG& rng)
 	else
 	{
 		logH += lens.perturb(rng);
+
+        // Pre-reject
+        if(rng.rand() >= exp(logH))
+            return -1E300;
+        else
+            return 0.0;
 
 		shoot_rays(lens.get_blobs_flag() &&
                    lens.get_blobs().get_removed().size() == 0);

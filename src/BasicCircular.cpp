@@ -129,7 +129,15 @@ void BasicCircular::from_uniform(std::vector<double>& vec) const
 {
     gamma_distribution<double> my_gamma(1.0/(shape*shape), width*shape*shape);
 
-	double r = quantile(my_gamma, vec[0]);
+    double r;
+    try
+    {
+        r = quantile(my_gamma, vec[0]);
+    }
+    catch(...)
+    {
+        return;
+    }
 	double phi = 2.*M_PI*vec[1];
 
 	vec[0] = xc + r*cos(phi);
@@ -147,7 +155,15 @@ void BasicCircular::to_uniform(std::vector<double>& vec) const
 	if(phi < 0.)
 		phi += 2.*M_PI;
 
-	vec[0] = cdf(my_gamma, r);
+    try
+    {
+      	vec[0] = cdf(my_gamma, r);
+    }
+    catch(...)
+    {
+        return;
+    }
+
 	vec[1] = phi/(2.*M_PI);
 	vec[2] = 1. - exp(-vec[2]/mu);
 	vec[3] = (vec[3] - a)/(b - a);
