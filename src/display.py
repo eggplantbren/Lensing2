@@ -173,6 +173,10 @@ show()
 
 os.system('ffmpeg -r 10 -i Frames/%06d.png -c:v h264 -b:v 4192k movie.mkv')
 
+rcParams["font.family"] = "serif"
+rcParams["font.size"] = 16
+rc("text", usetex=True)
+
 figure(1)
 mean_source = total/output.shape[0]
 imshow(mean_source, interpolation='nearest', cmap='viridis')
@@ -185,8 +189,6 @@ title('Magnification = {a:.3f} +- {b:.3f}'.format(a=magnification.mean(), b=magn
 show()
 
 figure(3)
-rc("font", size=16, family="serif", serif="Computer Sans")
-rc("text", usetex=True)
 plot(output[:,indices["b"]], mass_units*output[:,indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"]+max_num_blobs].sum(axis=1),\
                     'k.', alpha=0.2, label="Total")
 plot(output[:,indices["b"]], mass_units*array(substructure_mass_in_image),\
