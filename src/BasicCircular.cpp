@@ -83,7 +83,10 @@ double BasicCircular::perturb_hyperparameters(RNG& rng)
         mu = log(mu);
         logH += cauchy.perturb(mu, rng);
         if(std::abs(mu) > 50.0)
+        {
+            mu = 1.0;
             return -1E300;
+        }
         mu = exp(mu);
 	}
 	else if(which == 4)

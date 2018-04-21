@@ -104,7 +104,6 @@ double MyModel::perturb(RNG& rng)
 
         if(which == 0)
         {
-
             sigma0 = log(sigma0);
             logH += cauchy.perturb(sigma0, rng);
             if(std::abs(sigma0) > 50.0)
