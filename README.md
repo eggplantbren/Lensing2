@@ -3,7 +3,7 @@ Lensing
 
 Doing gravitational lensing again!
 
-(c) 2014 -- 2017 Brendon J. Brewer.
+(c) 2014 -- 2018 Brendon J. Brewer.
 
 LICENCE
 =======
@@ -17,10 +17,34 @@ ACKNOWLEDGEMENTS
 This work is supported by a Marsden Fast-Start grant
 from the Royal Society of New Zealand.
 
-
 DEPENDENCIES
 ============
 
-* DNest4 (https://www.github.com/eggplantbren/DNest4)
 * Armadillo (http://arma.sourceforge.net/)
+* yaml-cpp (https://github.com/jbeder/yaml-cpp)
+
+You can probably get these from your operating system's package manager.
+You'll also need the header files, which are sometimes in a -dev or
+-devel package.
+
+You'll also need git, a recent version of g++, and gfortran for the
+compiler to work.
+
+There are some associated Python scripts as well, which use Python3, numpy,
+matplotlib, and the DNest4 python package.
+
+USAGE
+=====
+
+First, clone the repository recursively (so you get DNest4 as well):
+
+```
+git clone --recursive https://github.com/eggplantbren/Lensing2
+'''
+
+Then, compile
+
+```
+make
+'''
 
