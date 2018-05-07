@@ -1,0 +1,7 @@
+# YAML file containing information for the run (basically just which
+# data files to use)
+---
+image_file: Data/harder_image.txt
+sigma_file: Data/mock_sigma.txt
+metadata_file: Data/mock_metadata.txt
+psf_file: Data/mock_psf.txt

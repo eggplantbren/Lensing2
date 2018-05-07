@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include "yaml-cpp/yaml.h"
 #include "DNest4/code/Start.h"
 #include "MyModel.h"
 #include "Sources/Blobby.h"
@@ -11,11 +12,24 @@ using namespace Lensing2;
 
 int main(int argc, char** argv)
 {
-	// Load some "data"
-	Data::get_instance().load("Data/mock_metadata.txt",
-					"Data/harder_image.txt",
-					"Data/mock_sigma.txt",
-					"Data/mock_psf.txt");
+    // Load the run information from run.yaml
+    YAML::Node config = YAML::LoadFile("run.yaml");
+
+//    // Read in the values
+//    prior_max_power = config["prior"]["max_power"].as<double>();
+//    prior_scale = config["prior"]["scale"].as<double>();
+//    grid_num_points = config["grid"]["num_points"].as<size_t>();
+//    lms_max_power = config["lagrange_multipliers"]["max_power"].as<double>();
+//    lms_scale = config["lagrange_multipliers"]["scale"].as<double>();
+
+//    std::cout << "done." << std::endl;
+//}
+
+	// Load the data
+	Data::get_instance().load(config["metadata_file"].as<std::string>().c_str(),
+					          config["image_file"].as<std::string>().c_str(),
+					          config["sigma_file"].as<std::string>().c_str(),
+					          config["psf_file"].as<std::string>().c_str());
 
 	// Run DNest
 	Sampler<MyModel> sampler = setup<MyModel>(argc, argv);
