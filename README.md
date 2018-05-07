@@ -43,6 +43,7 @@ git clone --recursive https://github.com/eggplantbren/Lensing2
 
 Then compile all the Fortran and C++:
 ```
+cd Lensing2/src
 make
 ```
 
