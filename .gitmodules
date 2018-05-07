@@ -1,0 +1,3 @@
+[submodule "src/DNest4"]
+	path = src/DNest4
+	url = https://github.com/eggplantbren/DNest4
