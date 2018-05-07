@@ -1,6 +1,8 @@
-## Lensing
+## Lensing2
 
 Doing gravitational lensing again!
+Why the 2? Because I had an old repository called _Lensing_, and _Lensing2_
+was the best I could come up with when I decided to rewrite it from scratch.
 
 (c) 2014 -- 2018 Brendon J. Brewer.
 
