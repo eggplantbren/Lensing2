@@ -30,21 +30,26 @@ You'll also need the header files, which are sometimes in a -dev or
 You'll also need git, a recent version of g++, and gfortran for the
 compiler to work.
 
-There are some associated Python scripts as well, which use Python3, numpy,
+There are some associated Python scripts as well, which use Python3
+(you can try Python 2, but no guarantees), numpy,
 matplotlib, and the DNest4 python package.
 
 USAGE
 =====
 
-First, clone the repository recursively (so you get DNest4 as well):
-
+First, clone the repository recursively:
 ```
 git clone --recursive https://github.com/eggplantbren/Lensing2
-'''
+```
+If you don't already have DNest4 on your system, install its Python package
+by following the instructions [here](https://github.com/eggplantbren/DNest4)
+first.
 
-Then, compile
 
+
+Then compile all the Fortran and C++:
 ```
 make
-'''
+```
+
 
