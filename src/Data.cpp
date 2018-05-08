@@ -2,9 +2,12 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include "yaml-cpp/yaml.h"
 
 using namespace std;
-using namespace Lensing2;
+
+namespace Lensing2
+{
 
 Data Data::instance;
 
@@ -17,18 +20,35 @@ Data::Data()
 }
 
 void Data::load(const char* metadata_file, const char* image_file,
-			const char* sigma_file, const char* psf_file)
+			    const char* sigma_file, const char* psf_file)
 {
 	/*
 	* First, read in the metadata
 	*/
-	int psf_size;
-	fstream fin(metadata_file, ios::in);
-	if(!fin)
-		cerr<<"# ERROR: couldn't open file "<<metadata_file<<"."<<endl;
-	fin>>ni>>nj;
-	fin>>x_min>>x_max>>y_min>>y_max>>psf_size>>resolution>>fft_flag2;
-	fin.close();
+    YAML::Node yaml;
+    try
+    {
+        yaml = YAML::LoadFile(metadata_file);
+    }
+    catch(...)
+    {
+        std::cerr << "# Couldn't open or parse " << metadata_file << ".";
+        std::cerr << std::endl;
+        std::cerr << "# Aborting." << std::endl;
+        return;
+    }
+
+    // Extract the values
+    ni = yaml["dimensions"]["ni"].as<int>();
+    nj = yaml["dimensions"]["nj"].as<int>();
+    x_min = yaml["dimensions"]["x_min"].as<double>();
+    x_max = yaml["dimensions"]["x_max"].as<double>();
+    y_min = yaml["dimensions"]["y_min"].as<double>();
+    y_max = yaml["dimensions"]["y_max"].as<double>();
+
+    int psf_size = yaml["psf"]["num_pixels"].as<int>();
+    resolution = yaml["computation"]["nrays"].as<int>();
+    fft_flag2 = yaml["psf"]["is_highres"].as<bool>();
 
 	// Make sure maximum > minimum
 	if(x_max <= x_min || y_max <= y_min)
@@ -47,6 +67,7 @@ void Data::load(const char* metadata_file, const char* image_file,
 	/*
 	* Now, load the image
 	*/
+    std::fstream fin;
 	fin.open(image_file, ios::in);
 	if(!fin)
 		cerr<<"# ERROR: couldn't open file "<<image_file<<"."<<endl;
@@ -112,4 +133,6 @@ void Data::compute_ray_grid()
 		}
 	}
 }
+
+} // namespace Lensing2
 

@@ -17,7 +17,7 @@ psf:
     # finer/subsampled grid. If false, the PSF is
     # applied at the same resolution as the image.
     # If computation.nrays = 1, it makes no difference.
-    psf_is_highres: false
+    is_highres: false
 
 computation:
     nrays: 2        # Rays per pixel per dimension
