@@ -13,7 +13,7 @@ namespace Lensing2
 
 MyModel::MyModel()
 :source(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
-	Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
+	    Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 ,lens(Data::get_instance().get_x_min(), Data::get_instance().get_x_max(),
       Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 ,bgparams(3)

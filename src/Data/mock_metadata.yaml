@@ -1,0 +1,23 @@
+# Metadata about an image
+---
+dimensions:
+    ni: 100         # Number of pixels in the vertical direction
+    nj: 100         # Number of pixels in the horizontal direction
+
+    # Coordinates of image boundaries in units of your choice
+    x_min: -8.0     # x-coordinate of left boundary
+    x_max: 8.0      # x-coordinate of right boundary
+    y_min: -8.0     # y-coordinate of bottom boundary
+    y_max: 8.0      # y-coordinate of top boundary
+
+psf:
+    num_pixels: 5   # PSF size (PSFs must be square)
+
+    # If true, the PSF is applied on the
+    # finer/subsampled grid. If false, the PSF is
+    # applied at the same resolution as the image.
+    # If computation.nrays = 1, it makes no difference.
+    psf_is_highres: false
+
+computation:
+    nrays: 2        # Rays per pixel per dimension

@@ -3,5 +3,5 @@
 ---
 image_file: Data/harder_image.txt
 sigma_file: Data/mock_sigma.txt
-metadata_file: Data/mock_metadata.txt
+metadata_file: Data/mock_metadata.yaml
 psf_file: Data/mock_psf.txt
