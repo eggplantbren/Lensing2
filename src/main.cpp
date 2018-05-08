@@ -12,8 +12,19 @@ using namespace Lensing2;
 
 int main(int argc, char** argv)
 {
+
     // Load the run information from run.yaml
-    YAML::Node config = YAML::LoadFile("run.yaml");
+    YAML::Node config;
+    try
+    {
+        config = YAML::LoadFile("run_files.yaml");
+    }
+    catch(...)
+    {
+        std::cerr << "# Couldn't open or parse run_files.yaml." << std::endl;
+        std::cerr << "# Aborting." << std::endl;
+        return 0;
+    }
 
 //    // Read in the values
 //    prior_max_power = config["prior"]["max_power"].as<double>();
