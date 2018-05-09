@@ -41,6 +41,9 @@ There are some associated Python scripts as well, which use Python 3
 matplotlib, yaml, and the DNest4 python package. Anaconda's distribution of
 Python 3 should work well.
 
+If you want the postprocessing scripts to be able to make a movie of posterior
+samples, you'll need ffmpeg.
+
 ## Downloading and compiling
 
 First, clone the repository recursively:
@@ -96,7 +99,8 @@ python showresults.py
 
 This will generate a bunch of output plots
 (first the three canonical DNest4 output plots, then lensing stuff).
-As you close each plot, more will appear.
+As you close each plot, more will appear. You'll be prompted to continue at
+some point in case you don't want to override any previously saved output images.
 Posterior samples will also be saved in a text file
 `posterior_sample.txt`. Later I will write a script
 to convert the posterior samples to another format for greater convenience,

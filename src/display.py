@@ -185,8 +185,6 @@ for i in range(0, output.shape[0]):
 
 show()
 
-os.system('ffmpeg -r 10 -i Frames/%06d.png -c:v h264 -b:v 4192k movie.mkv')
-
 rcParams["font.family"] = "serif"
 rcParams["font.size"] = 16
 rc("text", usetex=True)
@@ -241,4 +239,7 @@ axis(metadata[2:6])
 title('Substructure Positions')
 savefig('substructures.pdf', bbox_inches='tight')
 show()
+
+# Make movie
+os.system('ffmpeg -r 10 -i Frames/%06d.png -c:v h264 -b:v 4192k movie.mkv')
 
