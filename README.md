@@ -6,6 +6,8 @@ was the best I could come up with when I decided to rewrite it from scratch.
 
 (c) 2014 -- 2018 Brendon J. Brewer.
 
+`fastell.f` is courtesy of Rennan Barkana and is included with permission.
+
 ## License
 
 The contents of this repository are licensed under the GNU General Public
