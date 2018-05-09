@@ -20,4 +20,4 @@ psf:
     is_highres: false
 
 computation:
-    nrays: 2        # Rays per pixel per dimension
+    nrays: 1        # Rays per pixel per dimension. More than 1 or 2 gets expensive...
