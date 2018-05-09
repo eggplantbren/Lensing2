@@ -19,20 +19,25 @@ the following paper, which details the methodology:
 
 Brewer, Brendon J., David Huijser, and Geraint F. Lewis. "Trans-dimensional Bayesian inference for gravitational lens substructures." Monthly Notices of the Royal Astronomical Society 455, no. 2 (2015): 1819-1829.
 
+You can find the paper for free on the arxiv:
+https://arxiv.org/abs/1508.00662
+
 ## Dependencies
 
 * Armadillo (http://arma.sourceforge.net/)
 * yaml-cpp (https://github.com/jbeder/yaml-cpp)
 
 You can probably get these from your operating system's package manager.
-You'll also need the header files, which are sometimes in a -dev or
--devel package.
+You'll also need the C++ header files, which are sometimes put into a
+separate package with the suffix -dev or -devel.
 
-You'll also need git to obtain the source code, and non-ancient versions of g++ and gfortran for it to compile properly.
+You'll also need git to obtain the source code, and non-ancient versions of
+g++ and gfortran for it to compile properly.
 
-There are some associated Python scripts as well, which use Python3
+There are some associated Python scripts as well, which use Python 3
 (you can try Python 2, but no guarantees), numpy,
-matplotlib, and the DNest4 python package.
+matplotlib, yaml, and the DNest4 python package. Anaconda's distribution of
+Python 3 should work well.
 
 ## Downloading and compiling
 
@@ -60,13 +65,16 @@ To run Lensing2 on the example data using 8 threads (recommended), use
 ```
 
 Lensing2 will run and you will see DNest4 output in the terminal. DNest4 output
-will also be written to some text files. Lens modelling is expensive, so
-give it about an hour of runtime before doing any postprocessing.
+will also be written to some text files. Lens modelling is expensive and the
+demo image is non-trivial, so give it an hour or two of runtime before
+expecting anything interesting from the postprocessing. It's harmless to try
+it at any time, though.
 
 ## Postprocessing
 
 Lensing2 will run for a long time. The longer you run it, the more reliable the
-output will be (i.e., more posterior samples will have been generated).
+output will be (i.e., more posterior samples will have been generated, as
+long as everything went to plan).
 You can manually terminate it when you like, or you can
 do the postprocessing without terminating the main process.
 
@@ -79,11 +87,14 @@ Simply invoke
 python showresults.py
 ```
 
-This will generate a bunch of output plots. As you close them, more will appear.
-Posterior samples will also be saved in a text file. Later I will write a script
+This will generate a bunch of output plots
+(first the three canonical DNest4 output plots, then lensing stuff).
+As you close each plot, more will appear.
+Posterior samples will also be saved in a text file
+`posterior_sample.txt`. Later I will write a script
 to convert the posterior samples to another format for greater convenience,
 so you won't have to worry too much about what's in what column. For the
-time being, there is at least a header in posterior_sample.txt telling you
+time being, there is at least a header in `posterior_sample.txt` telling you
 what everything is.
 
 ## The modelling assumptions
@@ -93,7 +104,7 @@ Ask me for details. Also, some things are still hard-coded (such as the maximum
 number of source and lens blobs allowed).
 
 # Running other datasets
-To run other datasets, inspect run_files.yaml to see how things are set up.
+To run other datasets, inspect run_files.yaml to see how to set up a run.
 You need to provide a YAML file of metadata (see Data/mock_metadata.yaml for
 an example), and plain text files with the image, the sigma map, and the PSF.
 Let me know if anything is unclear.
