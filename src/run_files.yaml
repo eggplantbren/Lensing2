@@ -2,6 +2,6 @@
 # data files to use)
 ---
 metadata_file: Data/mock_metadata.yaml
-image_file: Data/harder_image.txt
+image_file: Data/mock_image.txt
 sigma_file: Data/mock_sigma.txt
 psf_file: Data/mock_psf.txt
