@@ -51,3 +51,56 @@ If you don't already have the DNest4 Python package on your system,
 follow the instructions [here](https://github.com/eggplantbren/DNest4)
 (just the bits about Python) to install it.
 
+## Running the example data
+
+To run Lensing2 on the example data using 8 threads (recommended), use
+
+```
+./Lensing2 -t 8
+```
+
+Lensing2 will run and you will see DNest4 output in the terminal. DNest4 output
+will also be written to some text files. Lens modelling is expensive, so
+give it about an hour of runtime before doing any postprocessing.
+
+## Postprocessing
+
+Lensing2 will run for a long time. The longer you run it, the more reliable the
+output will be (i.e., more posterior samples will have been generated).
+You can manually terminate it when you like, or you can
+do the postprocessing without terminating the main process.
+
+The postprocessing will require
+that you've installed the DNest4 Python package
+(see [here](https://github.com/eggplantbren/DNest4) for instructions).
+Simply invoke
+
+```
+python showresults.py
+```
+
+This will generate a bunch of output plots. As you close them, more will appear.
+Posterior samples will also be saved in a text file. Later I will write a script
+to convert the posterior samples to another format for greater convenience,
+so you won't have to worry too much about what's in what column. For the
+time being, there is at least a header in posterior_sample.txt telling you
+what everything is.
+
+## The modelling assumptions
+
+Some of the model assumptions have changed a bit since the paper was published.
+Ask me for details. Also, some things are still hard-coded (such as the maximum
+number of source and lens blobs allowed).
+
+# Running other datasets
+To run other datasets, inspect run_files.yaml to see how things are set up.
+You need to provide a YAML file of metadata (see Data/mock_metadata.yaml for
+an example), and plain text files with the image, the sigma map, and the PSF.
+Let me know if anything is unclear.
+
+Images provided to Lensing2 should be clear of any features such as the lens
+galaxy, any non-linear background, etc. You can also use the sigma map to
+mask out any non-modellable features by settings those pixels to a very high
+standard deviation (> 1E100, and the plotting scripts will treat those pixels
+as having been totally masked).
+
