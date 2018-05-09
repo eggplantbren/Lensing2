@@ -1,6 +1,7 @@
 """
 A little script to load the output and plot the model images
-and the residuals.
+and the residuals. The Python here is hacky and old, please
+forgive the inelegance.
 """
 from pylab import *
 import os
@@ -30,23 +31,36 @@ os.system("rm movie.mkv")
 output = dn4.my_loadtxt('posterior_sample.txt')
 indices = dn4.load_column_names("posterior_sample.txt")["indices"]
 
-# Open run_data.txt to get data filenames used for the run
-f = open("run_data.txt", "r")
-a, b, c, d = f.readline()[:-1], f.readline()[:-1], f.readline()[:-1],\
-                    f.readline()[:-1]
+# Open run_files.yaml to get data filenames used for the run
+import yaml
+f = open("run_files.yaml")
+run_files = yaml.load(f)
 f.close()
+a, b, c, d = run_files["metadata_file"],\
+             run_files["image_file"],\
+             run_files["sigma_file"],\
+             run_files["psf_file"]
 
+# Load images etc
 data = loadtxt(b)
 sig = loadtxt(c)
 not_masked = (sig < 1E100)
-metadata = loadtxt(a)
-metadata = [m for m in metadata]
-metadata[0] = int(metadata[0])
-metadata[1] = int(metadata[1])
-for i in range(6, 9):
-    metadata[i] = int(metadata[i])
-f.close()
 
+# Load metadata
+f = open(a)
+metadata_dict = yaml.load(f)
+f.close()
+# Put it into a list because silly old me did it that way
+metadata = [0 for i in range(0, 9)]
+metadata[0] = metadata_dict["dimensions"]["ni"]
+metadata[1] = metadata_dict["dimensions"]["nj"]
+metadata[2] = metadata_dict["dimensions"]["x_min"]
+metadata[3] = metadata_dict["dimensions"]["x_max"]
+metadata[4] = metadata_dict["dimensions"]["y_min"]
+metadata[5] = metadata_dict["dimensions"]["y_max"]
+metadata[6] = metadata_dict["psf"]["num_pixels"]
+metadata[7] = metadata_dict["computation"]["nrays"]
+metadata[8] = int(metadata_dict["psf"]["is_highres"])
 
 # A grid
 dx = (metadata[3] - metadata[2])/(metadata[7]*metadata[1])
