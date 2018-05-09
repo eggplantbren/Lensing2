@@ -66,9 +66,14 @@ To run Lensing2 on the example data using 8 threads (recommended), use
 
 Lensing2 will run and you will see DNest4 output in the terminal. DNest4 output
 will also be written to some text files. Lens modelling is expensive and the
-demo image is non-trivial, so give it an hour or two of runtime before
+demo image is non-trivial, so give it an hour or so of runtime before
 expecting anything interesting from the postprocessing. It's harmless to try
-it at any time, though.
+it at any time, though. If you want to try some more aggressive numerical
+settings, try this instead:
+
+```
+./Lensing2 -t 8 -o OPTIONS_AGGRESSIVE
+```
 
 ## Postprocessing
 
