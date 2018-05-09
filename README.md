@@ -15,7 +15,7 @@ Licence, version 3. See the LICENCE file for details.
 
 ## Acknowledgements
 
-This work is supported by a Marsden Fast-Start grant
+This work was supported by a Marsden Fast-Start grant
 from the Royal Society of New Zealand. If you use this software, please cite
 the following paper, which details the methodology:
 
