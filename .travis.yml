@@ -7,3 +7,5 @@ script: cd src; make; ./test.sh;
 addons:
   apt_packages:
     - gfortran
+    - libyaml-dev
+    - libboost-dev-all
