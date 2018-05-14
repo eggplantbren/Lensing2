@@ -1,5 +1,7 @@
 ## Lensing2
 
+![Build status](https://travis-ci.org/eggplantbren/Lensing2.svg?branch=master)
+
 Doing gravitational lensing again!
 Why the 2? Because I had an old repository called _Lensing_, and _Lensing2_
 was the best I could come up with when I decided to rewrite it from scratch.
