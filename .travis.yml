@@ -8,5 +8,5 @@ addons:
   apt_packages:
     - libarmadillo-dev
     - gfortran
-    - libyaml-dev
+    - libyaml-cpp-dev
     - libboost-all-dev
