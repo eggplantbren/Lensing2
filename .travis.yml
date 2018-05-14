@@ -8,4 +8,4 @@ addons:
   apt_packages:
     - gfortran
     - libyaml-dev
-    - libboost-dev-all
+    - libboost-all-dev
