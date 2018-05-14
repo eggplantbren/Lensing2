@@ -6,6 +6,7 @@ os:
 script: cd src; make; ./test.sh;
 addons:
   apt_packages:
+    - libarmadillo-dev
     - gfortran
     - libyaml-dev
     - libboost-all-dev
