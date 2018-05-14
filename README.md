@@ -27,6 +27,7 @@ https://arxiv.org/abs/1508.00662
 ## Dependencies
 
 * Armadillo (http://arma.sourceforge.net/)
+* Boost (http://boost.org/)
 * yaml-cpp (https://github.com/jbeder/yaml-cpp)
 
 You can probably get these from your operating system's package manager.
