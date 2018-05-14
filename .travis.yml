@@ -3,7 +3,7 @@ compiler:
   - gcc
 os:
   - linux
-script: cd src; make; ./test.sh;
+script: cd src; make;
 addons:
   apt_packages:
     - libarmadillo-dev
