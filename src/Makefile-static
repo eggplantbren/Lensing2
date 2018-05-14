@@ -1,0 +1,14 @@
+CC = g++
+CFLAGS = -std=c++11 -O2 -g -DARMA_NO_DEBUG -DNDEBUG -Wall -Wextra -pedantic
+OBJECTS = BasicCircular.o Blobby.o Data.o MyModel.o LensBlobConditionalPrior.o BlobbySPEMD.o fastell.o PSF.o
+# Magic from https://stackoverflow.com/questions/35116327/when-g-static-link-pthread-cause-segmentation-fault-why
+LIBS = -ldnest4 -lgfortran -lyaml-cpp -lquadmath -Wl,--whole-archive -lpthread -Wl,--no-whole-archive
+
+default:
+	make -C DNest4/code noexamples
+	gfortran -O2 -DNDEBUG -c fastell.f
+	$(CC) $(CFLAGS) -I . -c *.cpp Sources/Blobby.cpp Lenses/BlobbySPEMD.cpp
+	ar rcs liblensing2.a $(OBJECTS)
+	$(CC) -static -pthread -L DNest4/code -o Lensing2 main.o $(OBJECTS) $(LIBS)
+	rm -rf *.o
+
