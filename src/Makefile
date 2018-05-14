@@ -9,6 +9,5 @@ default:
 	$(CC) $(CFLAGS) -I . -c *.cpp Sources/Blobby.cpp Lenses/BlobbySPEMD.cpp
 	ar rcs liblensing2.a $(OBJECTS)
 	$(CC) -L DNest4/code -o Lensing2 main.o $(OBJECTS) $(LIBS)
-	$(CC) -L DNest4/code -o loadrow loadrow.o $(OBJECTS) $(LIBS)
 	rm -rf *.o
 
