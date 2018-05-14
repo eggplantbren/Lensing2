@@ -4,5 +4,6 @@ compiler:
 os:
   - linux
 script: cd src; make; ./test.sh;
-packages:
-  - gfortran
+addons:
+  apt_packages:
+    - gfortran
