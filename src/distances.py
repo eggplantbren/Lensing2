@@ -112,23 +112,32 @@ class Distance:
 
 
 if __name__ == '__main__':
-	import numpy as np
-	Mpc = 3.08567758E22
+    import numpy as np
+    Mpc = 3.08567758E22
 
-	cosmo = Distance()
-	zl = 0.49# Jackpot # input("Lens redshift: ")
-	zs = 3.6#input("Source redshift: ")
-	Dol = cosmo.angular_diameter_distance(0., zl)*Mpc
-	Dos = cosmo.angular_diameter_distance(0., zs)*Mpc
-	Dls = cosmo.angular_diameter_distance(zl, zs)*Mpc
+    cosmo = Distance()
+    zl = 0.4457
+    zs = 2.379
+    Dol = cosmo.angular_diameter_distance(0., zl)*Mpc
+    Dos = cosmo.angular_diameter_distance(0., zs)*Mpc
+    Dls = cosmo.angular_diameter_distance(zl, zs)*Mpc
 
-	# In SI units
-	Gnewton = 6.67384E-11
-	Msun = 1.9891E30
+    # In SI units
+    Gnewton = 6.67384E-11
+    Msun = 1.9891E30
 
-	# Angular einstein radius (arcseconds) of a solar mass
-	theta_0 = np.sqrt(4.*Gnewton*Msun/c**2*Dls/Dol/Dos)*(180./np.pi)*3600.
+    # Arcseconds to radians (example of a 5 arcsec Einstein ring)
+    b = 5.0 / 3600.0 * np.pi/180.0
 
-	print(theta_0)
-	print(1./theta_0**2./np.pi)
+    # Dimensionless mass within the ring (assuming SIE/SIS/point mass)
+    # When you get the masses of blobs from the code, they replace this m
+    m = b**2*np.pi
+
+    print(m*c**2*Dos*Dol/(4*np.pi*Gnewton*Dls)/Msun)
+
+    # Another way of getting the mass for a 5 arcsec Einstein ring
+    # Angular einstein radius (arcseconds) of a solar mass
+    theta_0 = np.sqrt(4.*Gnewton*Msun/c**2*Dls/Dol/Dos)*(180./np.pi)*3600.
+    print((5.0/theta_0)**2)
+#    print(1./theta_0**2./np.pi)
 
