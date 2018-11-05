@@ -8,7 +8,7 @@ import os
 import dnest4.deprecated as dn4
 
 print("WARNING! This will delete\
- movie.mkv and the Frames/ directory, if these exist.")
+ movie.mp4 and the Frames/ directory, if these exist.")
 ch = input("Continue? y/n: ")
 if ch != "y" and ch != "Y":
     exit()
@@ -21,7 +21,7 @@ def blob_density(x, y, params):
     f[rsq < widthsq] = 2*mass/pi*(1 - rsq[rsq < widthsq]/widthsq)/widthsq
     return f
 
-os.system("rm -rf Frames/ movie.mkv")
+os.system("rm -rf Frames/ movie.mp4")
 os.mkdir("Frames")
 
 mass_units = 1.0
@@ -241,5 +241,5 @@ savefig('substructures.pdf', bbox_inches='tight')
 show()
 
 # Make movie
-os.system('ffmpeg -r 10 -i Frames/%06d.png -c:v h264 -b:v 4192k movie.mkv')
+os.system('ffmpeg -r 10 -i Frames/%06d.png -c:v h264 movie.mp4')
 
