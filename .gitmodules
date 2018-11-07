@@ -1,3 +1,6 @@
 [submodule "src/DNest4"]
 	path = src/DNest4
 	url = https://github.com/eggplantbren/DNest4
+[submodule "src/CorrelatedNoise"]
+	path = src/CorrelatedNoise
+	url = https://eggplantbren@github.com/eggplantbren/CorrelatedNoise
