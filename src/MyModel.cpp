@@ -18,6 +18,8 @@ MyModel::MyModel()
       Data::get_instance().get_y_min(), Data::get_instance().get_y_max())
 ,bgparams(3)
 ,signs(3)
+,noise_model(Data::get_instance().get_ni(),
+            Data::get_instance().get_nj())
 ,xs(Data::get_instance().get_x_rays())
 ,ys(Data::get_instance().get_y_rays())
 ,surface_brightness(Data::get_instance().get_x_rays())
@@ -45,18 +47,7 @@ void MyModel::from_prior(RNG& rng)
 
         signs[i] = (rng.rand() < 0.5) ? (-1) : (1);    
     }
-
-    do
-    {
-    	sigma0 = cauchy.generate(rng);
-    }while(std::abs(sigma0) > 50.0);
-    sigma0 = exp(sigma0);
-
-    do
-    {
-    	sigma1 = cauchy.generate(rng);
-    }while(std::abs(sigma1) > 50.0);
-    sigma1 = exp(sigma1);
+    noise_model.from_prior(rng);
 
 	shoot_rays();
 	calculate_surface_brightness();
@@ -100,25 +91,11 @@ double MyModel::perturb(RNG& rng)
     }
 	else if(choice == 2)
 	{
-        int which = rng.rand_int(3);
+        int which = rng.rand_int(2);
 
         if(which == 0)
         {
-            sigma0 = log(sigma0);
-            logH += cauchy.perturb(sigma0, rng);
-            if(std::abs(sigma0) > 50.0)
-                return -1E300;
-            sigma0 = exp(sigma0);
-        }
-        else if(which == 1)
-        {
-            DNest4::Cauchy cauchy(0.0, 5.0);
-
-            sigma1 = log(sigma1);
-            logH += cauchy.perturb(sigma1, rng);
-            if(std::abs(sigma1) > 50.0)
-                return -1E300;
-            sigma1 = exp(sigma1);
+            logH += noise_model.perturb(rng);
         }
         else
         {
@@ -150,35 +127,32 @@ double MyModel::perturb(RNG& rng)
 
 double MyModel::log_likelihood() const
 {
-	double logL = 0.;
 	const vector< vector<double> >& image =
 				Data::get_instance().get_image();
-
 	const vector< vector<double> >& sigma =
 				Data::get_instance().get_sigma();
 
-	double var;
+    arma::mat residuals(image.size(), image[0].size());
 	for(size_t i=0; i<image.size(); i++)
 	{
 		for(size_t j=0; j<image[i].size(); j++)
 		{
 			if(sigma[i][j] < 1E100)
-			{
-				var = sigma[i][j]*sigma[i][j] + sigma0*sigma0
-						+ sigma1*model_image[i][j];
-				logL += -0.5*log(2.*M_PI*var) -
-				0.5*pow(image[i][j] - model_image[i][j], 2)/var;
-			}
+                residuals(i, j) = image[i][j] - model_image[i][j];
+            else
+                residuals(i, j) = 0.0;
 		}
 	}
 
-	return logL;
+    arma::cx_mat residuals_fourier = arma::fft2(residuals)/sqrt(image.size()*image[0].size());    
+
+	return noise_model.log_likelihood(residuals_fourier);
 }
 
 void MyModel::print(std::ostream& out) const
 {
 	out<<setprecision(6);
-	out<<' '<<sigma0<<' '<<sigma1<<' '<<psf_power<<' ';
+	out<<' '<<noise_model<<' '<<psf_power<<' ';
     std::vector<double> bg = bgparams;
     for(size_t i=0; i<bg.size(); ++i)
         bg[i] *= signs[i];
@@ -383,24 +357,24 @@ void MyModel::calculate_model_image()
 
 void MyModel::read(std::istream& in)
 {
-    in>>sigma0>>sigma1>>psf_power;
-    for(size_t i=0; i<bgparams.size(); ++i)
-    {
-        in >> bgparams[i];
-        if(bgparams[i] < 0.0)
-        {
-            bgparams[i] *= -1.0;
-            signs[i] = -1;
-        }
-        else
-            signs[i] = 1;
-    }
-    lens.read(in);
-    source.read(in);
+//    in>>sigma0>>sigma1>>psf_power;
+//    for(size_t i=0; i<bgparams.size(); ++i)
+//    {
+//        in >> bgparams[i];
+//        if(bgparams[i] < 0.0)
+//        {
+//            bgparams[i] *= -1.0;
+//            signs[i] = -1;
+//        }
+//        else
+//            signs[i] = 1;
+//    }
+//    lens.read(in);
+//    source.read(in);
 
-	shoot_rays();
-	calculate_surface_brightness();
-	calculate_model_image();
+//	shoot_rays();
+//	calculate_surface_brightness();
+//	calculate_model_image();
 }
 
 void MyModel::remove_lens_blobs(double x_min, double x_max,
