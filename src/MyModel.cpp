@@ -132,21 +132,26 @@ double MyModel::log_likelihood() const
 	const vector< vector<double> >& sigma =
 				Data::get_instance().get_sigma();
 
-    arma::mat residuals(image.size(), image[0].size());
+    arma::mat data (image.size(), image[0].size());
+    arma::mat model(image.size(), image[0].size());
+    arma::mat sig  (image.size(), image[0].size());
+
 	for(size_t i=0; i<image.size(); i++)
 	{
 		for(size_t j=0; j<image[i].size(); j++)
 		{
-			if(sigma[i][j] < 1E100)
-                residuals(i, j) = image[i][j] - model_image[i][j];
-            else
-                residuals(i, j) = 0.0;
+//			if(sigma[i][j] < 1E100)
+//                residuals(i, j) = image[i][j] - model_image[i][j];
+//            else
+//                residuals(i, j) = 0.0;
+
+            data (i, j) = image[i][j];
+            model(i, j) = model_image[i][j];
+            sig  (i, j) = sigma[i][j];
 		}
 	}
 
-    arma::cx_mat residuals_fourier = arma::fft2(residuals)/sqrt(image.size()*image[0].size());    
-
-	return noise_model.log_likelihood(residuals_fourier);
+	return noise_model.log_likelihood(data, model, sig);
 }
 
 void MyModel::print(std::ostream& out) const
@@ -209,7 +214,7 @@ void MyModel::print(std::ostream& out) const
 string MyModel::description() const
 {
     stringstream s;
-    s<<"sigma0, sigma1, psf_power, ";
+    s<<"coeff0, coeff1, coeff2, L, psf_power, ";
     s<<"bg[0], bg[1], bg[2], ";
     s<<"b, q, rc, slope, xc, yc, theta, shear, theta_shear, ";
     s<<"dim_lens_blobs, max_num_lens_blobs, ";
