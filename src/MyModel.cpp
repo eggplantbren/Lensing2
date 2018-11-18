@@ -1,9 +1,10 @@
 #include "MyModel.h"
 #include "Data.h"
-#include "DNest4/code/Distributions/Cauchy.h"
 #include <cmath>
 #include <exception>
 #include <sstream>
+#include "DNest4/code/Distributions/Cauchy.h"
+#include <Eigen/Dense>
 
 using namespace std;
 using namespace DNest4;
@@ -136,9 +137,9 @@ double MyModel::log_likelihood() const
 	const vector< vector<double> >& sigma =
 				Data::get_instance().get_sigma();
 
-    arma::mat data (image.size(), image[0].size());
-    arma::mat model(image.size(), image[0].size());
-    arma::mat sig  (image.size(), image[0].size());
+    Eigen::MatrixXd data (image.size(), image[0].size());
+    Eigen::MatrixXd model(image.size(), image[0].size());
+    Eigen::MatrixXd sig  (image.size(), image[0].size());
 
 	for(size_t i=0; i<image.size(); i++)
 	{
