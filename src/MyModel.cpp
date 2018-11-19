@@ -36,7 +36,7 @@ void MyModel::from_prior(RNG& rng)
 
 	source.from_prior(rng);
 	lens.from_prior(rng);
-    psf_power = exp(rng.randn());
+    psf_power = 10.0*rng.rand();
 
     for(size_t i=0; i<bgparams.size(); ++i)
     {
@@ -100,11 +100,8 @@ double MyModel::perturb(RNG& rng)
         }
         else
         {
-            psf_power = log(psf_power);
-            logH -= -0.5*pow(psf_power, 2);
-            psf_power += rng.randh();
-            logH += -0.5*pow(psf_power, 2);
-            psf_power = exp(psf_power);
+            psf_power += 10.0*rng.randh();
+            DNest4::wrap(psf_power, 0.0, 10.0);
 
             if(Data::get_instance().psf_is_highres())
 	            calculate_surface_brightness();
