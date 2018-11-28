@@ -3,7 +3,7 @@
 
 #include "Sources/Blobby.h"
 #include "Lenses/BlobbySPEMD.h"
-#include "CorrelatedNoise/NoiseModel.h"
+#include "CorrelatedNoise/NoiseModel2.h"
 #include <vector>
 #include <istream>
 
@@ -23,7 +23,7 @@ class MyModel
 
 		// Noise model - constant variance plus component
 		// that depends on the flux of the model
-        CorrelatedNoise::NoiseModel noise_model;
+        CorrelatedNoise::NoiseModel2 noise_model;
 
 		// Source plane position of rays
 		std::vector< std::vector<double> > xs;
