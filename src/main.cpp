@@ -43,6 +43,7 @@ int main(int argc, char** argv)
 					          config["psf_file"].as<std::string>().c_str());
 
 	// Run DNest
+    RNG::randh_is_randh2 = true;
 	Sampler<MyModel> sampler = setup<MyModel>(argc, argv);
 	sampler.run();
 	return 0;
