@@ -25,8 +25,6 @@ os.system("rm -rf Frames/ movie.mp4")
 os.mkdir("Frames")
 
 mass_units = 1.0
-os.system("rm Frames/*.png")
-os.system("rm movie.mkv")
 
 output = dn4.my_loadtxt('posterior_sample.txt')
 indices = dn4.load_column_names("posterior_sample.txt")["indices"]
