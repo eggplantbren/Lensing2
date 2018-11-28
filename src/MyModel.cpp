@@ -216,7 +216,7 @@ void MyModel::print(std::ostream& out) const
 string MyModel::description() const
 {
     stringstream s;
-    s<<"coeff0, coeff1, coeff2, L, psf_power, ";
+    s<<"coeff0, coeff1, coeff2, alpha, psf_power, ";
     s<<"bg[0], bg[1], bg[2], ";
     s<<"b, q, rc, slope, xc, yc, theta, shear, theta_shear, ";
     s<<"dim_lens_blobs, max_num_lens_blobs, ";
