@@ -41,7 +41,7 @@ void BlobbySPEMD::alpha(double x, double y, double& ax, double& ay, bool update)
 
         double aa[2];
         double rcsq = rc*rc;
-        double coeff = 0.5*pow(bb, 2.*slope)*(2. - 2.*slope);
+        double coeff = (1.0 - slope)*pow(bb, 2.0*slope);
 
         fastelldefl_(&xx, &yy, &coeff, &slope, &qq, &rcsq, aa);
         double alphax = aa[0];

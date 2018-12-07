@@ -25,7 +25,7 @@ def spemd_density(x, y, params):
 	b_major = b/sqrt(q)
 
 	# kappa(x, y) = q[x1^2+x2^2/q^2 + rc^2]&(-gam)
-	coeff = 0.5*b_major**(2*gamma)*(2.-2.*gamma)
+	coeff = (1.0 - gamma)*b_major**(2.0*gamma)
 
 	return coeff*(x**2 + y**2/q**2 + 1E-7**2)**(-gamma)
 
