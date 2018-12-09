@@ -45,6 +45,13 @@ if nx*ny > 1000000:
     exit()
 
 # Create new grid
+x_range = x_max - x_min
+x_min = x_min + 0.25*x_range
+x_max = x_max - 0.25*x_range
+y_range = y_max - y_min
+y_min = y_min + 0.25*y_range
+y_max = y_max - 0.25*y_range
+
 dx = (x_max - x_min)/(nx - 1)
 dy = (y_max - y_min)/(ny - 1)
 x = np.linspace(x_min + 0.5*dx, x_max - 0.5*dx, nx)
