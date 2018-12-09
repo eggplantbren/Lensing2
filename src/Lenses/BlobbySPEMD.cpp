@@ -14,7 +14,7 @@ extern "C"
 }
 
 const bool BlobbySPEMD::disable_blobs = false;
-const bool BlobbySPEMD::singular = false;
+const bool BlobbySPEMD::singular = true;
 
 BlobbySPEMD::BlobbySPEMD(double x_min, double x_max, double y_min, double y_max)
 :x_min(x_min), x_max(x_max), y_min(y_min), y_max(y_max)
@@ -105,7 +105,7 @@ void BlobbySPEMD::from_prior(RNG& rng)
 	bb = b/sqrt(qq); // Semi-major axis
 
 	if(singular)
-		rc = 1E-7*scale;
+		rc = 1E-12*scale;
 	else
 		rc = exp(log(1E-3) + log(1E3)*rng.rand())*scale;
 
