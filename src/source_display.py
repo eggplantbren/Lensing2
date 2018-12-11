@@ -87,7 +87,7 @@ for i in range(posterior_sample.shape[0]):
     img = evaluate_blobs(x, y, blobs)
     tot += img
 
-    print(i+1)
+    print(i+1, "/", posterior_sample.shape[0])
 #    plt.imshow(img, origin="lower", extent=[x_min, x_max, y_min, y_max])
 #    plt.show()
 
