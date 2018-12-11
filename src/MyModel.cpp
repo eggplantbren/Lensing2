@@ -187,7 +187,7 @@ void MyModel::print(std::ostream& out) const
 	// Make an image of the LENS (uses the ray resolution)
 
     BlobbySPEMD lenscopy = lens;
-    static constexpr double h = 1E-5;
+    static constexpr double h = 1E-6;
     double ax1, ax2, ay1, ay2, divergence, density;
     for(size_t i=0; i<x.size(); i++)
     {
@@ -203,7 +203,7 @@ void MyModel::print(std::ostream& out) const
             lenscopy.alpha(x[i][j], y[i][j] - h, ax2, ay2);
 
             divergence += (ay1 - ay2) / (2*h);
-            density = 0.5*divergence;
+            density = divergence / (2.0*M_PI);
             out<<density<<' ';
         }
     }
