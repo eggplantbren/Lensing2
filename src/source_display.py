@@ -41,7 +41,7 @@ f.close()
 # Higher resolution than the inference used
 nx *= 10
 ny *= 10
-if nx*ny > 1000000:
+if nx*ny > 100000000:
     exit()
 
 # Create new grid
