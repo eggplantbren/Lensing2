@@ -21,6 +21,20 @@ def blob_density(x, y, params):
     f[rsq < widthsq] = 2*mass/pi*(1 - rsq[rsq < widthsq]/widthsq)/widthsq
     return f
 
+def stretch(img):
+    """
+    A generic stretch function that just saturates at the 95th percentile
+    of nonzero values
+    """
+    if img.max() == 0:
+        return img
+
+    values = np.sort(img.flatten())
+    values = values[values > 0.0]
+    peak = values[int(0.99*len(values))]
+    img[img >= peak] = peak
+    return img
+
 os.system("rm -rf Frames/ movie.mp4")
 os.mkdir("Frames")
 
@@ -122,7 +136,7 @@ for i in range(0, output.shape[0]):
     axis(metadata[2:6])
 
     subplot(2,3,2)
-    imshow(log(img1),
+    imshow(stretch(img1),
            extent=metadata[2:6], interpolation='nearest', cmap='viridis')
     title('Lens profile ' + str(i+1))
     axis(metadata[2:6])
@@ -142,7 +156,7 @@ for i in range(0, output.shape[0]):
         substructure_density += blob_density(xgrid, ygrid,\
                 [x_substructures[j], y_substructures[j],\
                     m_substructures[j], w_substructures[j]])
-    imshow(substructure_density**0.25, cmap="viridis", interpolation="nearest",\
+    imshow(stretch(substructure_density), cmap="viridis", interpolation="nearest",\
             extent=metadata[2:6])
     title("Substructure Map")
 
