@@ -91,7 +91,7 @@ for i in range(posterior_sample.shape[0]):
 #    plt.imshow(img, origin="lower", extent=[x_min, x_max, y_min, y_max])
 #    plt.show()
 
-plt.imshow((tot/posterior_sample.shape[0])**0.5,
+plt.imshow(tot/posterior_sample.shape[0],
             origin="lower", extent=[x_min, x_max, y_min, y_max])
 plt.title("Posterior mean source")
 plt.show()
