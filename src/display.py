@@ -206,11 +206,14 @@ mean_source = total/output.shape[0]
 imshow(mean_source, interpolation='nearest', cmap='viridis')
 title('Posterior Mean Source')
 
-figure(2)
-hist(magnification, 50, alpha=0.5, color="k")
-xlabel('Magnification (magnitudes)')
-title('Magnification = {a:.3f} +- {b:.3f}'.format(a=magnification.mean(), b=magnification.std()))
-show()
+try:
+    figure(2)
+    hist(magnification, 50, alpha=0.5, color="k")
+    xlabel('Magnification (magnitudes)')
+    title('Magnification = {a:.3f} +- {b:.3f}'.format(a=magnification.mean(), b=magnification.std()))
+    show()
+except:
+    pass
 
 figure(3)
 plot(output[:,indices["b"]], mass_units*output[:,indices["lens_blob_mass[0]"]:indices["lens_blob_mass[0]"]+max_num_blobs].sum(axis=1),\
@@ -227,17 +230,20 @@ legend(loc="upper right", numpoints=1)
 savefig('masses.pdf', bbox_inches='tight')
 show()
 
-width=0.6
-hist(output[:,indices["num_lens_blobs"]], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="k",
-        label="Total")
-hist(substructure_num_in_image, bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2,
-        label="Center within image", color="g")
-xlim([-0.5, max_num_blobs+0.5])
-xlabel('$N_{\\rm lens}$')
-ylabel('Number of Posterior Samples')
-legend(loc="upper right")
-savefig('N_lens.pdf', bbox_inches='tight')
-show()
+try:
+    width=0.6
+    hist(output[:,indices["num_lens_blobs"]], bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2, color="k",
+            label="Total")
+    hist(substructure_num_in_image, bins=arange(0, 51) - 0.5*width, width=width, alpha=0.2,
+            label="Center within image", color="g")
+    xlim([-0.5, max_num_blobs+0.5])
+    xlabel('$N_{\\rm lens}$')
+    ylabel('Number of Posterior Samples')
+    legend(loc="upper right")
+    savefig('N_lens.pdf', bbox_inches='tight')
+    show()
+except:
+    pass
 
 figure(4, figsize=(8, 8))
 temp = data*not_masked
