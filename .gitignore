@@ -4,6 +4,7 @@
 *.o
 main
 output.txt
+log_prior_weights.txt
 sample.txt
 sample_info.txt
 levels.txt
