@@ -46,7 +46,7 @@ indices = dn4.load_column_names("posterior_sample.txt")["indices"]
 # Open run_files.yaml to get data filenames used for the run
 import yaml
 f = open("run_files.yaml")
-run_files = yaml.load(f)
+run_files = yaml.load(f, Loader=yaml.SafeLoader)
 f.close()
 a, b, c, d = run_files["metadata_file"],\
              run_files["image_file"],\
@@ -60,7 +60,7 @@ not_masked = (sig < 1E100)
 
 # Load metadata
 f = open(a)
-metadata_dict = yaml.load(f)
+metadata_dict = yaml.load(f, Loader=yaml.SafeLoader)
 f.close()
 # Put it into a list because silly old me did it that way
 metadata = [0 for i in range(0, 9)]
