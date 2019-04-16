@@ -246,9 +246,9 @@ except:
     pass
 
 figure(4, figsize=(8, 8))
-temp = data*not_masked
-imshow(data*not_masked, extent=metadata[2:6],\
-        vmin=-0.1*temp.max(), vmax=temp.max(),\
+temp = data.copy()
+temp[~not_masked] = data.min()
+imshow(temp, extent=metadata[2:6],
         interpolation='nearest', cmap='viridis')
 plot(all_substructures_x, all_substructures_y, 'w.', markersize=3, alpha=0.1)
 gca().set_xticks([])
