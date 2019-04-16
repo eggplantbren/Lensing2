@@ -161,9 +161,9 @@ for i in range(0, output.shape[0]):
     title("Substructure Map")
 
     subplot(2,3,5)
-    temp = data*not_masked
-    imshow(data*not_masked, extent=metadata[2:6],\
-            vmin=-0.1*temp.max(), vmax=temp.max(),\
+    temp = data.copy()
+    temp[~not_masked] = data.min()
+    imshow(temp, extent=metadata[2:6],
             interpolation='nearest', cmap='viridis')
     title('Data')
     axis(metadata[2:6])
