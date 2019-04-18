@@ -171,7 +171,9 @@ for i in range(0, output.shape[0]):
     subplot(2,3,6)
     sigma = np.ones(sig.shape)
     sigma[not_masked] = sqrt(sig[not_masked]**2 + x[0]**2 + x[1]*(img2[not_masked] - img2[not_masked].min()))
-    imshow((img2 - data)*not_masked, extent=metadata[2:6], interpolation='nearest', cmap='coolwarm')
+    temp = img2 - data
+    temp[~not_masked] = np.nan
+    imshow(temp, extent=metadata[2:6], interpolation='nearest', cmap='coolwarm')
     title('Residuals')
     axis(metadata[2:6])
     draw()
