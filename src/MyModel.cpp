@@ -346,7 +346,7 @@ void MyModel::calculate_model_image()
         const PSF& psf = Data::get_instance().get_psf();
         auto psf2 = psf;
         psf2.calculate_fft(model_image.size(),
-                            model_image.size(), psf_power);
+                           model_image[i].size(), psf_power);
         psf2.blur_image2(model_image);
     }
 
