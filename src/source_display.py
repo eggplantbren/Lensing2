@@ -29,19 +29,19 @@ print("done.")
 # Create a grid based on the properties of the run
 import yaml
 f = open("run_files.yaml")
-metadata_filename = yaml.load(f)["metadata_file"]
+metadata_filename = yaml.load(f, Loader=yaml.SafeLoader)["metadata_file"]
 f.close()
 f = open(metadata_filename)
-the_dict = yaml.load(f)["dimensions"]
+the_dict = yaml.load(f, Loader=yaml.SafeLoader)["dimensions"]
 x_min, x_max, y_min, y_max = the_dict["x_min"], the_dict["x_max"],\
                              the_dict["y_min"], the_dict["y_max"]
-nx, ny = the_dict["nj"], the_dict["ni"]
+nj, ni = the_dict["nj"], the_dict["ni"]
 f.close()
 
 # Higher resolution than the inference used
-nx *= 10
-ny *= 10
-if nx*ny > 100000000:
+nj *= 10
+ni *= 10
+if nj*ni > 100000000:
     exit()
 
 # Create new grid
@@ -52,14 +52,15 @@ y_range = y_max - y_min
 y_min = y_min + 0.25*y_range
 y_max = y_max - 0.25*y_range
 
-dx = (x_max - x_min)/(nx - 1)
-dy = (y_max - y_min)/(ny - 1)
-x = np.linspace(x_min + 0.5*dx, x_max - 0.5*dx, nx)
-y = np.linspace(y_min + 0.5*dy, y_max - 0.5*dy, ny)
+dx = (x_max - x_min)/(nj - 1)
+dy = (y_max - y_min)/(ni - 1)
+x = np.linspace(x_min + 0.5*dx, x_max - 0.5*dx, nj)
+y = np.linspace(y_min + 0.5*dy, y_max - 0.5*dy, ni)
 x, y = np.meshgrid(x, y)
+y = y[::-1, :]
 
 
-tot = np.zeros((nx, ny))
+tot = np.zeros((ni, nj))
 
 # Loop over the posterior samples
 for i in range(posterior_sample.shape[0]):
@@ -92,7 +93,7 @@ for i in range(posterior_sample.shape[0]):
 #    plt.show()
 
 plt.imshow(tot/posterior_sample.shape[0],
-            origin="lower", extent=[x_min, x_max, y_min, y_max])
+           extent=[x_min, x_max, y_min, y_max])
 plt.title("Posterior mean source")
 plt.show()
 
