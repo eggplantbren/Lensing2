@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++11 -O3 -march=native -DEIGEN_NO_DEBUG -DARMA_NO_DEBUG -DNDEBUG -Wall -Wextra -pedantic
+CFLAGS = -std=c++14 -I /usr/include/eigen3 -O3 -march=native -DEIGEN_NO_DEBUG -DARMA_NO_DEBUG -DNDEBUG -Wall -Wextra -pedantic
 OBJECTS = BasicCircular.o Blobby.o Data.o MyModel.o LensBlobConditionalPrior.o BlobbySPEMD.o NoiseModel.o NoiseModel2.o fastell.o PSF.o
 LIBS = -ldnest4 -lpthread -lgfortran -lyaml-cpp
 
